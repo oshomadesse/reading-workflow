@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選択の科学 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header .author {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .core-message {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .flow-chart {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: var(--white);
+            border: 3px solid var(--primary);
+            padding: 15px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            position: relative;
+            min-width: 150px;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            font-style: italic;
+        }
+
+        .quote-box::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -22px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .progress-bar {
+            background: var(--bg-light);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 10px 0;
+            }
+            
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 選択の科学</h1>
+            <div class="author">シーナ・アイエンガー</div>
+            <div class="core-message">
+                🎯 選択は幸福の源泉だが、多すぎる選択肢は「選択の過負荷」を招く。賢く選択肢を絞り込み、重要なことに集中することで人生の質を高める
+            </div>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📊 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">📖 構造</button>
+            <button class="tab-button" onclick="showTab('insights')" role="tab" aria-selected="false">💡 実践</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🧠 核心的発見</h3>
+                    <ul>
+                        <li>選択肢が多すぎると決定麻痺が起こる</li>
+                        <li>文化によって選択の価値観が異なる</li>
+                        <li>無意識のバイアスが判断を歪める</li>
+                        <li>制約があった方が満足度が高い場合がある</li>
+                        <li>専門家の助言も万能ではない</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 有名な実験</h3>
+                    <ul>
+                        <li>ジャムの実験：24種類 vs 6種類</li>
+                        <li>多い方が注目を集める（60% vs 40%）</li>
+                        <li>少ない方が購入率が高い（30% vs 3%）</li>
+                        <li>選択の過負荷を実証した象徴的研究</li>
+                        <li>マーケティングの常識を覆す結果</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌍 文化的違い</h3>
+                    <ul>
+                        <li>🇺🇸 個人主義：自己表現の手段</li>
+                        <li>🇯🇵 集団主義：調和維持の手段</li>
+                        <li>選択の価値観は文化で決まる</li>
+                        <li>グローバルビジネスでの重要な視点</li>
+                        <li>異文化理解の鍵となる概念</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-badge">
+                    <span class="stat-number">24→6</span>
+                    <span class="stat-label">選択肢削減で購入率10倍</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-number">8章</span>
+                    <span class="stat-label">体系的な論理構成</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-number">6個</span>
+                    <span class="stat-label">主要概念・キーワード</span>
+                </div>
+            </div>
+
+            <div class="flow-chart">
+                <h3 style="margin-bottom: 20px;">🔄 選択の過負荷メカニズム</h3>
+                <div class="flow-step">多数の選択肢</div>
+                <div class="flow-step">認知的負担増加</div>
+                <div class="flow-step">決定麻痺</div>
+                <div class="flow-step">満足度低下</div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>⚡ 選択の過負荷</h3>
+                    <ul>
+                        <li>選択肢が多すぎると認知的負担が増加</li>
+                        <li>決定を先延ばしにする傾向</li>
+                        <li>選んでも満足度が低下</li>
+                        <li>マーケティングで重要な概念</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🍯 ジャムの実験</h3>
+                    <ul>
+                        <li>24種類 vs 6種類の比較実験</li>
+                        <li>多い方が注目度は高い</li>
+                        <li>少ない方が購入率は約10倍</li>
+                        <li>選択の過負荷を実証</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 自己決定感</h3>
+                    <ul>
+                        <li>人生をコントロールしている感覚</li>
+                        <li>幸福感の根源的欲求</li>
+                        <li>幻想でも精神的健康に寄与</li>
+                        <li>選択行為と密接に結びつく</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌏 文化と選択</h3>
+                    <ul>
+                        <li>個人主義：自己表現の手段</li>
+                        <li>集団主義：調和維持の手段</li>
+                        <li>文化で選択の価値が変わる</li>
+                        <li>グローバル展開で重要な視点</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔒 制約の価値</h3>
+                    <ul>
+                        <li>選択肢を絞ることの利点</li>
+                        <li>創造性を刺激する効果</li>
+                        <li>意思決定の負担軽減</li>
+                        <li>適切な制約が満足度を向上</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>👨‍🔬 エキスパート問題</h3>
+                    <ul>
+                        <li>専門家の知識が裏目に出る現象</li>
+                        <li>全体像を見失いがち</li>
+                        <li>初心者の価値観を理解困難</li>
+                        <li>盲目的な信頼の危険性</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                選択肢が多すぎると、人は自由を感じるどころか、むしろ不自由を感じるようになる
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>序章：選択は技術である</h3>
+                    <p>著者の生い立ちから選択への探求が始まった経緯。選択は学習可能な技術であると問題提起</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第1章：選択は本能である</h3>
+                    <p>動物・乳児研究から選択が生存に不可欠な本能的欲求であることを証明</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第2章：集団の選択、個人の選択</h3>
+                    <p>文化が選択の価値観を形成。個人主義文化と集団主義文化の対比分析</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第3章：選択肢が多すぎると…</h3>
+                    <p>有名な「ジャムの実験」で選択の過負荷現象を実証。核心的な章</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第4章：選択の達人になるために</h3>
+                    <p>選択の過負荷を乗り越える具体的戦略。カテゴライズや段階的開示など</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第5章：選択と無意識</h3>
+                    <p>無意識のバイアスや外部からの暗示が選択に与える影響を解説</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>第6章：選択の代償</h3>
+                    <p>選択に伴う責任と後悔。医療現場など重大な選択の精神的負担</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>終章：最後の選択</h3>
+                    <p>人生の終末期における選択。選択の力を信じつつ限界を認識する知恵</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🧹 意思決定の断捨離</h3>
+                    <ul>
+                        <li>日常の些細な選択をパターン化</li>
+                        <li>昼食・服装などをルール化</li>
+                        <li>意思決定エネルギーを節約</li>
+                        <li>重要な決断に集中する</li>
+                        <li>認知リソースの効率的活用</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 3-5個ルール</h3>
+                    <ul>
+                        <li>選択肢は3〜5個に絞り込む</li>
+                        <li>明確な違いがわかる選択肢のみ</li>
+                        <li>顧客・チームの意思決定を支援</li>
+                        <li>満足度向上につながる</li>
+                        <li>ビジネス提案での実践</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>👥 専門家の再定義</h3>
+                    <ul>
+                        <li>権威ある専門家を鵜呑みにしない</li>
+                        <li>自分の価値観と照らし合わせる</li>
+                        <li>身近な専門家の意見も参考に</li>
+                        <li>同じ経験をした人の声を聞く</li>
+                        <li>本当に価値ある情報源を見極める</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                重要なのは、選択肢の数そのものではなく、選択肢の違いをどれだけ見分けられるかである
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 20px;">📚 関連書籍</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>ファスト＆スロー</h3>
+                        <p><strong>ダニエル・カーネマン</strong><br>
+                        人間の2つの思考システムを解説。無意識のバイアスをより深く理解</p>
+                    </div>
+                    <div class="card">
+                        <h3>予想どおりに不合理</h3>
+                        <p><strong>ダン・アリエリー</strong><br>
+                        人間の非合理的な意思決定を実験で示す。選択の不合理性を広範に捉える</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブに
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // ページ読み込み時のアニメーション
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
