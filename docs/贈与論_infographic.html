@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贈与論 - マルセル・モース</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #3498db, アクセント #e74c3c -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .author {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .tab-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: #e74c3c;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #3498db;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .concept-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .quote-card:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        
+        .quote-commentary {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 15px;
+        }
+        
+        .structure-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-item {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .flow-item:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #3498db;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+        
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .circle1 {
+            background: #3498db;
+            left: 0;
+        }
+        
+        .circle2 {
+            background: #e74c3c;
+            right: 0;
+        }
+        
+        .circle3 {
+            background: #2c3e50;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-chart {
+                gap: 15px;
+            }
+            
+            .flow-item {
+                min-width: 150px;
+                padding: 12px 20px;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎁 贈与論</h1>
+            <div class="author">マルセル・モース</div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="主要概念タブ">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('practice')" aria-label="実践タブ">⚡ 実践</button>
+            <button class="tab-button" onclick="showTab('relations')" aria-label="関連書籍タブ">📚 関連書籍</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3>🎯 核心的メッセージ</h3>
+                <ul>
+                    <li>贈与は単なる経済活動ではなく「全体的社会事象」</li>
+                    <li>「与える・受け取る・返礼する」三つの義務が社会関係を構築</li>
+                    <li>物に宿る霊的な力「ハウ」が返礼を強制する</li>
+                    <li>功利主義的な近代経済人モデルへの根源的な問いかけ</li>
+                    <li>社会の連帯を生み出す原動力としての贈与</li>
+                </ul>
+            </div>
+            
+            <div class="structure-diagram">
+                <h3>🔄 贈与の三つの義務</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle1">与える<br>義務</div>
+                    <div class="venn-circle circle2">受け取る<br>義務</div>
+                    <div class="venn-circle circle3">返礼する<br>義務</div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>つの義務</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div>章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1925</div>
+                    <div>年出版</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content">
+            <div class="grid">
+                <div class="concept-card">
+                    <h4>🌐 全体的社会事象</h4>
+                    <p>経済・法・宗教・道徳・美学のあらゆる側面を同時に表現する現象。贈与がその典型例で、社会を部分に切り分けて分析する手法の限界を指摘。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⚖️ 三つの義務</h4>
+                    <p>贈与交換を駆動させる根源的ルール。与える・受け取る・返礼するの連鎖が永続的な社会関係を創出・維持するメカニズム。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>👻 ハウ（物の霊）</h4>
+                    <p>マオリ族の概念で「物の霊」。贈られた物には贈主の人格や霊的な力が宿り、受取人に働きかけて返礼を促す力となる。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔥 ポトラッチ</h4>
+                    <p>北西アメリカ先住民の儀礼的贈与。首長が威信を示すため過剰な財を贈与・破壊。社会的地位をめぐる激しい競争の手段。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔄 クラ</h4>
+                    <p>トロブリアンド諸島の儀礼的交換。赤い首飾りと白い腕輪が島々を循環。広域な社会的ネットワーク構築・維持が主眼。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⚡ マナ</h4>
+                    <p>人や物に宿る超自然的な力や威信。気前よく贈与することで自らのマナを高め、社会的地位を誇示できる。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content">
+            <div class="structure-diagram">
+                <h3>📚 本書の構造と論理展開</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">序論：なぜ返礼の義務が生じるのか？</div>
+                    <div class="flow-item">第1章：ポリネシアの「ハウ」概念分析</div>
+                    <div class="flow-item">第2章：ポトラッチの闘争的側面</div>
+                    <div class="flow-item">第3章：古代法における贈与の痕跡</div>
+                    <div class="flow-item">結論：現代社会への示唆</div>
+                </div>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🎯 序論</h3>
+                    <ul>
+                        <li>中心的問い：なぜ贈られた物は返礼されねばならないのか</li>
+                        <li>近代市場経済・功利主義との対比</li>
+                        <li>アルカイックな社会の贈与交換の普遍性</li>
+                        <li>義務の謎を探求する目的設定</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌺 第1章：ポリネシア</h3>
+                    <ul>
+                        <li>マオリ族の「ハウ（物の霊）」概念</li>
+                        <li>物に宿る力が返礼を強制する論理</li>
+                        <li>メラネシアの「クラ」交易事例</li>
+                        <li>贈与による社会関係構築・維持機能</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔥 第2章：ポトラッチ</h3>
+                    <ul>
+                        <li>北西アメリカの「ポトラッチ」詳細分析</li>
+                        <li>威信・名誉をかけた社会的闘争</li>
+                        <li>財の破壊を伴う過剰な贈与</li>
+                        <li>階級・権力をめぐるアゴニスティックな側面</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚖️第3章：古代法</h3>
+                    <ul>
+                        <li>ローマ法・インド法・ゲルマン法の分析</li>
+                        <li>贈与交換原理の普遍的存在</li>
+                        <li>契約・売買概念成立以前の社会</li>
+                        <li>人格的つながりを伴う贈与の論理</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <div class="quote-text">
+                    マオリ族の法律家のことばを借りれば、贈られたタオンガ（財宝）にはハウ（物の霊）が宿っている。…タオンガのハウは、もとの持主のところへ帰りたがるのだ。
+                </div>
+                <div class="quote-commentary">
+                    本書の核心「なぜ返礼の義務が生じるのか」への答えを象徴する一文。贈与が単なる物の移動ではなく、贈主の人格や霊性が物と共に移動し、返礼を強制するアニミスティックな交換の論理を示す。
+                </div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">
+                    ポトラッチとは、じつのところ、全体的給付の体系と呼ばれるもののうち、もっとも著しいケースであり、しかもそのなかでもとくに誇張された形態のものである。
+                </div>
+                <div class="quote-commentary">
+                    ポトラッチを「全体的社会事象」の極端な事例として位置づけ、一見非合理的な浪費や破壊が、実際には社会のあらゆる側面を巻き込んだ総力戦であることを示唆。贈与の競争的・闘争的側面を強調。
+                </div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">
+                    社会は、その成員がたがいに自分の見ているものを考慮しあい、相互に自分を他に与えあうことによって、物質的にも精神的にも満足を見出すことができる。
+                </div>
+                <div class="quote-commentary">
+                    結論部分で示されるモースの社会観。個人の利益最大化を目指す功利主義的社会モデルを批判し、相互扶助や連帯といった「与えあう」関係性こそが人間社会の本来の姿であると主張。
+                </div>
+            </div>
+        </div>
+        
+        <div id="practice" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3>💼 ビジネス関係構築</h3>
+                    <ul>
+                        <li>目先の利益追求より価値提供を優先</li>
+                        <li>有益な情報・ノウハウの無償共有</li>
+                        <li>顧客成功を第一に考えたサポート</li>
+                        <li>損得勘定を超えた信頼関係構築</li>
+                        <li>「贈与」循環による強固なパートナーシップ</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤝 コミュニティ醸成</h3>
+                    <ul>
+                        <li>見返りを期待しない貢献活動への参加</li>
+                        <li>ボランティア・メンタリング・知識共有</li>
+                        <li>リソースの「贈与」としての提供</li>
+                        <li>ソーシャルキャピタル（社会関係資本）醸成</li>
+                        <li>コミュニティ全体の結束力向上</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎁 贈り物文化の再評価</h3>
+                    <ul>
+                        <li>儀礼的義務から「人格の交換」への転換</li>
+                        <li>金額より相手を想う気持ち（ハウ）重視</li>
+                        <li>手作り・手間をかけた贈り物の選択</li>
+                        <li>SNSでの「いいね」も承認の贈与として意識</li>
+                        <li>人間関係をより豊かにする実践</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="relations" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3>📖 親族の基本構造</h3>
+                    <ul>
+                        <li>著者：クロード・レヴィ＝ストロース</li>
+                        <li>贈与交換理論を「女性の交換（婚姻）」に応用</li>
+                        <li>社会の普遍的構造解明を試みた構造主義人類学</li>
+                        <li>モースの思想の発展形として必読</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💀 呪われた部分</h3>
+                    <ul>
+                        <li>著者：ジョルジュ・バタイユ</li>
+                        <li>ポトラッチ分析に触発された独自考察</li>
+                        <li>贈与を「過剰さの蕩尽」として捉える</li>
+                        <li>経済の根源を生産ではなく消費に見出す</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔄 大転換</h3>
+                    <ul>
+                        <li>著者：カール・ポランニー</li>
+                        <li>「埋め込まれた」経済から市場経済への移行</li>
+                        <li>贈与・相互扶助・再分配の歴史的分析</li>
+                        <li>現代市場社会との関係理解に不可欠</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💰 負債論</h3>
+                    <ul>
+                        <li>著者：デヴィッド・グレーバー</li>
+                        <li>モース議論を継承した人類史の読み解き</li>
+                        <li>贈与・貨幣・負債の関係を問い直し</li>
+                        <li>現代金融資本主義への批判的考察</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = document.querySelectorAll('.tab-button');
+                const activeButton = document.querySelector('.tab-button.active');
+                const currentIndex = Array.from(buttons).indexOf(activeButton);
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+            }
+        });
+        
+        // アクセシビリティ属性の設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
