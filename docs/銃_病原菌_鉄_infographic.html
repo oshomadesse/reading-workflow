@@ -25,6 +25,7 @@
             line-height: 1.6;
             color: var(--text);
             background: linear-gradient(135deg, var(--light) 0%, #bdc3c7 100%);
+            min-height: 100vh;
         }
         
         .container {
@@ -36,61 +37,57 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
+            background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .header h1 {
+            color: var(--primary);
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .header .subtitle {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            font-weight: 300;
         }
         
         .tabs {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
             justify-content: center;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
         }
         
         .tab-button {
-            background: var(--light);
-            border: 2px solid var(--secondary);
-            padding: 12px 20px;
-            border-radius: 25px;
+            background: none;
+            border: none;
+            padding: 15px 20px;
             cursor: pointer;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            font-weight: 600;
-            color: var(--primary);
+            white-space: nowrap;
+            font-size: 0.9rem;
         }
         
         .tab-button.active {
-            background: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
         
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease;
         }
         
         .tab-content.active {
             display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .card-grid {
@@ -103,9 +100,8 @@
         .card {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid var(--secondary);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
         
@@ -139,67 +135,75 @@
             color: var(--secondary);
         }
         
-        .stats-container {
+        .concept-card {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .concept-card .definition {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .concept-card .summary {
+            background: var(--light);
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--light), white);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin: 30px 0;
+            margin-bottom: 30px;
         }
         
         .stat-card {
             background: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .stat-number {
             font-size: 2.5rem;
             font-weight: bold;
             color: var(--accent);
-            margin-bottom: 10px;
+            display: block;
         }
         
         .stat-label {
             color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .flow-chart {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin: 30px 0;
-            overflow-x: auto;
-        }
-        
-        .flow-step {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin: 10px;
-            position: relative;
-            min-width: 150px;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .flow-step::after {
-            content: "→";
-            position: absolute;
-            right: -25px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-        
-        .flow-step:last-child::after {
-            display: none;
+            font-size: 0.9rem;
+            margin-top: 5px;
         }
         
         .timeline {
@@ -208,47 +212,56 @@
         }
         
         .timeline::before {
-            content: "";
+            content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 3px;
+            width: 2px;
             background: var(--secondary);
             transform: translateX(-50%);
         }
         
         .timeline-item {
             position: relative;
-            margin: 30px 0;
-            padding: 0 30px;
+            margin-bottom: 30px;
+            width: 45%;
         }
         
         .timeline-item:nth-child(odd) {
+            left: 0;
             text-align: right;
-            padding-right: 60%;
+            padding-right: 30px;
         }
         
         .timeline-item:nth-child(even) {
+            left: 55%;
             text-align: left;
-            padding-left: 60%;
+            padding-left: 30px;
         }
         
-        .timeline-marker {
+        .timeline-item::before {
+            content: '';
             position: absolute;
-            left: 50%;
-            top: 0;
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background: var(--accent);
             border-radius: 50%;
-            transform: translateX(-50%);
+            top: 20px;
+        }
+        
+        .timeline-item:nth-child(odd)::before {
+            right: -6px;
+        }
+        
+        .timeline-item:nth-child(even)::before {
+            left: -6px;
         }
         
         .timeline-content {
             background: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
@@ -262,8 +275,8 @@
         }
         
         .venn-circle {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             position: absolute;
             opacity: 0.7;
@@ -273,36 +286,77 @@
             color: white;
             font-weight: bold;
             text-align: center;
+            font-size: 0.9rem;
         }
         
         .circle1 {
             background: var(--primary);
-            left: -50px;
+            left: 0;
         }
         
         .circle2 {
             background: var(--secondary);
-            right: -50px;
+            right: 0;
         }
         
         .circle3 {
             background: var(--accent);
-            top: 80px;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
-        .progress-bar {
-            background: var(--light);
-            height: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
+        .action-list {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
-            border-radius: 10px;
-            transition: width 1s ease;
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid white;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-relation {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
         }
         
         @media (max-width: 768px) {
@@ -311,16 +365,12 @@
             }
             
             .tabs {
-                flex-direction: column;
+                flex-wrap: wrap;
             }
             
             .tab-button {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .card-grid {
-                grid-template-columns: 1fr;
+                flex: 1;
+                min-width: 120px;
             }
             
             .timeline::before {
@@ -328,439 +378,371 @@
             }
             
             .timeline-item {
-                padding-left: 50px !important;
-                padding-right: 20px !important;
+                width: 100%;
+                left: 0 !important;
                 text-align: left !important;
+                padding-left: 50px !important;
+                padding-right: 0 !important;
             }
             
-            .timeline-marker {
-                left: 20px !important;
-                transform: translateX(-50%);
+            .timeline-item::before {
+                left: 14px !important;
+                right: auto !important;
+            }
+            
+            .venn-diagram {
+                height: 400px;
+                flex-direction: column;
             }
             
             .venn-circle {
-                width: 150px;
-                height: 150px;
-                font-size: 0.9rem;
+                position: relative;
+                margin: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1>🔫 銃・病原菌・鉄 📚</h1>
-            <p>人類社会の発展格差は地理・生態・資源の差が決定した</p>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🌍 概要</button>
-            <button class="tab-button" onclick="showTab('causes')" aria-label="原因タブ">🔍 原因分析</button>
-            <button class="tab-button" onclick="showTab('process')" aria-label="プロセスタブ">⚙️ 発展プロセス</button>
-            <button class="tab-button" onclick="showTab('examples')" aria-label="事例タブ">📊 比較事例</button>
-            <button class="tab-button" onclick="showTab('implications')" aria-label="示唆タブ">💡 現代への示唆</button>
-        </div>
-        
-        <div id="overview" class="tab-content active">
+            <p class="subtitle">地理が決めた人類社会の勝敗 - ジャレド・ダイアモンド</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('flow')" role="tab">🔄 因果関係</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">📊 構造分析</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
             <div class="card-grid">
                 <div class="card">
                     <h3>🎯 核心メッセージ</h3>
                     <ul>
-                        <li>人種的優劣ではなく地理・生態・資源の差が決定的</li>
-                        <li>食糧生産と拡散可能性の地域差が格差を生成</li>
-                        <li>銃・病原菌・鉄は近接原因、地理が究極原因</li>
-                        <li>累積的プロセスが近代の征服と不均衡を創出</li>
+                        <li>勝敗は能力差ではなく地理・生態の差</li>
+                        <li>スタートラインの不平等が歴史を分けた</li>
+                        <li>作物・家畜・地形が連鎖的優位を生成</li>
+                        <li>病原菌への免疫が見えない武器に</li>
+                        <li>技術・人口・軍事力の複合的発展</li>
                     </ul>
                 </div>
                 
                 <div class="card">
-                    <h3>🔑 主要キーワード</h3>
+                    <h3>🌍 地理的優位の要素</h3>
                     <ul>
-                        <li>究極原因と近接原因の区別</li>
-                        <li>東西軸と南北軸（拡散の容易性）</li>
-                        <li>肥沃な三日月地帯の先行優位</li>
-                        <li>家畜化・栽培化可能種の地理的分布</li>
-                        <li>疫病交換と免疫格差</li>
+                        <li>育成しやすい作物・家畜の多さ</li>
+                        <li>東西軸による気候帯の共有</li>
+                        <li>技術と作物の拡散しやすさ</li>
+                        <li>拡散障壁（山脈・砂漠）の少なさ</li>
+                        <li>家畜由来病原菌への長期暴露</li>
                     </ul>
                 </div>
                 
                 <div class="card">
-                    <h3>📈 発展の連鎖</h3>
+                    <h3>⚔️ 三大優位要素</h3>
                     <ul>
-                        <li>余剰食糧 → 人口密度上昇</li>
-                        <li>分業 → 技術革新の加速</li>
-                        <li>国家・官僚制 → 大規模動員力</li>
-                        <li>文字・記録 → 知識の蓄積</li>
-                        <li>正のフィードバックで格差拡大</li>
+                        <li>🔫 銃：金属加工技術と火器</li>
+                        <li>🦠 病原菌：集団免疫と感染症</li>
+                        <li>⚒️ 鉄：冶金技術と武器製造</li>
+                        <li>これらは農耕余剰の連鎖産物</li>
+                        <li>征服時の決定的非対称を創出</li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="stats-container">
+
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">近接原因<br>銃・病原菌・鉄</div>
+                    <span class="stat-number">14</span>
+                    <div class="stat-label">家畜化可能な大型哺乳類<br>（世界全体）</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">13,000</div>
-                    <div class="stat-label">年前<br>農業革命開始</div>
+                    <span class="stat-number">13</span>
+                    <div class="stat-label">ユーラシアに<br>集中した家畜</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">90%</div>
-                    <div class="stat-label">アメリカ先住民<br>疫病死亡率</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">168</div>
-                    <div class="stat-label">スペイン兵<br>vs インカ帝国</div>
+                    <span class="stat-number">90%</span>
+                    <div class="stat-label">新大陸先住民の<br>病死率（推定）</div>
                 </div>
             </div>
-        </div>
-        
-        <div id="causes" class="tab-content">
+
             <div class="venn-diagram">
-                <div class="venn-circle circle1">🌍<br>地理的<br>決定要因</div>
-                <div class="venn-circle circle2">🌾<br>食糧生産<br>革命</div>
-                <div class="venn-circle circle3">⚔️<br>技術・制度<br>優位</div>
+                <div class="venn-circle circle1">地理的<br>条件</div>
+                <div class="venn-circle circle2">技術<br>発展</div>
+                <div class="venn-circle circle3">社会<br>組織</div>
             </div>
-            
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
             <div class="card-grid">
-                <div class="card">
-                    <h3>🗺️ 究極原因：地理的要因</h3>
-                    <ul>
-                        <li>緯度帯・降水・地形の差異</li>
-                        <li>栽培化・家畜化適種の保有確率</li>
-                        <li>東西軸vs南北軸の拡散バリア</li>
-                        <li>海・砂漠・山脈による隔絶度</li>
-                        <li>大陸サイズと生物多様性</li>
-                    </ul>
+                <div class="card concept-card">
+                    <h3>🌍 地理的決定要因</h3>
+                    <div class="definition">地理・生態（気候、地形、可食資源）の違いが社会発展の速度と可能性を左右するという見方。人種や才能ではなく"場"が差を作る。</div>
+                    <div class="summary">場が力を決める</div>
                 </div>
                 
-                <div class="card">
-                    <h3>⚔️ 近接原因：軍事技術</h3>
-                    <ul>
-                        <li>🔫 火薬・銃器の技術優位</li>
-                        <li>🦠 病原菌による疫病交換</li>
-                        <li>⚒️ 鉄器・製鉄技術の普及</li>
-                        <li>🐎 馬・帆走技術の機動力</li>
-                        <li>📜 文字・組織力の動員能力</li>
-                    </ul>
+                <div class="card concept-card">
+                    <h3>🐄 家畜化・栽培化</h3>
+                    <div class="definition">野生の動植物を人に都合よく改変して増やすこと。温和・成長の早さ・繁殖の容易さなどの条件が必要。</div>
+                    <div class="summary">育てやすさの差</div>
                 </div>
                 
-                <div class="card">
-                    <h3>🌾 食糧生産の地域差</h3>
-                    <ul>
-                        <li>肥沃な三日月地帯の先行（11,000年前）</li>
-                        <li>中国・メソアメリカの独立発達</li>
-                        <li>オーストラリア・カリフォルニアの遅延</li>
-                        <li>家畜化可能種の地理的偏在</li>
-                        <li>作物の緯度帯適応性</li>
-                    </ul>
+                <div class="card concept-card">
+                    <h3>🌾 食料余剰</h3>
+                    <div class="definition">生産が消費を上回る状態。余剰が人口増と分業（専門職の誕生）を支え、技術・政治の基盤になる。</div>
+                    <div class="summary">余剰が文明を養う</div>
                 </div>
                 
-                <div class="card">
-                    <h3>🦠 病原菌の非対称性</h3>
-                    <ul>
-                        <li>家畜との長期共生による免疫獲得</li>
-                        <li>天然痘・麻疹・インフルエンザ</li>
-                        <li>アメリカ大陸での致死的流行</li>
-                        <li>人口密度と病原菌進化の関係</li>
-                        <li>接触時の一方的優位性</li>
-                    </ul>
+                <div class="card concept-card">
+                    <h3>🗺️ 大陸軸（東西／南北）</h3>
+                    <div class="definition">大陸の長い向き。東西軸は気候帯が似通い、作物・家畜・技術が横方向に広がりやすい。南北軸は気候帯が変わり拡散が遅れる。</div>
+                    <div class="summary">拡散の高速道路</div>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🦠 病原菌と免疫</h3>
+                    <div class="definition">病気を起こす微生物と、それに対抗する体の仕組み。家畜と長期接触した社会は感染と回復を繰り返し、集団として免疫を獲得しやすい。</div>
+                    <div class="summary">見えない武器</div>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>📜 技術と文字の拡散</h3>
+                    <div class="definition">発明（冶金、車輪、文字）が他地域へ伝わる過程。言語・気候・地理障壁が少ないほど早く広がる。</div>
+                    <div class="summary">知の伝播</div>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🏛️ 国家形成と分業</h3>
+                    <div class="definition">人口増と余剰が行政・軍事・宗教などの専門組織を生むこと。階層化は大規模協調と戦争動員を可能にする。</div>
+                    <div class="summary">組織の力</div>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🚧 拡散障壁</h3>
+                    <div class="definition">砂漠、山脈、海、熱帯病などが移動・交流を阻む要因。障壁が強いと技術と作物の共有が遅れる。</div>
+                    <div class="summary">広がりのブレーキ</div>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>⚔️ 征服の非対称</h3>
+                    <div class="definition">遭遇した社会間で被害・支配の方向が偏る現象。技術・免疫・組織力の差が背景にある。</div>
+                    <div class="summary">一方通行の勝敗</div>
                 </div>
             </div>
         </div>
-        
-        <div id="process" class="tab-content">
-            <div class="flow-chart">
-                <h3 style="text-align: center; margin-bottom: 20px;">🔄 発展プロセスの連鎖</h3>
-                <div style="text-align: center;">
-                    <div class="flow-step">🌍 地理・生態</div>
-                    <div class="flow-step">🌾 食糧生産</div>
-                    <div class="flow-step">👥 人口増加</div>
-                    <div class="flow-step">⚙️ 分業・技術</div>
-                    <div class="flow-step">🏛️ 国家・制度</div>
-                    <div class="flow-step">⚔️ 軍事優位</div>
+
+        <div id="flow" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 歴史的因果連鎖</h3>
+                
+                <div class="flow-step">
+                    <div>🌱 育てやすい作物・家畜の多さ → 早い農耕開始 → 食料余剰 → 人口増 → 分業・専門家誕生</div>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div>👨‍🔬 分業・専門家 → 技術（冶金・武器）・文字・官僚制の発展 → 組織化された軍事力</div>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div>🐄 家畜との長期近接 → 新興感染症の反復流行 → 集団免疫の獲得 → 遭遇時の病原菌優位</div>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div>🗺️ 東西に長い大陸軸＋弱い拡散障壁 → 作物・技術・文字の速い拡散 → 生産性と革新の同時進行</div>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div>⚔️ 技術・免疫・組織力の積み上げ → 銃・病原菌・鉄の優位 → 征服の非対称</div>
                 </div>
             </div>
-            
+
+            <div class="card">
+                <h3>🚧 拡散阻害要因</h3>
+                <ul>
+                    <li>南北軸＋強い拡散障壁 → 拡散遅延</li>
+                    <li>技術・免疫の地域差固定化</li>
+                    <li>砂漠・山脈・海による分断</li>
+                    <li>気候帯の違いによる作物不適応</li>
+                    <li>言語・文化障壁による知識伝達困難</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>🌾 農業革命（13,000年前）</h4>
-                        <p>肥沃な三日月地帯で小麦・大麦の栽培化開始</p>
+                        <h4>🤔 問題提起</h4>
+                        <p>ヤリの問い：なぜ白人に物資が多いのか。人種差ではなく環境差で説明可能か。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>🐄 家畜化（10,000年前）</h4>
-                        <p>牛・豚・羊・山羊の家畜化、病原菌との共進化</p>
+                        <h4>🌍 先史の舞台設定</h4>
+                        <p>人類拡散と各大陸の動植物相の違い。スタート条件の不均等を整理。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>🏛️ 国家形成（5,000年前）</h4>
-                        <p>メソポタミア・エジプトで都市国家と官僚制</p>
+                        <h4>🌾 農耕革命の源泉</h4>
+                        <p>農耕・家畜化の早期発生地域と育てやすい種の偏在分析。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>📜 文字の発明（5,000年前）</h4>
-                        <p>楔形文字・ヒエログリフで知識の蓄積開始</p>
+                        <h4>🗺️ 大陸軸と拡散</h4>
+                        <p>東西軸の優位と地理障壁が拡散速度に与える影響の検証。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>⚒️ 鉄器時代（3,000年前）</h4>
-                        <p>製鉄技術の普及、農具・武器の革新</p>
+                        <h4>🏛️ 食料余剰から国家へ</h4>
+                        <p>人口密度上昇→分業→階層化→官僚制・軍隊成立の社会複雑化メカニズム。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
-                    <div class="timeline-marker"></div>
                     <div class="timeline-content">
-                        <h4>🌍 大航海時代（500年前）</h4>
-                        <p>ユーラシアから新世界への征服開始</p>
+                        <h4>🦠 病原菌の役割</h4>
+                        <p>家畜由来感染症と免疫の歴史。遭遇時の致死的影響（新大陸事例）。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>📜 技術と文字</h4>
+                        <p>発明の自生と借用、文字体系の起源と伝播、冶金・武器化の連鎖比較。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>⚔️ 出会いと征服</h4>
+                        <p>旧世界と新世界の接触事例総合。銃・病原菌・鉄の相乗効果検証。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>📊 結論と限界</h4>
+                        <p>地理・生態の説明力と偶然・文化・制度の役割。単因子ではない総合因果。</p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="card-grid">
                 <div class="card">
-                    <h3>📊 東西軸の優位性</h3>
+                    <h3>💡 重要な洞察</h3>
                     <ul>
-                        <li>ユーラシア：同緯度帯での拡散容易</li>
-                        <li>作物・家畜の気候適応性維持</li>
-                        <li>技術・制度の水平伝播</li>
-                        <li>交易ネットワークの発達</li>
-                        <li>競争と学習の促進効果</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>📉 南北軸の制約</h3>
-                    <ul>
-                        <li>アメリカ・アフリカ：緯度帯変化</li>
-                        <li>気候・生態系の急激な変化</li>
-                        <li>作物適応の困難性</li>
-                        <li>自然バリアによる分断</li>
-                        <li>技術伝播の遅延・阻害</li>
+                        <li>「人々の能力差ではなく環境差が歴史の行方を決めた」</li>
+                        <li>「育てやすい作物と家畜の偏在が農耕開始時期の差を生んだ」</li>
+                        <li>「ユーラシアの東西軸は作物と技術の拡散を加速した」</li>
+                        <li>「病原菌は征服の見えない武器だった」</li>
                     </ul>
                 </div>
             </div>
         </div>
-        
-        <div id="examples" class="tab-content">
-            <div class="card-grid">
-                <div class="card">
-                    <h3>🏝️ ポリネシアの自然実験</h3>
-                    <ul>
-                        <li>同一祖先文化が異環境で分岐</li>
-                        <li>島のサイズと資源が社会複雑性を決定</li>
-                        <li>ハワイ：大規模農業→階層社会</li>
-                        <li>チャタム諸島：狩猟採集→平等社会</li>
-                        <li>環境決定論の実証事例</li>
-                    </ul>
+
+        <div id="action" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>🌾 主食3種の起源を地図で調べる</strong><br>
+                    小麦・米・トウモロコシの原産地と拡散ルートを世界地図で確認
                 </div>
-                
-                <div class="card">
-                    <h3>🌍 バンツー拡散</h3>
-                    <ul>
-                        <li>鉄器・農業を持つバンツー系民族</li>
-                        <li>アフリカ南部への急速な拡散</li>
-                        <li>狩猟採集民コイサン系を圧倒</li>
-                        <li>技術・人口密度の優位性</li>
-                        <li>言語・遺伝子の置換現象</li>
-                    </ul>
+                <div class="action-item">
+                    <strong>🗺️ 東西軸・南北軸を世界地図に描く</strong><br>
+                    各大陸の長軸方向を線で描き、気候帯との関係を観察
                 </div>
-                
-                <div class="card">
-                    <h3>⚔️ カハマルカの邂逅</h3>
-                    <ul>
-                        <li>ピサロ168人 vs アタワルパ8万人</li>
-                        <li>🐎 馬による機動力と心理的衝撃</li>
-                        <li>🔫 火薬・鉄製武器の技術差</li>
-                        <li>🦠 天然痘による人口激減</li>
-                        <li>📜 文字による情報収集能力</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>🦘 オーストラリアの持続</h3>
-                    <ul>
-                        <li>4万年間の狩猟採集社会維持</li>
-                        <li>家畜化・栽培化適種の不在</li>
-                        <li>大陸の隔絶性と技術伝播阻害</li>
-                        <li>環境適応の高度な専門化</li>
-                        <li>人口密度の低位安定</li>
-                    </ul>
+                <div class="action-item">
+                    <strong>🐄 家畜化の条件を10個書き出す</strong><br>
+                    温和さ・成長速度・繁殖力など、野生動物が家畜になる条件をリストアップ
                 </div>
             </div>
-            
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-number">168</div>
-                    <div class="stat-label">スペイン征服者<br>カハマルカ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">80,000</div>
-                    <div class="stat-label">インカ軍<br>アタワルパ</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">95%</div>
-                    <div class="stat-label">アメリカ先住民<br>人口減少率</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">40,000</div>
-                    <div class="stat-label">年間<br>オーストラリア持続</div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="implications" class="tab-content">
-            <div class="card-grid">
-                <div class="card">
-                    <h3>🌾 開発政策</h3>
-                    <ul>
-                        <li>農業技術・作物改良への重点投資</li>
-                        <li>流通インフラの環境制約対応</li>
-                        <li>地理的条件に即した成長戦略</li>
-                        <li>食糧安全保障の長期視点</li>
-                        <li>技術移転の生態学的適合性</li>
-                    </ul>
+
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">文明崩壊</div>
+                    <div class="book-author">ジャレド・ダイアモンド</div>
+                    <div class="book-relation">環境と社会の相互作用が崩壊を招く条件を探り、本書の環境視点を拡張する。</div>
                 </div>
                 
-                <div class="card">
-                    <h3>🏥 公衆衛生</h3>
-                    <ul>
-                        <li>病原体生態と移動ネットワーク設計</li>
-                        <li>免疫格差を前提とした検疫戦略</li>
-                        <li>ワクチン接種の優先順位付け</li>
-                        <li>人獣共通感染症の監視体制</li>
-                        <li>パンデミック対応の冗長性確保</li>
-                    </ul>
+                <div class="book-card">
+                    <div class="book-title">サピエンス全史</div>
+                    <div class="book-author">ユヴァル・ノア・ハラリ</div>
+                    <div class="book-relation">農耕革命と人類の協力・制度の進化を大局的に描き、因果連鎖の比較ができる。</div>
                 </div>
                 
-                <div class="card">
-                    <h3>💡 イノベーション政策</h3>
-                    <ul>
-                        <li>知識拡散回路の最適化</li>
-                        <li>教育・交易・標準化の統合</li>
-                        <li>独立発明神話からの脱却</li>
-                        <li>技術移転の文脈依存性理解</li>
-                        <li>競争と協力のバランス設計</li>
-                    </ul>
+                <div class="book-card">
+                    <div class="book-title">Why the West Rules—For Now</div>
+                    <div class="book-author">Ian Morris</div>
+                    <div class="book-relation">地理と社会発展指数で東西比較を行い、地理要因の測定的検証を試みる。</div>
                 </div>
                 
-                <div class="card">
-                    <h3>🏛️ 制度設計</h3>
-                    <ul>
-                        <li>制度効果の文脈依存性認識</li>
-                        <li>ベストプラクティス移植の限界</li>
-                        <li>人口密度・地理条件の考慮</li>
-                        <li>段階的制度変化の重要性</li>
-                        <li>経路依存性の理解と活用</li>
-                    </ul>
+                <div class="book-card">
+                    <div class="book-title">1491: New Revelations of the Americas Before Columbus</div>
+                    <div class="book-author">Charles C. Mann</div>
+                    <div class="book-relation">接触前のアメリカ大陸社会を再評価し、病原菌・作物・技術の前提条件を補う。</div>
                 </div>
                 
-                <div class="card">
-                    <h3>📚 歴史教育</h3>
-                    <ul>
-                        <li>人種決定論の科学的否定</li>
-                        <li>比較史・環境史の統合</li>
-                        <li>生態学的思考の育成</li>
-                        <li>因果関係の多層性理解</li>
-                        <li>確率的説明の受容</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>🌐 地理戦略</h3>
-                    <ul>
-                        <li>拡散バリア・回廊の可視化</li>
-                        <li>物流・通信網の地政学的設計</li>
-                        <li>エネルギー安全保障の地理学</li>
-                        <li>サプライチェーン断絶リスク</li>
-                        <li>東西・南北軸の戦略的活用</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="flow-chart">
-                <h3 style="text-align: center; margin-bottom: 20px;">🔮 現代への教訓</h3>
-                <div style="text-align: center;">
-                    <div class="flow-step">🧬 遺伝的平等</div>
-                    <div class="flow-step">🌍 環境の差</div>
-                    <div class="flow-step">📈 累積的優位</div>
-                    <div class="flow-step">🔄 正のフィードバック</div>
-                    <div class="flow-step">⚖️ 格差の固定化</div>
-                    <div class="flow-step">💡 政策的介入</div>
+                <div class="book-card">
+                    <div class="book-title">The Horse, the Wheel, and Language</div>
+                    <div class="book-author">David W. Anthony</div>
+                    <div class="book-relation">家畜（馬）と技術（車輪）の拡散が言語・文化に与えた影響を掘り下げる。</div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
         function showTab(tabName) {
-            // すべてのタブコンテンツを非表示
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
                 content.classList.remove('active');
             });
             
-            // すべてのタブボタンを非アクティブ
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => {
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
                 button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
             });
             
-            // 選択されたタブを表示
+            // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
             
-            // プログレスバーのアニメーション
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = bar.getAttribute('data-width') || '0%';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 100);
-            });
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
         }
         
-        // 初期化時にプログレスバーを設定
-        document.addEventListener('DOMContentLoaded', function() {
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = Math.random() * 80 + 20; // 20-100%のランダム
-                bar.setAttribute('data-width', width + '%');
-                bar.style.width = width + '%';
-            });
-        });
-        
-        // キーボードナビゲーション
+        // Add keyboard navigation
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                const buttons = document.querySelectorAll('.tab-button');
                 const activeButton = document.querySelector('.tab-button.active');
-                const currentIndex = Array.from(buttons).indexOf(activeButton);
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
                 
-                let newIndex;
+                let nextIndex;
                 if (e.key === 'ArrowLeft') {
-                    newIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
                 } else {
-                    newIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
                 }
                 
-                buttons[newIndex].click();
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
             }
         });
     </script>
