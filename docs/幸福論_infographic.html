@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アラン『幸福論』インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button.active {
+            background: #f093fb;
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: #f093fb;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-style: italic;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .action-list {
+            background: #f0f8ff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #f093fb;
+        }
+        
+        .action-list h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #f093fb;
+        }
+        
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .circle1 {
+            background: #667eea;
+            left: 0;
+        }
+        
+        .circle2 {
+            background: #764ba2;
+            right: 0;
+        }
+        
+        .circle3 {
+            background: #f093fb;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 200px;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 アラン『幸福論』</h1>
+            <p class="subtitle">意志と習慣による能動的幸福の実践</p>
+        </header>
+        
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔑 核心概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 名言</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab" aria-selected="false">⚡ 実践</button>
+        </nav>
+        
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>幸福は外的条件の賜物ではない</li>
+                        <li>意志と習慣によって能動的に作り出す</li>
+                        <li>身体と行為を整えることから始まる</li>
+                        <li>想像力を統御し現在に集中する</li>
+                        <li>義務と仕事に向かうことで心が整う</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📝 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>「感情は行為に従う」という逆転の発想</li>
+                        <li>姿勢・呼吸・運動など身体の規律重視</li>
+                        <li>注意の向け方や想像力の統御技法</li>
+                        <li>仕事と義務への専心による満足</li>
+                        <li>友情や礼儀といった社会的徳の実践</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">6</span>
+                    <div>主要な実践柱</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">16</span>
+                    <div>キーワード数</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div>今日できる行動</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="venn-diagram">
+                <div class="venn-circle circle1">意志<br>能動性<br>習慣</div>
+                <div class="venn-circle circle2">身体規律<br>姿勢・呼吸<br>運動</div>
+                <div class="venn-circle circle3">想像力統御<br>現在志向<br>注意集中</div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🧠 心理的概念</h3>
+                    <ul>
+                        <li>行為は感情に先行する</li>
+                        <li>注意の統御が鍵となる</li>
+                        <li>想像力の規律が必要</li>
+                        <li>自己憐憫を批判的に見る</li>
+                        <li>明朗さを意志的に演じる</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🏃 身体的実践</h3>
+                    <ul>
+                        <li>姿勢・呼吸・運動の重要性</li>
+                        <li>節制と規則正しい生活</li>
+                        <li>睡眠の質を整える</li>
+                        <li>体を整えると心が明るくなる</li>
+                        <li>生理の整調で判断が明晰化</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤝 社会的徳</h3>
+                    <ul>
+                        <li>友情・親切・礼儀の実践</li>
+                        <li>仕事と義務への専心</li>
+                        <li>感謝による注意の転換</li>
+                        <li>小さな喜びの反復</li>
+                        <li>現在への注意で不安減衰</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="flow-chart">
+                <div class="flow-step">核心命題の提示<br>（感情は行為に従う）</div>
+                <div class="flow-step">日常例・比喩で具体化<br>説得力を補強</div>
+                <div class="flow-step">反論や例外への応答<br>適用範囲を調整</div>
+                <div class="flow-step">即日実行可能な指針<br>実践で締める</div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔄 能動への転回</h3>
+                    <ul>
+                        <li>外的原因よりも意志と行為を起点</li>
+                        <li>受動性から能動性への転換</li>
+                        <li>環境に左右されない強さ</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💪 身体の規律</h3>
+                    <ul>
+                        <li>姿勢・呼吸・睡眠・運動</li>
+                        <li>心を間接的に整える手法</li>
+                        <li>物理的基盤の重要性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎭 想像力の統御</h3>
+                    <ul>
+                        <li>不安や期待を現在に引き戻す</li>
+                        <li>妄想の暴走を防ぐ技法</li>
+                        <li>注意の向け方をコントロール</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚒️ 仕事と義務</h3>
+                    <ul>
+                        <li>役割と労働が恒常的満足をもたらす</li>
+                        <li>自己効力感の源泉</li>
+                        <li>働く者は不幸になる暇がない</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-box">
+                "幸福は意志の問題である。"
+            </div>
+            
+            <div class="quote-box">
+                "行為が先で、感情はあとから来る。"
+            </div>
+            
+            <div class="quote-box">
+                "希望は覚悟の敵である。"
+            </div>
+            
+            <div class="quote-box">
+                "顔つきを正せば心も正される。"
+            </div>
+            
+            <div class="quote-box">
+                "働く者は不幸になる暇がない。"
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>ラッセル『幸福論』- 能動的幸福技法</li>
+                        <li>モンテーニュ『エセー』- 日常省察</li>
+                        <li>マルクス・アウレリウス『自省録』</li>
+                        <li>エピクテトス『人生談義』</li>
+                        <li>フランクル『夜と霧』- 実存的実践</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="action" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション</h3>
+                
+                <div class="action-item">
+                    <strong>🚶 身体を整える</strong><br>
+                    背筋を伸ばし20分歩き呼吸を整える
+                </div>
+                
+                <div class="action-item">
+                    <strong>📝 期待を行動に変える</strong><br>
+                    期待を書き出し20分で行動に変える
+                </div>
+                
+                <div class="action-item">
+                    <strong>💼 集中して仕事する</strong><br>
+                    机を整え20分集中して一仕事する
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔄 因果関係の理解</h3>
+                    <ul>
+                        <li>行為→感情: 先に動けば気分が整う</li>
+                        <li>姿勢・呼吸→気分: 体を整えると心が明るく</li>
+                        <li>仕事・義務→自己効力感→安定した満足</li>
+                        <li>現在への注意→後悔と不安の減衰</li>
+                        <li>習慣化→意志の負担軽減→継続可能性向上</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚠️ 避けるべきパターン</h3>
+                    <ul>
+                        <li>想像力の暴走→不安増幅→受動化</li>
+                        <li>期待・空想→現実回避→失望</li>
+                        <li>自己憐憫→被害者意識→行動停止</li>
+                        <li>将来の幻に逃げる→現在軽視</li>
+                        <li>外的条件への依存→受動的姿勢</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        focusedElement.click();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
