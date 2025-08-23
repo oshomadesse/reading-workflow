@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書籍リサーチ インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 25px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 1s ease;
+        }
+
+        .metric-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 45%;
+            margin: 0 20px;
+        }
+
+        .timeline-marker {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+                padding-left: 50px;
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin: 0;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 書籍リサーチ概要</h1>
+            <p>データが提供されていないため、サンプル表示となります</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📋 概要</button>
+            <button class="tab-button" onclick="showTab('details')" role="tab" aria-selected="false" aria-controls="details">📊 詳細分析</button>
+            <button class="tab-button" onclick="showTab('insights')" role="tab" aria-selected="false" aria-controls="insights">💡 洞察</button>
+        </div>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="error-message">
+                <h2>🔍 リサーチデータが見つかりません</h2>
+                <p>書籍リサーチの内容が提供されていないため、インフォグラフィックを生成できません。</p>
+                <p>適切なデータを提供していただければ、以下の要素を含む包括的な視覚化を作成いたします：</p>
+                <div class="card-grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <h3>📖 書籍情報</h3>
+                        <ul>
+                            <li>タイトルと著者</li>
+                            <li>出版年・ページ数</li>
+                            <li>ジャンル・カテゴリ</li>
+                            <li>主要テーマ</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>📊 数値データ</h3>
+                        <ul>
+                            <li>統計情報の視覚化</li>
+                            <li>進捗バーでの表現</li>
+                            <li>円グラフ・棒グラフ</li>
+                            <li>重要指標のバッジ表示</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🔄 構造図</h3>
+                        <ul>
+                            <li>フローチャート</li>
+                            <li>タイムライン</li>
+                            <li>関係性図</li>
+                            <li>プロセス図</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="details" class="tab-content" role="tabpanel">
+            <div class="chart-container">
+                <h2>📈 サンプル分析チャート</h2>
+                <p>実際のデータが提供されれば、以下のような視覚化を行います：</p>
+                
+                <h3>進捗指標例</h3>
+                <div>
+                    <label>理解度: <span class="metric-badge">85%</span></label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;">85%</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label>実用性: <span class="metric-badge">92%</span></label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 92%;">92%</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label>推奨度: <span class="metric-badge">78%</span></label>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 78%;">78%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights" class="tab-content" role="tabpanel">
+            <div class="chart-container">
+                <h2>🎯 サンプル洞察フロー</h2>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <h4>📚 読書</h4>
+                        <p>内容理解</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>🔍 分析</h4>
+                        <p>要点抽出</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>💡 洞察</h4>
+                        <p>知見獲得</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>🚀 実践</h4>
+                        <p>行動変化</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>⏰ サンプルタイムライン</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>第1段階</h4>
+                            <p>基礎理解の構築</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>第2段階</h4>
+                            <p>深層分析の実施</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>第3段階</h4>
+                            <p>実践的応用</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Initialize progress bars animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('tab-button')) {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % buttons.length;
+                    buttons[nextIndex].focus();
+                    buttons[nextIndex].click();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                    buttons[prevIndex].focus();
+                    buttons[prevIndex].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
