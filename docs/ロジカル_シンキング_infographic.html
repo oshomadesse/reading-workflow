@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ロジカル・シンキング - 思考の型を身につける</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border: 1px solid #e2e8f0;
+        }
+
+        .concept-card .tag {
+            background: var(--accent);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .pyramid-diagram {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .pyramid {
+            display: inline-block;
+            position: relative;
+        }
+
+        .pyramid-level {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            margin: 5px auto;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .pyramid-level:nth-child(1) { width: 200px; }
+        .pyramid-level:nth-child(2) { width: 300px; }
+        .pyramid-level:nth-child(3) { width: 400px; }
+
+        .logic-tree {
+            margin: 30px 0;
+        }
+
+        .tree-node {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .tree-root {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        .tree-branch {
+            background: var(--bg-light);
+            border-color: var(--accent);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-weight: 600;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .action-item {
+            background: var(--white);
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pyramid-level:nth-child(1) { width: 150px; }
+            .pyramid-level:nth-child(2) { width: 200px; }
+            .pyramid-level:nth-child(3) { width: 250px; }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🧠 ロジカル・シンキング</h1>
+            <p class="subtitle">誰でも使える思考の型で、課題を整理し結論から伝える</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" data-tab="overview" role="tab" aria-selected="true">📋 概要</button>
+            <button class="tab-button" data-tab="concepts" role="tab" aria-selected="false">🔧 主要概念</button>
+            <button class="tab-button" data-tab="structure" role="tab" aria-selected="false">🏗️ 構造と関係</button>
+            <button class="tab-button" data-tab="actions" role="tab" aria-selected="false">⚡ 実践アクション</button>
+            <button class="tab-button" data-tab="books" role="tab" aria-selected="false">📚 関連書籍</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-number">3</div>
+                        <div class="metric-label">基本の思考ツール<br>MECE・ピラミッド・ロジックツリー</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">2</div>
+                        <div class="metric-label">縦の論理チェック<br>So what? / Why so?</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">15分</div>
+                        <div class="metric-label">今日から実践<br>イシュー設定・MECE分解</div>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心メッセージ</h3>
+                        <ul>
+                            <li>思考の型（MECE・ピラミッド・ロジックツリー）で整理</li>
+                            <li>課題を網羅的に分析し抜け漏れを防ぐ</li>
+                            <li>結論から短く正確に伝える技術</li>
+                            <li>誰でも再現可能な論理的思考法</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>⚡ エグゼクティブ・サマリー</h3>
+                        <ul>
+                            <li>イシュー（解くべき核心）から始め結論先行</li>
+                            <li>MECE（モレなくダブりなく）で分類整理</li>
+                            <li>ピラミッド構造（結論→根拠→事実）で組み立て</li>
+                            <li>So what?/Why so?で縦の論理を点検</li>
+                            <li>ファクトベースと仮説思考で効率化</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>💡 重要な引用</h3>
+                        <ul>
+                            <li><strong>結論から話し、根拠を並べる</strong><br>→ 理解速度向上、議論のブレ防止</li>
+                            <li><strong>MECEでモレとダブりをなくす</strong><br>→ 見落とし防止、全体最適判断</li>
+                            <li><strong>So what?/Why so?で縦の筋を通す</strong><br>→ 論理の飛躍防止、説得力向上</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pyramid-diagram">
+                    <h3>📊 ピラミッド構造の基本形</h3>
+                    <div class="pyramid">
+                        <div class="pyramid-level">結論・メッセージ</div>
+                        <div class="pyramid-level">根拠A　根拠B　根拠C</div>
+                        <div class="pyramid-level">事実・データ・具体例</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="concepts" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="concept-card">
+                        <div class="tag">的を決める</div>
+                        <h3>🎯 イシュー（Issue）</h3>
+                        <ul>
+                            <li>解くべき核心の問いを明確化</li>
+                            <li>成果に直結する狙いどころを特定</li>
+                            <li>調査の焦点を定め無駄を削減</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">抜け・重複なし</div>
+                        <h3>📋 MECE</h3>
+                        <ul>
+                            <li>モレなくダブりなく分類する原則</li>
+                            <li>全体を重複なしで網羅する基礎</li>
+                            <li>見落としや重複作業を防止</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">木で分解</div>
+                        <h3>🌳 ロジックツリー</h3>
+                        <ul>
+                            <li>問題や要因を枝分かれで分解</li>
+                            <li>全体と部分の関係を見える化</li>
+                            <li>原因や打ち手を網羅的に洗い出し</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">結論先×根拠並列</div>
+                        <h3>🏛️ ピラミッド構造</h3>
+                        <ul>
+                            <li>結論を頂点に根拠を並列配置</li>
+                            <li>同レベルの根拠で下に事実を配置</li>
+                            <li>文書や資料の基本構成型</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">縦の筋を通す</div>
+                        <h3>🔍 So what? / Why so?</h3>
+                        <ul>
+                            <li>So what?（それで何？）で上位の意味確認</li>
+                            <li>Why so?（なぜ？）で根拠を深掘り</li>
+                            <li>結論と根拠の縦のつながりを検証</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">当てを置いて試す</div>
+                        <h3>💭 仮説思考</h3>
+                        <ul>
+                            <li>最初に仮の答え（仮説）を設定</li>
+                            <li>事実で検証して素早く絞り込み</li>
+                            <li>必要なファクト収集だけに集中</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">事実で語る</div>
+                        <h3>📊 ファクトベース</h3>
+                        <ul>
+                            <li>意見ではなく観測・数値で論証</li>
+                            <li>事実にもとづく論の構築</li>
+                            <li>客観性と説得力の向上</li>
+                        </ul>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="tag">見る枠を決める</div>
+                        <h3>🖼️ フレーミング</h3>
+                        <ul>
+                            <li>比較や分類の軸を定義</li>
+                            <li>分析の見方を明確化</li>
+                            <li>適切な枠で正確な結論導出</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="structure" class="tab-content" role="tabpanel">
+                <div class="flow-diagram">
+                    <div class="flow-step">🎯 イシュー設定</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">💭 仮説思考</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">🌳 MECE分解</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">🔍 検証・構造化</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">📝 伝達設計</div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🔗 概念間の関係性</h3>
+                        <ul>
+                            <li><strong>目的設定:</strong> イシュー → 調査焦点の明確化</li>
+                            <li><strong>探索設計:</strong> 仮説思考 → 必要ファクト収集に集中</li>
+                            <li><strong>分解整理:</strong> ロジックツリー × MECE → 全体網羅</li>
+                            <li><strong>検証運動:</strong> Why so? → So what? の循環</li>
+                            <li><strong>構造化:</strong> グルーピング → ピラミッド配置</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>📖 論理展開の流れ</h3>
+                        <ul>
+                            <li><strong>導入:</strong> 伝わる・モレない・再現可能な目的提示</li>
+                            <li><strong>基礎:</strong> 結論先行・イシュー・ファクトベース</li>
+                            <li><strong>水平論理:</strong> MECEとグルーピングで整理</li>
+                            <li><strong>垂直論理:</strong> So what?/Why so?で筋通し</li>
+                            <li><strong>実践:</strong> ケース練習とチェックリスト</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="logic-tree">
+                    <h3>🌳 ロジックツリー例：売上向上</h3>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div class="tree-node tree-root">売上向上</div>
+                        <br>
+                        <div class="tree-node tree-branch">客数増加</div>
+                        <div class="tree-node tree-branch">客単価向上</div>
+                        <br>
+                        <div class="tree-node">新規獲得</div>
+                        <div class="tree-node">リピート率</div>
+                        <div class="tree-node">商品単価</div>
+                        <div class="tree-node">購入点数</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="actions" class="tab-content" role="tabpanel">
+                <div class="action-list">
+                    <h3>⚡ 今日できるアクション（15-30分）</h3>
+                    
+                    <div class="action-item">
+                        <h4>🎯 今日の業務課題を1つイシュー化する</h4>
+                        <p>現在抱えている課題を「解くべき核心の問い」として1文で表現してみる</p>
+                    </div>
+
+                    <div class="action-item">
+                        <h4>📋 テーマをMECEで10分分解する</h4>
+                        <p>選んだテーマを「モレなくダブりなく」3-5個の要素に分類整理する</p>
+                    </div>
+
+                    <div class="action-item">
+                        <h4>🏛️ 結論→根拠のピラミッドを描く</h4>
+                        <p>分解した要素を使って「結論」「根拠」「事実」の3層構造を作成する</p>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>✅ 実践チェックリスト</h3>
+                        <ul>
+                            <li>イシューは明確で具体的か？</li>
+                            <li>分解にモレやダブりはないか？</li>
+                            <li>結論と根拠の筋は通っているか？</li>
+                            <li>事実にもとづいて論じているか？</li>
+                            <li>相手が理解しやすい流れか？</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🚀 段階的スキルアップ</h3>
+                        <ul>
+                            <li><strong>初級:</strong> MECE分解を日常業務で実践</li>
+                            <li><strong>中級:</strong> ピラミッド構造で資料作成</li>
+                            <li><strong>上級:</strong> 仮説思考で問題解決加速</li>
+                            <li><strong>応用:</strong> チーム全体での思考法共有</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="books" class="tab-content" role="tabpanel">
+                <div class="book-grid">
+                    <div class="book-card">
+                        <div class="book-title">📖 考える技術・書く技術 ピラミッド原則</div>
+                        <div class="book-author">バーバラ・ミント</div>
+                        <div class="book-relation">ピラミッド構造の原典で、本書の文書構成法を深く学べる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">📖 イシューからはじめよ</div>
+                        <div class="book-author">安宅和人</div>
+                        <div class="book-relation">イシュー設定と仮説思考を集中的に鍛えられる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">📖 地頭力を鍛える</div>
+                        <div class="book-author">細谷功</div>
+                        <div class="book-relation">分解力や仮説検証の実践練習に直結する。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">📖 論点思考</div>
+                        <div class="book-author">内田和成</div>
+                        <div class="book-relation">論点（イシュー）中心で問題解決を組み立てる視点が補強できる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">📖 論理トレーニング101題</div>
+                        <div class="book-author">野矢茂樹</div>
+                        <div class="book-relation">縦横の論理を鍛える演習で、思考の精度を実務に落とし込める。</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Add keyboard navigation
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const nextIndex = e.key === 'ArrowRight' 
+                            ? (index + 1) % tabButtons.length 
+                            : (index - 1 + tabButtons.length) % tabButtons.length;
+                        tabButtons[nextIndex].focus();
+                        tabButtons[nextIndex].click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
