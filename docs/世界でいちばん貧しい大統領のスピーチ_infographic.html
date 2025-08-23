@@ -4,284 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>世界でいちばん貧しい大統領のスピーチ - インフォグラフィック</title>
-    <!-- カラーパレット: プライマリー #2E8B57, セカンダリー #F4A460, アクセント #FF6B6B -->
+    <!-- カラーパレット: プライマリー #2E8B57, セカンダリー #4682B4, アクセント #FF6B35 -->
     <style>
         :root {
             --primary: #2E8B57;
-            --secondary: #F4A460;
-            --accent: #FF6B6B;
+            --secondary: #4682B4;
+            --accent: #FF6B35;
             --bg-light: #f8f9fa;
             --text-dark: #2c3e50;
+            --border: #e9ecef;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e8 100%);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3a9b6a 100%);
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border-radius: 15px;
         }
-        
+
         .header h1 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        
+
         .header p {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-size: 1.2rem;
             opacity: 0.9;
         }
-        
+
         .tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
             margin-bottom: 20px;
-            justify-content: center;
+            border-bottom: 2px solid var(--border);
         }
-        
+
         .tab-button {
-            padding: 12px 20px;
-            background: white;
-            border: 2px solid var(--primary);
-            border-radius: 25px;
+            background: none;
+            border: none;
+            padding: 15px 20px;
             cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
-            font-weight: 500;
-            color: var(--primary);
-            font-size: 0.9rem;
+            flex: 1;
+            min-width: 120px;
         }
-        
+
+        .tab-button:hover {
+            background: var(--bg-light);
+        }
+
         .tab-button.active {
-            background: var(--primary);
-            color: white;
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: bold;
         }
-        
+
         .tab-content {
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.5s ease;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
+            padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease;
         }
-        
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
         .card h3 {
             color: var(--primary);
             margin-bottom: 15px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        
+
         .card ul {
             list-style: none;
         }
-        
+
         .card li {
             margin-bottom: 8px;
             padding-left: 20px;
             position: relative;
         }
-        
-        .card li::before {
+
+        .card li:before {
             content: "▶";
             position: absolute;
             left: 0;
             color: var(--accent);
         }
-        
-        .quote-section {
-            background: linear-gradient(135deg, var(--secondary) 0%, #f7b373 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            text-align: center;
+
+        .concept-card {
+            border-left-color: var(--secondary);
         }
-        
-        .quote {
-            font-size: 1.3rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+        .concept-card h3 {
+            color: var(--secondary);
         }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+
+        .quote-card {
+            border-left-color: var(--accent);
+            background: linear-gradient(135deg, #fff 0%, #fef7f0 100%);
         }
-        
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+
+        .quote-card h3 {
             color: var(--accent);
-            display: block;
         }
-        
-        .stat-label {
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
             color: var(--text-dark);
-            font-size: 0.9rem;
-            margin-top: 5px;
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 8px;
         }
-        
-        .flow-chart {
+
+        .flow-diagram {
             background: white;
+            border-radius: 12px;
             padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
+            margin: 20px 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        
+
         .flow-step {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin: 15px 0;
             padding: 15px;
-            background: linear-gradient(135deg, var(--bg-light) 0%, #f0f8f0 100%);
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .flow-number {
-            background: var(--primary);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .venn-diagram {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-            margin: 30px 0;
+            background: var(--bg-light);
+            border-radius: 8px;
             position: relative;
         }
-        
-        .venn-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+
+        .flow-step:not(:last-child):after {
+            content: "↓";
             position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-        
-        .circle1 {
-            background: rgba(46, 139, 87, 0.7);
-            left: 50px;
-        }
-        
-        .circle2 {
-            background: rgba(244, 164, 96, 0.7);
-            right: 50px;
-        }
-        
-        .circle3 {
-            background: rgba(255, 107, 107, 0.7);
-            top: 80px;
+            bottom: -25px;
             left: 50%;
             transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
         }
-        
-        .action-cards {
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .venn-diagram {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent) 0%, #ff8c42 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .book-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
-            margin: 20px 0;
         }
-        
-        .action-card {
-            background: linear-gradient(135deg, var(--accent) 0%, #ff8a8a 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+        .book-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            transition: border-color 0.3s ease;
         }
-        
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 10px;
-            height: 20px;
-            margin: 10px 0;
-            overflow: hidden;
+
+        .book-card:hover {
+            border-color: var(--secondary);
         }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 10px;
-            transition: width 2s ease-in-out;
+
+        .book-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
         }
-        
+
+        .book-author {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
             }
             
             .tabs {
@@ -289,22 +303,26 @@
             }
             
             .tab-button {
-                width: 100%;
-                text-align: center;
+                flex: none;
+                text-align: left;
             }
             
             .card-grid {
                 grid-template-columns: 1fr;
             }
             
-            .venn-diagram {
-                height: 250px;
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
             }
             
-            .venn-circle {
-                width: 120px;
-                height: 120px;
-                font-size: 0.8rem;
+            .stats-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -313,362 +331,380 @@
     <div class="container">
         <header class="header">
             <h1>🌍 世界でいちばん貧しい大統領のスピーチ</h1>
-            <p>ホセ・ムヒカが問いかける真の豊かさとは</p>
+            <p>豊かさは"たくさん持つこと"ではなく"欲望を小さくして自由な時間を得ること"</p>
         </header>
 
         <nav class="tabs" role="tablist">
-            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
-            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 核心概念</button>
-            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🔄 論理構造</button>
-            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要な言葉</button>
-            <button class="tab-button" onclick="showTab('action')" role="tab" aria-selected="false">✨ 実践</button>
+            <button class="tab-button active" data-tab="overview" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" data-tab="concepts" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" data-tab="structure" role="tab" aria-selected="false">🔄 関係性</button>
+            <button class="tab-button" data-tab="quotes" role="tab" aria-selected="false">💬 重要な言葉</button>
+            <button class="tab-button" data-tab="actions" role="tab" aria-selected="false">✅ 今日できること</button>
+            <button class="tab-button" data-tab="books" role="tab" aria-selected="false">📚 関連書籍</button>
         </nav>
 
         <div id="overview" class="tab-content active" role="tabpanel">
-            <div class="quote-section">
-                <div class="quote">"豊かさとは消費量ではなく、自由と時間、そして他者との連帯である"</div>
-            </div>
-
             <div class="card-grid">
                 <div class="card">
                     <h3>🎯 核心メッセージ</h3>
                     <ul>
-                        <li>無限成長と消費主義の見直し</li>
-                        <li>足るを知る生き方への転換</li>
-                        <li>地球と暮らしの持続可能性</li>
-                        <li>真の豊かさは時間と連帯にある</li>
+                        <li>豊かさ = 欲望をコントロールすること</li>
+                        <li>無制限の消費を見直そう</li>
+                        <li>質素さと連帯で地球を守る</li>
+                        <li>自由な時間こそ真の財産</li>
                     </ul>
                 </div>
-
+                
                 <div class="card">
-                    <h3>📚 書籍の背景</h3>
+                    <h3>👤 ホセ・ムヒカとは</h3>
                     <ul>
-                        <li>2012年リオ+20での演説が原点</li>
-                        <li>ウルグアイ元大統領ムヒカの思想</li>
-                        <li>消費主義への根源的な問いかけ</li>
-                        <li>視覚的編集で幅広い読者に届ける</li>
+                        <li>ウルグアイの元大統領</li>
+                        <li>国連会議で世界に訴えた</li>
+                        <li>質素な暮らしを実践</li>
+                        <li>消費主義への疑問を提起</li>
                     </ul>
                 </div>
-
+                
                 <div class="card">
-                    <h3>🌱 主要テーマ</h3>
+                    <h3>🌱 持続可能性の重要性</h3>
                     <ul>
-                        <li>発展は手段、幸福が目的</li>
-                        <li>市場は人間に奉仕すべき</li>
-                        <li>公共善と民主主義の回復</li>
-                        <li>未来世代への責任</li>
+                        <li>地球の資源は有限である</li>
+                        <li>経済成長の目的化は危険</li>
+                        <li>未来世代の権利を守る</li>
+                        <li>質の向上へ軸足を移す</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-number">15</span>
-                    <div class="stat-label">主要キーワード</div>
+            <div class="stats-container">
+                <div class="stat-badge">
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">主要概念</span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-number">5</span>
-                    <div class="stat-label">重要な引用</div>
-                </div>
-                <div class="stat-card">
+                <div class="stat-badge">
                     <span class="stat-number">3</span>
-                    <div class="stat-label">今日できるアクション</div>
+                    <span class="stat-label">重要な引用</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">関連書籍</span>
                 </div>
             </div>
         </div>
 
         <div id="concepts" class="tab-content" role="tabpanel">
-            <div class="flow-chart">
-                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔗 概念間の関係性</h3>
-                
-                <div class="flow-step">
-                    <div class="flow-number">1</div>
-                    <div>
-                        <strong>消費主義の拡大</strong><br>
-                        労働時間の長期化 → 自由時間の減少 → 主観的幸福の低下
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-number">2</div>
-                    <div>
-                        <strong>無限成長モデル</strong><br>
-                        資源の過剰採掘 → 環境劣化 → 未来世代の機会損失
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-number">3</div>
-                    <div>
-                        <strong>市場中心の価値観</strong><br>
-                        政治の従属化 → 公共善の後退 → 不平等拡大
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-number">4</div>
-                    <div>
-                        <strong>足るを知る選好</strong><br>
-                        消費圧の緩和 → 時間と心の余裕 → 連帯の回復
-                    </div>
-                </div>
-            </div>
-
-            <div class="venn-diagram">
-                <div class="venn-circle circle1">時間と<br>自由</div>
-                <div class="venn-circle circle2">連帯と<br>共同体</div>
-                <div class="venn-circle circle3">節度ある<br>暮らし</div>
-            </div>
-
             <div class="card-grid">
-                <div class="card">
-                    <h3>🏷️ 重要キーワード</h3>
+                <div class="card concept-card">
+                    <h3>🎋 質素（シンプルライフ）</h3>
                     <ul>
-                        <li>消費主義・成長至上主義</li>
-                        <li>持続可能性・環境倫理</li>
-                        <li>時間と自由・ライフバランス</li>
-                        <li>足るを知る・簡素な暮らし</li>
-                        <li>連帯と共同体・公共善</li>
+                        <li>必要十分で暮らす生き方</li>
+                        <li>無駄な欲望を増やさない</li>
+                        <li>心の余裕と時間が増える</li>
+                        <li><strong>少なく暮らして自由を得る</strong></li>
                     </ul>
                 </div>
 
-                <div class="card">
-                    <h3>📊 価値転換の指標</h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 85%"></div>
-                    </div>
-                    <small>経済成長 → 幸福指標</small>
-                    
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 70%"></div>
-                    </div>
-                    <small>消費量 → 生活の質</small>
-                    
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 60%"></div>
-                    </div>
-                    <small>競争 → 連帯</small>
+                <div class="card concept-card">
+                    <h3>🛒 消費主義</h3>
+                    <ul>
+                        <li>買うこと・持つことが幸せの中心</li>
+                        <li>欲望が膨らみ続ける</li>
+                        <li>資源と時間を奪う</li>
+                        <li><strong>欲望が止まらない社会</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>⏰ 自由＝時間</h3>
+                    <ul>
+                        <li>お金より"自分の時間"が大切</li>
+                        <li>消費を増やすほど時間は減る</li>
+                        <li>時間の使い方を見直す</li>
+                        <li><strong>時間こそ本当の自由</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>♻️ 持続可能性</h3>
+                    <ul>
+                        <li>地球の資源を壊さない</li>
+                        <li>長期に続けられる状態</li>
+                        <li>未来世代の権利を守る</li>
+                        <li><strong>続けられる豊かさ</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🏛️ 公共善</h3>
+                    <ul>
+                        <li>道・水・教育などの共通利益</li>
+                        <li>皆が恩恵を受ける</li>
+                        <li>個人利益より優先する場面</li>
+                        <li><strong>みんなの利益</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📈 経済成長の限界</h3>
+                    <ul>
+                        <li>無限成長は有限地球で不可能</li>
+                        <li>量から質への転換が必要</li>
+                        <li>成長の目的化を見直す</li>
+                        <li><strong>量より質へ</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🤝 連帯（ソリダリティ）</h3>
+                    <ul>
+                        <li>弱い立場の人も含めて支え合う</li>
+                        <li>互いに助け合うこと</li>
+                        <li>危機に強い共同体をつくる</li>
+                        <li><strong>助け合いの力</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>😊 幸福の再定義</h3>
+                    <ul>
+                        <li>物や所得だけに依らない</li>
+                        <li>関係性・時間・健康で測る</li>
+                        <li>幸せのものさしを変える</li>
+                        <li><strong>幸せのものさしを替える</strong></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div id="structure" class="tab-content" role="tabpanel">
-            <div class="flow-chart">
-                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">📋 論理展開の構造</h3>
+            <div class="flow-diagram">
+                <h3>🔄 概念間の関係性</h3>
                 
                 <div class="flow-step">
-                    <div class="flow-number">1</div>
                     <div>
-                        <strong>問題提起</strong><br>
-                        リオ+20の場で現行の発展モデルの限界を示す
+                        <strong>消費主義</strong> → 欲望の拡大 → 生活コスト上昇 → <strong>自由時間の減少</strong>
                     </div>
                 </div>
-
+                
                 <div class="flow-step">
-                    <div class="flow-number">2</div>
                     <div>
-                        <strong>現状批判</strong><br>
-                        消費主義と市場至上主義が時間・自然・共同体を損なう
+                        <strong>質素さ</strong> → 欲望の抑制 → 資源消費の減少 → <strong>持続可能性の向上</strong>
                     </div>
                 </div>
-
+                
                 <div class="flow-step">
-                    <div class="flow-number">3</div>
                     <div>
-                        <strong>価値転換</strong><br>
-                        目的は経済成長でなく幸福・自由・公共善の拡大
+                        <strong>経済成長の目的化</strong> → 環境負荷増大 → <strong>未来世代の自由の縮小</strong>
                     </div>
                 </div>
-
+                
                 <div class="flow-step">
-                    <div class="flow-number">4</div>
                     <div>
-                        <strong>核心命題</strong><br>
-                        真の豊かさ = 生きる時間 × 連帯 × 節度ある暮らし
+                        <strong>公共善の重視</strong> → 公正な分配 → 連帯の強化 → <strong>社会の安全・安心</strong>
                     </div>
                 </div>
-
+                
                 <div class="flow-step">
-                    <div class="flow-number">5</div>
                     <div>
-                        <strong>政策含意</strong><br>
-                        市場は人間に奉仕、指標と制度を幸福中心へ
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-number">6</div>
-                    <div>
-                        <strong>実践提案</strong><br>
-                        個人の選択と社会的連帯が相互に変化を促進
-                    </div>
-                </div>
-
-                <div class="flow-step">
-                    <div class="flow-number">7</div>
-                    <div>
-                        <strong>結語</strong><br>
-                        未来世代への責任として質素と共生を選び取る
+                        <strong>自由＝時間の視点</strong> → 収入と消費の最適化 → <strong>余暇・人間関係の充実</strong>
                     </div>
                 </div>
             </div>
+
+            <div class="flow-diagram">
+                <h3>📖 書籍の構造と論理展開</h3>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎬 導入</h3>
+                        <ul>
+                            <li>ムヒカの人物像紹介</li>
+                            <li>リオ＋20会議の背景</li>
+                            <li>問題意識をやさしく説明</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎤 演説本文</h3>
+                        <ul>
+                            <li>消費主義批判</li>
+                            <li>幸福と自由の再定義</li>
+                            <li>持続可能性と地球の有限性</li>
+                            <li>政治と公共善の役割</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎨 挿絵と補足</h3>
+                        <ul>
+                            <li>難しい言葉を短い注釈で解説</li>
+                            <li>日常の場面に引き寄せる</li>
+                            <li>理解を助ける工夫</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📋 巻末資料</h3>
+                        <ul>
+                            <li>演説の要旨まとめ</li>
+                            <li>年表などの資料</li>
+                            <li>全体の主張を振り返り</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <svg class="venn-diagram" viewBox="0 0 400 300">
+                <circle cx="150" cy="150" r="80" fill="rgba(46, 139, 87, 0.3)" stroke="#2E8B57" stroke-width="2"/>
+                <circle cx="250" cy="150" r="80" fill="rgba(70, 130, 180, 0.3)" stroke="#4682B4" stroke-width="2"/>
+                <text x="120" y="120" font-size="12" fill="#2E8B57" font-weight="bold">質素さ</text>
+                <text x="280" y="120" font-size="12" fill="#4682B4" font-weight="bold">持続可能性</text>
+                <text x="200" y="155" font-size="11" fill="#FF6B35" font-weight="bold" text-anchor="middle">真の豊かさ</text>
+                <text x="200" y="170" font-size="10" fill="#FF6B35" text-anchor="middle">時間の自由</text>
+            </svg>
         </div>
 
         <div id="quotes" class="tab-content" role="tabpanel">
             <div class="card-grid">
-                <div class="card">
-                    <h3>💎 貧乏の定義</h3>
-                    <div class="quote-section">
-                        <div class="quote">"貧乏とは持たないことではなく、欲望が尽きないことだ。"</div>
+                <div class="card quote-card">
+                    <h3>💎 核心の言葉</h3>
+                    <div class="quote-text">
+                        「貧乏とは少ししか持っていないことではない。無限に欲しがることだ。」
                     </div>
-                    <p>物質的な不足ではなく、際限のない欲望こそが真の貧困である</p>
+                    <p><strong>なぜ重要か：</strong> 豊かさを"所有量"から"欲望のコントロール"へと視点転換させる核心だから。</p>
                 </div>
 
-                <div class="card">
+                <div class="card quote-card">
                     <h3>🎯 人生の目的</h3>
-                    <div class="quote-section">
-                        <div class="quote">"私たちは発展のためでなく、幸福のために生まれてきた。"</div>
+                    <div class="quote-text">
+                        「私たちは成長するために生きているのではない。」
                     </div>
-                    <p>経済発展は手段であり、人間の幸福こそが真の目的</p>
+                    <p><strong>なぜ重要か：</strong> 経済成長の目的化を外し、人生の目的を問い直す起点になるから。</p>
                 </div>
 
-                <div class="card">
-                    <h3>⏰ 時間の価値</h3>
-                    <div class="quote-section">
-                        <div class="quote">"人生とは時間だ。時間を消費のために売り渡すな。"</div>
+                <div class="card quote-card">
+                    <h3>⏰ 自由の定義</h3>
+                    <div class="quote-text">
+                        「自由とは時間のことで、消費に人生を売らないでほしい。」
                     </div>
-                    <p>時間こそが人生の本質、消費に時間を奪われてはならない</p>
-                </div>
-
-                <div class="card">
-                    <h3>🏪 市場の役割</h3>
-                    <div class="quote-section">
-                        <div class="quote">"市場は人に奉仕すべきで、人が市場に仕えるべきではない。"</div>
-                    </div>
-                    <p>経済システムは人間のためにあり、その逆ではない</p>
-                </div>
-
-                <div class="card">
-                    <h3>🌍 地球への責任</h3>
-                    <div class="quote-section">
-                        <div class="quote">"地球は倉庫ではない。私たちのただ一つの家だ。"</div>
-                    </div>
-                    <p>地球は資源の供給源ではなく、大切に守るべき唯一の住処</p>
+                    <p><strong>なぜ重要か：</strong> 自由＝時間という具体的な指標で、日々の選択を変えるヒントになるから。</p>
                 </div>
             </div>
         </div>
 
-        <div id="action" class="tab-content" role="tabpanel">
-            <div class="action-cards">
-                <div class="action-card">
-                    <h3>📝 欲望の点検</h3>
-                    <p>欲しい物を3つ書き出し、本当に必要かを吟味する</p>
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>✅ 今日できるアクション（15〜30分で実行可能）</h3>
+                
+                <div class="action-item">
+                    <span>📦</span>
+                    <div>
+                        <strong>所有品から不要な物を5点選ぶ</strong>
+                        <br><small>クローゼットや引き出しを見回して、使っていない物を特定</small>
+                    </div>
                 </div>
-
-                <div class="action-card">
-                    <h3>🍳 創意工夫</h3>
-                    <p>冷蔵庫の残り物で一品を作り、無駄を減らす</p>
+                
+                <div class="action-item">
+                    <span>🛒</span>
+                    <div>
+                        <strong>今週の買い物リストを見直す</strong>
+                        <br><small>本当に必要な物だけに絞り、衝動的な購入を避ける</small>
+                    </div>
                 </div>
-
-                <div class="action-card">
-                    <h3>💰 支出の振り返り</h3>
-                    <p>今週の支出を「必要・便利・欲望」の3分類で振り返る</p>
+                
+                <div class="action-item">
+                    <span>⏰</span>
+                    <div>
+                        <strong>30分の自由時間の予定を決める</strong>
+                        <br><small>読書、散歩、瞑想など、消費に関わらない時間を確保</small>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-grid">
-                <div class="card">
-                    <h3>📚 関連書籍</h3>
-                    <ul>
-                        <li>スモール イズ ビューティフル (シューマッハー)</li>
-                        <li>成長の限界 (メドウズほか)</li>
-                        <li>ドーナツ経済学が世界を変える (ラワース)</li>
-                        <li>脱成長 (ラトゥーシュ)</li>
-                        <li>ぼくたちに、もうモノは必要ない。(佐々木典士)</li>
-                    </ul>
+            <div class="card">
+                <h3>🔄 継続的な実践のヒント</h3>
+                <ul>
+                    <li>毎日5分、本当に必要な物かを考える時間を作る</li>
+                    <li>買い物前に「これは欲望か、必要か？」と自問する</li>
+                    <li>時間の使い方を記録し、自由時間を意識的に増やす</li>
+                    <li>質素な暮らしの良さを実感できる瞬間を記録する</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">スモール イズ ビューティフル</div>
+                    <div class="book-author">E.F.シューマッハー</div>
+                    <div class="book-relation">小規模・質素な経済の価値を説き、ムヒカの質素さと響き合う。</div>
                 </div>
 
-                <div class="card">
-                    <h3>🌱 実践のステップ</h3>
-                    <ul>
-                        <li>個人の消費習慣を見直す</li>
-                        <li>時間の使い方を意識する</li>
-                        <li>地域コミュニティに参加する</li>
-                        <li>政策や制度について考える</li>
-                        <li>未来世代への責任を自覚する</li>
-                    </ul>
+                <div class="book-card">
+                    <div class="book-title">ドーナツ経済学</div>
+                    <div class="book-author">ケイト・ラワース</div>
+                    <div class="book-relation">成長を目的化しない経済の枠組みが、持続可能性と公共善を補強する。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">成長の限界</div>
+                    <div class="book-author">ドネラ・メドウズほか</div>
+                    <div class="book-relation">地球の有限性をデータで示し、欲望と資源の不一致を裏づける。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">ぼくたちに、もうモノは必要ない。</div>
+                    <div class="book-author">佐々木典士</div>
+                    <div class="book-relation">ミニマリズムの実践が、消費主義の見直しと自由＝時間の確保に直結する。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">ファクトフルネス</div>
+                    <div class="book-author">ハンス・ロスリングほか</div>
+                    <div class="book-relation">世界の実態をデータで捉え直し、恐れや思い込みに基づく過剰消費を抑える視点を与える。</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function showTab(tabName) {
-            // すべてのタブコンテンツを非表示
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // すべてのタブボタンを非アクティブ
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => {
-                button.classList.remove('active');
-                button.setAttribute('aria-selected', 'false');
-            });
-
-            // 選択されたタブを表示
-            document.getElementById(tabName).classList.add('active');
-            
-            // 対応するボタンをアクティブに
-            event.target.classList.add('active');
-            event.target.setAttribute('aria-selected', 'true');
-
-            // プログレスバーのアニメーション
-            if (tabName === 'concepts') {
-                setTimeout(() => {
-                    const progressBars = document.querySelectorAll('.progress-fill');
-                    progressBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0%';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 100);
-                    });
-                }, 100);
-            }
-        }
-
-        // 初期化時にプログレスバーをアニメーション
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                const progressBars = document.querySelectorAll('.progress-fill');
-                progressBars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0%';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 100);
-                });
-            }, 500);
-        });
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
 
-        // キーボードナビゲーション
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                const buttons = Array.from(document.querySelectorAll('.tab-button'));
-                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
-                
-                let newIndex;
-                if (e.key === 'ArrowLeft') {
-                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
-                } else {
-                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
-                }
-                
-                buttons[newIndex].click();
-                buttons[newIndex].focus();
-            }
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Keyboard navigation for accessibility
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const nextIndex = e.key === 'ArrowRight' 
+                            ? (index + 1) % tabButtons.length 
+                            : (index - 1 + tabButtons.length) % tabButtons.length;
+                        tabButtons[nextIndex].focus();
+                        tabButtons[nextIndex].click();
+                    }
+                });
+            });
         });
     </script>
 </body>
