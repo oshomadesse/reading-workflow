@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>運動脳 - 脳を最大限に活かす方法</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .flow-diagram {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+        }
+
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .concept-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .concept-summary {
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        .book-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--primary);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 運動脳</h1>
+            <p>体を動かすことは、脳の働きを最短で底上げする最強の方法</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">📊 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">🧩 主要概念</button>
+            <button class="tab-button" onclick="showTab('mechanism')" aria-label="仕組みタブ">⚙️ 仕組み</button>
+            <button class="tab-button" onclick="showTab('effects')" aria-label="効果タブ">✨ 効果</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="実践タブ">🏃 実践</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📚 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">20-30</div>
+                    <div>分の運動で数時間効果持続</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">週3-5</div>
+                    <div>回の運動が推奨頻度</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div>分の速歩きでも効果あり</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>体を動かすことは脳の働きを最短で底上げする最強の方法</li>
+                        <li>短い運動でも気分・集中・ストレス耐性が即改善</li>
+                        <li>続ければ記憶や思考の基盤まで変わる</li>
+                        <li>難しい準備は要らない—まず歩き、続けることが最適解</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 科学的根拠</h3>
+                    <ul>
+                        <li>血流増加で脳への酸素・栄養供給向上</li>
+                        <li>BDNF（脳の成長タンパク質）分泌増加</li>
+                        <li>ドーパミン・セロトニン等の神経伝達物質活性化</li>
+                        <li>神経可塑性の向上で学習・記憶力強化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ 即効効果</h3>
+                    <ul>
+                        <li>1回の運動で気分と集中力が数時間向上</li>
+                        <li>ストレス反応の軽減</li>
+                        <li>創造性の向上</li>
+                        <li>不安・抑うつ症状の緩和</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏆 継続効果</h3>
+                    <ul>
+                        <li>海馬の体積維持・増加で記憶力向上</li>
+                        <li>前頭前野機能強化で注意・自己制御向上</li>
+                        <li>認知症リスクの低下</li>
+                        <li>全般的な脳機能の底上げ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-title">🏃 有酸素運動</div>
+                    <div>息が少し弾む程度で続けられる運動（速歩き、ジョギング、サイクリング）。心拍を上げ全身に酸素を運び、脳機能を底上げする。</div>
+                    <div class="concept-summary">心肺運動</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🌱 BDNF</div>
+                    <div>神経細胞の成長と接続を助けるタンパク質。運動で増え、学習・記憶を強く支える。</div>
+                    <div class="concept-summary">脳の肥料</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🔄 神経可塑性</div>
+                    <div>経験によって脳の配線が作り替わる力。運動がこの変化を加速させる。</div>
+                    <div class="concept-summary">脳の作り替え</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🧠 海馬</div>
+                    <div>記憶と空間認知を担う部位。運動で血流とBDNFが増え、萎縮の予防や記憶力向上に役立つ。</div>
+                    <div class="concept-summary">記憶中枢</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🎯 前頭前野</div>
+                    <div>注意・意思決定・感情のブレーキを司る部位。運動で働きが高まり、集中と自己制御が向上する。</div>
+                    <div class="concept-summary">司令塔</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">😊 神経伝達物質</div>
+                    <div>やる気・幸福感・覚醒を担う脳内化学物質。運動は短時間で分泌を増やし、気分と注意を整える。</div>
+                    <div class="concept-summary">気分のブースター</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">⚡ HIIT</div>
+                    <div>全力運動と休息を交互に行う方法。短時間でも注意力と活力を強く押し上げる。</div>
+                    <div class="concept-summary">時短高効率</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🌿 グリーンエクササイズ</div>
+                    <div>自然環境での運動。景色や音の効果が重なり、ストレス低下が増幅される。</div>
+                    <div class="concept-summary">自然増幅</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mechanism" class="tab-content">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 運動が脳に効く仕組み</h3>
+                
+                <div class="flow-step">
+                    <div class="flow-icon">🏃</div>
+                    <div>
+                        <strong>有酸素運動開始</strong><br>
+                        心拍数上昇・血流増加
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">🩸</div>
+                    <div>
+                        <strong>脳血流向上</strong><br>
+                        酸素・栄養の供給増加
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">🌱</div>
+                    <div>
+                        <strong>BDNF分泌増加</strong><br>
+                        神経細胞の成長・接続促進
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">⚡</div>
+                    <div>
+                        <strong>神経伝達物質活性化</strong><br>
+                        ドーパミン・セロトニン・ノルアドレナリン増加
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-icon">🧠</div>
+                    <div>
+                        <strong>脳機能向上</strong><br>
+                        集中力・記憶力・気分・ストレス耐性の改善
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 即効メカニズム（1回の運動）</h3>
+                    <ul>
+                        <li>血流増加で前頭前野の活性化</li>
+                        <li>神経伝達物質の急速な分泌</li>
+                        <li>ストレスホルモン（コルチゾール）の調整</li>
+                        <li>注意ネットワークの強化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏗️ 長期メカニズム（継続運動）</h3>
+                    <ul>
+                        <li>海馬の神経新生促進</li>
+                        <li>神経可塑性の向上</li>
+                        <li>脳血管の新生・拡張</li>
+                        <li>炎症反応の抑制</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="effects" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 認知機能への効果</h3>
+                    <ul>
+                        <li>注意力・集中力の向上</li>
+                        <li>作業記憶の強化</li>
+                        <li>実行機能の改善</li>
+                        <li>処理速度の向上</li>
+                        <li>創造性の増進</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>😊 メンタルヘルスへの効果</h3>
+                    <ul>
+                        <li>不安・抑うつ症状の軽減</li>
+                        <li>ストレス耐性の向上</li>
+                        <li>自己効力感の増進</li>
+                        <li>睡眠の質の改善</li>
+                        <li>気分の安定化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 学習・記憶への効果</h3>
+                    <ul>
+                        <li>新しい情報の記憶定着促進</li>
+                        <li>長期記憶の強化</li>
+                        <li>学習効率の向上</li>
+                        <li>記憶の想起能力向上</li>
+                        <li>空間認知能力の改善</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🛡️ 特定症状への効果</h3>
+                    <ul>
+                        <li>ADHD症状の改善</li>
+                        <li>認知症リスクの低下</li>
+                        <li>加齢による認知機能低下の予防</li>
+                        <li>慢性疲労の軽減</li>
+                        <li>依存症回復の支援</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: var(--white); border-radius: 15px; padding: 30px; margin-top: 30px;">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">⚠️ 座りすぎの悪影響</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">🪑 長時間座位の影響</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">血流低下 80%</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">🚶 こまめな立位・歩行</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%;"></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">改善効果 90%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3 style="margin-bottom: 20px; text-align: center;">🏃 今日からできるアクション</h3>
+                <div class="action-item">
+                    <strong>🚶 外で15分の速歩きを行え</strong><br>
+                    息が少し弾む程度のペースで歩く
+                </div>
+                <div class="action-item">
+                    <strong>⛰️ 15分の坂道インターバル走を行え</strong><br>
+                    坂道を使った短時間高強度運動
+                </div>
+                <div class="action-item">
+                    <strong>💼 重要作業前に15分歩いて準備せよ</strong><br>
+                    集中力向上のための事前運動
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📅 推奨運動プログラム</h3>
+                    <ul>
+                        <li>週3〜5回の有酸素運動</li>
+                        <li>1回30〜45分の中強度運動</li>
+                        <li>時々短時間の高強度インターバル</li>
+                        <li>自然環境での運動を取り入れる</li>
+                        <li>座りすぎ防止のこまめな立位・歩行</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 運動強度の目安</h3>
+                    <ul>
+                        <li>軽度：会話しながら続けられる</li>
+                        <li>中強度：息が少し弾むが会話可能</li>
+                        <li>高強度：会話が困難になる程度</li>
+                        <li>最大心拍数の60-80%を目標</li>
+                        <li>「続けられる強度」が最適</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏃 具体的な運動例</h3>
+                    <ul>
+                        <li>速歩き・ジョギング・サイクリング</li>
+                        <li>水泳・ダンス・エアロビクス</li>
+                        <li>階段昇降・縄跳び</li>
+                        <li>自然の中でのハイキング</li>
+                        <li>スポーツ（テニス・バドミントン等）</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💡 継続のコツ</h3>
+                    <ul>
+                        <li>小さく始めて徐々に増やす</li>
+                        <li>楽しめる運動を選ぶ</li>
+                        <li>仲間と一緒に行う</li>
+                        <li>日常生活に組み込む</li>
+                        <li>完璧主義より継続を重視</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">スマホ脳</div>
+                    <div class="book-author">アンダース・ハンセン</div>
+                    <div>同著者による"注意とストレス"の問題を扱い、運動による対策と相補的。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">脳を鍛えるには運動しかない！</div>
+                    <div class="book-author">ジョン・J・レイティ</div>
+                    <div>運動と脳科学の古典的名著で、本書の科学的背景をより深く学べる。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">運動の科学</div>
+                    <div class="book-author">石井直方</div>
+                    <div>身体の生理学的仕組みを平易に解説し、運動処方の理解を補強する。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">睡眠こそ最強の解決策である</div>
+                    <div class="book-author">マシュー・ウォーカー</div>
+                    <div>運動と並ぶ脳の基盤行動"睡眠"を理解し、相乗効果で脳機能を高められる。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性の更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
