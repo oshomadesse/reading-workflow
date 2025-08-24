@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コスモス - 宇宙への旅</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        .metric-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .cosmic-calendar {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .timeline-date {
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            min-width: 80px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: var(--card-bg);
+            padding: 15px 25px;
+            border-radius: 25px;
+            border: 2px solid var(--primary);
+            position: relative;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-box::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--accent);
+            transition: all 0.3s;
+        }
+
+        .action-card:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌌 コスモス</h1>
+            <p>宇宙を正しく理解することが、私たち自身と地球の未来を守る力になる</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">🌟 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔬 主要概念</button>
+            <button class="tab-button" onclick="showTab('timeline')" role="tab" aria-selected="false">⏰ 宇宙の歴史</button>
+            <button class="tab-button" onclick="showTab('relationships')" role="tab" aria-selected="false">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">📚 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要な言葉</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false">🎯 今日のアクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>科学的方法で宇宙を理解する</li>
+                        <li>批判的思考で真実を見極める</li>
+                        <li>私たちは星のかけらでできている</li>
+                        <li>好奇心と謙虚さで探究する</li>
+                        <li>技術のリスクを理性で減らす</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 重要な数値</h3>
+                    <div class="metric-badge">138億年 - 宇宙の年齢</div>
+                    <div class="metric-badge">1光年 - 光が1年で進む距離</div>
+                    <div class="metric-badge">大晦日の数秒 - 人類史の長さ</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0.0001%"></div>
+                    </div>
+                    <small>人類史 vs 宇宙史の比率</small>
+                </div>
+
+                <div class="card">
+                    <h3>🌍 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>コズミック・カレンダーで時間感覚を直感化</li>
+                        <li>科学的方法が知識を前進させる筋道</li>
+                        <li>星の核融合が生命の素材を作る</li>
+                        <li>SETI で地球外知性を探査</li>
+                        <li>地球の脆さと共同体の判断力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔬 科学的方法</h3>
+                    <p><strong>確かめて学ぶ</strong></p>
+                    <ul>
+                        <li>観察し、仮説を立てる</li>
+                        <li>実験で確かめる</li>
+                        <li>反証に開く姿勢</li>
+                        <li>再現性が要</li>
+                        <li>初心者にも使える問題解決の型</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📅 コズミック・カレンダー</h3>
+                    <p><strong>時間の拡大縮小</strong></p>
+                    <ul>
+                        <li>宇宙138億年を1年に圧縮</li>
+                        <li>人類史は大晦日の数秒</li>
+                        <li>歴史がとても短いと実感</li>
+                        <li>時間スケールの直感化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⭐ スター・スタッフ</h3>
+                    <p><strong>星と同根</strong></p>
+                    <ul>
+                        <li>体の元素は星で作られた</li>
+                        <li>核融合と超新星爆発で拡散</li>
+                        <li>人間は宇宙の産物</li>
+                        <li>宇宙とのつながりを実感</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🤔 懐疑主義</h3>
+                    <p><strong>まず確かめる</strong></p>
+                    <ul>
+                        <li>証拠が十分かを問う</li>
+                        <li>結論を保留する態度</li>
+                        <li>否定ではなく確認</li>
+                        <li>決めつけない姿勢</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 批判的思考</h3>
+                    <p><strong>筋道で考える</strong></p>
+                    <ul>
+                        <li>論拠と反論を整理</li>
+                        <li>誤謬を避ける考え方</li>
+                        <li>日常の判断にも有効</li>
+                        <li>論理的な思考プロセス</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📡 SETI</h3>
+                    <p><strong>宇宙の呼び声探し</strong></p>
+                    <ul>
+                        <li>電波や光の信号を調査</li>
+                        <li>人工的特徴を検出</li>
+                        <li>他の文明の痕跡を探す</li>
+                        <li>雑音除去と統計が要</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content" role="tabpanel">
+            <div class="cosmic-calendar">
+                <h2>🗓️ コズミック・カレンダー</h2>
+                <p>宇宙138億年の歴史を1年に圧縮</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">1月1日</div>
+                    <div>
+                        <strong>ビッグバン</strong><br>
+                        宇宙の始まり、時間と空間の誕生
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">5月</div>
+                    <div>
+                        <strong>天の川銀河形成</strong><br>
+                        星々が集まり銀河を形成
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">9月</div>
+                    <div>
+                        <strong>太陽系誕生</strong><br>
+                        太陽と惑星系の形成
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">9月下旬</div>
+                    <div>
+                        <strong>地球上に生命誕生</strong><br>
+                        最初の生命体が出現
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">12月31日</div>
+                    <div>
+                        <strong>人類の歴史</strong><br>
+                        大晦日の最後の数秒間
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content" role="tabpanel">
+            <div class="card">
+                <h3>🔗 概念間の関係性</h3>
+                
+                <div class="flowchart">
+                    <div class="flow-step">星の核融合</div>
+                    <div class="flow-step">重い元素の生成</div>
+                    <div class="flow-step">星間に拡散</div>
+                    <div class="flow-step">惑星形成</div>
+                    <div class="flow-step">生命の素材誕生</div>
+                </div>
+            </div>
+
+            <div class="venn-diagram">
+                <div class="venn-circle circle1">科学的方法<br>+<br>懐疑主義</div>
+                <div class="venn-circle circle2">信頼できる<br>知識の蓄積</div>
+                <div class="venn-circle circle3">誤りの<br>訂正</div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌌 宇宙理解の連鎖</h3>
+                    <ul>
+                        <li>宇宙のスケール理解</li>
+                        <li>↓</li>
+                        <li>地球の希少性の自覚</li>
+                        <li>↓</li>
+                        <li>環境保全・核リスク低減の動機</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 探査から理解へ</h3>
+                    <ul>
+                        <li>惑星探査のデータ</li>
+                        <li>↓</li>
+                        <li>生命成立条件の推定</li>
+                        <li>↓</li>
+                        <li>SETIの探索戦略の改善</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 思考から社会へ</h3>
+                    <ul>
+                        <li>批判的思考</li>
+                        <li>↓</li>
+                        <li>疑似科学の見分け</li>
+                        <li>↓</li>
+                        <li>社会の合意形成の質向上</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🚀 宇宙への導入</h3>
+                    <ul>
+                        <li>宇宙の広大さと美しさを提示</li>
+                        <li>コズミック・カレンダーでスケール感</li>
+                        <li>専門用語を日常語で解説</li>
+                        <li>直感的な理解を促進</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📜 科学の歴史と方法</h3>
+                    <ul>
+                        <li>古代から近代への観察と数理の進歩</li>
+                        <li>科学的方法の価値を具体例で説明</li>
+                        <li>再現性・反証可能性の重要性</li>
+                        <li>知識の蓄積プロセス</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⭐ 星・惑星・生命の素材</h3>
+                    <ul>
+                        <li>核融合による元素合成</li>
+                        <li>惑星形成までの連鎖</li>
+                        <li>"星のかけら"である事実</li>
+                        <li>元素や光年の簡潔な定義</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌍 地球と近隣世界の比較</h3>
+                    <ul>
+                        <li>火星や金星などの惑星探査</li>
+                        <li>地球の気候・大気の特性を相対化</li>
+                        <li>データの読み方を平易に解説</li>
+                        <li>比較による理解の深化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🛸 知性の探求とコミュニケーション</h3>
+                    <ul>
+                        <li>SETIの方法と限界</li>
+                        <li>電波の特徴検出技術</li>
+                        <li>懐疑主義と希望の両立</li>
+                        <li>科学的探査の姿勢</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ リスクと責任、未来への提言</h3>
+                    <ul>
+                        <li>核戦争や環境破壊の危険</li>
+                        <li>科学的根拠に基づく警告</li>
+                        <li>政策と市民判断への科学的方法応用</li>
+                        <li>未来への責任ある行動</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-box">
+                <h3>💫 "We are made of star-stuff."</h3>
+                <p>私たちは星のかけらでできている</p>
+                <small>自分の体の元素が星で作られたと理解でき、宇宙とのつながりを直感できる</small>
+            </div>
+
+            <div class="quote-box">
+                <h3>🔍 "Extraordinary claims require extraordinary evidence."</h3>
+                <p>並外れた主張には並外れた証拠が必要</p>
+                <small>大胆な主張ほど厳しい証拠が必要という科学的方法の核心を示す</small>
+            </div>
+
+            <div class="quote-box">
+                <h3>🌌 宇宙は、かつてあり、今あり、これからあるすべてだ</h3>
+                <p>The Cosmos is all that is or was or ever will be</p>
+                <small>宇宙のスケールと包括性を一文で捉え、視野を広げる</small>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; color: white; margin-bottom: 30px;">🎯 今日できるアクション</h2>
+            <p style="text-align: center; color: white; margin-bottom: 30px;">読後すぐに15〜30分で実行できる具体的な行動</p>
+            
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>🌟 夜空で北極星を探す</h3>
+                    <p>北斗七星から北極星を見つけて、宇宙の方向感覚を体験する</p>
+                </div>
+
+                <div class="action-card">
+                    <h3>🔬 身近な疑問を仮説で検証する</h3>
+                    <p>日常の小さな疑問に対して仮説を立て、簡単な実験で確かめる</p>
+                </div>
+
+                <div class="action-card">
+                    <h3>📏 太陽系の縮尺図を紙に描く</h3>
+                    <p>惑星間の距離を実感できる縮尺で太陽系の図を描いてみる</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li><strong>ペイル・ブルー・ドット</strong> - カール・セーガン（地球のかけがえのなさを描く続編）</li>
+                    <li><strong>科学は魔法を打ち破る</strong> - カール・セーガン（批判的思考の実践編）</li>
+                    <li><strong>ホーキング、宇宙を語る</strong> - スティーブン・ホーキング（宇宙論をやさしく紹介）</li>
+                    <li><strong>Astrophysics for People in a Hurry</strong> - Neil deGrasse Tyson（最新宇宙物理の俯瞰）</li>
+                    <li><strong>宇宙創成</strong> - サイモン・シン（ビッグバンの検証史を物語として紹介）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+
+            // Animate progress bar when overview tab is shown
+            if (tabName === 'overview') {
+                setTimeout(() => {
+                    const progressFill = document.querySelector('.progress-fill');
+                    progressFill.style.width = '0.0001%';
+                }, 100);
+            }
+        }
+
+        // Initialize progress bar animation on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const progressFill = document.querySelector('.progress-fill');
+                progressFill.style.width = '0.0001%';
+            }, 500);
+        });
+
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowRight') {
+                    newIndex = (activeIndex + 1) % buttons.length;
+                } else {
+                    newIndex = (activeIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
