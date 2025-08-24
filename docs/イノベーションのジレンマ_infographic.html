@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イノベーションのジレンマ - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            margin: 0 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+        }
+
+        .tab-button:not(.active) {
+            color: var(--text-light);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--bg-light);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-card {
+            border-left: 4px solid var(--accent);
+        }
+
+        .concept-card .definition {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .concept-card .summary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .flow-step {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-style: italic;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: normal;
+        }
+
+        .action-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-item {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                gap: 15px;
+            }
+
+            .flow-step {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 イノベーションのジレンマ</h1>
+            <p>優良企業ほど、既存顧客が求める高機能に集中するあまり、最初は安価で粗削りだが新しい価値を生む技術を見過ごし、やがて新参に市場を奪われる。解決には、既存事業と切り離した小さな組織で新しい基準の価値を学び、育てることが必要。</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+            <button class="tab-button active" data-tab="overview" role="tab" aria-selected="true">📊 概要</button>
+            <button class="tab-button" data-tab="concepts" role="tab" aria-selected="false">🔑 主要概念</button>
+            <button class="tab-button" data-tab="structure" role="tab" aria-selected="false">🏗️ 構造と流れ</button>
+            <button class="tab-button" data-tab="quotes" role="tab" aria-selected="false">💬 重要な引用</button>
+            <button class="tab-button" data-tab="actions" role="tab" aria-selected="false">⚡ 今日のアクション</button>
+            <button class="tab-button" data-tab="books" role="tab" aria-selected="false">📖 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="chart-container">
+                <h2 class="chart-title">🔄 破壊的イノベーションの流れ</h2>
+                <div class="flow-diagram">
+                    <div class="flow-step">📈 主流顧客の要望重視 → 持続的改良に集中</div>
+                    <div class="flow-step">⚡ 性能過剰が進行 + 無視された顧客層</div>
+                    <div class="flow-step">🎯 下位/新市場の足場が生まれる</div>
+                    <div class="flow-step">🚀 破壊的イノベーションが性能を伸ばす</div>
+                    <div class="flow-step">🔄 新しい価値基準が主流化 → 逆転</div>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">2</div>
+                    <div class="metric-label">イノベーションの種類<br>持続的 vs 破壊的</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">3</div>
+                    <div class="metric-label">組織の要素<br>資源・プロセス・価値基準</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">2</div>
+                    <div class="metric-label">足場の種類<br>下位市場・新市場</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card concept-card">
+                    <h3>🔥 破壊的イノベーション</h3>
+                    <div class="definition">最初は性能が低いが安価・簡単で新しい価値提案をもつ技術やビジネスが、無視された層から広がり、主流市場を席巻する現象</div>
+                    <div class="summary">下からの逆転</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📈 持続的イノベーション</h3>
+                    <div class="definition">既存顧客が重視する性能を既存製品の延長で高める改良。企業が通常得意とする進歩</div>
+                    <div class="summary">延長線の改良</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>⚡ 性能過剰</h3>
+                    <div class="definition">製品の性能が顧客の実用需要を超え、余分な高機能が増える状態。ここに"十分で安い"新参がつけ入る</div>
+                    <div class="summary">過ぎたる高機能</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🌐 価値ネットワーク</h3>
+                    <div class="definition">顧客・競合・コスト構造が作る「何に価値があるか」の文脈。これが企業の判断基準を形作る</div>
+                    <div class="summary">価値の文脈</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🎯 下位市場/新市場の足場</h3>
+                    <div class="definition">過剰品質で不満の低価格志向層（下位）や未開拓の非顧客（新市場）に、簡素で安い提案で入り込む起点</div>
+                    <div class="summary">入口の足がかり</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🏗️ 資源・プロセス・価値基準（RPV）</h3>
+                    <div class="definition">人・資金などの資源、仕事の進め方、採算や優先順位の基準。組織の「できる/できない」を決める枠組み</div>
+                    <div class="summary">組織の体質</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🏢 自律組織（分離組織）</h3>
+                    <div class="definition">本体と別の目標・評価で動く小さなチーム。既存の採算基準に縛られず新しい価値を学べる</div>
+                    <div class="summary">別室で育てる</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🔬 探索学習</h3>
+                    <div class="definition">予測よりも小実験で顧客反応を学び、仮説を更新する進め方。未成熟市場に適する</div>
+                    <div class="summary">小さく試す</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📊 1. 事例観察</h3>
+                    <ul>
+                        <li>ディスクドライブ産業の歴史分析</li>
+                        <li>優良企業が連続して敗れた理由</li>
+                        <li>パターンの発見と仮説構築</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 2. イノベーション分類</h3>
+                    <ul>
+                        <li>持続的 vs 破壊的の区別</li>
+                        <li>既存企業の強み・弱みの説明</li>
+                        <li>なぜ逆転が起きるかの理論</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ 3. 性能過剰と価値</h3>
+                    <ul>
+                        <li>「良い経営」が破壊を見逃す理由</li>
+                        <li>価値ネットワークの概念導入</li>
+                        <li>合理的判断の落とし穴</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏗️ 4. 組織能力の枠組み</h3>
+                    <ul>
+                        <li>RPV（資源・プロセス・価値基準）</li>
+                        <li>組織の能力と限界の決定要因</li>
+                        <li>なぜ人材移動だけでは不十分か</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 5. 予測の限界と学習</h3>
+                    <ul>
+                        <li>「市場が未形成な段階は予測不可」</li>
+                        <li>詳細計画より小実験を推奨</li>
+                        <li>学習指標の重要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 6. 実装の処方箋</h3>
+                    <ul>
+                        <li>自律組織での分離運営</li>
+                        <li>既存事業との適切な距離</li>
+                        <li>新旧事業の文脈適合</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">💡 破壊的技術は、既存の主流が重視する性能とは異なる価値提案を市場にもたらす</div>
+                <div class="quote-importance">何を良しとする基準が違うため、既存の評価軸では真価を測れないと示す</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">🔍 "Markets that do not exist cannot be analyzed."</div>
+                <div class="quote-importance">未形成市場では精密予測より実験と学習が合理的だと背中を押す</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">⚡ 多くの失敗は悪い経営ではなく、良い経営の結果として起きる</div>
+                <div class="quote-importance">既存顧客に従う合理性が逆に破滅要因になる逆説を示す</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">🏗️ 組織の能力は資源だけでなく、プロセスと価値基準により規定される</div>
+                <div class="quote-importance">人材や資金を移すだけでは新規事業は動かない理由を明確化する</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">🎯 破壊的機会は、下位市場や新市場の小さな足場から始まる</div>
+                <div class="quote-importance">どこから探索を始めるべきかの実践的な起点を与える</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="chart-container">
+                <h2 class="chart-title">⚡ 今日から始められるアクション（15-30分）</h2>
+                <div class="action-list">
+                    <div class="action-item">
+                        👥 非顧客3人の不満を聞き取る
+                    </div>
+                    <div class="action-item">
+                        💡 低価格・簡素案の仮説を1つ書く
+                    </div>
+                    <div class="action-item">
+                        📊 学習指標を1つ決める
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">イノベーションへの解</div>
+                    <div class="book-author">クレイトン・M・クリステンセン 他</div>
+                    <div class="book-relation">本書の処方箋を具体化し、破壊的成長の設計法を提示</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">ジョブ理論</div>
+                    <div class="book-author">クレイトン・M・クリステンセン</div>
+                    <div class="book-relation">顧客が片づけたい用事に基づく価値発見の枠組みを補強</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">キャズム</div>
+                    <div class="book-author">ジェフリー・ムーア</div>
+                    <div class="book-relation">新技術が主流市場に広がる壁と橋渡し戦略を解説</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">リーン・スタートアップ</div>
+                    <div class="book-author">エリック・リース</div>
+                    <div class="book-relation">未形成市場での小実験と学習（探索学習）の実践手法</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">ハイアウトプット・マネジメント</div>
+                    <div class="book-author">アンドリュー・S・グローブ</div>
+                    <div class="book-relation">組織のプロセスと指標設計が成果に与える影響を補完</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Add keyboard navigation
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const nextIndex = e.key === 'ArrowRight' 
+                            ? (index + 1) % tabButtons.length 
+                            : (index - 1 + tabButtons.length) % tabButtons.length;
+                        tabButtons[nextIndex].focus();
+                        tabButtons[nextIndex].click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
