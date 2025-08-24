@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エッセンシャル思考 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-card {
+            border-left: 4px solid var(--accent);
+        }
+
+        .concept-card .concept-name {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .concept-card .one-word {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: var(--bg-light);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            transition: width 1s ease;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .flow-step {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .action-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .action-item {
+            background: var(--white);
+            border: 2px solid var(--accent);
+            padding: 15px 25px;
+            border-radius: 25px;
+            color: var(--secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                gap: 15px;
+            }
+
+            .flow-step {
+                min-width: auto;
+                width: 100%;
+            }
+        }
+
+        .number-badge {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 エッセンシャル思考</h1>
+            <p>より少なく、しかしより良く - 最小の努力で最大の成果を生む思考法</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false" aria-controls="quotes">💬 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">⚡ 今日のアクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false" aria-controls="books">📖 関連書籍</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>核心メッセージ</h3>
+                    <ul>
+                        <li>大事な少数に集中する</li>
+                        <li>取るべきでない多数を意識的に捨てる</li>
+                        <li>最小の努力で最大の成果を生む</li>
+                        <li>本質に集中する考え方を身につける</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>思考法の比較</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="margin-bottom: 10px;">
+                            <strong>エッセンシャル思考</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%;">高成果</div>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>ノンエッセンシャル思考</strong>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%; background: linear-gradient(90deg, #e53e3e, #fc8181);">低成果</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">
+                    <span class="emoji">🔄</span>エッセンシャル思考の実践プロセス
+                </h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <strong>見極める</strong><br>
+                        何が本当に重要かを判断
+                    </div>
+                    <div class="flow-step">
+                        <strong>捨てる</strong><br>
+                        不要なものを意識的に排除
+                    </div>
+                    <div class="flow-step">
+                        <strong>実行する</strong><br>
+                        重要なことを仕組みで継続
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3><span class="emoji">🎯</span>エッセンシャル思考</h3>
+                    <div class="concept-name">価値の高い少数に資源を集中し、その他を計画的に捨てる思考法</div>
+                    <ul>
+                        <li>意思決定を減らし実行を楽にする</li>
+                        <li>疲弊せずにインパクトを最大化</li>
+                    </ul>
+                    <div class="one-word">少数精鋭</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3><span class="emoji">🌪️</span>ノンエッセンシャル思考</h3>
+                    <div class="concept-name">すべてをやろうとして拡散し、疲れるのに成果が薄い状態</div>
+                    <ul>
+                        <li>優先順位が曖昧</li>
+                        <li>エネルギーが分散する</li>
+                    </ul>
+                    <div class="one-word">拡散疲弊</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3><span class="emoji">⚖️</span>トレードオフ</h3>
+                    <div class="concept-name">何かを選ぶと他を失う関係</div>
+                    <ul>
+                        <li>避けずに明確に選ぶことが集中を生む</li>
+                        <li>全部は持てないし、できない</li>
+                    </ul>
+                    <div class="one-word">選択の代償</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3><span class="emoji">📏</span>90%ルール</h3>
+                    <div class="concept-name">選択基準を数値化し、90点未満の案件は断る方法</div>
+                    <ul>
+                        <li>迷いを減らす</li>
+                        <li>明確なイエスでなければノー</li>
+                    </ul>
+                    <div class="one-word">高基準選別</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3><span class="emoji">🚧</span>境界線（バウンダリー）</h3>
+                    <div class="concept-name">時間・仕事・人間関係に「ここまで」と線を引くこと</div>
+                    <ul>
+                        <li>侵食を防ぐ</li>
+                        <li>集中を守る仕組み</li>
+                    </ul>
+                    <div class="one-word">侵入防止線</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3><span class="emoji">🛡️</span>バッファ</h3>
+                    <div class="concept-name">余裕時間や予備資源をあらかじめ確保すること</div>
+                    <ul>
+                        <li>予期せぬ遅延に備える</li>
+                        <li>実行の一貫性を保つ</li>
+                    </ul>
+                    <div class="one-word">余白</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3><span class="emoji">🚀</span>序論</h3>
+                    <ul>
+                        <li>「全部やる」は成果を薄める</li>
+                        <li>人生を奪う危険性</li>
+                        <li>選択と集中の必要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>第I部：本質（Essence）</h3>
+                    <ul>
+                        <li>選べる（選択の主導権）</li>
+                        <li>見極める（重要の基準）</li>
+                        <li>トレードオフを受け入れる</li>
+                        <li>土台作りの段階</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="emoji">🔍</span>第II部：見極め（Explore）</h3>
+                    <ul>
+                        <li>余白を作って考える・観察する</li>
+                        <li>遊びと睡眠で視野を広げる</li>
+                        <li>本当に重要な少数を探し出す</li>
+                        <li>質の高い選択のための準備</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="emoji">✂️</span>第III部：捨てる（Eliminate）</h3>
+                    <ul>
+                        <li>意図の明確化</li>
+                        <li>勇気ある撤退</li>
+                        <li>未練の切断</li>
+                        <li>境界線の設定</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="emoji">⚡</span>第IV部：実行（Execute）</h3>
+                    <ul>
+                        <li>バッファの確保</li>
+                        <li>簡素化</li>
+                        <li>最小の一歩</li>
+                        <li>習慣化で自然に進む仕組み</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="emoji">🔄</span>結論</h3>
+                    <ul>
+                        <li>「より少なく、しかしより良く」の習慣化</li>
+                        <li>継続的な見直し</li>
+                        <li>持続的成果への道筋</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">
+                    <span class="emoji">🔗</span>概念間の関係性
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="background: var(--bg-light); padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                        明確な意図 → 選択基準の確立（90%ルール） → 重要の見極めが早くなる
+                    </div>
+                    <div style="background: var(--bg-light); padding: 15px; border-radius: 10px; border-left: 4px solid var(--secondary);">
+                        90%ルール + ノーと言う技術 → 不要の排除 → 時間の回復
+                    </div>
+                    <div style="background: var(--bg-light); padding: 15px; border-radius: 10px; border-left: 4px solid var(--accent);">
+                        境界線 + バッファ → 予定の乱れを吸収 → 実行の一貫性が上がる
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">"Less but better."<br>（より少なく、しかしより良く）</div>
+                <div class="quote-importance">本書の原理を一言で示し、選択と集中の必要性を忘れにくくする。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">"If it isn't a clear yes, then it's a no."<br>（明確なイエスでなければノー）</div>
+                <div class="quote-importance">90%ルールの実践法で、迷いと後悔を減らす。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">"Protect the asset."<br>（資産＝自分を守れ）</div>
+                <div class="quote-importance">成果の源泉は自分の体力と集中であり、自己管理が最優先だと示す。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">"We can't have it all or do it all."<br>（全部は持てないし、できない）</div>
+                <div class="quote-importance">トレードオフを受け入れる態度が、真の集中を可能にする。</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">
+                    <span class="emoji">⚡</span>今日から始められるアクション
+                </h3>
+                <p style="text-align: center; margin-bottom: 30px; color: var(--text-light);">
+                    読後すぐに15〜30分で実行できる具体的な行動
+                </p>
+                
+                <div class="action-list">
+                    <div class="action-item">
+                        <span class="emoji">📝</span>やらないリストを5項目作る
+                    </div>
+                    <div class="action-item">
+                        <span class="emoji">📏</span>90%基準を一文で定める
+                    </div>
+                    <div class="action-item">
+                        <span class="emoji">🚫</span>断る定型文を3つ作る
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: var(--bg-light); border-radius: 15px;">
+                    <h4 style="color: var(--secondary); margin-bottom: 15px;">
+                        <span class="emoji">💡</span>実践のヒント
+                    </h4>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--accent);">1.</span>
+                            やらないリストは具体的に（例：「SNSを1日3回以上チェックしない」）
+                        </li>
+                        <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--accent);">2.</span>
+                            90%基準は自分の価値観に基づいて設定する
+                        </li>
+                        <li style="padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--accent);">3.</span>
+                            断る定型文は相手を尊重しつつ明確に伝える
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">📚 7つの習慣</div>
+                    <div class="book-author">スティーブン・R・コヴィー</div>
+                    <div class="book-relation">重要事項優先（第3の習慣）が本書の集中と一致し、実践の土台になる。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">🎯 Deep Work 深い仕事</div>
+                    <div class="book-author">カル・ニューポート</div>
+                    <div class="book-relation">集中環境の設計と低価値作業の削減が、エッセンシャル思考の実行編と相補的。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">⏰ Make Time やるべきことに集中する</div>
+                    <div class="book-author">ジェイク・ナップ／ジョン・ゼラツキー</div>
+                    <div class="book-relation">日々の時間設計とハイライト選定が、少数集中の具体策を補強する。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">🔍 イシューからはじめよ</div>
+                    <div class="book-author">安宅和人</div>
+                    <div class="book-relation">本当に解くべき課題（イシュー）の選定思想が、見極めと捨てる判断に直結する。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+
+            // プログレスバーのアニメーション（概要タブの場合）
+            if (tabName === 'overview') {
+                setTimeout(() => {
+                    const progressBars = document.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 100);
+            }
+        }
+
+        // 初期化時にプログレスバーをアニメーション
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-fill');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+        });
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowLeft') {
+                    nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                } else {
+                    nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
