@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人生は4,000週間 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .concept-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .concept-tag {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            align-self: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 0 30px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-item {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .action-item:hover {
+            transform: scale(1.02);
+        }
+
+        .action-emoji {
+            font-size: 2rem;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 20px;
+            border-top: 4px solid var(--secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .book-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 50px !important;
+                padding-right: 20px !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 20px !important;
+                transform: none !important;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>⏰ 人生は4,000週間</h1>
+            <p class="subtitle">有限な時間を最大限に活かす生き方</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" data-tab="overview" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" data-tab="concepts" role="tab" aria-selected="false">🧠 主要概念</button>
+            <button class="tab-button" data-tab="structure" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" data-tab="quotes" role="tab" aria-selected="false">💬 重要な引用</button>
+            <button class="tab-button" data-tab="actions" role="tab" aria-selected="false">🎯 今日のアクション</button>
+            <button class="tab-button" data-tab="books" role="tab" aria-selected="false">📚 関連書籍</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">4,000</div>
+                        <div>人生の週数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div>やるべきこと</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1</div>
+                        <div>選ぶべき道</div>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心メッセージ</h3>
+                        <ul>
+                            <li>人生は約4,000週と有限である</li>
+                            <li>「全部やる」幻想を手放す</li>
+                            <li>捨てるべきことを選ぶ</li>
+                            <li>目の前の大事な少数に注意を向ける</li>
+                            <li>いま、この瞬間を大切に生きる</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>⚡ 生産性の罠</h3>
+                        <ul>
+                            <li>効率化すると仕事が増える</li>
+                            <li>速度アップは解決策ではない</li>
+                            <li>終わらないToDoとの戦い</li>
+                            <li>加速度の呪いから脱出する</li>
+                            <li>やることを減らすのが最良の方法</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎨 新しいアプローチ</h3>
+                        <ul>
+                            <li>効率化より有限性の受容</li>
+                            <li>意図的に「やらないこと」を決める</li>
+                            <li>少数の重要課題に深く関わる</li>
+                            <li>制約を味方につける</li>
+                            <li>他者と時間を分かち合う</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🌟 期待できる結果</h3>
+                        <ul>
+                            <li>達成より関わりの質が向上</li>
+                            <li>満足感と意味の増加</li>
+                            <li>先延ばしからの解放</li>
+                            <li>注意力の向上</li>
+                            <li>深い集中状態の獲得</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="concepts" class="tab-content" role="tabpanel">
+                <div class="concept-card">
+                    <h4>🤝 有限性の受容</h4>
+                    <p>人間の時間は限られており、全てをやるのは不可能だと認める態度。諦めではなく、選択の前提を整える行為。</p>
+                    <span class="concept-tag">限りを認める</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>⚡ 生産性の罠</h4>
+                    <p>効率化で余った時間は新しい要求で埋まるという逆説。加速すると仕事が増える"加速度の呪い"。</p>
+                    <span class="concept-tag">速さが仕事を増やす</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>⚖️ 選択と放棄（トレードオフ）</h4>
+                    <p>何かを選べば、他を捨てる不可避の関係。意識的に捨てることで選んだことの質が上がる。</p>
+                    <span class="concept-tag">捨てて選ぶ</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>😰 先延ばしの正体</h4>
+                    <p>不確実性や不完全さへの不安を避ける心理的防衛。行動を小さく刻むと着手の抵抗が下がる。</p>
+                    <span class="concept-tag">不安の回避</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🧘 現在志向の練習</h4>
+                    <p>結果ではなく「いま行っているプロセス」に注意を戻す習慣。注意は訓練で鍛えられる。</p>
+                    <span class="concept-tag">いまに戻る</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>📦 意図的な制約</h4>
+                    <p>締切・時間箱（タイムボックス）・場所などの枠を自ら作り、決断コストを下げる技法。</p>
+                    <span class="concept-tag">枠で進める</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🎯 戦略的放置</h4>
+                    <p>重要度の低い領域を意図的に放置し、摩耗を避ける判断。全方位の平均点より尖りを取る。</p>
+                    <span class="concept-tag">敢えて放っておく</span>
+                </div>
+
+                <div class="concept-card">
+                    <h4>👥 時間の共同性</h4>
+                    <p>時間は他者との関係で価値が決まるという見方。協働や約束が集中の足場になる。</p>
+                    <span class="concept-tag">誰かと使う時間</span>
+                </div>
+            </section>
+
+            <section id="structure" class="tab-content" role="tabpanel">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🚨 導入: 現実の提示</h4>
+                        <p>人生の4,000週という現実を提示し、効率至上主義の限界を問題提起</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🔄 転換: 生産性の罠</h4>
+                        <p>なぜ効率化が逆効果になるか（生産性の罠）を心理・社会の両面から説明</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🤝 受容: 有限性の受け入れ</h4>
+                        <p>有限性を受け入れることで、選択と放棄の基準が生まれると主張</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>📦 実践1: 意図的な制約</h4>
+                        <p>時間箱・締切・場所で決断負荷を下げ、着手を容易にする</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🎯 実践2: 先延ばし対策</h4>
+                        <p>先延ばしを"不快回避"として捉え、作業を小さく始める技法を提案</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🗂️ 実践3: 戦略的放置</h4>
+                        <p>戦略的放置と「やらないリスト」により、重要領域へ資源を集中</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>🧘 実践4: 現在志向</h4>
+                        <p>現在志向（注意をいまに戻す）を鍛え、成果だけでなく体験の質を高める</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4>👥 拡張: 時間の共同性</h4>
+                        <p>個人だけでなく、協働・コミュニティ（時間の共同性）が支えになると結ぶ</p>
+                    </div>
+                </div>
+
+                <div class="flow-chart">
+                    <div class="flow-item">
+                        <span>🤝 有限性の受容</span>
+                        <span class="flow-arrow">→</span>
+                        <span>「全部やる」幻想が崩れる</span>
+                        <span class="flow-arrow">→</span>
+                        <span>選択と放棄が可能に</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>⚡ 効率化に偏る</span>
+                        <span class="flow-arrow">→</span>
+                        <span>生産性の罠が作動</span>
+                        <span class="flow-arrow">→</span>
+                        <span>仕事量が増え満足は下がる</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>⚖️ 選択と放棄</span>
+                        <span class="flow-arrow">→</span>
+                        <span>意図的な制約を設計</span>
+                        <span class="flow-arrow">→</span>
+                        <span>集中が深まり成果の質が上がる</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quotes" class="tab-content" role="tabpanel">
+                <div class="quote-card">
+                    <div class="quote-text">やるべきことは常に残る。先に"甲板を一掃してから"は永遠に来ない。</div>
+                    <div class="quote-importance">💡 終わらない前提を受け入れると、先送りではなく着手と選択に意識が向く。</div>
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-text">時間を増やす最良の方法は、やることを減らすことだ。</div>
+                    <div class="quote-importance">💡 効率化より削減が本質という逆説を端的に示し、行動の指針になる。</div>
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-text">本当に大切なことは、未完成のままでも始めるしかない。</div>
+                    <div class="quote-importance">💡 不完全さへの耐性が先延ばし突破の鍵であると教える。</div>
+                </div>
+            </section>
+
+            <section id="actions" class="tab-content" role="tabpanel">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🎯 今日から始められるアクション</h2>
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-emoji">❌</div>
+                        <div>
+                            <h4>今日はやらないことを3つ書く</h4>
+                            <p>意図的に捨てる選択をして、重要なことに集中する</p>
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-emoji">⏰</div>
+                        <div>
+                            <h4>最重要1件に25分だけ全集中する</h4>
+                            <p>ポモドーロ技法で深い集中状態を体験する</p>
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-emoji">📧</div>
+                        <div>
+                            <h4>メール返信を15分だけまとめて行う</h4>
+                            <p>時間を区切って効率的に処理する習慣を作る</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="books" class="tab-content" role="tabpanel">
+                <div class="book-grid">
+                    <div class="book-card">
+                        <div class="book-title">エッセンシャル思考</div>
+                        <div class="book-author">グレッグ・マキューン</div>
+                        <p>少数に集中し他を捨てる実践が共通し、選択と放棄の技術を補強する。</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">時間術大全</div>
+                        <div class="book-author">ジェイク・ナップ／ジョン・ゼラツキー</div>
+                        <p>注意を奪う要素を減らし重要な時間を作る具体策が多く、制約設計に役立つ。</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">Deep Work</div>
+                        <div class="book-author">カル・ニューポート</div>
+                        <p>集中の価値と環境設計を体系化し、現在志向と意図的な制約の実践を深める。</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">How to Do Nothing</div>
+                        <div class="book-author">ジェニー・オデル</div>
+                        <p>注意の政治性に光を当て、効率至上から距離を取る視点を提供する。</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">Atomic Habits</div>
+                        <div class="book-author">ジェームズ・クリアー</div>
+                        <p>小さな行動設計が先延ばし突破と継続に効き、着手のハードルを下げる。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Add click animation to action items
+            const actionItems = document.querySelectorAll('.action-item');
+            actionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 150);
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
