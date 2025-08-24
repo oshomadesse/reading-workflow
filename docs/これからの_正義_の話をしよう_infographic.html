@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>これからの「正義」の話をしよう - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .theory-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .theory-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .theory-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .theory-card .tagline {
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .flow-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "↓";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .number-badge {
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .relationship-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            top: 0;
+            left: 50px;
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            top: 0;
+            right: 50px;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .quote-card {
+            background: var(--white);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theory-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .venn-container {
+                height: 250px;
+            }
+
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 これからの「正義」の話をしよう</h1>
+            <p>🤝 対話で築く共通善 - 正義の理論と実践</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('theories')" aria-label="理論タブ">⚖️ 正義の理論</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 論理展開</button>
+            <button class="tab-button" onclick="showTab('relationships')" aria-label="関係性タブ">🔗 概念関係</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">🚀 今日のアクション</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3>🎯 核心的メッセージ</h3>
+                <ul>
+                    <li>正義は「手続き」や「効率」だけでは決まらない</li>
+                    <li>どんな社会を望み、どんな人間でありたいかを議論する</li>
+                    <li>権利・幸せ・徳の三視点をつなぐ</li>
+                    <li>共通善を対話で形づくる</li>
+                    <li>公平に理由を示し合う市民的徳が必要</li>
+                </ul>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>主要理論</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div>核心概念</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div>論理展開</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📖 エグゼクティブ・サマリー</h3>
+                <ul>
+                    <li>功利主義・リバタリアニズム・義務論を実例で比較</li>
+                    <li>トロッコ問題、徴兵、代理母など身近な争点を分析</li>
+                    <li>「正義＝価値中立」は不可能と証明</li>
+                    <li>市場の限界：買えない価値（尊厳・徳）の存在</li>
+                    <li>対話による共通善の探求技法を提供</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="theories" class="tab-content">
+            <div class="theory-comparison">
+                <div class="theory-card">
+                    <h4>🎯 功利主義</h4>
+                    <div class="tagline">"役に立てば善い"</div>
+                    <p>幸福の総量で判断<br>多数の幸せを重視</p>
+                </div>
+                <div class="theory-card">
+                    <h4>🗽 リバタリアニズム</h4>
+                    <div class="tagline">"触るな、私の自由"</div>
+                    <p>個人の自由と所有権<br>国家介入を最小限に</p>
+                </div>
+                <div class="theory-card">
+                    <h4>📜 カント的義務論</h4>
+                    <div class="tagline">"義務を守れ"</div>
+                    <p>動機と規則を重視<br>人を手段にするな</p>
+                </div>
+                <div class="theory-card">
+                    <h4>🏛️ アリストテレス徳論</h4>
+                    <div class="tagline">"ふさわしさの正義"</div>
+                    <p>目的に応じた配分<br>徳を育てる社会</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🤝 共通善（公共善）</h3>
+                    <ul>
+                        <li>社会全体として望ましい善</li>
+                        <li>個人の好みの単純な足し算ではない</li>
+                        <li>対話で内容を創造する価値</li>
+                        <li>市民的徳の育成が前提</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💰 市場と道徳の限界</h3>
+                    <ul>
+                        <li>お金で取引すると価値が損なわれる領域</li>
+                        <li>尊厳や友情は売買に向かない</li>
+                        <li>市場の拡張は便利だが危険も</li>
+                        <li>非市場の価値を保護する必要</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📝 同意・契約の限界</h3>
+                    <ul>
+                        <li>形式上の合意だけでは不十分</li>
+                        <li>圧力や格差が自由な選択を阻害</li>
+                        <li>正当化には背景条件の検討が必要</li>
+                        <li>真の自由意志の確保が課題</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎓 アファーマティブ・アクション</h3>
+                    <ul>
+                        <li>歴史的不利を補う優遇策</li>
+                        <li>「実力（メリト）」の定義が争点</li>
+                        <li>公平への迂回路として機能</li>
+                        <li>目的論的視点が重要</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">📚 論理展開の流れ</h3>
+                <div class="flow-step">
+                    <div class="number-badge">1</div>
+                    <div>
+                        <strong>導入</strong><br>
+                        身近な事例で「正義は何か」を問い直す
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">2</div>
+                    <div>
+                        <strong>功利主義</strong><br>
+                        明快さと計算可能性の魅力、権利侵害の危険
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">3</div>
+                    <div>
+                        <strong>リバタリアニズム</strong><br>
+                        自由尊重の強み、不平等と同意の質の問題
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">4</div>
+                    <div>
+                        <strong>カント・ロールズ</strong><br>
+                        尊厳と義務、平等の正当化理論
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">5</div>
+                    <div>
+                        <strong>アリストテレス</strong><br>
+                        徳と目的論、ふさわしい配分の視点
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">6</div>
+                    <div>
+                        <strong>応用編</strong><br>
+                        現実問題を多角的に分析・検証
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">7</div>
+                    <div>
+                        <strong>統合</strong><br>
+                        価値中立の不可能性、公共討議の必要性
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="number-badge">8</div>
+                    <div>
+                        <strong>結語</strong><br>
+                        市民的徳の育成、対話による共通善の探求
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content">
+            <div class="relationship-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🔗 正義理論の関係性</h3>
+                <div class="venn-container">
+                    <div class="venn-circle circle1">権利<br>（義務論）</div>
+                    <div class="venn-circle circle2">幸せ<br>（功利主義）</div>
+                    <div class="venn-circle circle3">徳<br>（目的論）</div>
+                </div>
+                <p style="text-align: center; margin-top: 20px; color: var(--secondary);">
+                    三つの視点の交差点に「共通善」が生まれる
+                </p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>⚔️ 対立関係</h3>
+                    <ul>
+                        <li>功利主義 ↔ 義務論：結果 vs 規則</li>
+                        <li>リバタリアニズム ↔ 共通善：自由 vs 結束</li>
+                        <li>個人の権利 ↔ 社会の目的</li>
+                        <li>市場の効率 ↔ 道徳の価値</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔄 因果関係</h3>
+                    <ul>
+                        <li>市場拡張 → 非市場価値の腐食リスク</li>
+                        <li>同意の限界 → 自由交換神話の修正</li>
+                        <li>トロッコ問題 → 直感の可視化</li>
+                        <li>公共討議 → 共通善の明確化</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌉 橋渡し</h3>
+                    <ul>
+                        <li>アリストテレス → 配分基準の提供</li>
+                        <li>アファーマティブ・アクション → メリト再定義</li>
+                        <li>市民的徳 → 制度と人格の連結</li>
+                        <li>対話の習慣 → 理論と実践の統合</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <div class="quote-text">"正義は行為だけでなく人となりの問題"</div>
+                <div class="quote-importance">💡 制度だけでなく市民の徳を問う軸を示すため</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"市場には道徳的な限界がある"</div>
+                <div class="quote-importance">💡 お金で買えない価値の保護が必要だと示す</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"人を単なる手段として扱うな"</div>
+                <div class="quote-importance">💡 尊厳を守る最低限の原則を明確にする</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"最大多数の最大幸福"</div>
+                <div class="quote-importance">💡 功利主義の魅力と危うさを一言で示す</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"価値中立では正義は決まらない"</div>
+                <div class="quote-importance">💡 共通善を議論する必要性を背中押しする</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>🚀 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>📈 身近な価格高騰の是非を論じよ</strong><br>
+                    コンサートチケット転売、災害時の物価上昇などを三理論で分析
+                </div>
+                <div class="action-item">
+                    <strong>📰 一つのニュースを三理論で分析せよ</strong><br>
+                    功利主義・リバタリアニズム・義務論の視点で同じ出来事を評価
+                </div>
+                <div class="action-item">
+                    <strong>✍️ 自分の正義観を200字で書け</strong><br>
+                    どの理論に近いか、なぜそう思うかを明文化する
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>正義論</strong> - ジョン・ロールズ<br>平等と公正の基礎理論</li>
+                        <li><strong>アナーキー・国家・ユートピア</strong> - ロバート・ノージック<br>リバタリアニズムの古典</li>
+                        <li><strong>正義のアイデア</strong> - アマルティア・セン<br>現実の比較と改善重視</li>
+                        <li><strong>美徳なき時代</strong> - アラスデア・マッキンタイア<br>徳倫理と共同体の回復</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブに
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
