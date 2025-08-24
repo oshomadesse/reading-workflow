@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料理の科学 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .concept-card {
+            border-left: 4px solid var(--accent);
+        }
+
+        .concept-card .summary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .flow-diagram {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 10px;
+            position: relative;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .book-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .action-list {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .action-item {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-time {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 10px 0;
+            }
+            
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🧪 料理の科学</h1>
+            <p>分子レベルで理解する美味しさの仕組み</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔬 主要概念</button>
+            <button class="tab-button" onclick="showTab('relationships')" role="tab" aria-selected="false">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">📚 構造</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false">⚡ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false">📚 関連書籍</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <p>料理は、食材中の分子（とても小さな粒）を熱・時間・水分・酸アルカリで変化させる科学の実践である。仕組みを知れば、味・香り・食感・安全性を狙って再現できる。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>台所で起きる現象を化学・物理・生物の言葉で解説</li>
+                        <li>メイラード反応、タンパク質凝固、デンプン糊化を食材別に整理</li>
+                        <li>味・香り・食感の作り方と食品安全を結びつける</li>
+                        <li>失敗が減り再現性が上がる実践的知識</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <div>主要概念</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">8</span>
+                    <div>食材カテゴリ</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <div>関連書籍</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💡 重要な引用</h3>
+                <ul>
+                    <li><strong>「料理は台所で起きる化学反応を制御する営み」</strong><br>
+                    → 科学の視点で操作変数を決めれば再現性が上がる</li>
+                    <li><strong>「香りは味の大部分を占め、温度がその立ち方を左右する」</strong><br>
+                    → 加熱や提供温度の工夫で印象が大きく変わる</li>
+                    <li><strong>「食の安全は、中心温度と保持時間の管理に尽きる」</strong><br>
+                    → 難解な衛生論をシンプルに整理し実践的指針へ</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>🔥 メイラード反応</h3>
+                    <ul>
+                        <li>糖とアミノ酸が加熱で反応</li>
+                        <li>香ばしい香りと褐色を生成</li>
+                        <li>高温・乾いた表面で起きやすい</li>
+                        <li>パンの焼き色、肉の表面に重要</li>
+                    </ul>
+                    <div class="summary">香ばしさの化学</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🥚 タンパク質の変性・凝固</h3>
+                    <ul>
+                        <li>熱や塩でタンパク質の形がほどける</li>
+                        <li>再び結びついて固まる現象</li>
+                        <li>卵や肉の食感を決定</li>
+                        <li>温度管理が食感の鍵</li>
+                    </ul>
+                    <div class="summary">固まる仕組み</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🍚 デンプンの糊化・老化</h3>
+                    <ul>
+                        <li>デンプンが水と熱で膨らみ粘る</li>
+                        <li>冷えると締まる現象</li>
+                        <li>ご飯やパンの食感に影響</li>
+                        <li>温度と水分量がポイント</li>
+                    </ul>
+                    <div class="summary">粘りと固さ</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🥄 エマルション（乳化）</h3>
+                    <ul>
+                        <li>本来混ざらない油と水を混合</li>
+                        <li>卵黄のレシチンなどが乳化剤</li>
+                        <li>マヨネーズやソースの基礎</li>
+                        <li>安定性が料理の成功を左右</li>
+                    </ul>
+                    <div class="summary">油と水の和解</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🌡️ 熱伝達</h3>
+                    <ul>
+                        <li>伝導：鍋肌から直接</li>
+                        <li>対流：液体や空気の動き</li>
+                        <li>放射：赤外線による加熱</li>
+                        <li>焼き色や中心温度を左右</li>
+                    </ul>
+                    <div class="summary">熱の運び方</div>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💧 水分活性と乾燥</h3>
+                    <ul>
+                        <li>微生物が使える水の度合い</li>
+                        <li>表面の乾き具合が重要</li>
+                        <li>保存性や皮のパリッと感を決定</li>
+                        <li>食感と安全性の両立</li>
+                    </ul>
+                    <div class="summary">水のコントロール</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 料理の科学的プロセス</h3>
+                <div style="text-align: center;">
+                    <div class="flow-step">熱の種類<br>（伝導/対流/放射）</div>
+                    <div class="flow-step">表面温度<br>上昇</div>
+                    <div class="flow-step">メイラード反応<br>進行</div>
+                    <div class="flow-step">香ばしさ・色<br>発生</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌡️ 温度と食感の関係</h3>
+                    <ul>
+                        <li>温度・時間 → タンパク質の変性/凝固</li>
+                        <li>卵の固さ・肉のしっとり感を決定</li>
+                        <li>低温長時間 → コラーゲン→ゼラチン化</li>
+                        <li>硬い部位がやわらかく変化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💧 水分と食感の関係</h3>
+                    <ul>
+                        <li>水分活性↓・表面乾燥↑ → 皮がパリッと</li>
+                        <li>油吸収を抑制する効果</li>
+                        <li>塩の事前処理 → 浸透圧で保水↑</li>
+                        <li>肉がジューシー → 旨味保持</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🍋 pHと食材の関係</h3>
+                    <ul>
+                        <li>pH（酸性） → ペクチン安定</li>
+                        <li>野菜が崩れにくくなる</li>
+                        <li>豆は柔らかくなりにくい</li>
+                        <li>色や食感の変化をコントロール</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👃 香りと温度の関係</h3>
+                    <ul>
+                        <li>温度↑ → 揮発性化合物↑</li>
+                        <li>香り強化（ただし飛びすぎ注意）</li>
+                        <li>提供温度で印象が大きく変化</li>
+                        <li>温度×時間管理 → 病原菌↓ → 食品安全↑</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card">
+                <h3>📖 書籍の構造と論理展開</h3>
+                <p style="margin-bottom: 20px;">全体は「基礎科学」から「食材別の応用」へ進む流れ</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div style="background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; padding: 15px; border-radius: 10px;">
+                        <strong>第1部：基礎科学</strong><br>
+                        水・脂肪・糖・タンパク質と熱の伝わり方、味と香りの感じ方、食品安全の基本
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, var(--secondary), var(--accent)); color: white; padding: 15px; border-radius: 10px;">
+                        <strong>第2部：食材別応用</strong><br>
+                        乳製品、卵、肉、魚介、野菜・果物、穀物・豆、砂糖と菓子、チョコレート、飲料
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🥛 乳製品</h3>
+                    <ul>
+                        <li>タンパク質と脂肪の構造</li>
+                        <li>発酵と熟成のメカニズム</li>
+                        <li>チーズ作りの科学</li>
+                        <li>温度管理の重要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🥩 肉類</h3>
+                    <ul>
+                        <li>筋繊維とコラーゲンの構造</li>
+                        <li>熟成による旨味の発達</li>
+                        <li>調理温度と食感の関係</li>
+                        <li>安全な加熱の基準</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🥬 野菜・果物</h3>
+                    <ul>
+                        <li>細胞壁とペクチンの働き</li>
+                        <li>酵素による褐変反応</li>
+                        <li>酸による色の変化</li>
+                        <li>栄養素の保持方法</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🍞 穀物・豆</h3>
+                    <ul>
+                        <li>デンプンの糊化と老化</li>
+                        <li>グルテンの形成メカニズム</li>
+                        <li>発酵による風味の発達</li>
+                        <li>食感をコントロールする技術</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3 style="color: var(--primary); margin-bottom: 20px;">⚡ 今日できるアクション</h3>
+                
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">📖</span>
+                    <div style="flex: 1;">
+                        <strong>目次を読み興味章を1つ選ぶ</strong><br>
+                        自分の料理の悩みに関連する章から始める
+                    </div>
+                    <div class="action-time">15分</div>
+                </div>
+
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">🔬</span>
+                    <div style="flex: 1;">
+                        <strong>メイラード反応の節を10頁読む</strong><br>
+                        香ばしさの科学的メカニズムを理解
+                    </div>
+                    <div class="action-time">20分</div>
+                </div>
+
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">🥚</span>
+                    <div style="flex: 1;">
+                        <strong>卵の半熟ゆでを温度違いで試す</strong><br>
+                        65℃、70℃、75℃で食感の違いを体験
+                    </div>
+                    <div class="action-time">30分</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>🎯 実践のポイント</h3>
+                <ul>
+                    <li>理論を読んだら必ず実際に試してみる</li>
+                    <li>温度計を使って正確な温度管理を心がける</li>
+                    <li>同じ材料で条件を変えて比較実験する</li>
+                    <li>失敗も科学的に分析して次に活かす</li>
+                    <li>家族や友人と結果をシェアして学びを深める</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">The Food Lab 料理の科学</div>
+                    <div class="book-author">J・ケンジ・ロペス＝アルト</div>
+                    <p>理論を実験で検証し家庭向け手順に落とす。マギーの基礎を実用化。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">塩・脂・酸・熱</div>
+                    <div class="book-author">サミン・ノスラト</div>
+                    <p>味作りの4軸で直感的に科学を活用。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Modernist Cuisine at Home</div>
+                    <div class="book-author">ネイサン・マイヤーヴォルド 他</div>
+                    <p>先端調理の科学と写真で理解を深め、理論と実践をつなぐ。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">フレーバー・バイブル</div>
+                    <div class="book-author">カレン・ペイジ／アンドリュー・ドーネンバーグ</div>
+                    <p>香りと味の組み合わせ指針。揮発性化合物の考え方を活かせる。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">On Food and Cooking</div>
+                    <div class="book-author">Harold McGee</div>
+                    <p>原著。最新改訂で詳細な根拠と図解があり、邦訳の補完になる。</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>📚 読書の進め方</h3>
+                <ul>
+                    <li>まず『料理の科学』で基礎理論を理解</li>
+                    <li>『The Food Lab』で実践的な応用を学ぶ</li>
+                    <li>『塩・脂・酸・熱』で直感的な理解を深める</li>
+                    <li>『フレーバー・バイブル』で味の組み合わせを拡張</li>
+                    <li>『Modernist Cuisine』で最新技術を探求</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+
+            // Animate progress bars when overview tab is shown
+            if (tabName === 'overview') {
+                setTimeout(() => {
+                    const progressBars = document.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 100);
+            }
+        }
+
+        // Initialize progress bars animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-fill');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+        });
+
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
