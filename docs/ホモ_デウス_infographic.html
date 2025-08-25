@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホモ・デウス - 未来への洞察</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+            padding-right: 30px;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 10px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -7px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -7px;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-item {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--secondary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .concept-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .concept-summary {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-emoji {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+                padding-left: 20px !important;
+                padding-right: 0 !important;
+            }
+            
+            .timeline-item::before {
+                left: -27px !important;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 ホモ・デウス</h1>
+            <p>テクノロジーが人類の未来を再定義する時代への洞察</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">📊 論理構造</button>
+            <button class="tab-button" onclick="showTab('future')" aria-label="未来タブ">🚀 未来シナリオ</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="行動タブ">✅ 今日の行動</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>飢餓・疫病・戦争を管理可能にした人類</li>
+                        <li>次の目標：不死・幸福・神性の追求</li>
+                        <li>知能と意識の分離が鍵となる</li>
+                        <li>人間中心主義の基盤が揺らぐ</li>
+                        <li>データイズムという新宗教の台頭</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚡ 重要な転換点</h3>
+                    <ul>
+                        <li>問題の性質：運命 → 技術課題</li>
+                        <li>権威の移行：人間 → アルゴリズム</li>
+                        <li>価値の変化：経験 → データ流</li>
+                        <li>労働の未来：雇用 → 無用者階級</li>
+                        <li>民主主義の再設計が必要</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>古来の脅威<br>飢餓・疫病・戦争</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>新しい目標<br>不死・幸福・神性</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div>未来の路線<br>テクノ vs データ</div>
+                </div>
+            </div>
+
+            <div class="flow-chart">
+                <div class="flow-item">
+                    <strong>🔬 科学革命</strong><br>
+                    人類の力拡大
+                </div>
+                <div class="flow-item">
+                    <strong>⚔️ 三大脅威の管理</strong><br>
+                    飢餓・疫病・戦争
+                </div>
+                <div class="flow-item">
+                    <strong>🎯 新アジェンダ</strong><br>
+                    不死・幸福・神性
+                </div>
+                <div class="flow-item">
+                    <strong>🤖 AI・生命工学</strong><br>
+                    知能と意識の分離
+                </div>
+                <div class="flow-item">
+                    <strong>📊 データイズム</strong><br>
+                    新しい宗教の台頭
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-title">🎯 新しい人類の課題</div>
+                    <p>物質的欠乏の克服後、人類は寿命延伸、主観的幸福の最適化、創造者の領域への進出を目標に掲げる</p>
+                    <div class="concept-summary">次の到達目標</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">👑 ヒューマニズム</div>
+                    <p>人間の主観的経験と選好を最高の権威とみなす近代の規範・物語。政治・教育・芸術の正当化基盤</p>
+                    <div class="concept-summary">人間至上の物語</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🗽 リベラル人間主義</div>
+                    <p>個人の自由と権利、自由意志に基づく選択を最優先するヒューマニズムの主流派</p>
+                    <div class="concept-summary">個の自由</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🤝 社会主義的人間主義</div>
+                    <p>人間の価値を共同体的・平等主義的に捉え、連帯と分配を強調する派生形</p>
+                    <div class="concept-summary">連帯と平等</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">⚡ アルゴリズム</div>
+                    <p>入力を処理して出力を生む規則の集合。生体も情報処理系として理解できるとする視座</p>
+                    <div class="concept-summary">手続きの束</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🧠 知能と意識の分離</div>
+                    <p>問題解決能力（知能）は主観経験（意識）なしでも成立するという洞察。AIの台頭の核心</p>
+                    <div class="concept-summary">無意識の賢さ</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🚀 テクノヒューマニズム</div>
+                    <p>テクノロジーで人間の能力を拡張し「より優れた人間」を目指す路線。上位階層の出現を伴う</p>
+                    <div class="concept-summary">人間の増強</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">📊 データイズム</div>
+                    <p>宇宙をデータの流れとして捉え、その最適化を最高善とみなす新宗教。権威はアルゴリズムへ移る</p>
+                    <div class="concept-summary">データ至上主義</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">😔 無用者階級</div>
+                    <p>自動化により労働市場から恒常的に排除され、経済的・政治的影響力を失う人々</p>
+                    <div class="concept-summary">恒久的失業層</div>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-title">🎛️ 欲望の設計</div>
+                    <p>外部アルゴリズムと企業が、データに基づき人の選好形成を誘導・最適化するプロセス</p>
+                    <div class="concept-summary">選好の外部化</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>📖 序章</h4>
+                        <p>人類の新アジェンダを提示（不死・幸福・神性）</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🏛️ 第I部</h4>
+                        <p>人類が自然と偶然を制御してきた歴史的過程を俯瞰し、問題を技術的課題へ転換</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>👑 第II部</h4>
+                        <p>ヒューマニズムを宗教として定式化し、リベラル/社会主義/進化的人間主義の系譜と緊張を整理</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🧠 第III部</h4>
+                        <p>脳科学・進化論・計算論から自由意志を再検討し、人間＝アルゴリズム仮説と知能/意識の分離を提示</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>⚙️ 応用章</h4>
+                        <p>労働・政治・戦争への波及（無用者階級、権力集中、アルゴリズム統治）を具体化</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🔮 終章</h4>
+                        <p>テクノヒューマニズムとデータイズムの二大シナリオを対比し、「何を望むのか」「誰が欲望を設計するのか」を問う</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="future" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🚀 テクノヒューマニズム</h3>
+                    <ul>
+                        <li>人間の能力を技術で拡張</li>
+                        <li>「より優れた人間」を目指す</li>
+                        <li>上位階層の出現</li>
+                        <li>格差の拡大リスク</li>
+                        <li>人間性の再定義</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 データイズム</h3>
+                    <ul>
+                        <li>データの流れを最高善とする</li>
+                        <li>アルゴリズムが権威を持つ</li>
+                        <li>個人の経験より全体最適</li>
+                        <li>予測と制御の精度向上</li>
+                        <li>人間の主観性の軽視</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>⚠️ 重要な課題</h3>
+                    <ul>
+                        <li>無用者階級の出現</li>
+                        <li>データ所有権の争点</li>
+                        <li>民主主義の再設計</li>
+                        <li>権力の極端な集中</li>
+                        <li>欲望の外部設計</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤔 根本的な問い</h3>
+                    <ul>
+                        <li>私たちは何を望むのか？</li>
+                        <li>誰が欲望を設計するのか？</li>
+                        <li>人間の価値とは何か？</li>
+                        <li>意識は必要なのか？</li>
+                        <li>自由意志は実在するか？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3>💡 今日からできる行動</h3>
+                <div class="action-item">
+                    <div class="action-emoji">📱</div>
+                    <div>
+                        <strong>データ提供アプリの権限を点検</strong><br>
+                        どのアプリがどんなデータにアクセスしているか確認する
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">📊</div>
+                    <div>
+                        <strong>生活の3指標を記録開始</strong><br>
+                        健康・幸福・生産性の日々の変化を自分で追跡する
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">🤖</div>
+                    <div>
+                        <strong>AI利用の個人ルールを紙に書く</strong><br>
+                        どこまでAIに依存するか、自分の基準を明文化する
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>サピエンス全史（前史を提供）</li>
+                        <li>21 Lessons（実務課題への橋渡し）</li>
+                        <li>ライフ3.0（AIシナリオ設計）</li>
+                        <li>監視資本主義の時代（データ政治経済学）</li>
+                        <li>遺伝子（生命工学の歴史と倫理）</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 重要な引用</h3>
+                    <ul>
+                        <li>「飢餓・疫病・戦争は管理可能な課題となった」</li>
+                        <li>「自由意志はアルゴリズムの産物かもしれない」</li>
+                        <li>「知能と意識は別物である」</li>
+                        <li>「データの流れが最高善となる世界観」</li>
+                        <li>「無用者階級とデータ所有が政治課題」</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性を更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
