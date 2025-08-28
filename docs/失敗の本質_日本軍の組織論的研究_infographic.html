@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>失敗の本質 - 組織的敗北の構造分析</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --bg-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--secondary);
+        }
+
+        .concept-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .concept-card .definition {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .concept-card .summary {
+            background: var(--bg-light);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .quote-card:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .action-list {
+            background: var(--accent);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .relationship-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin: 20px 0;
+        }
+
+        .relationship-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .arrow {
+            color: var(--secondary);
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--accent);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 失敗の本質</h1>
+            <p>日本軍の敗北は偶発ではなく、硬直した文化・学習不全・曖昧な意思決定・兵站軽視・縦割り対立が生んだ必然である。これらの組織的欠陥は現代の企業や行政にも再現しうるため、学習と設計で意図的に回避せよ。</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📋 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false" aria-controls="quotes">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">⚡ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false" aria-controls="books">📖 関連書籍</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">主要概念</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">因果関係</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">重要引用</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">即実行可能アクション</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>敗北は偶発ではなく組織的必然</li>
+                        <li>硬直した文化と学習不全が原因</li>
+                        <li>現代組織にも再現しうる構造</li>
+                        <li>意図的な設計で回避可能</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📊 分析手法</h3>
+                    <ul>
+                        <li>複数作戦の縦断的ケーススタディ</li>
+                        <li>共通因子の横断抽出</li>
+                        <li>組織論フレームでの再解釈</li>
+                        <li>敵側との対比による因果補強</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 主要発見</h3>
+                    <ul>
+                        <li>目標の曖昧さが方策を乱立させる</li>
+                        <li>兵站軽視が作戦持続性を損なう</li>
+                        <li>縦割りが統合作戦を阻害する</li>
+                        <li>学習不全が同一失敗を反復させる</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💡 現代への示唆</h3>
+                    <ul>
+                        <li>撤退基準の明文化</li>
+                        <li>学習システムの制度化</li>
+                        <li>越境協働の促進</li>
+                        <li>知の形式化と共有</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3>📈 論理展開の流れ</h3>
+                <div class="flow-step">
+                    <strong>序盤:</strong> 問題提起と分析視角の提示（戦史を組織論で読む）
+                </div>
+                <div class="flow-step">
+                    <strong>中盤1:</strong> 主要作戦のケーススタディ（準備・意思決定・実行・結果を分解）
+                </div>
+                <div class="flow-step">
+                    <strong>中盤2:</strong> ケース横断で共通因子を抽出（兵站、情報、縦割り、文化）
+                </div>
+                <div class="flow-step">
+                    <strong>後半1:</strong> 組織論的フレームで再解釈（知の生成、学習、設計、文化）
+                </div>
+                <div class="flow-step">
+                    <strong>後半2:</strong> 成功事例や敵側との対比で因果を補強（目的明確化・統合指揮）
+                </div>
+                <div class="flow-step">
+                    <strong>終盤:</strong> 現代組織への示唆と処方箋（撤退基準、標準化、レビュー制度）
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🎯 目標の曖昧さ（大戦略不在）</h4>
+                    <div class="definition">戦略目的が具体化されず、作戦や資源配分が漂流する。勝利条件・停止条件が共有されない。</div>
+                    <div class="summary">目的不明は敗北の種</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🚛 兵站の軽視</h4>
+                    <div class="definition">補給・輸送・整備を軽んじ、作戦の持続性を損なう。戦闘力は兵站で規定される。</div>
+                    <div class="summary">弾と道が戦う</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>📋 教条主義と計画の硬直性</h4>
+                    <div class="definition">前提変更に応じた修正ができず、原案に固執する。現場からのデータも反映されない。</div>
+                    <div class="summary">計画は更新して価値</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🚪 撤退・中止基準の欠如</h4>
+                    <div class="definition">損切りルールがないため損害逓増が起きる。エスカレーションが常態化する。</div>
+                    <div class="summary">やめ時を決めよ</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🔍 情報・諜報の軽視</h4>
+                    <div class="definition">敵情・自軍状況の把握と分析が弱く、願望が判断を上書きする。検証可能性が低い。</div>
+                    <div class="summary">事実に勝る勇気なし</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🏢 縦割りと相互運用性欠如</h4>
+                    <div class="definition">陸海軍や部署間の対立が統合作戦を阻む。共通ドクトリンと標準化が不足。</div>
+                    <div class="summary">連携は力の乗算</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🧠 暗黙知偏重と形式知の欠落</h4>
+                    <div class="definition">経験や勘に依存し、手順・標準・教範が整備されない。学習が個人止まりになる。</div>
+                    <div class="summary">知を組織化せよ</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🤝 合意志向と責任の曖昧化</h4>
+                    <div class="definition">根回しで決定速度と明確責任が失われる。誰も撤回・修正を主導しない。</div>
+                    <div class="summary">誰が決め誰が責任か</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🚫 異論抑圧と同質性バイアス</h4>
+                    <div class="definition">反対意見が排除され、仮説検証が弱まる。集団浅慮が強化される。</div>
+                    <div class="summary">異論は資産</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>💪 精神主義の過剰</h4>
+                    <div class="definition">士気や根性を万能視し、物的条件や確率計算を軽視。現実逃避を招く。</div>
+                    <div class="summary">気合いは補給にならず</div>
+                </div>
+
+                <div class="concept-card">
+                    <h4>🔄 事後レビューと学習サイクル不全</h4>
+                    <div class="definition">敗因分析が形式化されず、失敗が組織記憶に残らない。改善が再現されない。</div>
+                    <div class="summary">失敗を資本化せよ</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="relationship-diagram">
+                <h3>🔗 概念間の因果関係</h3>
+                <div class="relationship-item">
+                    目的の曖昧さ <span class="arrow">→</span> 指標不在 <span class="arrow">→</span> 計画の硬直化・撤退基準欠如
+                </div>
+                <div class="relationship-item">
+                    暗黙知偏重 <span class="arrow">×</span> 異論抑圧 <span class="arrow">→</span> 検証なき楽観 <span class="arrow">→</span> 情報軽視の固定化
+                </div>
+                <div class="relationship-item">
+                    縦割り組織 <span class="arrow">→</span> 相互運用性欠如 <span class="arrow">→</span> 兵站・火力の分断 <span class="arrow">→</span> 作戦失敗
+                </div>
+                <div class="relationship-item">
+                    合意志向・責任曖昧 <span class="arrow">→</span> 意思決定遅延 <span class="arrow">→</span> 機会損失・損害拡大
+                </div>
+                <div class="relationship-item">
+                    精神主義過剰 <span class="arrow">→</span> 物量・確率軽視 <span class="arrow">→</span> 無理な攻勢 <span class="arrow">→</span> 補給破綻
+                </div>
+                <div class="relationship-item">
+                    レビュー不全 <span class="arrow">→</span> 学習しない組織 <span class="arrow">→</span> 同一失敗の反復
+                </div>
+                <div class="relationship-item">
+                    情報軽視 <span class="arrow">→</span> 事実より願望 <span class="arrow">→</span> 誤った前提 <span class="arrow">→</span> 計画の硬直性を強化
+                </div>
+            </div>
+
+            <svg width="100%" height="400" viewBox="0 0 800 400" style="background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin: 20px 0;">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+                    </marker>
+                </defs>
+                
+                <!-- 中央の失敗 -->
+                <circle cx="400" cy="200" r="60" fill="#e74c3c" opacity="0.8"/>
+                <text x="400" y="205" text-anchor="middle" fill="white" font-weight="bold" font-size="14">組織的敗北</text>
+                
+                <!-- 周辺の要因 -->
+                <circle cx="200" cy="100" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="200" y="105" text-anchor="middle" fill="white" font-size="10">目標曖昧</text>
+                
+                <circle cx="600" cy="100" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="600" y="105" text-anchor="middle" fill="white" font-size="10">兵站軽視</text>
+                
+                <circle cx="150" cy="250" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="150" y="255" text-anchor="middle" fill="white" font-size="10">縦割り</text>
+                
+                <circle cx="650" cy="250" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="650" y="255" text-anchor="middle" fill="white" font-size="10">学習不全</text>
+                
+                <circle cx="300" cy="320" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="300" y="325" text-anchor="middle" fill="white" font-size="10">情報軽視</text>
+                
+                <circle cx="500" cy="320" r="40" fill="#2c3e50" opacity="0.7"/>
+                <text x="500" y="325" text-anchor="middle" fill="white" font-size="10">精神主義</text>
+                
+                <!-- 矢印 -->
+                <line x1="230" y1="130" x2="370" y2="180" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="570" y1="130" x2="430" y2="180" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="180" y1="220" x2="350" y2="200" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="620" y1="220" x2="450" y2="200" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="330" y1="290" x2="380" y2="240" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <line x1="470" y1="290" x2="420" y2="240" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                
+                <text x="400" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">敗北の構造図</text>
+            </svg>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">敗北は偶然ではなく、組織の常態が生んだ必然である。</div>
+                <div class="quote-importance">💡 失敗を個人や運のせいにせず設計課題として捉え直せる。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">兵站なき作戦は作戦にあらず。</div>
+                <div class="quote-importance">💡 資源制約から戦略を逆算する思考を徹底できる。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">目的の不明確さは方策の乱立を招く。</div>
+                <div class="quote-importance">💡 戦略論の原則（目的→手段→配分）を再確認させる。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">学習なき組織は同じ失敗を繰り返す。</div>
+                <div class="quote-importance">💡 レビュー制度化の必要性を短句で示す。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">精神は重要だが、物量と情報を代替しない。</div>
+                <div class="quote-importance">💡 価値観と現実主義のバランスを規定する原理。</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分で実行可能）</h3>
+                <div class="action-item">
+                    📝 進行中案件の撤退基準を明文化
+                </div>
+                <div class="action-item">
+                    🎯 次会議の目的と成功指標を書く
+                </div>
+                <div class="action-item">
+                    🔍 直近の失敗を5分で振り返る
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📋 撤退基準の明文化</h3>
+                    <ul>
+                        <li>損失の上限を数値で設定</li>
+                        <li>期限と成果の最低ライン</li>
+                        <li>判断責任者を明確化</li>
+                        <li>定期的な見直しタイミング</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 目的と指標の設定</h3>
+                    <ul>
+                        <li>会議の具体的なゴール</li>
+                        <li>成功の測定可能な基準</li>
+                        <li>参加者の役割分担</li>
+                        <li>時間配分と進行計画</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 失敗の振り返り</h3>
+                    <ul>
+                        <li>何が期待と違ったか</li>
+                        <li>どの判断が分岐点だったか</li>
+                        <li>情報不足はどこにあったか</li>
+                        <li>次回への具体的改善点</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 学習システム構築</h3>
+                    <ul>
+                        <li>定期的なレビュー会議</li>
+                        <li>失敗事例の文書化</li>
+                        <li>ベストプラクティス共有</li>
+                        <li>異論を歓迎する文化</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">知識創造企業</div>
+                    <div class="book-author">野中郁次郎, 竹内弘高</div>
+                    <div class="book-relation">暗黙知を形式知へ変換し学習を制度化する処方箋を提示する。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">失敗の科学</div>
+                    <div class="book-author">マシュー・サイド</div>
+                    <div class="book-relation">失敗から学ぶ仕組みと心理バイアスを横断的に解説。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">「空気」の研究</div>
+                    <div class="book-author">山本七平</div>
+                    <div class="book-relation">合意圧力や同調圧力が意思決定を歪める日本的文脈を補足。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">良い戦略、悪い戦略</div>
+                    <div class="book-author">リチャード・P・ルメルト</div>
+                    <div class="book-relation">目標の明確化と診断・方策連鎖という戦略設計の基礎を提供。</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📚 学習の連鎖</h3>
+                <ul>
+                    <li>失敗の本質 → 組織的敗因の構造理解</li>
+                    <li>知識創造企業 → 学習システムの設計</li>
+                    <li>失敗の科学 → 心理バイアスの克服</li>
+                    <li>良い戦略、悪い戦略 → 目標設定の技法</li>
+                    <li>「空気」の研究 → 日本的意思決定の特徴</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const activeTab = document.querySelector('.tab-button.active');
+                if (document.activeElement === activeTab) {
+                    e.preventDefault();
+                    const nextTab = activeTab.nextElementSibling || document.querySelector('.tab-button');
+                    nextTab.click();
+                    nextTab.focus();
+                }
+            }
+        });
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // アクセシビリティ属性の設定
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach((button, index) => {
+                button.setAttribute('id', `tab-${index}`);
+                button.setAttribute('aria-controls', tabContents[index].id);
+            });
+            
+            tabContents.forEach((content, index) => {
+                content.setAttribute('aria-labelledby', `tab-${index}`);
+            });
+        });
+    </script>
+</body>
+</html>
