@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ティール組織 - 次世代の組織運営</title>
+    <!-- カラーパレット: プライマリー #2c5aa0, セカンダリー #48bb78, アクセント #ed8936 -->
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #48bb78;
+            --accent: #ed8936;
+            --bg-light: #f7fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+
+        .evolution-chart {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .evolution-stages {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stage {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stage-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .red { background: #e53e3e; }
+        .amber { background: #d69e2e; }
+        .orange { background: #dd6b20; }
+        .green { background: #38a169; }
+        .teal { background: #319795; }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent) 0%, #f56500 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .evolution-stages {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌊 ティール組織</h1>
+            <p>次世代の組織運営 - 自己経営・全体性・進化する目的</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📊 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('practices')" role="tab" aria-selected="false" aria-controls="practices">⚡ 実践</button>
+            <button class="tab-button" onclick="showTab('resources')" role="tab" aria-selected="false" aria-controls="resources">📚 関連書籍</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="evolution-chart">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🎯 組織進化の段階</h2>
+                <div class="evolution-stages">
+                    <div class="stage">
+                        <div class="stage-circle red">RED</div>
+                        <div>衝動型</div>
+                        <small>力による支配</small>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle amber">AMBER</div>
+                        <div>順応型</div>
+                        <small>階層と規則</small>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle orange">ORANGE</div>
+                        <div>達成型</div>
+                        <small>成果と競争</small>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle green">GREEN</div>
+                        <div>多元型</div>
+                        <small>価値観と合意</small>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle teal">TEAL</div>
+                        <div>進化型</div>
+                        <small>自己経営</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>ヒエラルキーから信頼・透明性・分散意思決定へ</li>
+                        <li>人の意識発達に呼応して組織も進化</li>
+                        <li>自律的ネットワークが複雑性と変化に強い</li>
+                        <li>人間らしさと成果の両立が可能</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔑 3つのブレークスルー</h3>
+                    <ul>
+                        <li><strong>自己経営:</strong> 分散権限と明確なルール</li>
+                        <li><strong>全体性:</strong> 人間の全体を歓迎する文化</li>
+                        <li><strong>進化する目的:</strong> 内的方向性を感知</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">ブレークスルー</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">進化段階</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">主要概念</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎨 ティール（Teal）</h3>
+                    <ul>
+                        <li>複雑適応系として自らの目的に沿って進化</li>
+                        <li>権限の分散、全体性、目的中心性が同時機能</li>
+                        <li>次段階の組織形態</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ 自己経営</h3>
+                    <ul>
+                        <li>上下命令ではなく明確な原則・役割・プロセス</li>
+                        <li>マネージャー職不在でも秩序が保たれる</li>
+                        <li>分散意思決定による迅速な対応</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌟 全体性</h3>
+                    <ul>
+                        <li>感情・価値観・直感など人の全体を歓迎</li>
+                        <li>心理的安全性と相互信頼を基盤</li>
+                        <li>創造性の解放と人間らしさの実現</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧭 進化する目的</h3>
+                    <ul>
+                        <li>組織を生きた存在として捉える</li>
+                        <li>内的な方向性を感知して戦略更新</li>
+                        <li>予測から感知と応答へのシフト</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💬 アドバイス・プロセス</h3>
+                    <ul>
+                        <li>影響を受ける人・専門家に事前助言を求める</li>
+                        <li>スピードと質を両立</li>
+                        <li>責任の所在を明確化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 役割ベース設計</h3>
+                    <ul>
+                        <li>固定的な職位ではなく動的な役割の集合</li>
+                        <li>目的に沿って定義・更新される</li>
+                        <li>複雑性に適応しやすい構造</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👁️ 透明性</h3>
+                    <ul>
+                        <li>財務・報酬・意思決定・情報を原則公開</li>
+                        <li>分散判断の前提を整える</li>
+                        <li>信頼と説明責任を生む</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🤝 紛争解決プロトコル</h3>
+                    <ul>
+                        <li>当事者解決→ファシリ支援→ピア仲裁</li>
+                        <li>段階的手続きで衝突を扱う</li>
+                        <li>自律と関係性を両立</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 関係性の流れ</h2>
+                <div class="flow-steps">
+                    <div class="flow-step">意識発達の段階</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">組織の世界観</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">構造/文化/慣行</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏗️ 構造と論理展開</h3>
+                    <ul>
+                        <li><strong>導入:</strong> 歴史と成人発達理論から色モデル提示</li>
+                        <li><strong>第1部:</strong> 各段階の特徴と限界、ティール要請環境</li>
+                        <li><strong>第2部:</strong> 3つのブレークスルーと実務プラクティス</li>
+                        <li><strong>第3部:</strong> 新規創業と既存組織移行戦略</li>
+                        <li><strong>結語:</strong> パラダイム転換の意義と可能性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 因果関係</h3>
+                    <ul>
+                        <li>透明性 + 明確なルール → 自己経営の秩序</li>
+                        <li>全体性 → 心理的安全性 → 学習/創造性増幅</li>
+                        <li>役割ベース設計 → 権限明確化 → 意思決定向上</li>
+                        <li>小さな自律単位 → 顧客近接 → 高速フィードバック</li>
+                        <li>目的中心のKPI → 利害整合 → サイロ化減少</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ 始める条件</h3>
+                    <ul>
+                        <li><strong>トップの世界観:</strong> パラダイム転換への理解</li>
+                        <li><strong>所有構造:</strong> 長期視点での意思決定権</li>
+                        <li><strong>透明性への覚悟:</strong> 情報公開の徹底</li>
+                        <li><strong>整合性:</strong> 部分導入は逆効果のリスク</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌐 小さな単位とネットワーク</h3>
+                    <ul>
+                        <li>自律した小チーム（セル）が顧客に近接</li>
+                        <li>相互連携によるネットワーク化</li>
+                        <li>スケールはネットワーク効果で実現</li>
+                        <li>セル構造による柔軟性と適応力</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="practices" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>🎯 会議の冒頭にチェックインを実施</strong><br>
+                    参加者の状態や気持ちを共有し、全体性を歓迎する文化を作る
+                </div>
+                <div class="action-item">
+                    <strong>💭 一件の意思決定で助言を求める</strong><br>
+                    アドバイス・プロセスを実践し、より良い判断と関係性を築く
+                </div>
+                <div class="action-item">
+                    <strong>📝 役割と期待の可視化を書き出す</strong><br>
+                    現在の役割を明確化し、動的な役割設計への第一歩を踏む
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>👥 ピア評価・報酬</h3>
+                    <ul>
+                        <li>上司評価に依存しない同僚フィードバック</li>
+                        <li>透明な基準で評価・昇給を決定</li>
+                        <li>モチベーションの内発性を保持</li>
+                        <li>同僚による公正な評価システム</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💡 重要な引用</h3>
+                    <ul>
+                        <li><strong>生きたシステム:</strong> 組織の固有目的に耳を傾ける</li>
+                        <li><strong>設計された秩序:</strong> 明確なルールで中央集権不要</li>
+                        <li><strong>動的な仕事設計:</strong> 役割は目的に沿って進化</li>
+                        <li><strong>賢く勇敢な組織:</strong> 全体性が生産性を向上</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 実装のポイント</h3>
+                    <ul>
+                        <li>構造・文化・慣行を一体として設計</li>
+                        <li>短期統制より長期適応を選択</li>
+                        <li>人間的成熟と業績向上の両立</li>
+                        <li>部分最適的な"ティールごっこ"を避ける</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 移行戦略</h3>
+                    <ul>
+                        <li>新規創業での設計手順を明確化</li>
+                        <li>既存組織の段階的移行計画</li>
+                        <li>制度と文化の同時設計が重要</li>
+                        <li>落とし穴（偽の合意）を回避</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="resources" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">Holacracy</div>
+                    <div class="book-author">Brian J. Robertson</div>
+                    <div class="book-relation">自己経営を制度化するガバナンス手法の詳細。ティール組織の実装方法論を具体的に学べる。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">The Fifth Discipline (学習する組織)</div>
+                    <div class="book-author">Peter M. Senge</div>
+                    <div class="book-relation">システム思考と学習する組織がティールの下地となる。組織学習の基礎理論を提供。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">An Everyone Culture</div>
+                    <div class="book-author">Robert Kegan, Lisa L. Lahey</div>
+                    <div class="book-relation">成人発達理論と全体性を実装するDDOの実例。人間の成長と組織発達の関係を深く理解できる。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Turn the Ship Around!</div>
+                    <div class="book-author">L. David Marquet</div>
+                    <div class="book-relation">権限移譲と意図ベースのリーダーシップの実践。軍事組織での自己経営実装事例。</div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Reinventing Organizations (Illustrated)</div>
+                    <div class="book-author">Frederic Laloux</div>
+                    <div class="book-relation">本書の核心を図解で素早く把握できる。視覚的理解を深めるための補完資料。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
