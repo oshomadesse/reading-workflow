@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利己的な遺伝子 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "🧬";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .concept-title {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-tag {
+            background: var(--accent);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .flow-diagram {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 0 30px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 4px solid var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: scale(1.05);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+
+        .book-title {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 40px;
+                padding-right: 20px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .venn-diagram {
+                height: 400px;
+                flex-direction: column;
+            }
+            
+            .venn-circle {
+                position: relative;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🧬 利己的な遺伝子</h1>
+            <p>遺伝子中心主義で読み解く進化の真実</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🔬 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('relationships')" role="tab" aria-selected="false" aria-controls="relationships">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">⚡ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false" aria-controls="books">📚 関連書籍</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>自然選択の主要単位は遺伝子</li>
+                        <li>生物は遺伝子の複製戦略の道具</li>
+                        <li>利他性も遺伝子利益で説明可能</li>
+                        <li>包括適応度が行動を決定</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 重要な数値指標</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">2</div>
+                            <div>層モデル<br>レプリケーター/ビークル</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3</div>
+                            <div>レプリケーター条件<br>複製・変異・持続</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔑 重要な引用</h3>
+                    <ul>
+                        <li>「私たちは遺伝子の生存機械である」</li>
+                        <li>「利他性は遺伝子レベルの利己性から生じる」</li>
+                        <li>「反復ゲームでは協力が安定化する」</li>
+                        <li>「文化はミームで拡散する」</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3>🔄 基本的な進化プロセス</h3>
+                <div>
+                    <span class="flow-step">遺伝子</span>
+                    <span class="flow-step">個体</span>
+                    <span class="flow-step">表現型</span>
+                    <span class="flow-step">生存・繁殖</span>
+                    <span class="flow-step">遺伝子頻度変化</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="concept-card">
+                <div class="concept-title">
+                    🧬 遺伝子中心主義
+                    <span class="concept-tag">選択の単位</span>
+                </div>
+                <p>自然選択は個体や群れではなく遺伝子に直接作用するとする視点。表現型は遺伝子の複製成功を高めるための手段として理解される。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    🔄 レプリケーター
+                    <span class="concept-tag">複製者</span>
+                </div>
+                <p>自己を複製し、誤り（変異）を伴い、持続する情報単位。生物界では主に遺伝子（DNA）。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    🚗 ビークル（乗り物）
+                    <span class="concept-tag">乗り物</span>
+                </div>
+                <p>レプリケーターが環境に作用し生存・繁殖を達成するための物理的実体。個体や体が該当する。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    ⚖️ 進化的に安定な戦略（ESS）
+                    <span class="concept-tag">安定戦略</span>
+                </div>
+                <p>一度集団に広まると他の戦略に侵入されにくい戦略。ゲーム理論で行動の安定性を分析する枠組み。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    👥 親族選択
+                    <span class="concept-tag">血縁優先</span>
+                </div>
+                <p>遺伝子の共有率に応じて親族を助ける行動が選好されるという原理。ハミルトンの法則で定量化される。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    🤝 互恵的利他主義
+                    <span class="concept-tag">持ちつ持たれつ</span>
+                </div>
+                <p>非血縁間の協力が繰り返し相互作用での返礼期待により安定化するメカニズム。</p>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">
+                    🧠 ミーム
+                    <span class="concept-tag">文化の遺伝子</span>
+                </div>
+                <p>模倣により複製される文化的情報単位。遺伝子の概念を文化へ拡張するための比喩。</p>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>🚀 導入</h4>
+                    <p>自然選択の単位を遺伝子とする視点の提起と誤解の解消</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>🔬 レプリケーターの起源</h4>
+                    <p>複製・変異・選択が必然的に適応を生むという論理の基礎づけ</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>⏰ 遺伝子の持続性</h4>
+                    <p>DNAの保存性と情報としての「不滅性」、対して個体の一時性</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>🚗 ビークル概念</h4>
+                    <p>生物は遺伝子の生存機械であり、表現型は環境操作のための道具</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>⚔️ 安定性と闘争</h4>
+                    <p>攻撃性・縄張りなどをゲーム理論で分析し、ESSを導入</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>❤️ 利他性の進化</h4>
+                    <p>ハミルトンの法則、親族選択、包括適応度により「利他の逆説」を解く</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>💕 性と葛藤</h4>
+                    <p>性選択、親子・雌雄の投資対立、性比と配偶システムの進化</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>🤝 互恵と協力</h4>
+                    <p>反復囚人のジレンマ、しっぺ返し戦略、協力の安定条件</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>🧠 文化への拡張</h4>
+                    <p>ミームという新たなレプリケーターを提示し、文化進化を論じる</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content" role="tabpanel">
+            <div class="venn-diagram">
+                <div class="venn-circle circle1">
+                    <div>遺伝子<br>レプリケーター</div>
+                </div>
+                <div class="venn-circle circle2">
+                    <div>個体<br>ビークル</div>
+                </div>
+                <div class="venn-circle circle3">
+                    <div>表現型<br>戦略</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔄 基本的因果関係</h3>
+                    <ul>
+                        <li>レプリケーター → ビークル → 表現型</li>
+                        <li>生存・繁殖 → 遺伝子頻度変化</li>
+                        <li>遺伝子中心主義 → 適応度最大化</li>
+                        <li>行動戦略の進化（利己・利他）</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👥 利他性のメカニズム</h3>
+                    <ul>
+                        <li>包括適応度 = 直接 + 間接適応度</li>
+                        <li>親族選択 → 利他行動の成立</li>
+                        <li>反復ゲーム → 信頼と罰の仕組み</li>
+                        <li>互恵的利他主義 → 協力がESS</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚔️ 葛藤と競争</h3>
+                    <ul>
+                        <li>性選択（配偶者選好・性内競争）</li>
+                        <li>派手な形質/行動の進化</li>
+                        <li>親子・雌雄の利害対立</li>
+                        <li>最適投資点のズレ → 軍拡</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌐 拡張と応用</h3>
+                    <ul>
+                        <li>拡張表現型 → ニッチ構築</li>
+                        <li>遺伝子の効果範囲拡大</li>
+                        <li>ミーム → 模倣・選択</li>
+                        <li>文化進化（遺伝子理論のアナロジー）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <h2>⚡ 今日できるアクション（15-30分）</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>📝 身近な利他行動の仮説を書く</h3>
+                    <p>家族や友人の利他的行動を観察し、包括適応度や互恵的利他主義の観点から仮説を立ててみる</p>
+                </div>
+
+                <div class="action-card">
+                    <h3>📰 ニュース1本をESSで分析する</h3>
+                    <p>今日のニュースから社会的行動を1つ選び、進化的に安定な戦略として分析してみる</p>
+                </div>
+
+                <div class="action-card">
+                    <h3>👨‍👩‍👧‍👦 家族投資を包括適応度で考える</h3>
+                    <p>自分の時間やリソースの家族への配分を、血縁度と包括適応度の観点から振り返ってみる</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">The Extended Phenotype</div>
+                    <div class="book-author">Richard Dawkins</div>
+                    <p>遺伝子の因果的影響を体外へ拡張する続編的議論。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">The Blind Watchmaker</div>
+                    <div class="book-author">Richard Dawkins</div>
+                    <p>適応の設計者なき設計を平易に解説し遺伝子中心視点を補強。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Evolution and the Theory of Games</div>
+                    <div class="book-author">John Maynard Smith</div>
+                    <p>ESSと行動進化の数理基盤を与える古典。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Sociobiology: The New Synthesis</div>
+                    <div class="book-author">E. O. Wilson</div>
+                    <p>社会行動を進化論で統合した大著。利他性の議論と対照的視点も得られる。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">The Red Queen</div>
+                    <div class="book-author">Matt Ridley</div>
+                    <p>性選択と共進化のダイナミクスを一般向けに展開。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">The Moral Animal</div>
+                    <div class="book-author">Robert Wright</div>
+                    <p>進化心理学から利他・道徳を解釈し本書の社会的含意を拡張。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">The Gene: An Intimate History</div>
+                    <div class="book-author">Siddhartha Mukherjee</div>
+                    <p>遺伝子概念の歴史と科学を俯瞰し理論の背景を補う。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">Unto Others</div>
+                    <div class="book-author">Elliott Sober, David Sloan Wilson</div>
+                    <p>群選択と利他性を擁護し、遺伝子中心主義への重要な対抗軸を提示。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
