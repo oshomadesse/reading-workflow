@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>見るということ - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "👁️";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            border-left-color: var(--secondary);
+        }
+
+        .concept-card li::before {
+            content: "💡";
+        }
+
+        .quote-card {
+            border-left-color: var(--accent);
+            background: linear-gradient(135deg, #fff, #f8f9ff);
+        }
+
+        .quote-card li::before {
+            content: "💬";
+        }
+
+        .number-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .flow-diagram {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9ff, #fff);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .flow-step .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .book-item {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 見るということ</h1>
+            <p>視覚の政治性と複製時代の意味変容を読み解く</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🔄 論理構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践タブ">✨ 今日の実践</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📚 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>「見る」は中立でも無垢でもない</li>
+                        <li>歴史・権力・メディア技術によって形成される</li>
+                        <li>イメージを文脈から引き離し比較する実践</li>
+                        <li>支配的価値観の可視化</li>
+                        <li>別様の意味を発見する可能性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 視覚化の重要性</h3>
+                    <div class="number-badge">7つのエッセイ</div>
+                    <div class="number-badge">11の主要概念</div>
+                    <div class="number-badge">8つの因果関係</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">複製技術による意味変容の度合い</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>イメージの意味は固定的ではない</li>
+                        <li>西洋油彩画は「所有の視覚言語」を発達</li>
+                        <li>複製技術が文脈を可塑化</li>
+                        <li>広告は油彩画の語彙を継承</li>
+                        <li>批判的リーディングで観者の能動性を回復</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="venn-diagram">
+                <div class="venn-circle circle1">歴史的<br>文脈</div>
+                <div class="venn-circle circle2">権力<br>関係</div>
+                <div class="venn-circle circle3">メディア<br>技術</div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>👁️ 見ること（視覚の優位）</h3>
+                    <ul>
+                        <li>言葉に先行して世界を把握</li>
+                        <li>経験・知識・イデオロギーに媒介</li>
+                        <li>中立的な行為ではない</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 視覚は媒介される</p>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📷 再生産（複製）</h3>
+                    <ul>
+                        <li>作品を原位置から切り離す</li>
+                        <li>配置とスケールを変える</li>
+                        <li>意味を変容させる</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 複製は意味をずらす</p>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🖼️ 文脈とフレーミング</h3>
+                    <ul>
+                        <li>周囲の情報が読みを規定</li>
+                        <li>配置・注釈の重要性</li>
+                        <li>枠組みが意味を決定</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 文脈が意味を決める</p>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>👀 視線（ゲイズ）</h3>
+                    <ul>
+                        <li>誰が誰をどの立場から見るか</li>
+                        <li>権力関係の表現</li>
+                        <li>男性視線が女性を固定化</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 見る=支配の関係</p>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🎨 裸体（ヌード）と裸</h3>
+                    <ul>
+                        <li>「裸」は存在状態の描写</li>
+                        <li>「ヌード」は鑑賞用の演出</li>
+                        <li>女性を対象化する様式</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 演出された身体</p>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💰 所有の表象</h3>
+                    <ul>
+                        <li>富・土地・商品・身体を所有物として表示</li>
+                        <li>油彩画が発達させた語法</li>
+                        <li>視覚的な価値証明</li>
+                    </ul>
+                    <p><strong>一言要約:</strong> 見せる所有</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 因果関係の流れ</h3>
+                
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div>複製技術の発達 → 原作からの離脱</div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div>文脈の可塑化 → 意味の多義化</div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div>並置/比較の自由度増大 → 観者の能動性上昇</div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div>油彩画の言語 → 所有の表象制度化</div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div>男性視線の強化 → 女性身体の対象化</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📝 エッセイ構成（7部構成）</h3>
+                    <ul>
+                        <li>エッセイ1: 複製時代の「見る」変化</li>
+                        <li>エッセイ2: ヌード表象と男性視線</li>
+                        <li>エッセイ3: 画像並置の実演</li>
+                        <li>エッセイ4: 油彩画の所有言語分析</li>
+                        <li>エッセイ5: モチーフ連鎖の気づき</li>
+                        <li>エッセイ6: 広告の変身約束経済</li>
+                        <li>エッセイ7: 日常画像の並置実践</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="card-grid">
+                <div class="card quote-card">
+                    <h3>💬 視覚の起点</h3>
+                    <ul>
+                        <li>言葉に先立って私たちは世界を見る</li>
+                        <li>その見ることが知ることの前提を作る</li>
+                        <li>視覚の政治性議論を正当化</li>
+                    </ul>
+                </div>
+
+                <div class="card quote-card">
+                    <h3>💬 複製の力</h3>
+                    <ul>
+                        <li>複製は作品を原位置から解放</li>
+                        <li>配置と注釈によって意味を再編</li>
+                        <li>文脈が意味を作る中核テーゼ</li>
+                    </ul>
+                </div>
+
+                <div class="card quote-card">
+                    <h3>💬 視線の内面化</h3>
+                    <ul>
+                        <li>女性は自分がどう見られているかを見る</li>
+                        <li>権力作用の指摘</li>
+                        <li>ヌード批判の基盤</li>
+                    </ul>
+                </div>
+
+                <div class="card quote-card">
+                    <h3>💬 所有の物語</h3>
+                    <ul>
+                        <li>油彩画は所有の物語を語る</li>
+                        <li>物の価値を光沢と質感で証明</li>
+                        <li>美術史の経済的転換</li>
+                    </ul>
+                </div>
+
+                <div class="card quote-card">
+                    <h3>💬 広告の約束</h3>
+                    <ul>
+                        <li>「あなたは変われる」という未来約束</li>
+                        <li>現在の欠如を演出</li>
+                        <li>画像消費の仕組み把握</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">✨ 今日からできる実践</h3>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>📺 広告分析</h4>
+                    <p>広告1枚を無音で分析する</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">視線の方向、色彩、配置を観察</p>
+                </div>
+
+                <div class="action-card">
+                    <h4>🖼️ 複製比較</h4>
+                    <p>名画と複製を並べ意味を書く</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">文脈の違いによる印象変化を記録</p>
+                </div>
+
+                <div class="action-card">
+                    <h4>📸 視線記述</h4>
+                    <p>自分の写真の視線を記述する</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">誰に向けた視線か、何を表現するか</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">📚 関連書籍</h3>
+            <div class="book-list">
+                <div class="book-item">
+                    <div class="book-title">複製技術時代の芸術作品</div>
+                    <div class="book-author">ヴァルター・ベンヤミン</div>
+                    <div class="book-relation">複製がオーラと意味を変える理論的基盤を提供</div>
+                </div>
+
+                <div class="book-item">
+                    <div class="book-title">写真論</div>
+                    <div class="book-author">スーザン・ソンタグ</div>
+                    <div class="book-relation">写真が現実や記憶を構築する批判的視点</div>
+                </div>
+
+                <div class="book-item">
+                    <div class="book-title">視覚的快楽と物語映画</div>
+                    <div class="book-author">ローラ・マルヴィ</div>
+                    <div class="book-relation">男性視線と女性対象化の理論展開</div>
+                </div>
+
+                <div class="book-item">
+                    <div class="book-title">スペクタクルの社会</div>
+                    <div class="book-author">ギー・ドゥボール</div>
+                    <div class="book-relation">イメージが社会関係を媒介する構造分析</div>
+                </div>
+
+                <div class="book-item">
+                    <div class="book-title">アートと錯覚</div>
+                    <div class="book-author">E.H.ゴンブリッチ</div>
+                    <div class="book-relation">視覚表象の慣習と知覚の相互作用解明</div>
+                </div>
+
+                <div class="book-item">
+                    <div class="book-title">明るい部屋</div>
+                    <div class="book-author">ロラン・バルト</div>
+                    <div class="book-relation">写真のプンクトゥム/スタディウム概念</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性の更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
