@@ -65,12 +65,12 @@
         .tab-button {
             background: var(--light);
             border: 2px solid var(--secondary);
+            color: var(--primary);
             padding: 12px 20px;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            color: var(--primary);
         }
         
         .tab-button.active {
@@ -103,7 +103,7 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             border-left: 5px solid var(--accent);
             transition: transform 0.3s ease;
         }
@@ -133,75 +133,62 @@
         
         .card li::before {
             content: "▶";
+            color: var(--accent);
             position: absolute;
             left: 0;
-            color: var(--secondary);
-        }
-        
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
         }
         
         .concept-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            border-top: 3px solid var(--secondary);
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+            border-left: 5px solid var(--secondary);
         }
         
-        .concept-card h4 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .concept-summary {
-            background: var(--light);
-            padding: 5px 10px;
+        .concept-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
             border-radius: 15px;
-            font-size: 0.9rem;
-            color: var(--primary);
+            font-size: 0.8rem;
             display: inline-block;
             margin-top: 10px;
         }
         
-        .flow-chart {
+        .flow-diagram {
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            overflow-x: auto;
         }
         
         .flow-step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .flow-box {
+            display: inline-block;
             background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
             color: white;
             padding: 15px 20px;
             border-radius: 10px;
-            margin-right: 15px;
-            margin-bottom: 10px;
-            min-width: 200px;
+            margin: 10px;
+            min-width: 150px;
             text-align: center;
-            font-weight: 600;
+            position: relative;
         }
         
-        .arrow {
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
             font-size: 1.5rem;
-            color: var(--accent);
-            margin-right: 15px;
         }
         
-        .stats-container {
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -210,14 +197,14 @@
         
         .stat-card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
         }
         
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--accent);
             display: block;
@@ -225,8 +212,8 @@
         
         .stat-label {
             color: var(--primary);
-            font-weight: 600;
-            margin-top: 10px;
+            font-size: 0.9rem;
+            margin-top: 5px;
         }
         
         .timeline {
@@ -247,49 +234,40 @@
         
         .timeline-item {
             position: relative;
-            margin-bottom: 30px;
-            width: 45%;
+            margin: 30px 0;
+            padding: 0 30px;
         }
         
         .timeline-item:nth-child(odd) {
-            left: 0;
             text-align: right;
-            padding-right: 30px;
+            padding-right: 60%;
         }
         
         .timeline-item:nth-child(even) {
-            left: 55%;
             text-align: left;
-            padding-left: 30px;
+            padding-left: 60%;
         }
         
-        .timeline-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .timeline-item::before {
-            content: '';
+        .timeline-dot {
             position: absolute;
+            left: 50%;
+            top: 0;
             width: 15px;
             height: 15px;
             background: var(--accent);
             border-radius: 50%;
-            top: 20px;
+            transform: translateX(-50%);
         }
         
-        .timeline-item:nth-child(odd)::before {
-            right: -7px;
-        }
-        
-        .timeline-item:nth-child(even)::before {
-            left: -7px;
+        .timeline-content {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
         .quote-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -307,39 +285,26 @@
         }
         
         .action-list {
-            background: white;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .action-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: var(--light);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .action-item:hover {
-            background: var(--secondary);
-            color: white;
-            transform: translateX(10px);
-        }
-        
-        .action-number {
-            background: var(--accent);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            backdrop-filter: blur(10px);
         }
         
         @media (max-width: 768px) {
@@ -356,428 +321,404 @@
                 text-align: center;
             }
             
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .timeline::before {
                 left: 20px;
             }
             
             .timeline-item {
-                width: 100%;
-                left: 0 !important;
-                text-align: left !important;
                 padding-left: 50px !important;
-                padding-right: 0 !important;
+                padding-right: 20px !important;
+                text-align: left !important;
             }
             
-            .timeline-item::before {
-                left: 13px !important;
+            .timeline-dot {
+                left: 20px !important;
+                transform: translateX(-50%);
             }
             
             .flow-step {
-                flex-direction: column;
-                align-items: flex-start;
+                display: block;
+                margin: 10px 0;
             }
             
-            .arrow {
-                transform: rotate(90deg);
-                margin: 10px 0;
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1>🔫 銃・病原菌・鉄 📚</h1>
-            <p>人類社会の不平等は地理・生態条件が左右した食料生産の差から生まれた</p>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">📖 概要</button>
-            <button class="tab-button" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
-            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 構造</button>
-            <button class="tab-button" onclick="showTab('timeline')" aria-label="因果関係タブ">⏰ 因果関係</button>
-            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
-            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">✅ アクション</button>
-        </div>
-        
-        <div id="overview" class="tab-content active">
+            <p>なぜ人類社会に格差が生まれたのか - 環境と地理が決めた歴史の必然</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('flow')" role="tab" aria-selected="false">🔄 因果関係</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab" aria-selected="false">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
             <div class="card-grid">
                 <div class="card">
-                    <h3>🌍 核心メッセージ</h3>
+                    <h3>🎯 核心メッセージ</h3>
                     <ul>
-                        <li>人種や文化の優劣ではない</li>
-                        <li>地理・生態条件が決定要因</li>
-                        <li>食料生産の時期と規模の差</li>
-                        <li>病原菌・技術・政治組織の累積差</li>
-                        <li>環境に根差す長期的因果連鎖</li>
+                        <li>社会格差は人種的優劣ではない</li>
+                        <li>地理・生態・資源分布が決定要因</li>
+                        <li>食料生産が全ての出発点</li>
+                        <li>技術・病原菌・組織の拡散差</li>
+                        <li>歴史的必然としての征服格差</li>
                     </ul>
                 </div>
                 
                 <div class="card">
-                    <h3>🎯 エグゼクティブサマリー</h3>
+                    <h3>📊 ヤリの問い</h3>
                     <ul>
-                        <li>穀物化適性と家畜候補種の多寡</li>
-                        <li>ユーラシア東西軸の拡散容易性</li>
-                        <li>余剰生産→分業→文字→官僚制</li>
-                        <li>家畜由来病原菌の免疫優位</li>
-                        <li>ヨーロッパの地理的分断と競争</li>
+                        <li>「なぜ白人だけが多くの貨物を？」</li>
+                        <li>ニューギニア人の素朴な疑問</li>
+                        <li>能力差説明を完全否定</li>
+                        <li>環境要因仮説の提示</li>
+                        <li>実証的比較研究の開始</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌍 カハマルカの教訓</h3>
+                    <ul>
+                        <li>スペイン vs インカ帝国</li>
+                        <li>168人が8万人を征服</li>
+                        <li>銃・馬・鉄・文字・病原菌</li>
+                        <li>長期的環境差の集約例</li>
+                        <li>偶然ではなく必然の結果</li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="stats-container">
+
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-number">🌾</span>
-                    <div class="stat-label">農耕起源地<br>数カ所</div>
+                    <span class="stat-number">13,000</span>
+                    <div class="stat-label">年前<br>農耕開始</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">🐄</span>
-                    <div class="stat-label">家畜化動物<br>十数種</div>
+                    <span class="stat-number">14</span>
+                    <div class="stat-label">大型家畜<br>候補種</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">🦠</span>
-                    <div class="stat-label">致死的疫病<br>複数種</div>
+                    <span class="stat-number">95%</span>
+                    <div class="stat-label">新大陸人口<br>減少率</div>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">⚔️</span>
-                    <div class="stat-label">技術優位<br>決定的</div>
+                    <span class="stat-number">東西</span>
+                    <div class="stat-label">有利な<br>大陸軸</div>
                 </div>
             </div>
         </div>
-        
-        <div id="concepts" class="tab-content">
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>🌍 地理的条件</h4>
-                    <p>地域ごとの緯度・気候・地形・生物相が、人類が利用可能な資源と技術経路を制約・誘導する</p>
-                    <span class="concept-summary">環境の制約</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>🌾 作物化・家畜化</h4>
-                    <p>野生の植物・動物を選択・管理し、継続的に収穫・利用できるようにした過程</p>
-                    <span class="concept-summary">安定食料の源</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>🗺️ 大陸の軸</h4>
-                    <p>同緯度帯で気候が類似する東西軸では拡散しやすく、南北軸では拡散が阻まれやすい</p>
-                    <span class="concept-summary">拡散の向き</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>⚖️ 余剰と分業</h4>
-                    <p>農耕の余剰が職業専門化・官僚制・軍事・技術者階層を成立させる</p>
-                    <span class="concept-summary">複雑化の原動力</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>🦠 病原菌と免疫</h4>
-                    <p>家畜と長期接触した社会で進化した病原体が免疫差を生み、致命的打撃を与える</p>
-                    <span class="concept-summary">見えない武器</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>📜 文字と情報格納</h4>
-                    <p>情報の蓄積・伝達・行政管理を可能にし、大規模組織と長距離支配を支える</p>
-                    <span class="concept-summary">知の増幅器</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>🔄 技術拡散と模倣</h4>
-                    <p>発明の多くは独創よりも他地域からの拡散・改良で広がる</p>
-                    <span class="concept-summary">学習の連鎖</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>👥 社会段階</h4>
-                    <p>バンド→族→首長制→国家への人口規模と統治の複雑性の進化段階</p>
-                    <span class="concept-summary">統治の進化</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>🏔️ 地理的障壁</h4>
-                    <p>砂漠・山脈・海峡などが交流を阻み、技術・作物の拡散を遅らせる</p>
-                    <span class="concept-summary">交流の阻害</span>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>⚔️ 競争と統合</h4>
-                    <p>政治的分断は競争と革新を促し、過度の統合は停滞を招きうる</p>
-                    <span class="concept-summary">革新の条件</span>
-                </div>
-            </div>
-        </div>
-        
-        <div id="structure" class="tab-content">
+
+        <div id="concepts" class="tab-content" role="tabpanel">
             <div class="card-grid">
-                <div class="card">
-                    <h3>🎬 序章</h3>
+                <div class="card concept-card">
+                    <h3>🌱 食料生産</h3>
                     <ul>
-                        <li>ニューギニアでの「ヤリの問い」</li>
-                        <li>人類史の不平等を説明する課題設定</li>
-                        <li>人種主義的説明への反駁準備</li>
+                        <li>狩猟採集からの転換</li>
+                        <li>余剰生産が人口増を促進</li>
+                        <li>分業と政治組織化を可能に</li>
+                        <li>開始時期の差が後続差を生成</li>
                     </ul>
+                    <span class="concept-tag">余剰の源</span>
                 </div>
                 
-                <div class="card">
-                    <h3>🧪 自然実験</h3>
+                <div class="card concept-card">
+                    <h3>🐄 家畜化可能種の偏在</h3>
                     <ul>
-                        <li>ポリネシア諸島の多様な環境</li>
-                        <li>同じ出発点の集団比較</li>
-                        <li>異なる社会形成の事例</li>
+                        <li>大型家畜原種はユーラシア集中</li>
+                        <li>労働力・運搬・軍事利用</li>
+                        <li>病原菌供給源としても機能</li>
+                        <li>地域差が社会発展に直結</li>
                     </ul>
+                    <span class="concept-tag">動物の地理</span>
                 </div>
                 
-                <div class="card">
-                    <h3>⚔️ 接触の瞬間</h3>
+                <div class="card concept-card">
+                    <h3>🌾 作物化の容易さ</h3>
                     <ul>
-                        <li>カハマルカでのスペイン・インカ遭遇</li>
-                        <li>即時要因の解剖（武器・馬・文字・疫病）</li>
-                        <li>征服の具体的メカニズム</li>
+                        <li>高栄養で栽培容易な植物分布</li>
+                        <li>遺伝的改良のしやすさ</li>
+                        <li>農耕早期成立の左右要因</li>
+                        <li>肥沃な三日月地帯の優位</li>
                     </ul>
+                    <span class="concept-tag">植物の地理</span>
                 </div>
                 
-                <div class="card">
-                    <h3>🌱 根本要因</h3>
+                <div class="card concept-card">
+                    <h3>🧭 大陸軸</h3>
                     <ul>
-                        <li>農耕の起源地と時期</li>
-                        <li>作物化・家畜化の条件差</li>
-                        <li>ユーラシア東西軸による拡散容易性</li>
+                        <li>東西軸：気候帯連続で拡散促進</li>
+                        <li>南北軸：気候変化で拡散阻害</li>
+                        <li>ユーラシア優位の決定要因</li>
+                        <li>技術・作物・家畜の伝播速度</li>
                     </ul>
+                    <span class="concept-tag">拡散の方向</span>
                 </div>
                 
-                <div class="card">
-                    <h3>👑 食料から権力へ</h3>
+                <div class="card concept-card">
+                    <h3>🦠 病原菌と免疫</h3>
                     <ul>
-                        <li>余剰生産のメカニズム</li>
-                        <li>分業・国家・技術発展</li>
-                        <li>段階的な社会複雑化</li>
+                        <li>家畜由来病原体の進化</li>
+                        <li>農耕社会での長期接触</li>
+                        <li>耐性形成と免疫差</li>
+                        <li>新旧世界接触で壊滅的結果</li>
                     </ul>
+                    <span class="concept-tag">見えない武器</span>
                 </div>
                 
-                <div class="card">
-                    <h3>🦠 病原菌の威力</h3>
+                <div class="card concept-card">
+                    <h3>📜 技術と文字の拡散</h3>
                     <ul>
-                        <li>家畜由来疾患の進化</li>
-                        <li>免疫差による人口崩壊</li>
-                        <li>征服優位の歴史事例</li>
+                        <li>発明より借用・改良が重要</li>
+                        <li>人口規模と交流の広さが鍵</li>
+                        <li>革新の速度と持続性を決定</li>
+                        <li>孤立は技術発展を阻害</li>
                     </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>📚 情報・技術</h3>
-                    <ul>
-                        <li>文字・記録・鉄器の拡散</li>
-                        <li>船舶・火器の改良</li>
-                        <li>大規模支配の技術基盤</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>🌍 大陸比較</h3>
-                    <ul>
-                        <li>アフロ・ユーラシア vs アメリカ</li>
-                        <li>環境・拡散経路の違い</li>
-                        <li>結果の差異の分析</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>🏰 近世の分岐</h3>
-                    <ul>
-                        <li>ヨーロッパの地理的分断</li>
-                        <li>競争と革新の促進</li>
-                        <li>中国などとの対比検討</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>🎯 結論</h3>
-                    <ul>
-                        <li>人種主義的説明の退却</li>
-                        <li>環境的説明の射程と限界</li>
-                        <li>現代への含意の整理</li>
-                    </ul>
+                    <span class="concept-tag">借用の力</span>
                 </div>
             </div>
         </div>
-        
-        <div id="timeline" class="tab-content">
-            <div class="flow-chart">
-                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 因果関係の流れ</h3>
-                
-                <div class="flow-step">
-                    <div class="flow-box">可食植物・家畜候補の多寡</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">早期の農耕開始</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">余剰生産</div>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-box">東西軸の一致</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">作物・技術の水平拡散</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">生産性向上の広域波及</div>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-box">余剰生産</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">分業・官僚制・常備軍</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">大規模組織の成立</div>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-box">家畜との長期共存</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">病原菌進化と免疫獲得</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">接触時の疫病優位</div>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-box">政治的分断（欧州）</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">競争・模倣・革新</div>
-                    <span class="arrow">→</span>
-                    <div class="flow-box">航海術・火器の急速進歩</div>
-                </div>
-            </div>
-            
+
+        <div id="structure" class="tab-content" role="tabpanel">
             <div class="timeline">
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>🌾 農耕の開始</h4>
-                        <p>地理的条件により農耕開始時期に差が生まれる</p>
+                        <h4>🤔 導入：ヤリの問い</h4>
+                        <p>ニューギニア人の素朴な疑問から始まる根本問題の提示</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>🐄 家畜化の進展</h4>
-                        <p>家畜候補種の多寡が家畜化の規模を決定</p>
+                        <h4>🌍 人類史の同時性と分岐</h4>
+                        <p>ホモ・サピエンス拡散と大陸ごとの初期条件差</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>📈 余剰の蓄積</h4>
-                        <p>食料余剰が分業と社会階層化を可能にする</p>
+                        <h4>🌱 食料生産の起源と拡散</h4>
+                        <p>農耕起源の複数中心と作物・家畜候補種の偏在</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>🏛️ 国家の形成</h4>
-                        <p>官僚制と常備軍による大規模統治の実現</p>
+                        <h4>🧭 大陸軸と地理的障壁</h4>
+                        <p>東西軸の連続性と南北軸の不連続が拡散を規定</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>🦠 疫病の拡散</h4>
-                        <p>家畜由来病原菌が免疫のない集団を襲う</p>
+                        <h4>🦠 病原菌の進化と免疫</h4>
+                        <p>動物由来病原体と高密度社会での免疫差形成</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h4>⚔️ 征服の完成</h4>
-                        <p>技術・組織・疫病の複合優位による支配確立</p>
+                        <h4>⚙️ 技術・文字・政治の累積</h4>
+                        <p>借用ネットワークと余剰が生む国家・官僚制</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>⚔️ 事例分析：カハマルカ</h4>
+                        <p>スペインとインカの非対称性を統合的に分析</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🎯 統合と含意・限界</h4>
+                        <p>環境要因総合モデルと単線的決定論の回避</p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div id="quotes" class="tab-content">
+
+        <div id="flow" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 因果関係の連鎖</h3>
+                <div style="text-align: center; overflow-x: auto;">
+                    <div class="flow-step">🌍 地理・生態条件</div>
+                    <div class="flow-step">🌱 食料生産開始</div>
+                    <div class="flow-step">👥 人口密度上昇</div>
+                    <div class="flow-step">⚙️ 技術・分業発達</div>
+                    <div class="flow-step">🏛️ 政治組織化</div>
+                    <div class="flow-step">⚔️ 軍事優位確立</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔗 主要因果連鎖</h3>
+                    <ul>
+                        <li>家畜化可能種偏在 → 食料生産早期化</li>
+                        <li>食料生産 → 余剰 → 人口密度上昇</li>
+                        <li>家畜接触 → 病原菌進化 → 免疫獲得</li>
+                        <li>東西軸 → 拡散速度向上</li>
+                        <li>人口規模 → 発明累積・借用加速</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚡ 拡散と障壁</h3>
+                    <ul>
+                        <li>大陸軸が拡散方向を決定</li>
+                        <li>地理的障壁が拡散を遅延</li>
+                        <li>交流圏拡大が革新を促進</li>
+                        <li>孤立が技術・免疫格差拡大</li>
+                        <li>総合的優位が征服格差に</li>
+                    </ul>
+                </div>
+            </div>
+
+            <svg width="100%" height="300" style="background: white; border-radius: 15px; margin: 20px 0;">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#2c3e50;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- 環境要因 -->
+                <circle cx="100" cy="150" r="40" fill="url(#grad1)" />
+                <text x="100" y="155" text-anchor="middle" fill="white" font-size="12">環境要因</text>
+                
+                <!-- 食料生産 -->
+                <circle cx="250" cy="100" r="35" fill="#e74c3c" />
+                <text x="250" y="105" text-anchor="middle" fill="white" font-size="11">食料生産</text>
+                
+                <!-- 技術発達 -->
+                <circle cx="250" cy="200" r="35" fill="#27ae60" />
+                <text x="250" y="205" text-anchor="middle" fill="white" font-size="11">技術発達</text>
+                
+                <!-- 政治組織 -->
+                <circle cx="400" cy="150" r="40" fill="#f39c12" />
+                <text x="400" y="155" text-anchor="middle" fill="white" font-size="12">政治組織</text>
+                
+                <!-- 軍事優位 -->
+                <circle cx="550" cy="150" r="45" fill="#9b59b6" />
+                <text x="550" y="155" text-anchor="middle" fill="white" font-size="12">軍事優位</text>
+                
+                <!-- 矢印 -->
+                <path d="M 140 140 L 210 110" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)" />
+                <path d="M 140 160 L 210 190" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)" />
+                <path d="M 285 120 L 360 140" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)" />
+                <path d="M 285 180 L 360 160" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)" />
+                <path d="M 440 150 L 505 150" stroke="#2c3e50" stroke-width="3" marker-end="url(#arrowhead)" />
+                
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50" />
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <h4>💭 ヤリの根本問題</h4>
+                <p>「なぜ白人だけが多くの貨物を持ち、ニューギニア人は持たないのか？」</p>
+                <small>→ 研究の根本問題を端的に示し、本書全体の分析枠組みを駆動する</small>
+            </div>
+            
             <div class="quote-card">
                 <h4>🌍 環境決定論の核心</h4>
-                <p><strong>要旨：</strong>民族間の差は、生物学的能力ではなく環境差に起因する。</p>
-                <p><em>なぜ重要か：</em> 本書全体の反人種主義的立場と因果枠組みを端的に表す。</p>
+                <p>社会の違いは人の優劣ではなく環境の差から生じる</p>
+                <small>→ 人種主義的説明を退け、実証的比較の出発点を定める</small>
             </div>
             
             <div class="quote-card">
-                <h4>🌾 農耕の基盤性</h4>
-                <p><strong>要旨：</strong>食料生産の早期化が分業と国家と技術を生む。</p>
-                <p><em>なぜ重要か：</em> 農耕が複雑社会の基盤であることを示す中核命題。</p>
+                <h4>🔄 技術発展の法則</h4>
+                <p>発明は孤立よりも借用によって加速する</p>
+                <small>→ 交流圏の広さと大陸軸の重要性を技術史に結びつける</small>
             </div>
             
             <div class="quote-card">
-                <h4>🗺️ 地理の力</h4>
-                <p><strong>要旨：</strong>ユーラシアの東西軸は作物と技術の拡散を容易にした。</p>
-                <p><em>なぜ重要か：</em> 地理が拡散速度を規定する鍵となる視点を提供する。</p>
+                <h4>🐄 家畜の二面性</h4>
+                <p>家畜は労働と食の源であると同時に病原菌の供給源でもある</p>
+                <small>→ 農耕・家畜化と免疫差の意外な因果連鎖を示す</small>
             </div>
             
             <div class="quote-card">
-                <h4>🦠 見えない武器</h4>
-                <p><strong>要旨：</strong>家畜由来の病原菌は征服の決定的要因となった。</p>
-                <p><em>なぜ重要か：</em> 非意図的だが強力な優位要因を明らかにする。</p>
-            </div>
-            
-            <div class="quote-card">
-                <h4>⚔️ 競争の効用</h4>
-                <p><strong>要旨：</strong>政治的分断は競争と革新を促すことがある。</p>
-                <p><em>なぜ重要か：</em> 近世ヨーロッパの伸長を説明する仮説的要点。</p>
+                <h4>⚔️ カハマルカの本質</h4>
+                <p>カハマルカは長期にわたる地理・生態の差の帰結である</p>
+                <small>→ 個別事件を構造要因の集積として読み替える視座を与える</small>
             </div>
         </div>
-        
-        <div id="actions" class="tab-content">
+
+        <div id="action" class="tab-content" role="tabpanel">
             <div class="action-list">
-                <h3 style="margin-bottom: 20px; color: var(--primary);">📝 今日できるアクション（15-30分）</h3>
-                
+                <h3>⚡ 今日できるアクション</h3>
                 <div class="action-item">
-                    <div class="action-number">1</div>
-                    <div>
-                        <strong>身近な地理資源を5つ書き出す</strong>
-                        <p>自分の住む地域の気候・土壌・水源・鉱物・植生を調べてみる</p>
-                    </div>
+                    <strong>🗺️ 地図で大陸の東西軸を確認する</strong>
+                    <p>世界地図でユーラシア大陸の東西の広がりと、南北アメリカ・アフリカの南北軸を比較してみよう</p>
                 </div>
-                
                 <div class="action-item">
-                    <div class="action-number">2</div>
-                    <div>
-                        <strong>家畜化された動植物を10種調べる</strong>
-                        <p>現在の主要作物・家畜がいつどこで家畜化されたかを調査する</p>
-                    </div>
+                    <strong>🐄 家畜化候補種の一覧を作る</strong>
+                    <p>牛・馬・豚・羊・山羊など、現在の主要家畜の原産地を調べて地域偏在を確認しよう</p>
                 </div>
-                
                 <div class="action-item">
-                    <div class="action-number">3</div>
-                    <div>
-                        <strong>本書の要点を200字で要約する</strong>
-                        <p>地理→農耕→余剰→技術→征服の流れを自分の言葉でまとめる</p>
-                    </div>
+                    <strong>🌾 肥沃な三日月地帯を調べる</strong>
+                    <p>現在のイラク・シリア・トルコ南部にあたる農耕発祥地の地理的特徴を学ぼう</p>
                 </div>
             </div>
             
-            <div class="card-grid" style="margin-top: 30px;">
+            <div class="card-grid">
                 <div class="card">
                     <h3>📚 関連書籍</h3>
                     <ul>
-                        <li><strong>サピエンス全史</strong> - ハラリ（人類史の環境・技術・制度観点）</li>
-                        <li><strong>文明崩壊</strong> - ダイアモンド（環境要因と社会持続性）</li>
-                        <li><strong>1491</strong> - マン（先コロンブス期アメリカ再評価）</li>
-                        <li><strong>国家はなぜ衰退するのか</strong> - アセモグル（制度主因の対抗仮説）</li>
+                        <li><strong>文明崩壊</strong> - ダイアモンド</li>
+                        <li><strong>サピエンス全史</strong> - ハラリ</li>
+                        <li><strong>国家はなぜ衰退するのか</strong> - アセモグル</li>
+                        <li><strong>国富と国民の歴史</strong> - ランデス</li>
+                        <li><strong>遺伝子が語る人類史</strong> - ライク</li>
                     </ul>
                 </div>
                 
                 <div class="card">
-                    <h3>🎯 学習のポイント</h3>
+                    <h3>🔍 深掘りポイント</h3>
                     <ul>
-                        <li>環境決定論 vs 制度論の比較検討</li>
-                        <li>長期的因果関係の理解</li>
-                        <li>現代格差への含意の考察</li>
-                        <li>地理的思考の習得</li>
+                        <li>各大陸の農耕開始時期比較</li>
+                        <li>病原菌の種間移動メカニズム</li>
+                        <li>技術拡散の地理的パターン</li>
+                        <li>政治組織の複雑化過程</li>
+                        <li>現代格差への示唆</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
         function showTab(tabName) {
             // すべてのタブコンテンツを非表示
@@ -790,6 +731,7 @@
             const buttons = document.querySelectorAll('.tab-button');
             buttons.forEach(button => {
                 button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
             });
             
             // 選択されたタブを表示
@@ -797,34 +739,39 @@
             
             // 対応するボタンをアクティブ
             event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
         }
         
         // キーボードナビゲーション
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                const activeButton = document.querySelector('.tab-button.active');
                 const buttons = Array.from(document.querySelectorAll('.tab-button'));
-                const currentIndex = buttons.indexOf(activeButton);
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
                 
-                let nextIndex;
+                let newIndex;
                 if (e.key === 'ArrowLeft') {
-                    nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
                 } else {
-                    nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
                 }
                 
-                buttons[nextIndex].click();
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
             }
         });
         
-        // アクセシビリティ属性の設定
-        document.querySelectorAll('.tab-button').forEach((button, index) => {
-            button.setAttribute('role', 'tab');
-            button.setAttribute('tabindex', index === 0 ? '0' : '-1');
-        });
-        
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.setAttribute('role', 'tabpanel');
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     </script>
 </body>
