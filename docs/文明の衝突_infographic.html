@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文明の衝突 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #3498db, アクセント #e74c3c -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--light) 0%, #bdc3c7 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .tab-button:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: var(--accent);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .concept-card {
+            border-left-color: var(--accent);
+        }
+        
+        .structure-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .flow-item {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+        
+        .flow-item:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--secondary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 20px 0;
+            padding: 0 30px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+        
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .quote-card:before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-list ul {
+            list-style: none;
+        }
+        
+        .action-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .timeline:before {
+                left: 20px;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 50px;
+                padding-right: 20px;
+            }
+            
+            .timeline-item:before {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌍 文明の衝突</h1>
+            <p>冷戦後の世界政治を規定する主軸は文明＝文化である</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab">⚡ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab">📚 関連書籍</button>
+        </nav>
+
+        <main>
+            <div id="overview" class="tab-content active" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心メッセージ</h3>
+                        <ul>
+                            <li>冷戦後の主軸はイデオロギーではなく文明</li>
+                            <li>紛争は文明間の断層線で最も起きやすい</li>
+                            <li>西洋の普遍主義は反発と対抗を招く</li>
+                            <li>安定にはコア国家による調停が不可欠</li>
+                            <li>多文明間の勢力均衡と自制が必要</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📊 世界の変化</h3>
+                        <ul>
+                            <li>近代化 ≠ 西洋化という分離</li>
+                            <li>シナ文明・イスラム世界の復興</li>
+                            <li>西洋の相対的優位の揺らぎ</li>
+                            <li>断層線紛争の広域化リスク</li>
+                            <li>「引き裂かれた国」の不安定化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="structure-diagram">
+                    <h3>🌐 文明間の力学構造</h3>
+                    <div class="flow-chart">
+                        <div class="flow-item">冷戦終結 → イデオロギー対立の退潮</div>
+                        <div class="flow-item">文明アイデンティティの主軸化</div>
+                        <div class="flow-item">断層線紛争の発生</div>
+                        <div class="flow-item">同族国家症候群による介入連鎖</div>
+                        <div class="flow-item">地域紛争の国際化・長期化</div>
+                        <div class="flow-item">多文明秩序による安定化</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">9</span>
+                        <div class="stat-label">主要文明圏</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">∞</span>
+                        <div class="stat-label">断層線紛争</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">1</span>
+                        <div class="stat-label">多文明秩序</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="concepts" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card concept-card">
+                        <h3>🏛️ 文明（Civilization）</h3>
+                        <ul>
+                            <li>最も広い文化的共同体</li>
+                            <li>共通の歴史・宗教・価値・制度</li>
+                            <li>国家より上位のアイデンティティ</li>
+                            <li>長期持続的な単位</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 文化圏</p>
+                    </div>
+
+                    <div class="card concept-card">
+                        <h3>⚡ 断層線紛争</h3>
+                        <ul>
+                            <li>異文明の接触地帯で発生</li>
+                            <li>宗教・民族・歴史認識が原因</li>
+                            <li>持続的対立の特徴</li>
+                            <li>同族国家の介入で拡大</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 文明境界の火種</p>
+                    </div>
+
+                    <div class="card concept-card">
+                        <h3>👑 コア国家</h3>
+                        <ul>
+                            <li>文明内で最も影響力が大きい</li>
+                            <li>他国への規範提示を担う</li>
+                            <li>調停機能を持つ中心国</li>
+                            <li>文明内秩序の維持に不可欠</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 文明の軸</p>
+                    </div>
+
+                    <div class="card concept-card">
+                        <h3>💔 引き裂かれた国</h3>
+                        <ul>
+                            <li>国内アイデンティティが分裂</li>
+                            <li>エリートと大衆の文明帰属が矛盾</li>
+                            <li>文明転換志向と伝統的帰属の対立</li>
+                            <li>内外からの圧力で不安定化</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 帰属の迷い子</p>
+                    </div>
+
+                    <div class="card concept-card">
+                        <h3>🤝 同族国家症候群</h3>
+                        <ul>
+                            <li>同一文明国家の連帯行動</li>
+                            <li>断層線紛争で同胞側を支援</li>
+                            <li>連鎖的関与の傾向</li>
+                            <li>紛争の国際化を促進</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 身内びいき拡大</p>
+                    </div>
+
+                    <div class="card concept-card">
+                        <h3>🌍 西洋の普遍主義</h3>
+                        <ul>
+                            <li>西洋価値を普遍的基準と見なす</li>
+                            <li>他文明への適用を試みる態度</li>
+                            <li>反発と対抗連合を誘発</li>
+                            <li>「West vs. the Rest」構図を強化</li>
+                        </ul>
+                        <p><strong>一言要約:</strong> 価値の押し出し</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="structure" class="tab-content" role="tabpanel">
+                <div class="structure-diagram">
+                    <h3>📈 論理展開の構造</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>I部: 文明の世界観</h4>
+                            <p>世界を複数文明に区分し、文化が政治を規定する仮説を提示</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>II部: 文明間の力学</h4>
+                            <p>西洋の後退、非西洋復興、近代化と西洋化の分離を論証</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>III部: 新秩序の輪郭</h4>
+                            <p>コア国家・文明圏・断層線の概念導入、安定条件を提示</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>IV部: 衝突の実相</h4>
+                            <p>バルカン、南アジア、中東等の事例で断層線紛争を検証</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>V部: 政策含意</h4>
+                            <p>普遍主義の危険性指摘、多文明共存の実務原則を提案</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 概念間の関係性</h3>
+                    <ul>
+                        <li>冷戦終結 → 文明アイデンティティの主軸化</li>
+                        <li>近代化の進展 → 非西洋の経済成長 → 文明的自信の回復</li>
+                        <li>グローバル化 → 文明接触増大 → 摩擦と理解の両面</li>
+                        <li>断層線紛争 → 同族国家介入 → 地域紛争の国際化</li>
+                        <li>コア国家の自制 → 文明内秩序安定</li>
+                        <li>西洋普遍主義 → 他文明の反発 → 対抗構図強化</li>
+                        <li>多文明秩序 → 大規模文明間戦争の抑止</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="quotes" class="tab-content" role="tabpanel">
+                <div class="quote-card">
+                    <h4>「文明の断層線が未来の戦線となる」</h4>
+                    <p>冷戦後の紛争地図を読み解く中核命題を端的に表す。</p>
+                </div>
+
+                <div class="quote-card">
+                    <h4>「新たな対立の根源は文化であり、文明間の衝突である」</h4>
+                    <p>イデオロギーや経済中心の説明からのパラダイム転換を示す。</p>
+                </div>
+
+                <div class="quote-card">
+                    <h4>「近代化は西洋化を意味しない」</h4>
+                    <p>非西洋の台頭を西洋価値の普及と切り分け、将来の力学を示唆する。</p>
+                </div>
+
+                <div class="quote-card">
+                    <h4>「西洋の普遍主義は危険である」</h4>
+                    <p>価値の押し付けが大規模対立を誘発しうるという政策警鐘。</p>
+                </div>
+
+                <div class="quote-card">
+                    <h4>「同族国家は断層線紛争で同胞側に結集する」</h4>
+                    <p>局地紛争が国際化・長期化する拡大メカニズムを説明する。</p>
+                </div>
+
+                <div class="quote-card">
+                    <h4>「秩序はコア国家の自制と合意にかかっている」</h4>
+                    <p>多文明秩序の設計原理としての実務的な指針を与える。</p>
+                </div>
+            </div>
+
+            <div id="actions" class="tab-content" role="tabpanel">
+                <div class="action-list">
+                    <h3>⚡ 今日できるアクション</h3>
+                    <p>読後すぐに15〜30分で実行できるもの</p>
+                    <ul>
+                        <li>🏛️ 自国の文明的特徴を5つ列挙</li>
+                        <li>📰 主要ニュース3本を文明別に整理</li>
+                        <li>🗺️ 近隣国のコア国家を地図確認</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 実践のポイント</h3>
+                    <ul>
+                        <li>文明的視点でニュースを読み直す</li>
+                        <li>断層線地域の紛争パターンを観察</li>
+                        <li>コア国家の動向に注目する</li>
+                        <li>普遍主義的発言の反応を分析</li>
+                        <li>多文明共存の事例を探す</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="books" class="tab-content" role="tabpanel">
+                <div class="book-grid">
+                    <div class="book-card">
+                        <div class="book-title">歴史の終わりと最後の人間</div>
+                        <div class="book-author">フランシス・フクヤマ</div>
+                        <div class="book-relation">ポスト冷戦像を自由主義の勝利として描き、文明衝突論と対照的な枠組みを提示。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">世界秩序</div>
+                        <div class="book-author">ヘンリー・キッシンジャー</div>
+                        <div class="book-relation">文明・歴史観に基づく秩序形成を論じ、多文明調整の実務面を補完。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">聖戦とマクワールド</div>
+                        <div class="book-author">ベンジャミン・バーバー</div>
+                        <div class="book-relation">グローバル化と部族主義の二極動態を提示し、文化対立の別視角を与える。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">想像の共同体</div>
+                        <div class="book-author">ベネディクト・アンダーソン</div>
+                        <div class="book-relation">ナショナリズムの文化的構築性を解明し、文明アイデンティティ理解を深める。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">暴力の人類史（上・下）</div>
+                        <div class="book-author">スティーブン・ピンカー</div>
+                        <div class="book-relation">長期的な暴力傾向のデータ分析が、文明間衝突の持続性評価に示唆を与える。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">近代世界システム</div>
+                        <div class="book-author">イマニュエル・ウォーラーステイン</div>
+                        <div class="book-relation">経済世界システム論から国際秩序を説明し、文化中心の視座との比較軸を提供。</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstTab = document.querySelector('.tab-button');
+            if (firstTab) {
+                firstTab.focus();
+            }
+        });
+    </script>
+</body>
+</html>
