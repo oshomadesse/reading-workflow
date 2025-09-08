@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反応しない練習 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button.active {
+            background: #f093fb;
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #f093fb;
+            font-weight: bold;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .concept-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            text-align: center;
+        }
+        
+        .concept-card h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        
+        .concept-card .summary {
+            background: #f093fb;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .flow-diagram {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 1.5rem;
+            color: #764ba2;
+            margin: 0 10px;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-badge {
+            background: linear-gradient(135deg, #667eea, #f093fb);
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, #f093fb, #667eea);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .action-time {
+            background: #f093fb;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 15px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .book-title {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: #764ba2;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-relation {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 200px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 反応しない練習</h1>
+            <p>悩みの増殖を止めて心の自由度を取り戻す実践法</p>
+        </header>
+        
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🔄 構造と流れ</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false" aria-controls="quotes">💡 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">⚡ 今日のアクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false" aria-controls="books">📚 関連書籍</button>
+        </nav>
+        
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>外界の刺激に自動反応しない</li>
+                        <li>内面の妄想に巻き込まれない</li>
+                        <li>事実に基づいて観察・選別・行動</li>
+                        <li>悩みの増殖を止める</li>
+                        <li>心の自由度を取り戻す</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>ブッダの実践知を現代的に再整理</li>
+                        <li>感情・思考をラベリングで可視化</li>
+                        <li>事実と推測を明確に切り分け</li>
+                        <li>有益・無益の選別で資源集中</li>
+                        <li>実務的な心の運用法を習得</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-badge">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">苦の源<br>貪・瞋・痴</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">感覚分類<br>快・不快・中立</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">分で実践<br>今日から開始</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🛑 反応しない</h4>
+                    <p>刺激に対する自動的な感情・思考の立ち上がりを、即時の言動に移さず観察に切り替える姿勢</p>
+                    <div class="summary">不要な反応停止</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📊 事実に着目</h4>
+                    <p>確認可能な事実と解釈・推測を切り分け、判断・行動を事実ベースに限定する技法</p>
+                    <div class="summary">事実ベース</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🏷️ ラベリング</h4>
+                    <p>「怒り」「不安」「比較」など心の動きを名前で指さし、同一化を解く観察法</p>
+                    <div class="summary">名前で距離</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⚖️ 有益思考と無益思考の選別</h4>
+                    <p>目的・価値に資する思考だけを残し、妄想・反芻・自己攻撃は手放す意思決定</p>
+                    <div class="summary">選別思考</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎭 快・不快・中立の感覚</h4>
+                    <p>五感と心に生じる反応を三分類で気づき、追わず退けず均衡を保つ</p>
+                    <div class="summary">感覚の三態</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>☠️ 貪・瞋・痴</h4>
+                    <p>欲望（貪）・怒り（瞋）・無知/妄想（痴）が苦の源であるという枠組み</p>
+                    <div class="summary">苦の三毒</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎯 課題化・行動化</h4>
+                    <p>悩みを可変要素に分解し、いま自分ができる行為に落とすプロセス</p>
+                    <div class="summary">行動へ変換</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🧘 マインドフルな注意</h4>
+                    <p>呼吸や身体を足場に現在の体験へ注意を戻し、拡散した心を収束させる</p>
+                    <div class="summary">今ここ</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: #667eea;">🔄 悪循環から好循環への転換</h3>
+                
+                <div class="flow-step">
+                    <div class="flow-box">刺激</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">自動反応</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">感情増幅</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">反芻思考</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">さらなる反応</div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0; font-size: 2rem; color: #f093fb;">⬇️ 転換 ⬇️</div>
+                
+                <div class="flow-step">
+                    <div class="flow-box">気づき/ラベリング</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">同一化の解除</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">手放す</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">平静の回復</div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 構造と論理展開</h3>
+                    <ul>
+                        <li>導入: 悩みは"反応"が増やす—心の仕組み可視化</li>
+                        <li>基礎技法: 事実志向・ラベリング・手放す</li>
+                        <li>感情別対処: 怒り/不安/嫉妬/劣等感</li>
+                        <li>対人・仕事・情報: 課題分離と集中</li>
+                        <li>実践の土台: 呼吸・身体感覚・日常動作</li>
+                        <li>統合: 生き方の基準と淡々とやる幸福観</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔗 概念間の関係性</h3>
+                    <ul>
+                        <li>事実志向→課題化→行動→結果/フィードバック</li>
+                        <li>貪・瞋・痴→妄想と執着→無益思考→苦の増大</li>
+                        <li>快/不快/中立の識別→追求・拒絶の抑制</li>
+                        <li>有益/無益の選別→資源の再配分→集中</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>💎 「事実だけを見る」という態度</h3>
+                    <ul>
+                        <li>解釈や妄想を退ける</li>
+                        <li>意思決定の誤差を最小化</li>
+                        <li>客観的な判断基準を確立</li>
+                        <li>感情的な反応を抑制</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🗑️ 役に立たない思考は手放す</h3>
+                    <ul>
+                        <li>注意資源を奪う反芻を断つ</li>
+                        <li>行動への移行を促進</li>
+                        <li>心のエネルギーを節約</li>
+                        <li>建設的な思考に集中</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🏷️ 感情に名前を付けて距離をとる</h3>
+                    <ul>
+                        <li>同一化を解く</li>
+                        <li>反応を選べる主体性を回復</li>
+                        <li>感情の客観視を可能にする</li>
+                        <li>冷静な対処を促進</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎭 快・不快・中立の三分類で観察</h3>
+                    <ul>
+                        <li>自動反応の起点を掴む</li>
+                        <li>追求/拒絶の連鎖を止める</li>
+                        <li>感覚の中立的観察を促進</li>
+                        <li>均衡の取れた反応を実現</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日から始められる実践</h3>
+                
+                <div class="action-item">
+                    <div class="action-time">15分</div>
+                    <div>
+                        <strong>呼吸観察</strong><br>
+                        呼吸を数えながら15分間観察する。1から10まで数えて繰り返し、雑念が浮かんだら1に戻る
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-time">15分</div>
+                    <div>
+                        <strong>思考ラベリング</strong><br>
+                        浮かぶ思考に「心配」「計画」「回想」などのラベルを15分間付け続ける
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-time">15分</div>
+                    <div>
+                        <strong>悩み課題化</strong><br>
+                        悩みを1件選んで具体的な行動に分解し、15分だけ実際に着手してみる
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 実践のポイント</h3>
+                <ul>
+                    <li>完璧を求めず、気づいたら戻る</li>
+                    <li>毎日同じ時間に行う習慣化</li>
+                    <li>短時間でも継続を重視</li>
+                    <li>効果を期待せず淡々と実行</li>
+                    <li>日常生活の中で応用する</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">考えない練習</div>
+                    <div class="book-author">小池龍之介</div>
+                    <div class="book-relation">妄想を止め観察に切り替える実践が重なる</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">マインドフルネス ストレス低減法</div>
+                    <div class="book-author">ジョン・カバットジン</div>
+                    <div class="book-relation">呼吸・身体観察で反応性を下げる方法論の原点</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">嫌われる勇気</div>
+                    <div class="book-author">岸見一郎・古賀史健</div>
+                    <div class="book-relation">課題の分離と反応の選択に通じる実践哲学</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">FACTFULNESS</div>
+                    <div class="book-author">ハンス・ロスリング</div>
+                    <div class="book-relation">事実ベースで思い込みを正す態度が共通</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">ブッダのことば スッタニパータ</div>
+                    <div class="book-author">中村元（訳）</div>
+                    <div class="book-relation">貪・瞋・痴を離れる原典の思想背景を学べる</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
