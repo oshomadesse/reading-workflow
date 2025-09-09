@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇宙の起源と運命 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .concept-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .concept-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .concept-card .summary {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 10px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -32px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -32px;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .relationship-diagram {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-node {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            left: -20px;
+            top: -10px;
+            opacity: 0.3;
+        }
+
+        .action-list {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .action-item {
+            background: var(--white);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-time {
+            background: var(--primary);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+            }
+            
+            .timeline-item::before {
+                left: -32px !important;
+            }
+            
+            .flow-chart {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌌 宇宙の起源と運命</h1>
+            <p>一般相対性理論と量子力学の統合による宇宙理解への道筋</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🔬 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🏗️ 構造と関係</button>
+            <button class="tab-button" onclick="showTab('insights')" role="tab" aria-selected="false" aria-controls="insights">💡 重要な洞察</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab" aria-selected="false" aria-controls="action">🎯 実践アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>宇宙の起源・構造・運命の理解には統合理論が必要</li>
+                        <li>一般相対性理論と量子力学の融合が鍵</li>
+                        <li>科学的探究の到達点と未解決課題を可視化</li>
+                        <li>観測事実と理論の整合性を重視</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 宇宙の構成要素</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">68%</span>
+                            <span class="stat-label">ダークエネルギー</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">27%</span>
+                            <span class="stat-label">ダークマター</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">5%</span>
+                            <span class="stat-label">通常物質</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 主要な発見</h3>
+                    <ul>
+                        <li>ブラックホールは完全に黒くない（ホーキング放射）</li>
+                        <li>宇宙は加速膨張している</li>
+                        <li>量子ゆらぎが銀河構造の種となった</li>
+                        <li>時間の矢はエントロピー増大と関連</li>
+                        <li>CMBに初期宇宙の痕跡が刻まれている</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🚀 未解決問題</h3>
+                    <ul>
+                        <li>ブラックホール情報問題</li>
+                        <li>ダークエネルギーの正体</li>
+                        <li>量子重力理論の完成</li>
+                        <li>宇宙の本質的初期条件</li>
+                        <li>多元宇宙の実在性</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔬 主要概念マップ</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>⚡ 一般相対性理論</h4>
+                    <p>重力を力ではなく時空の曲率として記述する理論。巨大質量体の近傍や宇宙スケールで卓越する。</p>
+                    <div class="summary">曲がる時空</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌊 量子力学</h4>
+                    <p>ミクロな粒子の振る舞いを確率と波動関数で表す理論。不確定性と量子ゆらぎが本質。</p>
+                    <div class="summary">不確定の物理</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>💥 ビッグバン</h4>
+                    <p>宇宙が高温高密度から膨張してきたという標準的宇宙論。CMBと元素合成が根拠。</p>
+                    <div class="summary">宇宙の出発</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🕳️ ブラックホール</h4>
+                    <p>脱出速度が光速を超える時空領域。事象の地平面の内側からは情報が外部へ届かない。</p>
+                    <div class="summary">究極の重力井戸</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌟 ホーキング放射</h4>
+                    <p>量子効果によりブラックホールが熱放射し、最終的に蒸発する現象。</p>
+                    <div class="summary">黒は完全に黒でない</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎈 インフレーション</h4>
+                    <p>初期宇宙の急膨張期。平坦性・地平線問題を解決し量子ゆらぎを構造の種にする。</p>
+                    <div class="summary">超加速膨張</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⏰ 時間の矢</h4>
+                    <p>時間が一方向に感じられる性質。熱力学的エントロピー増大と関連づけられる。</p>
+                    <div class="summary">一方向の時間</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔮 無境界仮説</h4>
+                    <p>宇宙の初期をユークリッド時間で滑らかに接続し、始まりの境界を不要化する提案。</p>
+                    <div class="summary">始まりなき始まり</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌌 ダークエネルギー</h4>
+                    <p>宇宙の加速膨張を駆動する未知のエネルギー成分。宇宙定数で近似される。</p>
+                    <div class="summary">加速の源</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🧬 弦/M理論</h4>
+                    <p>素粒子を1次元弦として記述し、時空や力の統一を図る枠組み。</p>
+                    <div class="summary">統一の候補</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🏗️ 概念の関係性と論理構造</h2>
+            
+            <div class="relationship-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px;">🔄 理論統合の流れ</h3>
+                <div class="flow-chart">
+                    <div class="flow-node">
+                        <strong>一般相対性理論</strong><br>
+                        <small>時空の曲率</small>
+                    </div>
+                    <div class="flow-arrow">+</div>
+                    <div class="flow-node">
+                        <strong>量子力学</strong><br>
+                        <small>不確定性</small>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node">
+                        <strong>量子重力</strong><br>
+                        <small>統一理論</small>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node">
+                        <strong>宇宙の理解</strong><br>
+                        <small>起源と運命</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h3 style="text-align: center; margin-bottom: 30px;">📚 論理展開の流れ</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🤔 問題提起</h4>
+                        <p>宇宙はなぜ存在し、どのように始まり進化するのかを定式化</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>📜 歴史的背景</h4>
+                        <p>古典宇宙論から一般相対性理論の成立と重力の再解釈</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>⚛️ 量子論の導入</h4>
+                        <p>不確定性・場の量子論が初期宇宙で果たす役割</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🕳️ ブラックホール物理</h4>
+                        <p>事象の地平面・ホーキング放射・情報問題の提示</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>⏰ 時間と熱力学</h4>
+                        <p>エントロピーと宇宙進化の方向性の関係</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🌌 宇宙起源モデル</h4>
+                        <p>ビッグバン、インフレーション、無境界仮説の比較</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🔬 統一理論の探求</h4>
+                        <p>量子重力の要請、弦/M理論など候補の特徴</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🔭 観測との往復</h4>
+                        <p>CMB・超新星・重力波による理論の検証と今後の課題</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔗 主要な因果関係</h3>
+                    <ul>
+                        <li>相対論 × 量子論（両立困難）→ 量子重力の必要性</li>
+                        <li>ブラックホール + 量子ゆらぎ → ホーキング放射</li>
+                        <li>インフレーション → 平坦性・地平線問題の解消</li>
+                        <li>無境界仮説 → 初期特異点の回避</li>
+                        <li>観測（CMB・重力波）→ 理論の検証/淘汰</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">💡 重要な洞察と引用</h2>
+            
+            <div class="quote-section">
+                <div class="quote">
+                    "ブラックホールは量子的効果で放射し、完全には黒くない。"
+                </div>
+                <p><strong>重要性:</strong> 重力・量子・熱力学の橋渡しを成し、情報問題を生んだコア命題</p>
+            </div>
+            
+            <div class="quote-section">
+                <div class="quote">
+                    "宇宙の始まりには境界がないとみなせる（無境界仮説）。"
+                </div>
+                <p><strong>重要性:</strong> 特異点を回避し、初期条件を物理法則の枠内で扱う道を開く</p>
+            </div>
+            
+            <div class="quote-section">
+                <div class="quote">
+                    "良い理論は観測に一致し、予測可能でなければならない。"
+                </div>
+                <p><strong>重要性:</strong> 美しさより検証可能性を重視する科学観を明確化</p>
+            </div>
+            
+            <div class="quote-section">
+                <div class="quote">
+                    "宇宙が理解可能であること自体が驚異である。"
+                </div>
+                <p><strong>重要性:</strong> 科学的探究の意義を哲学的次元から支える視座を提供</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>時間の短い歴史（改訂版）</strong> - ホーキング<br>
+                        <small>同著者による宇宙論入門の定番</small></li>
+                        <li><strong>エレガントな宇宙</strong> - ブライアン・グリーン<br>
+                        <small>弦/M理論と時空の統一像を詳述</small></li>
+                        <li><strong>宇宙が始まる前には何があったのか?</strong> - ローレンス・クラウス<br>
+                        <small>量子ゆらぎと宇宙創生を別視点から掘り下げ</small></li>
+                        <li><strong>七つの美しい物理法則</strong> - カルロ・ロヴェッリ<br>
+                        <small>現代物理の核心を簡潔に俯瞰</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🎯 今日できる実践アクション</h2>
+            
+            <div class="action-list">
+                <div class="action-item">
+                    <div class="action-time">15分</div>
+                    <div>
+                        <h4>📝 本の章構成を箇条書きで写す</h4>
+                        <p>全体の論理構造を把握し、重要ポイントを整理する</p>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-time">20分</div>
+                    <div>
+                        <h4>🎨 無境界仮説を図で要約する</h4>
+                        <p>時空の始まりの概念を視覚化して理解を深める</p>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-time">30分</div>
+                    <div>
+                        <h4>🔍 CMBの最新観測ニュースを1件調べる</h4>
+                        <p>理論と現実の観測データの関係を確認する</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔬 深掘り学習のヒント</h3>
+                    <ul>
+                        <li>YouTube で「ホーキング放射」の解説動画を視聴</li>
+                        <li>NASA の CMB 観測データを実際に見てみる</li>
+                        <li>量子力学と相対論の基礎を復習する</li>
+                        <li>ブラックホール情報問題について調べる</li>
+                        <li>弦理論の入門書を読んでみる</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💭 考察ポイント</h3>
+                    <ul>
+                        <li>なぜ統一理論が必要なのか？</li>
+                        <li>観測と理論の関係をどう考えるか？</li>
+                        <li>宇宙の「理解可能性」とは何か？</li>
+                        <li>科学の限界はどこにあるか？</li>
+                        <li>多元宇宙は実在するか？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
