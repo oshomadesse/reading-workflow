@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>因果推論の道具箱 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --bg-light: #f8fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: white;
+            color: var(--text-dark);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 14px;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border-top: 3px solid var(--accent);
+        }
+
+        .concept-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .concept-summary {
+            background: linear-gradient(135deg, var(--accent), #ff9a9e);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: 600;
+            position: relative;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .flow-step:not(:last-child):after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--accent);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent), #ff9a9e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .book-title {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .circle-correlation {
+            background: var(--primary);
+            transform: translateX(-40px);
+        }
+
+        .circle-causation {
+            background: var(--secondary);
+            transform: translateX(40px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 10px 0;
+            }
+            
+            .flow-step:not(:last-child):after {
+                content: "↓";
+                position: static;
+                display: block;
+                text-align: center;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📊 因果推論の道具箱</h1>
+            <p>相関と因果を峻別し、実験と疑似実験でバイアスを制御して、エビデンスに基づく意思決定へ</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">🔧 主要概念</button>
+            <button class="tab-button" onclick="showTab('methods')" role="tab" aria-selected="false" aria-controls="methods">⚙️ 手法</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">📚 構造</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">✅ 実践</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>相関と因果を峻別する</li>
+                        <li>実験と疑似実験でバイアス制御</li>
+                        <li>因果効果を適切に推定</li>
+                        <li>エビデンスに基づく意思決定</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚠️ 問題意識</h3>
+                    <ul>
+                        <li>「相関は因果を示さない」の誤解</li>
+                        <li>政策・ビジネス・医療での失敗</li>
+                        <li>善意や常識に頼る判断の限界</li>
+                        <li>適切な比較設計の必要性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 解決アプローチ</h3>
+                    <ul>
+                        <li>RCTを金標準とする</li>
+                        <li>自然実験で擬似ランダム性活用</li>
+                        <li>IV・RD・DIDで因果識別</li>
+                        <li>効果量と信頼区間重視</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="venn-diagram">
+                <div style="position: relative;">
+                    <div class="venn-circle circle-correlation">相関<br/>観察される<br/>関係</div>
+                    <div class="venn-circle circle-causation">因果<br/>介入による<br/>変化</div>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number">15</span>
+                    <div class="stat-label">主要概念</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">識別手法</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">今日のアクション</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔄 相関と因果</h4>
+                    <p>相関は二つの変数が同時に変動する観察上の関係、因果は一方の介入が他方を変える機序的関係。</p>
+                    <span class="concept-summary">相関≠因果</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🤔 反実仮想</h4>
+                    <p>各個体について「介入あり」と「介入なし」の両方の結果を想定し、その差を因果効果と定義する枠組み。</p>
+                    <span class="concept-summary">もし〜だったら</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎲 RCT</h4>
+                    <p>介入割当を無作為化し、群間の交絡を平均的に等しくして因果効果を推定する実験デザイン。</p>
+                    <span class="concept-summary">因果の金標準</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌿 自然実験</h4>
+                    <p>制度変更や外生ショックが生む擬似ランダム性を利用し、観察データから因果を識別する方法。</p>
+                    <span class="concept-summary">擬似ランダム</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔧 操作変数法</h4>
+                    <p>処置に影響するがアウトカムに直接影響しない外生変数を道具として、交絡を排して因果効果を推定する。</p>
+                    <span class="concept-summary">外生ショックで識別</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📏 回帰不連続</h4>
+                    <p>しきい値の前後を比較し、割当ルールの不連続性を利用して局所的な因果効果を推定する。</p>
+                    <span class="concept-summary">境界で比べる</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📊 差の差法</h4>
+                    <p>介入群と対照群の時間変化の差を比較し、共通トレンド仮定の下で因果効果を推定する。</p>
+                    <span class="concept-summary">時間差で識別</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌪️ 交絡</h4>
+                    <p>処置とアウトカムの双方に影響し、見かけの関連を生む第三の要因。制御しないと推定が歪む。</p>
+                    <span class="concept-summary">第三の要因</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⚖️ 選択バイアス</h4>
+                    <p>介入への参加が自選や基準で偏ることで、群間の違いが処置効果と混同される歪み。</p>
+                    <span class="concept-summary">偏った参加</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎯 内部妥当性</h4>
+                    <p>研究設定内で推定された効果が真の因果を捉えている程度。</p>
+                    <span class="concept-summary">因果の確かさ</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌍 外的妥当性</h4>
+                    <p>得られた効果が他の集団・時期・環境に一般化できる程度。内部妥当性としばしばトレードオフ。</p>
+                    <span class="concept-summary">一般化の力</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📈 p値と有意性</h4>
+                    <p>帰無仮説の下で観測データが得られる確率。小ささは証拠の強さを示すが、効果量や実用性とは別物。</p>
+                    <span class="concept-summary">証拠の強さ</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="methods" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🔄 因果推論の流れ</h3>
+                <div style="text-align: center;">
+                    <div class="flow-step">問題設定</div>
+                    <div class="flow-step">交絡の特定</div>
+                    <div class="flow-step">識別戦略</div>
+                    <div class="flow-step">推定・検証</div>
+                    <div class="flow-step">意思決定</div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎲 ランダム化比較試験（RCT）</h3>
+                    <ul>
+                        <li>無作為割当で交絡を制御</li>
+                        <li>因果推論の金標準</li>
+                        <li>倫理・費用・外的妥当性に課題</li>
+                        <li>内部妥当性は最も高い</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌿 自然実験・差の差法</h3>
+                    <ul>
+                        <li>政策変更や外生ショックを活用</li>
+                        <li>時間比較で因果を識別</li>
+                        <li>共通トレンド仮定が重要</li>
+                        <li>観察データで実施可能</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📏 回帰不連続デザイン</h3>
+                    <ul>
+                        <li>しきい値前後の比較</li>
+                        <li>割当ルールの不連続性利用</li>
+                        <li>局所的な因果効果を推定</li>
+                        <li>操作可能性の検証が必要</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔧 操作変数法</h3>
+                    <ul>
+                        <li>外生変数を道具として使用</li>
+                        <li>処置への影響あり、直接効果なし</li>
+                        <li>局所平均処置効果を推定</li>
+                        <li>仮定の検証が困難</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>⚠️ バイアスと対策</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: #fef2f2; padding: 15px; border-radius: 10px; border-left: 4px solid #ef4444;">
+                        <strong>選択バイアス</strong><br/>
+                        <small>ランダム化・マッチングで対処</small>
+                    </div>
+                    <div style="background: #fef3c7; padding: 15px; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                        <strong>交絡</strong><br/>
+                        <small>統制変数・固定効果で調整</small>
+                    </div>
+                    <div style="background: #ecfdf5; padding: 15px; border-radius: 10px; border-left: 4px solid #10b981;">
+                        <strong>測定誤差</strong><br/>
+                        <small>操作変数・複数指標で緩和</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📖 導入部</h3>
+                    <ul>
+                        <li>相関と因果の違いを明確化</li>
+                        <li>日常と政策の失敗例を提示</li>
+                        <li>因果推論の必要性を説明</li>
+                        <li>問題意識の共有</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🧠 基礎理論</h3>
+                    <ul>
+                        <li>反実仮想の考え方</li>
+                        <li>平均処置効果の定義</li>
+                        <li>因果効果の直感的説明</li>
+                        <li>識別問題の理解</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎲 実験デザイン</h3>
+                    <ul>
+                        <li>RCTの仕組みと限界</li>
+                        <li>ランダム化の効果</li>
+                        <li>倫理・費用・外的妥当性</li>
+                        <li>実験の設計原則</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔍 観察データ分析</h3>
+                    <ul>
+                        <li>自然実験・DIDの活用</li>
+                        <li>RD・IVでの局所効果推定</li>
+                        <li>識別の条件と落とし穴</li>
+                        <li>仮定の検証方法</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚠️ バイアス対策</h3>
+                    <ul>
+                        <li>選択・測定・回帰バイアス</li>
+                        <li>バイアス検出のチェックリスト</li>
+                        <li>交絡要因の特定</li>
+                        <li>頑健性の確認</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 推定と解釈</h3>
+                    <ul>
+                        <li>p値の正しい解釈</li>
+                        <li>効果量・信頼区間の重視</li>
+                        <li>検出力と多重検定</li>
+                        <li>不確実性の伝達</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>💡 重要な引用</h3>
+                <div style="display: grid; gap: 15px; margin-top: 15px;">
+                    <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 20px; border-radius: 12px;">
+                        <strong>"相関は因果の証拠ではなく、因果は設計で識別する"</strong><br/>
+                        <small style="opacity: 0.9;">→ 統計的関連と因果推論の核心を明確に区別</small>
+                    </div>
+                    <div style="background: linear-gradient(135deg, var(--accent), #ff9a9e); color: white; padding: 20px; border-radius: 12px;">
+                        <strong>"善意ではなくデータで政策を選ぶべきだ"</strong><br/>
+                        <small style="opacity: 0.9;">→ 効果と効率を重視する判断基準を提示</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>✅ 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>🤔 身の回りの因果仮説を3つ書く</strong><br/>
+                    <small>例：「早起きすると生産性が上がる」「運動すると気分が良くなる」</small>
+                </div>
+                <div class="action-item">
+                    <strong>📰 ニュース1本を因果視点で要約</strong><br/>
+                    <small>相関なのか因果なのか、交絡要因は何かを考えながら読む</small>
+                </div>
+                <div class="action-item">
+                    <strong>🔄 過去の意思決定を因果で振り返る</strong><br/>
+                    <small>どんな「証拠」に基づいて判断したか、バイアスはなかったかを検証</small>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎯 エビデンスベース意思決定</h3>
+                    <ul>
+                        <li>最良の研究結果を活用</li>
+                        <li>文脈・コスト・価値観を統合</li>
+                        <li>効果量と不確実性を重視</li>
+                        <li>継続的な検証と改善</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔍 情報リテラシー</h3>
+                    <ul>
+                        <li>研究デザインの質を評価</li>
+                        <li>出版バイアスを見抜く</li>
+                        <li>p値の誤用を避ける</li>
+                        <li>メタ分析を重視する</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>📚 関連書籍</h3>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <div class="book-title">The Book of Why</div>
+                        <div class="book-author">Judea Pearl, Dana Mackenzie</div>
+                        <p style="font-size: 0.9rem;">因果推論の哲学と計算グラフを直感的に解説</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">Mostly Harmless Econometrics</div>
+                        <div class="book-author">Joshua D. Angrist, Jörn-Steffen Pischke</div>
+                        <p style="font-size: 0.9rem;">識別戦略を経済学の実例で深掘り</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">データ分析の力</div>
+                        <div class="book-author">伊藤公一朗</div>
+                        <p style="font-size: 0.9rem;">日本語での因果推論入門として事例が豊富</p>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">Mastering 'Metrics</div>
+                        <div class="book-author">Joshua D. Angrist, Jörn-Steffen Pischke</div>
+                        <p style="font-size: 0.9rem;">5つの主要手法を平易に解説</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
