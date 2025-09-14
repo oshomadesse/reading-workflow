@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>種の起源 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c5530, セカンダリー #4a7c59, アクセント #7fb069 -->
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #4a7c59;
+            --accent: #7fb069;
+            --bg-light: #f8fdf9;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(44, 85, 48, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "🌱";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .concept-card .concept-tag {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .flow-diagram {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .flow-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .action-list {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-item::before {
+            content: "✅";
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 40px;
+                padding-right: 20px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌿 種の起源</h1>
+            <p>自然選択による生命多様性の進化理論</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab">🧬 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">📚 構造</button>
+            <button class="tab-button" onclick="showTab('evidence')" role="tab">🔬 証拠</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <p>生物は共通祖先から派生し、個体間の微小な変異が資源制限下の生存・繁殖差によって累積的に選択されることで、長期的に適応と種分化が生じる。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🔑 キーポイント</h3>
+                    <ul>
+                        <li>人工選択から自然選択への類推</li>
+                        <li>資源制限による生存競争</li>
+                        <li>微小変異の累積による適応</li>
+                        <li>地理的隔離による種分化</li>
+                        <li>化石・形態・胚発生による証拠</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px;">🔄 自然選択のプロセス</h3>
+                <div class="flow-step">
+                    <span>🧬 遺伝的変異</span>
+                    <span style="margin-left: auto;">個体間の微小な差異</span>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                <div class="flow-step">
+                    <span>⚔️ 生存競争</span>
+                    <span style="margin-left: auto;">資源制限による競合</span>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                <div class="flow-step">
+                    <span>🏆 適者生存</span>
+                    <span style="margin-left: auto;">適応的形質の優位</span>
+                </div>
+                <div class="flow-arrow">⬇️</div>
+                <div class="flow-step">
+                    <span>🌱 累積的変化</span>
+                    <span style="margin-left: auto;">長期的な進化</span>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">14</div>
+                    <div>章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1859</div>
+                    <div>出版年</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div>主要概念</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <div class="concept-tag">素材</div>
+                    <h3>🧬 変異</h3>
+                    <p>同種内の個体間に見られる遺伝的・表現型的差異。微小でも累積すれば進化の素材となる。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">淘汰の舞台</div>
+                    <h3>⚔️ 生存競争</h3>
+                    <p>資源が有限であるため個体間・種間で生存と繁殖の機会を巡る競合が生じること。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">適者優存</div>
+                    <h3>🏆 自然選択</h3>
+                    <p>環境適応的な変異を持つ個体が相対的に多く繁殖し、当該形質が集団に広がる過程。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">人為淘汰</div>
+                    <h3>🐕 人工選択</h3>
+                    <p>人為的な繁殖選抜により望ましい形質を強める過程。自然選択の類推モデル。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">系統の根</div>
+                    <h3>🌳 共通祖先</h3>
+                    <p>現在の多様な生物が系統的にさかのぼると収斂する祖先。生命の系統樹の根。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">多様化</div>
+                    <h3>🌿 分岐</h3>
+                    <p>集団が異なる生態的地位を占有することで形質が乖離し、系統が枝分かれすること。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">環境適合</div>
+                    <h3>🎯 適応</h3>
+                    <p>特定環境で生存・繁殖成功を高める形質とその成立過程。</p>
+                </div>
+
+                <div class="concept-card">
+                    <div class="concept-tag">系統の終端</div>
+                    <h3>💀 絶滅</h3>
+                    <p>競合や環境変化に適応できず系統が断絶する現象。自然選択の裏面。</p>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px;">🔗 概念間の関係性</h3>
+                <svg width="100%" height="300" viewBox="0 0 800 300">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#4a7c59" />
+                        </marker>
+                    </defs>
+                    
+                    <circle cx="100" cy="50" r="30" fill="#7fb069" />
+                    <text x="100" y="55" text-anchor="middle" fill="white" font-size="12">変異</text>
+                    
+                    <circle cx="300" cy="50" r="30" fill="#7fb069" />
+                    <text x="300" y="55" text-anchor="middle" fill="white" font-size="12">競争</text>
+                    
+                    <circle cx="500" cy="50" r="30" fill="#7fb069" />
+                    <text x="500" y="55" text-anchor="middle" fill="white" font-size="12">選択</text>
+                    
+                    <circle cx="700" cy="50" r="30" fill="#7fb069" />
+                    <text x="700" y="55" text-anchor="middle" fill="white" font-size="12">適応</text>
+                    
+                    <circle cx="200" cy="150" r="30" fill="#4a7c59" />
+                    <text x="200" y="155" text-anchor="middle" fill="white" font-size="12">隔離</text>
+                    
+                    <circle cx="400" cy="150" r="30" fill="#4a7c59" />
+                    <text x="400" y="155" text-anchor="middle" fill="white" font-size="12">分岐</text>
+                    
+                    <circle cx="600" cy="150" r="30" fill="#4a7c59" />
+                    <text x="600" y="155" text-anchor="middle" fill="white" font-size="12">種分化</text>
+                    
+                    <circle cx="400" cy="250" r="30" fill="#2c5530" />
+                    <text x="400" y="255" text-anchor="middle" fill="white" font-size="12">共通祖先</text>
+                    
+                    <line x1="130" y1="50" x2="270" y2="50" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="330" y1="50" x2="470" y2="50" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="530" y1="50" x2="670" y2="50" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="230" y1="150" x2="370" y2="150" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="430" y1="150" x2="570" y2="150" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="400" y1="180" x2="400" y2="220" stroke="#4a7c59" stroke-width="2" marker-end="url(#arrowhead)" />
+                </svg>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第1章 家畜化下の変異</h4>
+                    <p>人工選択の事例で微小変異の蓄積が大きな差異を生むことを提示</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第2-3章 自然界の変異・生存競争</h4>
+                    <p>種・変種の連続性とマルサス的資源制限から競争の必然性を導出</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第4章 自然選択</h4>
+                    <p>微小変異×競争が適応を生み、分岐と絶滅を伴って進化が進むと主張</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第5-8章 理論的困難への応答</h4>
+                    <p>眼の進化・本能・雑種など想定される反論に詳細に応答</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第9-10章 地質記録</h4>
+                    <p>化石記録の不完全性を堆積・保存バイアスで説明</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第11-12章 地理的分布</h4>
+                    <p>大陸・島嶼のパターンから系統と移入・隔離の役割を提示</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4>第13-14章 形態・胚発生・総括</h4>
+                    <p>相同・痕跡器官・胚相同性を共通祖先の証拠とし理論を統合</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="evidence" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏺 化石証拠</h3>
+                    <ul>
+                        <li>地質層序における生物の変遷</li>
+                        <li>絶滅種と現生種の関係</li>
+                        <li>記録の不完全性の説明</li>
+                        <li>移行形の存在可能性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🗺️ 地理的分布</h3>
+                    <ul>
+                        <li>大陸と島嶼の種分布パターン</li>
+                        <li>海陸障壁による隔離効果</li>
+                        <li>氷期史と移動経路</li>
+                        <li>近縁種の地理的近接性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 形態学的証拠</h3>
+                    <ul>
+                        <li>相同器官の存在</li>
+                        <li>痕跡器官の意味</li>
+                        <li>器官の段階的複雑化</li>
+                        <li>機能と構造の対応</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🥚 胚発生学</h3>
+                    <ul>
+                        <li>初期胚の類似性</li>
+                        <li>発生過程の共通性</li>
+                        <li>系統発生と個体発生</li>
+                        <li>進化的制約の反映</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-card">
+                <p style="font-style: italic; margin-bottom: 15px;">
+                "There is grandeur in this view of life... from so simple a beginning endless forms most beautiful and most wonderful have been, and are being, evolved."
+                </p>
+                <p style="font-size: 0.9rem; opacity: 0.8;">
+                共通祖先からの開花という世界観と、進化が現在進行形であることを象徴的に示す結語
+                </p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>人間の由来と性選択</strong> - ダーウィン</li>
+                        <li><strong>進化とは何か</strong> - エルンスト・マイヤー</li>
+                        <li><strong>利己的な遺伝子</strong> - リチャード・ドーキンス</li>
+                        <li><strong>自然淘汰の遺伝的理論</strong> - R.A.フィッシャー</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3 style="margin-bottom: 20px;">⚡ 今日できるアクション</h3>
+                
+                <div class="action-item">
+                    <span>第1章を20分読む</span>
+                </div>
+                
+                <div class="action-item">
+                    <span>重要概念を5個メモする</span>
+                </div>
+                
+                <div class="action-item">
+                    <span>疑問を3つ書き出す</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 学習のポイント</h3>
+                    <ul>
+                        <li>人工選択から自然選択への類推を理解</li>
+                        <li>微小変異の累積効果を把握</li>
+                        <li>地理的隔離の重要性を認識</li>
+                        <li>多分野の証拠統合を学習</li>
+                        <li>現代進化論との連続性を確認</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤔 考察すべき問い</h3>
+                    <ul>
+                        <li>なぜ人工選択が自然選択の証拠になるのか？</li>
+                        <li>微小変異はどのように大きな変化につながるのか？</li>
+                        <li>地理的分布パターンが進化の証拠となる理由は？</li>
+                        <li>現代の分子生物学的証拠との整合性は？</li>
+                        <li>ダーウィンの理論の限界と発展は？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (activeIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (activeIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+
+        // アニメーション効果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
