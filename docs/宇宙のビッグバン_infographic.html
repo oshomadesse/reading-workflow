@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇宙最初の3分 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "🔹";
+            position: absolute;
+            left: 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 10px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -62px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -62px;
+        }
+
+        .timeline-content {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-item {
+            background: var(--bg-light);
+            padding: 15px 25px;
+            border-radius: 25px;
+            border: 2px solid var(--primary);
+            position: relative;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .flow-item::after {
+            content: '⬇️';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .action-list {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .action-item {
+            background: var(--white);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+            }
+
+            .timeline-item::before {
+                left: -50px !important;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌌 宇宙最初の3分</h1>
+            <p>ビッグバン理論の物理的基盤と観測的検証</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">主要概念</button>
+            <button class="tab-button" onclick="showTab('timeline')" role="tab" aria-selected="false" aria-controls="timeline">宇宙史</button>
+            <button class="tab-button" onclick="showTab('evidence')" role="tab" aria-selected="false" aria-controls="evidence">観測的証拠</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">実践・関連書籍</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <div class="quote-box">
+                    宇宙の最初の数分に起きた熱的・核的過程が、軽元素比やCMBなど今日の観測可能な指標を決定し、物理法則で再現・検証できる
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心的メッセージ</h3>
+                        <ul>
+                            <li>初期宇宙の物理過程が現在の観測量を決定</li>
+                            <li>熱力学と素粒子物理による定量的記述</li>
+                            <li>理論予測と観測データの整合性検証</li>
+                            <li>少数パラメータで宇宙史を再構成可能</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔬 方法論の特徴</h3>
+                        <ul>
+                            <li>仮説を観測で厳密に検証する姿勢</li>
+                            <li>可検証性を重視した科学的アプローチ</li>
+                            <li>未解決領域の明確化</li>
+                            <li>理論の自由度を最小限に圧縮</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🌟 重要な帰結</h3>
+                        <ul>
+                            <li>軽元素比の理論予測と観測の一致</li>
+                            <li>CMBの黒体スペクトル特性</li>
+                            <li>バリオン対光子比の精密決定</li>
+                            <li>科学的理解と存在意義の緊張関係</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">2.7K</div>
+                        <div class="stat-label">CMB温度</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3分</div>
+                        <div class="stat-label">原始核合成期間</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">25%</div>
+                        <div class="stat-label">ヘリウム質量比</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">η≈10⁻⁹</div>
+                        <div class="stat-label">バリオン対光子比</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="concepts" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🌌 ビッグバン</h3>
+                        <ul>
+                            <li>高温高密度状態からの膨張・冷却</li>
+                            <li>観測可能な過程を物理法則で記述</li>
+                            <li>宇宙進化の統一的枠組み</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>📡 CMB（宇宙マイクロ波背景放射）</h3>
+                        <ul>
+                            <li>再結合期に放たれた化石光</li>
+                            <li>約2.7Kの完璧な黒体スペクトル</li>
+                            <li>初期宇宙の熱史を記録</li>
+                            <li>理論検証の決定的証拠</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>❄️ 熱平衡と凍結</h3>
+                        <ul>
+                            <li>反応率 vs 膨張率の競争</li>
+                            <li>反応率低下で粒子数固定</li>
+                            <li>フリーズアウト現象</li>
+                            <li>現在の粒子比を決定</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>⚛️ 原始核合成（BBN）</h3>
+                        <ul>
+                            <li>宇宙年齢数分での軽元素生成</li>
+                            <li>D、He、Liの比率決定</li>
+                            <li>バリオン密度に敏感</li>
+                            <li>観測との精密比較可能</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔄 陽子・中性子比の進化</h3>
+                        <ul>
+                            <li>弱い相互作用の凍結</li>
+                            <li>中性子崩壊による比率変化</li>
+                            <li>ヘリウム生成量の鍵</li>
+                            <li>n/p ≈ 1/7 で固定</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>👻 ニュートリノの脱結合</h3>
+                        <ul>
+                            <li>高温期の熱浴結合</li>
+                            <li>温度低下で相互作用希薄化</li>
+                            <li>熱浴からの離脱</li>
+                            <li>宇宙の有効自由度変化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flow-chart">
+                    <div class="flow-item">宇宙膨張 → 温度低下</div>
+                    <div class="flow-item">反応率低下 → 熱平衡崩壊</div>
+                    <div class="flow-item">弱い相互作用凍結 + 中性子崩壊</div>
+                    <div class="flow-item">n/p比確定 → He生成量決定</div>
+                    <div class="flow-item">原始核合成 → 軽元素比固定</div>
+                </div>
+            </section>
+
+            <section id="timeline" class="tab-content" role="tabpanel">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🌡️ 高温期（T > 10¹⁰K）</h4>
+                            <p>全粒子が熱平衡状態。素粒子反応が活発で、物質・反物質が共存。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>👻 ニュートリノ脱結合（T ≈ 10¹⁰K）</h4>
+                            <p>ニュートリノが熱浴から離脱。以後、独立に冷却を続ける。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>⚡ e±対消滅（T ≈ 10⁹K）</h4>
+                            <p>電子・陽電子対が消滅し、光子に変換。光子の温度上昇。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>❄️ 弱い相互作用凍結（T ≈ 10⁹K）</h4>
+                            <p>n ⇄ p反応が停止。n/p比が約1/6で固定される。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>⚛️ 原始核合成開始（T ≈ 10⁹K, t ≈ 1分）</h4>
+                            <p>重水素形成の障壁突破。軽元素合成反応が本格化。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🏭 核合成終了（T ≈ 10⁸K, t ≈ 20分）</h4>
+                            <p>温度低下で核反応停止。軽元素比が現在の値に固定。</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🌅 再結合（T ≈ 3000K, t ≈ 38万年）</h4>
+                            <p>原子形成により宇宙が透明化。CMBが自由に伝播開始。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="evidence" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🔭 ハッブルの法則</h3>
+                        <ul>
+                            <li>遠方銀河の後退速度 ∝ 距離</li>
+                            <li>宇宙膨張の直接的証拠</li>
+                            <li>膨張の指紋として機能</li>
+                            <li>年齢・サイズの制約</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>📡 CMBの性質</h3>
+                        <ul>
+                            <li>完璧な黒体スペクトル（2.725K）</li>
+                            <li>全天にわたる等方性</li>
+                            <li>微小な温度異方性（10⁻⁵レベル）</li>
+                            <li>初期ゆらぎの痕跡</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>⚛️ 軽元素存在比</h3>
+                        <ul>
+                            <li>⁴He質量比 ≈ 25%</li>
+                            <li>D/H比 ≈ 2.5×10⁻⁵</li>
+                            <li>³He/H比 ≈ 10⁻⁵</li>
+                            <li>⁷Li/H比 ≈ 10⁻¹⁰</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>📊 理論との整合性</h3>
+                        <ul>
+                            <li>バリオン対光子比η ≈ 6×10⁻¹⁰</li>
+                            <li>CMBと軽元素比の独立制約</li>
+                            <li>標準模型パラメータとの一致</li>
+                            <li>予測精度の高さ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="quote-box">
+                    "The more the universe seems comprehensible, the more it also seems pointless."
+                    <br><small>- 科学的理解の進展と存在の意味づけの緊張を象徴</small>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">理論と観測の一致度</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">主要観測的支柱</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10⁻⁵</div>
+                        <div class="stat-label">CMB異方性レベル</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="actions" class="tab-content" role="tabpanel">
+                <div class="action-list">
+                    <h3>📝 今日できるアクション（15-30分）</h3>
+                    <div class="action-item">
+                        <strong>🕐 宇宙の最初3分の年表を書く</strong>
+                        <p>温度・時間・主要イベントを整理して理解を深める</p>
+                    </div>
+                    <div class="action-item">
+                        <strong>📡 CMBの基礎解説を1本読む</strong>
+                        <p>宇宙マイクロ波背景放射の発見と意義を学ぶ</p>
+                    </div>
+                    <div class="action-item">
+                        <strong>🔢 現在のハッブル定数を調べ記録</strong>
+                        <p>最新の観測値と測定手法の違いを確認する</p>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--primary); margin: 30px 0 20px 0;">📚 関連書籍</h3>
+                <div class="book-grid">
+                    <div class="book-card">
+                        <div class="book-title">ホーキング、宇宙を語る</div>
+                        <div class="book-author">スティーヴン・ホーキング</div>
+                        <div class="book-relation">一般向けに宇宙の起源・運命を概説し、ビッグバンと観測的基礎を俯瞰できる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">ビッグバン宇宙論</div>
+                        <div class="book-author">サイモン・シン</div>
+                        <div class="book-relation">ビッグバン理論成立の科学史を丁寧に辿り、観測検証の意義を補完する。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">インフレーション宇宙論</div>
+                        <div class="book-author">アラン・グース</div>
+                        <div class="book-relation">初期宇宙の拡張理論を学べ、平坦性・地平線問題とその解決に接続できる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">たった6つの数で宇宙は語れる</div>
+                        <div class="book-author">マーティン・リース</div>
+                        <div class="book-relation">宇宙を規定する基本パラメータの役割を直感的に理解でき、BBNやCMBとの関係が見える。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">Cosmos（コスモス）</div>
+                        <div class="book-author">カール・セーガン</div>
+                        <div class="book-relation">宇宙史を広い文脈で描き、初期宇宙から生命・文明への連続性を感じ取れる。</div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-title">Cosmology（宇宙論）</div>
+                        <div class="book-author">スティーヴン・ワインバーグ</div>
+                        <div class="book-relation">より数理的・体系的な宇宙論の教科書で、本書の物理的基盤を深化できる。</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add click handlers for action items
+        document.addEventListener('DOMContentLoaded', function() {
+            const actionItems = document.querySelectorAll('.action-item');
+            actionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.background = 'linear-gradient(45deg, var(--accent), var(--primary))';
+                    this.style.color = 'var(--white)';
+                    setTimeout(() => {
+                        this.style.background = 'var(--white)';
+                        this.style.color = 'var(--text-dark)';
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
