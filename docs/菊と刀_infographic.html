@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菊と刀 - 日本文化の行動パターン</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "🔹";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            border-left-color: var(--secondary);
+        }
+
+        .concept-card .concept-tag {
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .structure-diagram {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: "⬇️";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .venn-left {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .venn-right {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .venn-overlap {
+            background: var(--accent);
+            z-index: 10;
+            opacity: 0.9;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: "💭";
+            font-size: 2rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .action-list {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-item {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-chart {
+                gap: 15px;
+            }
+            
+            .flow-item {
+                min-width: 150px;
+                padding: 12px 20px;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 菊と刀 ⚔️</h1>
+            <p>日本文化の行動パターン - 恥の文化と相互負債の体系</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="主要概念タブ">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要な引用タブ">💭 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">✅ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📚 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3>🎯 核心的メッセージ</h3>
+                <p>日本社会は恩・義理・義務が織りなす相互負債と恥の規範によって秩序づけられ、美（菊）と武（刀）の二重性もその文化的パターンの中で整合的に機能する。</p>
+            </div>
+
+            <div class="structure-diagram">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 30px;">🔄 日本文化の行動パターン</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle venn-left">
+                        🌸 菊<br>（美・礼）
+                    </div>
+                    <div class="venn-circle venn-right">
+                        ⚔️ 刀<br>（規律・武）
+                    </div>
+                    <div class="venn-circle venn-overlap">
+                        恥の文化<br>相互負債
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div>核心概念</div>
+                    <small>恩・義理・義務</small>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2</div>
+                    <div>文化型対比</div>
+                    <small>恥 vs 罪</small>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">11</div>
+                    <div>主要概念</div>
+                    <small>体系的分析</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 エグゼクティブ・サマリー</h3>
+                <ul>
+                    <li>戦時下の制約下で「距離からの文化研究」を実施</li>
+                    <li>日本文化の中心に「恥の文化」と相互負債の体系を発見</li>
+                    <li>個人は身分秩序と名誉維持のため恩に報い義理を果たす</li>
+                    <li>柔和な美意識と苛烈な規律が一体のパターンとして機能</li>
+                    <li>洞察的分析だが資料偏りと一般化の限界も併せ持つ</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>😳 恥の文化 <span class="concept-tag">外聞規範</span></h3>
+                    <ul>
+                        <li>外部の目と社会評価を基準に自己を律する</li>
+                        <li>内的良心より体面と名誉が行動を方向づける</li>
+                        <li>他者の視線による道徳体系</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>😔 罪の文化 <span class="concept-tag">内省規範</span></h3>
+                    <ul>
+                        <li>内的良心と罪悪感が行動を統制</li>
+                        <li>ベネディクトは欧米の傾向として対比</li>
+                        <li>個人の内面的道徳判断が中心</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🙏 恩（on） <span class="concept-tag">受恩負債</span></h3>
+                    <ul>
+                        <li>上位者や社会から受けた恩恵としての負債感</li>
+                        <li>返礼によって関係が維持される</li>
+                        <li>社会的結束の基盤となる感情</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🤝 義理（giri） <span class="concept-tag">返礼義務</span></h3>
+                    <ul>
+                        <li>社会的に期待された返礼・遂行の義務</li>
+                        <li>面目と信頼を支える行為規範</li>
+                        <li>人情としばしば緊張関係に置かれる</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>⛩️ 義務（gimu） <span class="concept-tag">絶対奉公</span></h3>
+                    <ul>
+                        <li>天皇・親・主君などへの絶対的奉公義務</li>
+                        <li>生涯返しきれない負債と位置づけ</li>
+                        <li>最高位の道徳的要請</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💕 人情（ninjō） <span class="concept-tag">情と欲求</span></h3>
+                    <ul>
+                        <li>個人的感情・情の働き</li>
+                        <li>義理としばしば緊張関係に置かれる</li>
+                        <li>人間的な感情の自然な発露</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>👑 名誉／面目 <span class="concept-tag">体面資本</span></h3>
+                    <ul>
+                        <li>社会的承認と体面の総体</li>
+                        <li>恥回避と義理遂行の指針</li>
+                        <li>行動選択の重要な基準</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📊 身分秩序 <span class="concept-tag">序列枠組み</span></h3>
+                    <ul>
+                        <li>上下関係・役割に基づく序列</li>
+                        <li>恩と義務の流れを規定する基盤</li>
+                        <li>社会構造の根本的枠組み</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🌸⚔️ 菊と刀 <span class="concept-tag">美と規律</span></h3>
+                    <ul>
+                        <li>美と礼の「菊」、規律と武の「刀」という二相</li>
+                        <li>相互に補完し文化パターンを形成</li>
+                        <li>表面的矛盾の統一的理解</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🔄 恩返し <span class="concept-tag">不完了返礼</span></h3>
+                    <ul>
+                        <li>恩は本質的に返し尽くせない</li>
+                        <li>象徴的・反復的に返礼するという考え</li>
+                        <li>関係の持続装置として機能</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🌍 文化相対主義 <span class="concept-tag">文脈理解</span></h3>
+                    <ul>
+                        <li>価値や行動を当該文化の文脈で理解</li>
+                        <li>異文化誤解の是正を目指す</li>
+                        <li>偏見を避けた客観的分析手法</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="structure-diagram">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 30px;">🔗 概念間の関係性</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">身分秩序 → 恩の発生</div>
+                    <div class="flow-item">恩の蓄積 → 義理としての返礼圧</div>
+                    <div class="flow-item">恥の文化 → 外部の目の意識化</div>
+                    <div class="flow-item">名誉/面目 ↔ 恥（負の関係）</div>
+                    <div class="flow-item">義理 vs 人情（葛藤構造）</div>
+                    <div class="flow-item">菊（礼・美）⇄ 刀（規律・攻撃）</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 導入部</h3>
+                    <ul>
+                        <li>戦時下での「距離からの文化研究」方法を提示</li>
+                        <li>偏見を避け文化を全体パターンとして把握</li>
+                        <li>文化相対主義的アプローチの重要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏛️ 歴史・制度概観</h3>
+                    <ul>
+                        <li>天皇制・家制度・身分秩序を俯瞰</li>
+                        <li>上下関係と役割が恩・義務の流れを生成</li>
+                        <li>社会構造の基盤的理解</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚖️ 行動規範の中核</h3>
+                    <ul>
+                        <li>恥の文化、名誉/面目の維持</li>
+                        <li>礼儀作法の意義と道徳との結合</li>
+                        <li>外部評価による自己統制</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 負債と返礼</h3>
+                    <ul>
+                        <li>恩・義務・義理・恩返しのメカニズム</li>
+                        <li>互酬性が信頼と統制を両立</li>
+                        <li>社会的結束の維持装置</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 心理的力学</h3>
+                    <ul>
+                        <li>義理と人情の葛藤構造</li>
+                        <li>自己克己と規律の内面化</li>
+                        <li>攻撃性の方向づけ（内向/外向）</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌸⚔️ 象徴的二相</h3>
+                    <ul>
+                        <li>菊（教養・美）と刀（規律・武）の二重性</li>
+                        <li>実践上の切替わりメカニズム</li>
+                        <li>事例による具体的提示</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌍 比較枠組み</h3>
+                    <ul>
+                        <li>罪の文化（欧米）との対比</li>
+                        <li>日本の恥志向と社会的学習の特徴</li>
+                        <li>文化類型論的位置づけ</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 結語</h3>
+                    <ul>
+                        <li>文化相対主義の重要性</li>
+                        <li>政策・異文化理解へのインプリケーション</li>
+                        <li>研究方法の限界の明示</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <h3>👀 他者の目による自己統制</h3>
+                <p><strong>「日本では人は他者の目によって自らを律する。」</strong></p>
+                <small>💡 恥の文化という分析の中核を一文で示し、全体の行動理解の鍵となる</small>
+            </div>
+
+            <div class="quote-card">
+                <h3>🔄 返し尽くせない恩</h3>
+                <p><strong>「恩は返し尽くせず、返礼は関係の更新行為である。」</strong></p>
+                <small>💡 互酬性が統治と結束の装置であることを説明し、義理の社会的機能を明らかにする</small>
+            </div>
+
+            <div class="quote-card">
+                <h3>🌸⚔️ 統一された二面性</h3>
+                <p><strong>「美と礼の洗練と、武と規律の苛烈さは同一パターンの両面である。」</strong></p>
+                <small>💡 表面的矛盾を統一原理で説明し、書名の象徴を理論に結びつける</small>
+            </div>
+
+            <div class="quote-card">
+                <h3>🌍 文化の内部論理</h3>
+                <p><strong>「文化はその内部論理に即して理解されるべきだ。」</strong></p>
+                <small>💡 文化相対主義の立場を明確化し、戦時の偏見超克という実践的意義を与える</small>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3 style="color: var(--primary); margin-bottom: 20px;">✅ 今日できるアクション（15-30分）</h3>
+                
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">🗺️</span>
+                    <div>
+                        <strong>自分の義理・恩の関係図を描く</strong>
+                        <br><small>家族、職場、友人関係での恩と義理の流れを可視化してみる</small>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">📝</span>
+                    <div>
+                        <strong>恥と罪の判断基準を箇条書き</strong>
+                        <br><small>自分が行動を決める時、外部の目と内的良心のどちらを重視するか分析</small>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <span style="font-size: 1.5rem;">📞</span>
+                    <div>
+                        <strong>お世話になった人へ感謝連絡</strong>
+                        <br><small>恩返しの実践として、最近お世話になった人に感謝のメッセージを送る</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">パターンズ・オブ・カルチャー</div>
+                    <div class="book-author">ルース・ベネディクト</div>
+                    <p>同著者による文化パターン論の基礎で、本書の方法論的前提を理解できる。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">甘えの構造</div>
+                    <div class="book-author">土居健郎</div>
+                    <p>対人依存（甘え）の心理が恩・義理の関係性と連動する点で補完的。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">贈与論</div>
+                    <div class="book-author">マルセル・モース</div>
+                    <p>贈与と返礼の互酬原理が恩返し・義理の社会的力学を理論化する。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">武士道</div>
+                    <div class="book-author">新渡戸稲造</div>
+                    <p>名誉・義・忠の倫理が「刀」側の規範を歴史的に示す。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">木を見る西洋人 森を見る東洋人</div>
+                    <div class="book-author">リチャード・E・ニスベット</div>
+                    <p>東西の認知差が恥/罪の志向性理解を認知科学から補強する。</p>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-title">日本の思想</div>
+                    <div class="book-author">丸山眞男</div>
+                    <p>近代日本の政治思想史的文脈が本書の社会構造分析を歴史面から支える。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性の更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
