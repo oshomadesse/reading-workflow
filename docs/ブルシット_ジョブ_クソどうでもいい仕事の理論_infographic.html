@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブルシット・ジョブ - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--bg-light), var(--white));
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .progress-bar {
+            background: var(--bg-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .venn-diagram {
+                height: 250px;
+            }
+
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 ブルシット・ジョブ</h1>
+            <p>無意味な仕事が社会を蝕む構造を解明</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📋 概要</button>
+            <button class="tab-button" onclick="showTab('types')" role="tab" aria-selected="false" aria-controls="types">🏷️ 5つの類型</button>
+            <button class="tab-button" onclick="showTab('causes')" role="tab" aria-selected="false" aria-controls="causes">🔍 原因分析</button>
+            <button class="tab-button" onclick="showTab('impact')" role="tab" aria-selected="false" aria-controls="impact">💔 影響</button>
+            <button class="tab-button" onclick="showTab('solutions')" role="tab" aria-selected="false" aria-controls="solutions">💡 解決策</button>
+        </nav>
+
+        <main>
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心メッセージ</h3>
+                        <ul>
+                            <li>本人でさえ存在理由を説明できない仕事が大量発生</li>
+                            <li>働く人々に道徳的損傷をもたらす</li>
+                            <li>社会全体の非効率を招く</li>
+                            <li>雇用と収入の結び付きを見直す必要</li>
+                            <li>意味ある活動への資源再配置が急務</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>📖 ブルシット・ジョブとは</h3>
+                        <ul>
+                            <li>当事者が無意味だと感じる仕事</li>
+                            <li>存在理由を正当化できない</li>
+                            <li>実害は少ないが空虚感を生む</li>
+                            <li>シット・ジョブ（つらいが必要）とは対極</li>
+                            <li>数百の証言から類型化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div>主要類型</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">数百</div>
+                        <div>収集証言</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">UBI</div>
+                        <div>処方箋の核</div>
+                    </div>
+                </div>
+
+                <div class="venn-diagram">
+                    <div class="venn-circle circle1">無意味な<br>仕事</div>
+                    <div class="venn-circle circle2">道徳的<br>損傷</div>
+                    <div class="venn-circle circle3">社会的<br>非効率</div>
+                </div>
+            </section>
+
+            <section id="types" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>👥 フランキー（取り巻き）</h3>
+                        <ul>
+                            <li>上位者の重要感を演出する役割</li>
+                            <li>不要な受付や取り次ぎ業務</li>
+                            <li>権威の象徴として機能</li>
+                            <li>実質的価値は限定的</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>⚔️ グーン（攻撃的中間業）</h3>
+                        <ul>
+                            <li>攻撃的交渉や広報活動</li>
+                            <li>ロビー活動や法的対応</li>
+                            <li>相手方がいるから成立</li>
+                            <li>力学の産物として存在</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🔧 ダクトテーパー（応急処置係）</h3>
+                        <ul>
+                            <li>構造的欠陥の場当たり的対処</li>
+                            <li>本来直すべき問題を埋め合わせ</li>
+                            <li>根本解決を先送りする役割</li>
+                            <li>システムの不備を隠蔽</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>☑️ ボックスティッカー（見せかけ進捗）</h3>
+                        <ul>
+                            <li>実態を伴わない「チェック済み」作成</li>
+                            <li>形式的な文書化・報告作業</li>
+                            <li>コンプライアンスの見せかけ</li>
+                            <li>測定のための測定</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>👨‍💼 タスクマスター（仕事製造監督）</h3>
+                        <ul>
+                            <li>実務者に不要な監督を実施</li>
+                            <li>無意味なタスクを課す管理層</li>
+                            <li>「仕事を作る」ことが仕事</li>
+                            <li>階層維持のための役職</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 10px;">📊 5類型で大部分のブルシット・ジョブを説明可能</p>
+            </section>
+
+            <section id="causes" class="tab-content" role="tabpanel">
+                <div class="flow-chart">
+                    <div class="flow-item">
+                        <span>🏦 金融化・新自由主義</span>
+                        <span class="flow-arrow">↓</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>⚡ 競争の激化</span>
+                        <span class="flow-arrow">↓</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>📈 管理領域の拡大</span>
+                        <span class="flow-arrow">↓</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>🏰 管理的封建制</span>
+                        <span class="flow-arrow">↓</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>🔄 職務の自己増殖</span>
+                        <span class="flow-arrow">↓</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>💼 ブルシット・ジョブ増加</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🏰 管理的封建制</h3>
+                        <ul>
+                            <li>管理職層が権限維持のため階層増殖</li>
+                            <li>部門の自己拡大傾向</li>
+                            <li>権威誇示のための役職創出</li>
+                            <li>組織の内在的膨張メカニズム</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>💰 レントシーキング</h3>
+                        <ul>
+                            <li>新価値創造ではなく取り分拡大</li>
+                            <li>既存資源からの利益抽出</li>
+                            <li>取引コスト型活動の肥大化</li>
+                            <li>生産性向上を伴わない利益追求</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>⚖️ 労働倫理イデオロギー</h3>
+                        <ul>
+                            <li>働くこと自体を道徳的善とみなす</li>
+                            <li>無意味な仕事の正当化装置</li>
+                            <li>「働かざる者食うべからず」思想</li>
+                            <li>制度変革への抵抗要因</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🤖 自動化のパラドックス</h3>
+                        <ul>
+                            <li>技術進歩が労働時間短縮に寄与せず</li>
+                            <li>余剰人員の見せかけ仕事への配置</li>
+                            <li>生産性向上の恩恵が労働者に還元されない</li>
+                            <li>時短の不発と仕事の創出</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="impact" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>💔 道徳的損傷</h3>
+                        <ul>
+                            <li>自ら無意味と知りつつ従事する罪悪感</li>
+                            <li>自己疎外と空虚感の蓄積</li>
+                            <li>メンタルヘルスの悪化</li>
+                            <li>人間としての尊厳の毀損</li>
+                            <li>創造性と意欲の減退</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🏢 組織への影響</h3>
+                        <ul>
+                            <li>創造性と革新力の低下</li>
+                            <li>真に価値ある業務への集中阻害</li>
+                            <li>組織文化の劣化</li>
+                            <li>人材の流出と定着率悪化</li>
+                            <li>競争力の長期的低下</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🌍 社会的影響</h3>
+                        <ul>
+                            <li>人的資源の大規模な浪費</li>
+                            <li>社会全体の生産性低下</li>
+                            <li>本当に必要な仕事への人材不足</li>
+                            <li>経済成長の阻害要因</li>
+                            <li>社会的不平等の拡大</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">深刻</div>
+                        <div>道徳的損傷</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">低下</div>
+                        <div>組織創造性</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">浪費</div>
+                        <div>社会資源</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solutions" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>💰 ベーシックインカム（UBI）</h3>
+                        <ul>
+                            <li>雇用と無関係な無条件所得給付</li>
+                            <li>無意味な仕事への依存を減少</li>
+                            <li>真に価値ある活動への転換促進</li>
+                            <li>労働の選択権を個人に返還</li>
+                            <li>制度的処方箋の核心</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>⏰ 労働時間短縮</h3>
+                        <ul>
+                            <li>週4日制や時短勤務の推進</li>
+                            <li>生産性向上の恩恵を労働者に還元</li>
+                            <li>ワークライフバランスの改善</li>
+                            <li>創造的活動への時間確保</li>
+                            <li>技術進歩の本来の目的実現</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>📊 評価指標の見直し</h3>
+                        <ul>
+                            <li>見せかけの生産性指標を廃止</li>
+                            <li>実質的価値創造に焦点</li>
+                            <li>長期的視点での成果評価</li>
+                            <li>質的評価の重視</li>
+                            <li>指標至上主義からの脱却</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🏗️ 組織のフラット化</h3>
+                        <ul>
+                            <li>不要な管理層の削減</li>
+                            <li>現場裁量権の拡大</li>
+                            <li>意思決定プロセスの簡素化</li>
+                            <li>階層の自己増殖防止</li>
+                            <li>真の価値創造への集中</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="action-list">
+                    <h3>🎯 今日からできるアクション</h3>
+                    <div class="action-item">
+                        <strong>📝 業務の価値別仕分け</strong><br>
+                        今日の業務を「価値創造」「必要悪」「無意味」に分類
+                    </div>
+                    <div class="action-item">
+                        <strong>❌ 無意味作業の特定</strong><br>
+                        自分が無意味だと感じる作業を3つ書き出す
+                    </div>
+                    <div class="action-item">
+                        <strong>💡 改善提案の作成</strong><br>
+                        1件の業務削減・効率化提案をメモに記録
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // プログレスバーのアニメーション
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
