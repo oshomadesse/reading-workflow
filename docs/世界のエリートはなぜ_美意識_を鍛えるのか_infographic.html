@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界のエリートはなぜ「美意識」を鍛えるのか？</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            border-left-color: var(--secondary);
+        }
+
+        .concept-card h3 {
+            color: var(--secondary);
+        }
+
+        .action-card {
+            border-left-color: var(--accent);
+        }
+
+        .action-card h3 {
+            color: var(--accent);
+        }
+
+        .structure-diagram {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .circle-science {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle-art {
+            background: var(--secondary);
+            right: 0;
+        }
+
+        .circle-craft {
+            background: var(--accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .quote-author {
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+
+            .flow-chart {
+                gap: 15px;
+            }
+
+            .flow-item {
+                max-width: 250px;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 世界のエリートはなぜ「美意識」を鍛えるのか？</h1>
+            <p>データと論理が均質化する時代の新たな競争力</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false" aria-controls="quotes">💬 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false" aria-controls="actions">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>データと論理の均質化時代</li>
+                        <li>「美意識」が最重要の競争力</li>
+                        <li>問題設定と価値創造を導く</li>
+                        <li>善さ・美しさを見極める力</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📊 現状の問題</h3>
+                    <ul>
+                        <li>KPI最適化だけでは差別化困難</li>
+                        <li>「正しさ」の追求が「善さ」を劣化</li>
+                        <li>社会的正当性の欠如</li>
+                        <li>意思決定の上位概念が不在</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🚀 解決策</h3>
+                    <ul>
+                        <li>美意識を意思決定の上位に配置</li>
+                        <li>アート（意味・解釈）の比重向上</li>
+                        <li>探索と深化のバランス</li>
+                        <li>リベラルアーツで美意識を鍛錬</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div>価値創造の様式</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                    <small>サイエンス・アート・クラフト</small>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2</div>
+                    <div>知の動態</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <small>探索と深化</small>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">∞</div>
+                    <div>美意識の可能性</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                    <small>持続的差異の源泉</small>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>🎨 美意識</h3>
+                    <ul>
+                        <li>善さ・望ましさ・美しさの判断感覚</li>
+                        <li>データでは捉えきれない規範</li>
+                        <li>意思決定の上位目的を規定</li>
+                        <li>価値の方向性を与える羅針盤</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>❓ 問題設定力</h3>
+                    <ul>
+                        <li>解くべき問いの意味を定義</li>
+                        <li>何を目指すかを決める能力</li>
+                        <li>分析に先立つ上流工程</li>
+                        <li>成果の上限を決定する</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>⚖️ 正しさ vs 善さ</h3>
+                    <ul>
+                        <li>正しさ：再現性・合理性の妥当性</li>
+                        <li>善さ：望ましさ・倫理の妥当性</li>
+                        <li>両者は必ずしも一致しない</li>
+                        <li>効率と意味のズレが生じる</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🔄 探索と深化</h3>
+                    <ul>
+                        <li>探索：未知の価値領域を開拓</li>
+                        <li>深化：既存解の効率を最適化</li>
+                        <li>動的均衡がイノベーション創出</li>
+                        <li>ビジョンが方向性を提供</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>📚 リベラルアーツ</h3>
+                    <ul>
+                        <li>人文社会科学・芸術の教養群</li>
+                        <li>多様な価値基準を提供</li>
+                        <li>美意識と批評力の土台形成</li>
+                        <li>意味の基礎体力を構築</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🗣️ 批評（クリティーク）</h3>
+                    <ul>
+                        <li>明示的基準での評価・言語化</li>
+                        <li>美意識を磨く対話営み</li>
+                        <li>共同体の規範を更新</li>
+                        <li>規範の言語化訓練</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="structure-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔗 価値創造の三様式</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle-science">
+                        <div>サイエンス<br>再現・法則化</div>
+                    </div>
+                    <div class="venn-circle circle-art">
+                        <div>アート<br>意味・構想</div>
+                    </div>
+                    <div class="venn-circle circle-craft">
+                        <div>クラフト<br>熟達・実装</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="structure-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">📈 論理展開フロー</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">
+                        🚨 問題提起<br>
+                        データ普及で差が消失、KPI最適化が善さを劣化
+                    </div>
+                    <div class="flow-item">
+                        📝 定義づけ<br>
+                        美意識を望ましさ判断の規範感覚として提示
+                    </div>
+                    <div class="flow-item">
+                        🏗️ 枠組み提示<br>
+                        サイエンス/アート/クラフト + 探索/深化モデル
+                    </div>
+                    <div class="flow-item">
+                        💡 核心論点<br>
+                        正しさと善さの分離、問題設定が競争力の源泉
+                    </div>
+                    <div class="flow-item">
+                        ⚙️ 実装論<br>
+                        リベラルアーツ・批評・越境で美意識を鍛錬
+                    </div>
+                    <div class="flow-item">
+                        🏢 組織設計<br>
+                        意味起点のKPI・評価制度・対話文化の制度化
+                    </div>
+                    <div class="flow-item">
+                        🎯 結論<br>
+                        意味ある価値創造で持続的差異と信頼を獲得
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔄 概念間の関係性</h3>
+                    <ul>
+                        <li>美意識 → 問題設定力の質向上</li>
+                        <li>適切な問題設定 → 分析・実装が活性化</li>
+                        <li>サイエンス偏重 → 善さの劣化</li>
+                        <li>アート比重↑ → 探索促進</li>
+                        <li>リベラルアーツ → 美意識精度向上</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚡ 因果関係</h3>
+                    <ul>
+                        <li>探索↔深化 ← ビジョンが方向提供</li>
+                        <li>美意識ベースKPI → 行動基準整合</li>
+                        <li>クラフト熟達 → 美の具体化</li>
+                        <li>批評実践 → 問いの質向上</li>
+                        <li>意味設計 → 社会的信頼獲得</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-section">
+                <div class="quote">
+                    "『正しいこと』と『善いこと』は一致しない。善さを担保する感覚が必要だ。"
+                </div>
+                <div class="quote-author">合理性では測れない上位目的を据え直す出発点</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">
+                    "データが行き渡るほど『正しさ』は均質化し、差は『美意識』でしか生まれない。"
+                </div>
+                <div class="quote-author">競争優位の源泉が分析力から意味設計へ移行</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">
+                    "これからのリーダーは『解く力』より『問う力』を持たねばならない。"
+                </div>
+                <div class="quote-author">問題設定が成果の上限を決める構造を表現</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">
+                    "企業は『役に立つ』だけでなく『意味がある』価値を提供すべきだ。"
+                </div>
+                <div class="quote-author">機能価値に加え規範・物語価値の統合方向性</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">
+                    "リベラルアーツは意思決定の『道徳的操作体系』である。"
+                </div>
+                <div class="quote-author">教養が美意識の運用基盤になることを明確化</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card action-card">
+                    <h3>🏠 自宅の物1点の善さ/悪さを記述</h3>
+                    <ul>
+                        <li>身近な物から美意識を言語化</li>
+                        <li>なぜ良い/悪いと感じるか分析</li>
+                        <li>機能以外の価値を発見</li>
+                        <li>15分で完了可能</li>
+                    </ul>
+                </div>
+                <div class="card action-card">
+                    <h3>📱 好きな製品の美しい条件を3つ書く</h3>
+                    <ul>
+                        <li>デザイン・体験・意味の観点</li>
+                        <li>他製品との差別化要因</li>
+                        <li>自分の価値基準を明確化</li>
+                        <li>批評力の基礎訓練</li>
+                    </ul>
+                </div>
+                <div class="card action-card">
+                    <h3>🤔 今日の判断を善さ基準で見直す</h3>
+                    <ul>
+                        <li>効率性以外の判断軸を適用</li>
+                        <li>長期的な意味や影響を考慮</li>
+                        <li>ステークホルダーへの配慮</li>
+                        <li>美意識の実践的運用</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="structure-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--accent);">📚 関連書籍</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>センスメイキング</h3>
+                        <p><strong>著者:</strong> クリスチャン・マズビアス</p>
+                        <p>人文知による意味の把握が美意識の実装と直結</p>
+                    </div>
+                    <div class="card">
+                        <h3>デザイン思考が世界を変える</h3>
+                        <p><strong>著者:</strong> ティム・ブラウン</p>
+                        <p>人間中心の発想で『善さ』を形にする方法論</p>
+                    </div>
+                    <div class="card">
+                        <h3>直感と論理をつなぐ思考法</h3>
+                        <p><strong>著者:</strong> 佐宗邦威</p>
+                        <p>ビジョン起点の問題設定が美意識運用と重複</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
