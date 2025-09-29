@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史の構造 - 交換様式論</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --bg-light: #f8f9ff;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .concept-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent);
+        }
+
+        .concept-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .structure-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+            font-weight: 500;
+        }
+
+        .flow-box.accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #ff6b9d 100%);
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent);
+            margin: 15px 0;
+        }
+
+        .quote-text {
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .quote-importance {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .action-list {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-light);
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .action-item:hover {
+            transform: translateX(5px);
+        }
+
+        .action-emoji {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 3px solid var(--secondary);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .flow-row {
+                flex-direction: column;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 世界史の構造</h1>
+            <p>交換様式論による歴史の再構築 - 柄谷行人</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🔄 構造図</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false">⚡ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" role="tab" aria-selected="false">📖 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card">
+                <h3>🎯 核心的メッセージ</h3>
+                <p>世界史は生産様式ではなく交換様式の組み合わせによって構造化される。資本−国家−ネーションの三位一体を相互牽制する「交換様式D（アソシエーション）」の構築こそが、資本主義を超える現実的な道である。</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <p>交換様式の類型<br>A・B・C・D</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <p>三位一体<br>資本・国家・ネーション</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <p>世界システム<br>帝国・経済</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📊 理論の特徴</h3>
+                    <ul>
+                        <li>生産様式論から交換様式論への転換</li>
+                        <li>人類学・経済史・政治哲学の横断</li>
+                        <li>歴史的編成の複合性を重視</li>
+                        <li>規範的提言を含む総合理論</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌍 分析対象</h3>
+                    <ul>
+                        <li>古代から現代までの世界史</li>
+                        <li>遊牧と定住の相互作用</li>
+                        <li>世界帝国と世界経済の交替</li>
+                        <li>近代の資本−国家−ネーション体制</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🚀 実践的提案</h3>
+                    <ul>
+                        <li>連合主義（アソシエーショニズム）</li>
+                        <li>国家と市場を超える第三の道</li>
+                        <li>カント的コスモポリタニズム</li>
+                        <li>水平的結社の拡張</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🤝 交換様式A（互酬）</h4>
+                    <p>対等な者同士の贈与と返礼に基づく交換。共同体的紐帯と道徳経済を形成する基盤。</p>
+                    <span class="concept-tag">互酬</span>
+                </div>
+                <div class="concept-card">
+                    <h4>🏛️ 交換様式B（略取／再分配）</h4>
+                    <p>暴力や課税により収奪した富を統治権力が再分配する様式。国家や帝国の形成原理。</p>
+                    <span class="concept-tag">再分配</span>
+                </div>
+                <div class="concept-card">
+                    <h4>💰 交換様式C（商品交換）</h4>
+                    <p>貨幣媒介の市場交換。利潤追求と価格メカニズムが社会を統合する資本主義的様式。</p>
+                    <span class="concept-tag">市場</span>
+                </div>
+                <div class="concept-card">
+                    <h4>🌐 交換様式D（アソシエーション）</h4>
+                    <p>国家と市場に依存しない連合的協同。互酬と自律を接続し、普遍的連帯を志向する。</p>
+                    <span class="concept-tag">連合</span>
+                </div>
+                <div class="concept-card">
+                    <h4>⚖️ 資本−国家−ネーションの三位一体</h4>
+                    <p>資本（C）が国家（B）とネーション（A）を媒介に再生産される近代の安定装置。各要素が相互補完し統治を強化する。</p>
+                    <span class="concept-tag">三位一体</span>
+                </div>
+                <div class="concept-card">
+                    <h4>🏰 世界帝国</h4>
+                    <p>広域を軍事と再分配で統合する政治体。Bが優位で、AやCを包摂的に管理する。</p>
+                    <span class="concept-tag">広域統治</span>
+                </div>
+                <div class="concept-card">
+                    <h4>🌊 世界経済</h4>
+                    <p>単一の政治権力に統合されず、市場ネットワークで結びつく広域経済圏。Cが相対的に自立。</p>
+                    <span class="concept-tag">市場圏</span>
+                </div>
+                <div class="concept-card">
+                    <h4>🤝 連合主義（アソシエーショニズム）</h4>
+                    <p>国家でも市場でもない水平的結社の拡張により、Dを現前化する政治的実践。カント的コスモポリタニズムと接続。</p>
+                    <span class="concept-tag">実践</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="structure-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 交換様式の相互関係</h3>
+                <div class="flow-chart">
+                    <div class="flow-row">
+                        <div class="flow-box">A<br>互酬<br>🤝</div>
+                        <div class="arrow">↔</div>
+                        <div class="flow-box">B<br>再分配<br>🏛️</div>
+                        <div class="arrow">↔</div>
+                        <div class="flow-box">C<br>市場<br>💰</div>
+                    </div>
+                    <div class="arrow" style="transform: rotate(90deg);">↕</div>
+                    <div class="flow-row">
+                        <div class="flow-box accent">D<br>アソシエーション<br>🌐</div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px;">
+                    <h4 style="color: var(--secondary); margin-bottom: 15px;">関係性の説明</h4>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 10px;">🔄 <strong>A↔B↔C</strong>: 相互補完的な安定装置（共犯関係）</li>
+                        <li style="margin-bottom: 10px;">⬆️ <strong>D</strong>: 外部から介入し、既存秩序を変革</li>
+                        <li style="margin-bottom: 10px;">🏰 <strong>世界帝国</strong>: B優位の編成</li>
+                        <li style="margin-bottom: 10px;">🌊 <strong>世界経済</strong>: C優位の編成</li>
+                        <li>🐎 <strong>遊牧</strong>: Bの成立を加速、🚢 <strong>海上交易</strong>: Cの自立を促進</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📈 歴史的展開</h3>
+                    <ul>
+                        <li>古代〜中世: 世界帝国の循環とAの持続</li>
+                        <li>近世転換: 海上商業によるCの自立</li>
+                        <li>近代: 資本−国家−ネーション三位一体</li>
+                        <li>未来: Dによる新たな編成の可能性</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌏 比較視角</h3>
+                    <ul>
+                        <li>欧州: 世界経済の中核形成</li>
+                        <li>東アジア: 世界帝国の持続と変容</li>
+                        <li>交換様式の偏差による地域差</li>
+                        <li>グローバル化における収束と分岐</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">"世界史は生産様式ではなく交換様式の差異と組み合わせとして理解されるべきだ。"</div>
+                <div class="quote-importance">💡 分析軸の転換を宣言し、本書全体の方法論を定義する。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"資本−国家−ネーションは互いを補完し合い、単独では維持できない。"</div>
+                <div class="quote-importance">⚖️ 近代社会の安定構造と統治の実相を一文で捉える中核命題。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"交換様式Dは国家でも市場でもない連合として、既存秩序の外から介入する。"</div>
+                <div class="quote-importance">🚀 規範的提案と実践の方向性を示すキーステートメント。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">"世界帝国と世界経済は交替しつつ併存し、相互に条件づけられてきた。"</div>
+                <div class="quote-importance">🔄 歴史の大きなリズムを一つの図式で要約し、比較史を可能にする。</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3 style="margin-bottom: 20px; color: var(--primary);">⚡ 今日できるアクション（15〜30分）</h3>
+                <div class="action-item">
+                    <div class="action-emoji">🔍</div>
+                    <div>
+                        <strong>日常のやり取り3件をA〜Dに分類</strong><br>
+                        家族・職場・友人との交換を互酬・再分配・市場・連合の観点で分析してみる
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">📊</div>
+                    <div>
+                        <strong>資本-国家-ネーションの関係図を描く</strong><br>
+                        現代日本における三者の相互補完関係を具体例とともに図式化する
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">💡</div>
+                    <div>
+                        <strong>交換様式Dで小規模連帯案を考える</strong><br>
+                        身近なコミュニティで実現可能なアソシエーション的実践を構想する
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content" role="tabpanel">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">大転換</div>
+                    <div class="book-author">カール・ポランニー</div>
+                    <div class="book-relation">市場社会の制度化と再分配の役割がA/B/Cの連関理解に資する。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">贈与論</div>
+                    <div class="book-author">マルセル・モース</div>
+                    <div class="book-relation">互酬（A）の理論的土台を提供し、共同体の紐帯を説明する。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">近代世界システム</div>
+                    <div class="book-author">イマヌエル・ウォーラーステイン</div>
+                    <div class="book-relation">世界経済（C）の枠組みを提示し、本書の批判的継承対象。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">永遠平和のために</div>
+                    <div class="book-author">イマヌエル・カント</div>
+                    <div class="book-relation">アソシエーション（D）の規範的基盤となる連合の理念を示す。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">資本論</div>
+                    <div class="book-author">カール・マルクス</div>
+                    <div class="book-relation">資本（C）の運動法則を解明し、柄谷の再解釈の基礎資料。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">物質文明・経済・資本主義</div>
+                    <div class="book-author">フェルナン・ブローデル</div>
+                    <div class="book-relation">長期持続の時間軸から市場と国家の関係を照射する。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
