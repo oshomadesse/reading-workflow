@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史の誕生 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .concept-card {
+            border-left: 4px solid var(--accent);
+        }
+
+        .concept-card .concept-title {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .concept-card .concept-summary {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .network-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .network-svg {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 0 30px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 4px var(--primary);
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: scale(1.05);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            border-top: 4px solid var(--secondary);
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 60px;
+                padding-right: 20px;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌍 世界史の誕生</h1>
+            <p>ユーラシア大陸の連結がいかに世界史を創造したか - モンゴル帝国から始まる壮大な物語</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('network')" role="tab" aria-selected="false">🌐 ネットワーク</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>世界史は国家別年表ではない</li>
+                        <li>ユーラシア規模の連結ネットワーク</li>
+                        <li>モンゴル帝国が決定的転換点</li>
+                        <li>人・物・情報の結びつきが歴史</li>
+                        <li>大航海・資本主義も連結の延長</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 重要な数値指標</h3>
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-number">13世紀</div>
+                            <div>モンゴル統合</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3大陸</div>
+                            <div>連結範囲</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💡 重要な引用</h3>
+                    <ul>
+                        <li><strong>「世界史は、ユーラシアが一挙に連結された時に初めて生まれた」</strong></li>
+                        <li><strong>「モンゴル帝国は征服の帝国であると同時に交通と情報の帝国」</strong></li>
+                        <li><strong>「歴史は資料の寄せ集めではなく、因果と選択で編む叙述」</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card concept-card">
+                    <h3>🌏 ユーラシア的一体性</h3>
+                    <div class="concept-title">ユーラシア大陸の東西が交易・征服・宗教伝播で常に連動</div>
+                    <div class="concept-summary">相互連結</div>
+                    <ul>
+                        <li>局地史の総和ではない</li>
+                        <li>相互依存の体系として理解</li>
+                        <li>地域間の常時連動</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>⚡ モンゴルの発明</h3>
+                    <div class="concept-title">軍事・交通・制度整備により分断地域を一つの歴史圏に編み直し</div>
+                    <div class="concept-summary">連結の創出</div>
+                    <ul>
+                        <li>駅伝制による高速通信</li>
+                        <li>通行証システム</li>
+                        <li>治安維持の徹底</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🛤️ 交易ネットワーク</h3>
+                    <div class="concept-title">シルクロードや海路を介した人・物・情報の流通網</div>
+                    <div class="concept-summary">歴史の血管</div>
+                    <ul>
+                        <li>価格情報の伝達</li>
+                        <li>知識・技術の移転</li>
+                        <li>疫病拡散の経路</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🏇 遊牧—定住複合</h3>
+                    <div class="concept-title">遊牧民の機動力と定住農耕の生産力が相互補完</div>
+                    <div class="concept-summary">相補エンジン</div>
+                    <ul>
+                        <li>帝国形成の駆動力</li>
+                        <li>市場統合の促進</li>
+                        <li>軍事と経済の融合</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>⛪ 普遍帝国と宗教</h3>
+                    <div class="concept-title">帝国統治の正当性と普遍宗教の拡大が相互強化</div>
+                    <div class="concept-summary">正統性装置</div>
+                    <ul>
+                        <li>広域秩序の確立</li>
+                        <li>共通規範の形成</li>
+                        <li>統治の正当化</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💰 貨幣・都市・信用</h3>
+                    <div class="concept-title">貨幣標準化と都市市場拡大、信用制度が長距離交易を支援</div>
+                    <div class="concept-summary">市場基盤</div>
+                    <ul>
+                        <li>取引コストの削減</li>
+                        <li>金融システムの発達</li>
+                        <li>商業都市の成長</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🤔 問題提起</h4>
+                        <p>世界史は誰が・いつ・いかに生んだのか。国民国家史観を批判</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🔬 方法論提示</h4>
+                        <p>比較史・経済史・環境技術史を統合。叙述の前提を明示</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🏛️ 前史の連結</h4>
+                        <p>古代〜中世の交易回廊と遊牧—定住関係を概観</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🐎 モンゴルの発明</h4>
+                        <p>駅伝制・通行証・治安維持による広域統合の実態分析</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>⛪ 宗教と帝国</h4>
+                        <p>普遍宗教の伝播と帝国統治の相互作用を検討</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🏙️ 都市・貨幣・信用</h4>
+                        <p>市場拡大と金融の役割、知識移転を描出</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🚢 大航海と再配線</h4>
+                        <p>陸路連結が海路へ拡張し、世界的ネットワーク成立</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>🏭 近代の派生効果</h4>
+                        <p>国家・資本主義・科学をネットワーク効果として再解釈</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="network" class="tab-content" role="tabpanel">
+            <div class="network-diagram">
+                <h3>🌐 ユーラシア連結ネットワーク図</h3>
+                <svg class="network-svg" viewBox="0 0 800 400">
+                    <!-- 背景グラデーション -->
+                    <defs>
+                        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.1" />
+                            <stop offset="100%" style="stop-color:#f093fb;stop-opacity:0.1" />
+                        </linearGradient>
+                        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#667eea" />
+                            <stop offset="100%" style="stop-color:#f093fb" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <rect width="800" height="400" fill="url(#bgGrad)" />
+                    
+                    <!-- 主要都市ノード -->
+                    <circle cx="150" cy="200" r="25" fill="#667eea" />
+                    <text x="150" y="240" text-anchor="middle" font-size="12" fill="#2d3748">ヨーロッパ</text>
+                    
+                    <circle cx="400" cy="150" r="30" fill="#764ba2" />
+                    <text x="400" y="190" text-anchor="middle" font-size="12" fill="#2d3748">モンゴル帝国</text>
+                    
+                    <circle cx="650" cy="200" r="25" fill="#667eea" />
+                    <text x="650" y="240" text-anchor="middle" font-size="12" fill="#2d3748">中国</text>
+                    
+                    <circle cx="400" cy="300" r="20" fill="#f093fb" />
+                    <text x="400" y="335" text-anchor="middle" font-size="12" fill="#2d3748">中東</text>
+                    
+                    <circle cx="200" cy="320" r="15" fill="#f093fb" />
+                    <text x="200" y="350" text-anchor="middle" font-size="12" fill="#2d3748">アフリカ</text>
+                    
+                    <circle cx="550" cy="320" r="15" fill="#f093fb" />
+                    <text x="550" y="350" text-anchor="middle" font-size="12" fill="#2d3748">インド</text>
+                    
+                    <!-- 接続線 -->
+                    <line x1="150" y1="200" x2="400" y2="150" stroke="url(#lineGrad)" stroke-width="3" />
+                    <line x1="400" y1="150" x2="650" y2="200" stroke="url(#lineGrad)" stroke-width="3" />
+                    <line x1="400" y1="150" x2="400" y2="300" stroke="url(#lineGrad)" stroke-width="3" />
+                    <line x1="150" y1="200" x2="200" y2="320" stroke="url(#lineGrad)" stroke-width="2" />
+                    <line x1="400" y1="300" x2="550" y2="320" stroke="url(#lineGrad)" stroke-width="2" />
+                    <line x1="650" y1="200" x2="550" y2="320" stroke="url(#lineGrad)" stroke-width="2" />
+                    
+                    <!-- 矢印 -->
+                    <polygon points="380,140 390,135 390,145" fill="#764ba2" />
+                    <polygon points="420,140 430,135 430,145" fill="#764ba2" />
+                    <polygon points="390,280 395,290 385,290" fill="#764ba2" />
+                </svg>
+                
+                <div class="cards-grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <h3>🔄 因果関係の流れ</h3>
+                        <ul>
+                            <li>遊牧の機動力 → 交易路の安全化</li>
+                            <li>安全化 → 取引コスト低下 → 交易量増大</li>
+                            <li>駅伝制 → 情報高速化 → 統合強化</li>
+                            <li>普遍帝国 ↔ 普遍宗教 → 正統性確立</li>
+                            <li>陸上ネットワーク成熟 → 海上ルート台頭</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">📝 今日できるアクション（15-30分）</h3>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>🗺️ 世界地図に主要交易路を描く</h4>
+                    <p>シルクロード、海上ルートを地図上にマーキングして視覚化</p>
+                </div>
+                
+                <div class="action-card">
+                    <h4>📅 モンゴル帝国の年表を10項作る</h4>
+                    <p>チンギス・ハンから元朝まで、重要な出来事を時系列で整理</p>
+                </div>
+                
+                <div class="action-card">
+                    <h4>✍️ 自分の歴史観を100字で要約する</h4>
+                    <p>読書前後で歴史の見方がどう変わったかを文章化</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin: 50px 0 30px; color: var(--secondary);">📚 関連書籍</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">シルクロード世界史</div>
+                    <div class="book-author">ピーター・フランコパン</div>
+                    <p>ユーラシア中心の連結史観を別角度から検証する</p>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">銃・病原菌・鉄</div>
+                    <div class="book-author">ジャレド・ダイアモンド</div>
+                    <p>環境・技術要因が広域の歴史連結を左右する点が通底</p>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">物質文明・経済・資本主義</div>
+                    <div class="book-author">フェルナン・ブローデル</div>
+                    <p>長期持続と市場・ネットワークの視点が補完的</p>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">日本史の誕生</div>
+                    <div class="book-author">岡田英弘</div>
+                    <p>同著者によるネットワーク史観を日本史に適用した対照作</p>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">遊牧民の世界史</div>
+                    <div class="book-author">トマス・バーフィールド</div>
+                    <p>遊牧—定住関係と帝国形成のメカニズムを深化</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // アクセシビリティ: キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+
+        // アニメーション効果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // カードにアニメーション適用
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card, .action-card, .book-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
