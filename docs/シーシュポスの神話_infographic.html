@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シーシュポスの神話 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --bg-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #bdc3c7 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .tab-button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .concept-card .concept-title {
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .concept-summary {
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 5px;
+            font-size: 0.9rem;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .action-list {
+            background: var(--accent);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .circle-revolt {
+            background: rgba(231, 76, 60, 0.7);
+            left: 0;
+        }
+
+        .circle-freedom {
+            background: rgba(44, 62, 80, 0.7);
+            right: 0;
+        }
+
+        .circle-passion {
+            background: rgba(243, 156, 18, 0.7);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent);
+        }
+
+        .book-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                align-self: center;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🪨 シーシュポスの神話</h1>
+            <p>不条理に立ち向かう実存の哲学 - アルベール・カミュ</p>
+        </div>
+
+        <div class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('action')" role="tab" aria-selected="false">⚡ アクション</button>
+        </div>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>人生は意味欲求と世界の沈黙の衝突</li>
+                        <li>不条理から逃避も超越もしない</li>
+                        <li>明晰さを保って反抗・自由・情熱を生きる</li>
+                        <li>反復のうちに充足は見出される</li>
+                        <li>「シーシュポスを幸福と想像せよ」</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>「唯一の真剣な哲学的問題は自殺」と宣言</li>
+                        <li>不条理は意識と世界の摩擦が生む関係</li>
+                        <li>自殺も信仰への飛躍も逃避として退ける</li>
+                        <li>明晰な意識を保った「反抗」を中核に据える</li>
+                        <li>シーシュポス神話で実存的充足の可能性を示す</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🔄 不条理への応答プロセス</h3>
+                <div class="flow-step">
+                    <div class="flow-box">人間の意味欲求</div>
+                    <span class="flow-arrow">+</span>
+                    <div class="flow-box">世界の沈黙</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">不条理の発生</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">不条理の認識</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">自殺の問い</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">逃避の拒否</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">不条理の承認</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">反抗の決断</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">充足の実現</div>
+                </div>
+            </div>
+
+            <div class="venn-diagram">
+                <div class="venn-circle circle-revolt">反抗<br>Revolt</div>
+                <div class="venn-circle circle-freedom">自由<br>Freedom</div>
+                <div class="venn-circle circle-passion">情熱<br>Passion</div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-weight: bold; color: var(--primary);">
+                    不条理の人
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <h3>🌪️ 不条理</h3>
+                    <div class="concept-title">意味を求める人間意識と沈黙する世界の衝突が生む関係的事実</div>
+                    <p>対象の性質ではなく、出会いの現象</p>
+                    <span class="concept-summary">衝突としての空白</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>💀 自殺</h3>
+                    <div class="concept-title">不条理に対する生からの離脱という解決策</div>
+                    <p>カミュは問題の廃止であって解決ではないとして退ける</p>
+                    <span class="concept-summary">問題の消滅</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🦋 哲学的自殺</h3>
+                    <div class="concept-title">信仰や形而上学的飛躍で不条理を包摂・解消したと見なす態度</div>
+                    <p>理性の越権行為として批判される</p>
+                    <span class="concept-summary">飛躍による逃避</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>✊ 反抗</h3>
+                    <div class="concept-title">不条理を明晰に承認しつつ、屈服せずに生を肯定的に生き切る姿勢</div>
+                    <p>境界を知りながら否と言い続ける</p>
+                    <span class="concept-summary">明晰な否</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🕊️ 自由</h3>
+                    <div class="concept-title">超越的目的から解放された、限界内での主体的決断の空間</div>
+                    <p>不条理の承認から生じる実践的自由</p>
+                    <span class="concept-summary">限界内の選択</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🔥 情熱</h3>
+                    <div class="concept-title">瞬間を最大化し、生の量を引き上げる生き方</div>
+                    <p>期間より強度を重んじる</p>
+                    <span class="concept-summary">瞬間の強度</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🎭 不条理の人</h3>
+                    <div class="concept-title">反抗・自由・情熱を体現し、意味づけではなく経験の充実で生を満たす人物像</div>
+                    <p>例: ドン・ジュアン、俳優、征服者</p>
+                    <span class="concept-summary">生の充足者</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🎨 創造（芸術）</h3>
+                    <div class="concept-title">世界を説明するのでなく、不条理を形にして並置する営み</div>
+                    <p>作品は開かれた問いの維持である</p>
+                    <span class="concept-summary">説明なき呈示</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>👁️ 明晰（透明な意識）</h3>
+                    <div class="concept-title">慰めや虚構に頼らず、状況をありのまま把握する態度</div>
+                    <p>反抗の条件となる</p>
+                    <span class="concept-summary">覚醒の持続</span>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🪨 シーシュポス</h3>
+                    <div class="concept-title">意味のない反復労働を課せられた英雄</div>
+                    <p>不条理を自覚しつつ運命を自らのものにする象徴</p>
+                    <span class="concept-summary">反復の主人</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎬 序論・問題設定</h3>
+                    <ul>
+                        <li>人生の不条理の発見を提示</li>
+                        <li>「唯一の真剣な問題は自殺」という起点</li>
+                        <li>哲学的探究の方向性を決定</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 第I部 不条理な推論</h3>
+                    <ul>
+                        <li>不条理を「意識と世界の関係」として定義</li>
+                        <li>信仰や形而上学の飛躍（哲学的自殺）を批判</li>
+                        <li>明晰の維持を要請する結論</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👤 第II部 不条理の人</h3>
+                    <ul>
+                        <li>ドン・ジュアン、俳優、征服者の類型</li>
+                        <li>反抗・自由・情熱を体現する生の様式</li>
+                        <li>理論から実践への具体化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎨 第III部 不条理の創造</h3>
+                    <ul>
+                        <li>芸術の役割を「説明」から「呈示」へ転回</li>
+                        <li>作品は不条理の緊張を保持する営み</li>
+                        <li>創造的実践の哲学的意義</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏛️ 終章 神話の再解釈</h3>
+                    <ul>
+                        <li>シーシュポスの神話を読み替え</li>
+                        <li>反復の只中で運命を自らのものとする</li>
+                        <li>充足（幸福）を想像しうると結ぶ</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">主要部構成</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">実践的態度<br>(反抗・自由・情熱)</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10</span>
+                    <div class="stat-label">核心概念</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">唯一の真剣な哲学的問題は自殺である。</div>
+                <div class="quote-importance">💡 議論の焦点を生の是非に定め、以後の検討基盤を敷く。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">不条理は、世界の沈黙と人間の意味欲求の衝突である。</div>
+                <div class="quote-importance">💡 不条理を対象でなく関係として定義し、解決の方向を限定する。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">我々はシーシュポスを幸福な者と想像しなければならない。</div>
+                <div class="quote-importance">💡 反復の肯定という最終的姿勢を象徴的に言い表す。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">飛躍は不条理を消すのではなく、視線を逸らすだけだ。</div>
+                <div class="quote-importance">💡 信仰・形而上学的解消を拒む中核的批判を要約する。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">反抗は限界の承認から生まれる自由の行使である。</div>
+                <div class="quote-importance">💡 倫理的実践（生の様式）への橋渡しを明確にする。</div>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content" role="tabpanel">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <span>📝</span>
+                    <div>不条理を感じた出来事を3つ書く</div>
+                </div>
+                <div class="action-item">
+                    <span>👀</span>
+                    <div>日々の反復行為を20分間観察する</div>
+                </div>
+                <div class="action-item">
+                    <span>✍️</span>
+                    <div>自分の反抗・自由・情熱を定義する</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                <div class="books-grid">
+                    <div class="book-card">
+                        <div class="book-title">反抗的人間</div>
+                        <div class="book-author">アルベール・カミュ</div>
+                        <div class="book-relation">「反抗」を社会・歴史の次元へ拡張し、本書の倫理を発展させる。</div>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">異邦人</div>
+                        <div class="book-author">アルベール・カミュ</div>
+                        <div class="book-relation">不条理の感受と明晰な意識を小説形式で具現化する。</div>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">嘔吐</div>
+                        <div class="book-author">ジャン＝ポール・サルトル</div>
+                        <div class="book-relation">実存と不条理の感覚を異なる立場から描く対照的テクスト。</div>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">ゴドーを待ちながら</div>
+                        <div class="book-author">サミュエル・ベケット</div>
+                        <div class="book-relation">意味の欠如と反復を舞台で提示し、不条理劇の代表作となる。</div>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-title">地下室の手記</div>
+                        <div class="book-author">フョードル・ドストエフスキー</div>
+                        <div class="book-relation">理性と自由の葛藤を描き、飛躍や反抗の問題系に接続する。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowLeft') {
+                    nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                } else {
+                    nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
