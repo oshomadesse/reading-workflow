@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本史の誕生 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #3498db, アクセント #e74c3c -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --text: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--light) 0%, #ffffff 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 10px;
+            background: var(--light);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .tab-button.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .concept-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent);
+        }
+        
+        .concept-card h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .concept-summary {
+            background: var(--light);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        .relationship-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-marker {
+            width: 20px;
+            height: 20px;
+            background: var(--secondary);
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid white;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 日本史の誕生</h1>
+            <p>「日本史」は普遍で自明の国民物語ではない。用語・分類・境界の操作を通じて後世に組み立てられた像である。</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🔄 関係性と構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">📝 重要な引用</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="アクションタブ">⚡ 今日のアクション</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📖 関連書籍</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div>主要概念</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div>関係性の軸</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>論理展開段階</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>関連書籍</div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>「日本史」は自明の国民物語ではない</li>
+                        <li>用語・分類・境界の操作で後世に組み立てられた</li>
+                        <li>海と周縁、非農業民の活動を視野に入れる</li>
+                        <li>列島史は多中心・多層に立ち上がる</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>「日本」「日本人」「百姓」などの語の歴史性を吟味</li>
+                        <li>近世以降の農本主義的日本史像を相対化</li>
+                        <li>中世の列島は開放的ネットワークの中にあった</li>
+                        <li>海民・商人・寺社勢力・境界空間が織りなす世界</li>
+                        <li>直線的物語ではなく多元性から捉え直す</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🏛️ 「日本」と「倭」</h4>
+                    <p>列島と政体を指す呼称は時代・文脈で揺れ動き、「日本」は後世に制度化された自己呼称である。名称の転換自体が権威と対外関係の変化を映す。</p>
+                    <div class="concept-summary">名は権力史</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>👥 百姓</h4>
+                    <p>本来は多様な生業を担う庶民一般を指し、近世以降の「農民」同義への収斂は後発の固定化である。</p>
+                    <div class="concept-summary">多職の庶民</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌊 無縁・公界・楽</h4>
+                    <p>血縁や在所の拘束から相対的に解放され、課役や法の適用が緩む中間領域。交易・祭礼・芸能・救済が交錯する。</p>
+                    <div class="concept-summary">越境の場</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⛵ 海民</h4>
+                    <p>漁労・海運・沿岸交易に従事する集団。列島を外海と結ぶ媒介者として権力と市場を結節した。</p>
+                    <div class="concept-summary">海の結節者</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔄 境界・中間領域</h4>
+                    <p>国郡の線引きや寺社の権威が重なり合う狭間。規制の重複と空白が生む活力が歴史を駆動する。</p>
+                    <div class="concept-summary">歴史の作動点</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🌾 農本主義史観</h4>
+                    <p>農業を国体の基盤とみなし他の生業を従属化する見方。近世的秩序を過去へ投影する危険を孕む。</p>
+                    <div class="concept-summary">投影の罠</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🔗 交易ネットワーク</h4>
+                    <p>市・湊・寺社縁日の結び目が形成する交換圏。物資・情報・人の移動が権力配置を変える。</p>
+                    <div class="concept-summary">移動の力</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⛩️ 寺社と権力</h4>
+                    <p>寺社は祈祷や課役免除、空間の聖別によって政治と市場に深く関与し、越境を可能にした。</p>
+                    <div class="concept-summary">聖俗の結節</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🏘️ 在地社会</h4>
+                    <p>土地の慣行・結社・惣村などの自律的秩序。中央権力と対抗・協調しながら地域の機動性を生んだ。</p>
+                    <div class="concept-summary">地域の自律</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📝 用語史・分類批判</h4>
+                    <p>史料語の成立と意味変遷を追い、後世の語義で過去を読む錯誤を避ける方法。</p>
+                    <div class="concept-summary">言葉の点検</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content">
+            <div class="relationship-diagram">
+                <h3>🔄 概念間の関係性</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">
+                        <span>農本主義史観</span>
+                        <span class="flow-arrow">→</span>
+                        <span>百姓＝農民の固定観念</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>百姓の再定義</span>
+                        <span class="flow-arrow">↔</span>
+                        <span>交易ネットワークの拡大</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>無縁・公界・楽</span>
+                        <span class="flow-arrow">→</span>
+                        <span>境界・中間領域の活性化</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>海民</span>
+                        <span class="flow-arrow">↔</span>
+                        <span>市場・寺社・在地社会</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>寺社と権力</span>
+                        <span class="flow-arrow">→</span>
+                        <span>無縁・公界・楽の持続</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>用語史の点検</span>
+                        <span class="flow-arrow">→</span>
+                        <span>『日本』像の再構築</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>境界の活性化</span>
+                        <span class="flow-arrow">→</span>
+                        <span>政治秩序の再編（多中心化）</span>
+                    </div>
+                    <div class="flow-item">
+                        <span>対外関係の変化</span>
+                        <span class="flow-arrow">→</span>
+                        <span>「倭」→「日本」への呼称転換</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📊 論理展開の構造</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>問題提起</strong><br>
+                            『日本史』を自明視する通念（農本主義・国民物語）を批判し、用語と分類の歴史性を点検する必要を示す
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>用語史の検討</strong><br>
+                            「日本／倭」「百姓」などの語の初現・用法変遷を史料から追い、近世的意味の逆投影を外す
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>周縁と越境の視角</strong><br>
+                            無縁・公界・楽や境界空間の機能を描き、規制の重複・空白が生むダイナミズムを提示
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>海からの列島史</strong><br>
+                            海民・湊・市のネットワークを軸に、物資・人・情報の移動が権力・経済を組み替える過程を示す
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>在地と権力の相互作用</strong><br>
+                            寺社・在地結社・王権の結節を具体例で分析し、多中心的秩序の実相を明らかにする
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div>
+                            <strong>総合</strong><br>
+                            以上の視角を重ね、直線的国民史に代わる多層・多中心の日本史像を再構成し、現代の歴史認識への含意を提起する
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>💬 「日本」という名は歴史の中で作られた</h3>
+                    <ul>
+                        <li>国名自体の歴史性を示す</li>
+                        <li>固定観念を揺さぶる重要な指摘</li>
+                        <li>権威と対外関係の変化を反映</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 「百姓＝農民」は近世的固定観念にすぎない</h3>
+                    <ul>
+                        <li>身分と生業の再検討を促す</li>
+                        <li>周縁を可視化する視点</li>
+                        <li>多様な生業の実態を明らかにする</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 海から見れば列島は常に開かれていた</h3>
+                    <ul>
+                        <li>内向き史観を転換する</li>
+                        <li>外部との連関を強調</li>
+                        <li>海民の役割を重視</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 無縁・公界・楽は越境を可能にする場である</h3>
+                    <ul>
+                        <li>境界空間の機能を捉える</li>
+                        <li>社会の流動性を説明</li>
+                        <li>規制の緩衝地帯の重要性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 言葉の点検なくして歴史の再構成はない</h3>
+                    <ul>
+                        <li>方法論的基盤を端的に示す</li>
+                        <li>用語史研究の重要性</li>
+                        <li>歴史認識の指針となる</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15〜30分）</h3>
+                <div class="action-item">
+                    <strong>📖 国語辞典で「日本」の語義を確認</strong><br>
+                    辞書で「日本」の項目を読み、語源や用法の変遷を調べてみる
+                </div>
+                <div class="action-item">
+                    <strong>🗺️ 近所の地名の由来を確認する</strong><br>
+                    住んでいる地域の地名がいつ、どのような経緯で付けられたかを調べる
+                </div>
+                <div class="action-item">
+                    <strong>⚓ 地図で中世の港湾を探索してみる</strong><br>
+                    古地図や歴史地図で、中世に栄えた港や市場の場所を確認する
+                </div>
+            </div>
+        </div>
+        
+        <div id="books" class="tab-content">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">無縁・公界・楽</div>
+                    <div class="book-author">網野善彦</div>
+                    <div class="book-relation">境界空間の概念的中核を掘り下げ、本書の周縁視角を補強する。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">海と列島の中世</div>
+                    <div class="book-author">網野善彦</div>
+                    <div class="book-relation">海民と海上ネットワークから列島史を再描写し、本書の海の視点を具体化。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">日本社会の歴史</div>
+                    <div class="book-author">網野善彦</div>
+                    <div class="book-relation">多中心的社会像の通史的提示で、本書の総合的主張と接続する。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">王法と仏法</div>
+                    <div class="book-author">黒田俊雄</div>
+                    <div class="book-relation">寺社勢力と権力の二重構造を解明し、越境空間の政治性を理解させる。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">中世都市の世界</div>
+                    <div class="book-author">石井進</div>
+                    <div class="book-relation">市・湊・都市のネットワークと自治の実相を示し、交易視点を強化。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">東アジア海域に漕ぎだす</div>
+                    <div class="book-author">村井章介</div>
+                    <div class="book-relation">東アジア広域の交流史から列島の位置づけを相対化する。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+        
+        // アクセシビリティ属性の設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+            });
+            
+            tabContents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
