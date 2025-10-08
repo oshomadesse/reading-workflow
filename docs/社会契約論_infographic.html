@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社会契約論 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #64748b, アクセント #dc2626 -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #dc2626;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            padding: 12px 20px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .concept-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--accent);
+        }
+        
+        .concept-card h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .concept-summary {
+            background: var(--bg-light);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+        
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .structure-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .timeline-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #ef4444 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            padding-left: 30px;
+        }
+        
+        .quote-significance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            padding-left: 30px;
+        }
+        
+        .action-list {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px dashed var(--primary);
+        }
+        
+        .action-list h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-icon {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--secondary);
+        }
+        
+        .book-title {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .book-relation {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 10px 0;
+            }
+            
+            .flow-step::after {
+                content: "↓";
+                position: static;
+                display: block;
+                text-align: center;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 社会契約論</h1>
+            <p>ジャン＝ジャック・ルソー | 人民主権と自由の理論</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">📖 構造と展開</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要な引用</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="アクションタブ">⚡ 今日のアクション</button>
+            <button class="tab-button" onclick="showTab('related')" aria-label="関連書籍タブ">📚 関連書籍</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>正当な政治的権威は社会契約によってのみ成立</li>
+                        <li>個々人が自由を失わずに共同体を形成</li>
+                        <li>主権は人民にあり不可譲・不可分</li>
+                        <li>自由とは自ら課した法に服従する自律</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>自然状態から社会契約への移行を論証</li>
+                        <li>一般意志による法律制定の正統性</li>
+                        <li>政府は執行機関として主権の下位に位置</li>
+                        <li>市民的徳と制度的補助の必要性</li>
+                        <li>フランス革命以後の政治思想に決定的影響</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🔄 社会契約の流れ</h3>
+                <div style="text-align: center;">
+                    <div class="flow-step">自然状態<br>素朴平等</div>
+                    <div class="flow-step">社会契約<br>全員一致</div>
+                    <div class="flow-step">公共の人格<br>主権者成立</div>
+                    <div class="flow-step">一般意志<br>法律制定</div>
+                    <div class="flow-step">政府<br>執行機関</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content">
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🌱 自然状態</h4>
+                    <p>人は孤立的で素朴に平等だが、道徳的・政治的関係は未発達な状態。所有や社会的不平等はまだ成立していない。</p>
+                    <span class="concept-summary">素朴平等</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🤝 社会契約</h4>
+                    <p>各人が自己の全体を共同体に譲与し、公共の人格（主権者）を成立させる全員一致の合意。個人の自然自由は市民的自由へ転化する。</p>
+                    <span class="concept-summary">合意創設</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎯 一般意志</h4>
+                    <p>共同体全体の公益を志向する意志で、法の正統性の源泉。各人の私的利害の総和（全員の意思）とは区別される。</p>
+                    <span class="concept-summary">公益志向</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>📊 全員の意思（私意の総和）</h4>
+                    <p>各人の私的利害の加算で、派閥や部分利益に左右されやすい。一般意志としばしば混同される。</p>
+                    <span class="concept-summary">集合私意</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>👑 主権</h4>
+                    <p>人民に属する最高権力で、不可譲・不可分・不可代表。一般意志として表現され、法律制定に現れる。</p>
+                    <span class="concept-summary">人民権能</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🗽 自由（市民的・道徳的自由）</h4>
+                    <p>自ら課した法に服従する自律。自然自由（欲求への従属）からの質的転換を意味する。</p>
+                    <span class="concept-summary">自律</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⚖️ 法律／立法者</h4>
+                    <p>法律は一般意志の一般的行為で、特定人・事への個別命令ではない。立法者は制度設計の助言者であり、主権者ではない。</p>
+                    <span class="concept-summary">制度設計</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🏛️ 政府（政体）</h4>
+                    <p>法の執行を担う下位機関で、君主制・貴族制・民主制などの形態をとる。規模や風土に応じて適否がある。</p>
+                    <span class="concept-summary">執行機構</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>⛪ 市民宗教</h4>
+                    <p>共同体への忠誠と徳を支える市民的信条の枠組み。宗教の私的良心と公共秩序の調和を図る。</p>
+                    <span class="concept-summary">結束規範</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>🎭 検閲と風俗（モレス）</h4>
+                    <p>公共の意見と徳を保護する仕組み。法だけで維持しきれない共同体の気風を守る。</p>
+                    <span class="concept-summary">公徳維持</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>💰 財産と不平等の正統化</h4>
+                    <p>所有権は社会契約と法により初めて正統化される。政治的不平等は一般意志に基づくときのみ許容される。</p>
+                    <span class="concept-summary">所有正統化</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content">
+            <div class="structure-timeline">
+                <div class="timeline-item">
+                    <h4>📖 第一編</h4>
+                    <p>自然状態と政治的正統性の問題を提示。「自由に生まれた人が鎖につながれる」逆説を解き、各人が自己の全体を共同体に譲与する社会契約により、個人の損失なく公共の人格が成立すると論証。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>📖 第二編</h4>
+                    <p>主権と一般意志の性質を精緻化。主権の不可譲・不可分、法の一般性、立法者の役割、人民が法律を承認する仕組み、所有の正統化などを展開。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>📖 第三編</h4>
+                    <p>政府（執行権）の起源・構造・類型（民主・貴族・君主）と腐敗の力学を分析。国の規模や気候に応じた適政体、代議と代表の限界、政府の逸脱への対策を示す。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h4>📖 第四編</h4>
+                    <p>主権の実践手続（民会・投票・護民官・独裁権の非常措置）を扱い、一般意志の維持条件として検閲・市民宗教・国民的儀礼の重要性を論じて結ぶ。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <div class="quote-text">「人間は自由なものとして生まれ、至るところで鎖につながれている。」</div>
+                <div class="quote-significance">自然的自由と政治的隷属の逆説を提示し、正統性問題の核心を一文で示す。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「自由とは、自ら課した法に服従することだ。」</div>
+                <div class="quote-significance">自由を自律として再定義し、法と自由の対立を解消する規範原理を与える。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「主権は不可譲であり、しかも不可分である。」</div>
+                <div class="quote-significance">人民主権の性質を明確化し、代表による主権の移譲・分割を理論的に否定する。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「一般意志は常に正しいが、それを導く判断は常に明晰とは限らない。」</div>
+                <div class="quote-significance">公益志向としての一般意志の正当性と、その認識的脆弱性を区別して制度設計の課題を示す。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「法律とは、一般意志の一般的な行為にほかならない。」</div>
+                <div class="quote-significance">法の一般性要件を定式化し、特定利益の法化（恣意）を排除する基準を与える。</div>
+            </div>
+        </div>
+        
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15〜30分）</h3>
+                
+                <div class="action-item">
+                    <div class="action-icon">1</div>
+                    <div>
+                        <strong>一般意志の定義を自分で書く</strong><br>
+                        <small>公益志向の意志とは何か、自分の言葉で説明してみる</small>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-icon">2</div>
+                    <div>
+                        <strong>身近な規約を1つ読み正当性を検討</strong><br>
+                        <small>学校・職場・団体の規約が一般意志に基づいているか考察</small>
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <div class="action-icon">3</div>
+                    <div>
+                        <strong>小さな集団の合意形成を観察</strong><br>
+                        <small>家族・友人・同僚の意思決定プロセスを社会契約論の視点で分析</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="related" class="tab-content">
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">リヴァイアサン</div>
+                    <div class="book-author">トマス・ホッブズ</div>
+                    <div class="book-relation">同じく社会契約を基礎づけるが、絶対主権論と恐怖ベースの契約でルソーと対照的。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">統治二論</div>
+                    <div class="book-author">ジョン・ロック</div>
+                    <div class="book-relation">人民の同意と所有権の正統化を論じ、ルソーの人民主権論との比較に有益。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">法の精神</div>
+                    <div class="book-author">シャルル・ド・モンテスキュー</div>
+                    <div class="book-relation">政体と権力分立の分析が、政府形態・腐敗論の補完となる。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">アメリカのデモクラシー</div>
+                    <div class="book-author">アレクシ・ド・トクヴィル</div>
+                    <div class="book-relation">市民的徳・結社・規模の問題を経験的に検討し、一般意志の条件を具体化する。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">自由論</div>
+                    <div class="book-author">ジョン・スチュアート・ミル</div>
+                    <div class="book-relation">個人の自由と公共善の緊張を精査し、ルソーの自律的自由概念と対話的に読むと深まる。</div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="book-title">永遠平和のために</div>
+                    <div class="book-author">イマヌエル・カント</div>
+                    <div class="book-relation">共和主義と公的理性の構想が、ルソーの一般意志論の規範的射程を拡張する。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+        
+        // アクセシビリティ属性の設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+            });
+            
+            tabContents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
