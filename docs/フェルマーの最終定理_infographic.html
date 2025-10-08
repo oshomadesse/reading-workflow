@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フェルマーの最終定理 - 350年の挑戦</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "📌";
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-card {
+            background: rgba(118,75,162,0.1);
+            border-left-color: var(--secondary);
+        }
+
+        .concept-card li::before {
+            content: "🔍";
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+            padding-right: 30px;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 10px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -7px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -7px;
+        }
+
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '⬇️';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, rgba(240,147,251,0.2), rgba(102,126,234,0.2));
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        .action-list {
+            background: rgba(118,75,162,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .action-item {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+                padding-left: 20px !important;
+                padding-right: 0 !important;
+            }
+            
+            .timeline-item::before {
+                left: -27px !important;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📐 フェルマーの最終定理</h1>
+            <p>350年の挑戦と数学の勝利</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false" aria-controls="concepts">主要概念</button>
+            <button class="tab-button" onclick="showTab('timeline')" role="tab" aria-selected="false" aria-controls="timeline">歴史の流れ</button>
+            <button class="tab-button" onclick="showTab('proof')" role="tab" aria-selected="false" aria-controls="proof">証明の構造</button>
+            <button class="tab-button" onclick="showTab('impact')" role="tab" aria-selected="false" aria-controls="impact">影響と学び</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">350+</span>
+                    <span>年の挑戦</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">n>2</span>
+                    <span>解なし</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1995</span>
+                    <span>証明完成</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>素朴な命題も数世紀の知の連携で解明</li>
+                        <li>異分野を架橋する発想が鍵</li>
+                        <li>数学は厳密さと共同体で前進</li>
+                        <li>粘り強い探究の価値</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📚 問題の本質</h3>
+                    <ul>
+                        <li>x^n + y^n = z^n (n>2) に整数解なし</li>
+                        <li>フェルマーが余白に残した一言</li>
+                        <li>シンプルな見た目、深遠な内容</li>
+                        <li>数論の究極問題</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 解決への道筋</h3>
+                    <ul>
+                        <li>楕円曲線とモジュラー形式の結合</li>
+                        <li>フライ曲線による矛盾導出</li>
+                        <li>ワイルズの孤独な研究</li>
+                        <li>査読と共同修正による完成</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                💭 「余白は狭すぎた」— この一文が数世紀の探究を駆動し、数学史上最も美しい証明の一つを生み出した
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <h3>🎯 フェルマーの最終定理</h3>
+                    <ul>
+                        <li>n>2でx^n+y^n=z^nの整数解なし</li>
+                        <li>究極のディオファントス問題</li>
+                        <li>350年間未解決だった命題</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🔢 数論</h3>
+                    <ul>
+                        <li>整数や素数を扱う数学分野</li>
+                        <li>フェルマー問題の基盤</li>
+                        <li>純粋数学の王道</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>📈 楕円曲線</h3>
+                    <ul>
+                        <li>滑らかな曲線で群構造を持つ</li>
+                        <li>数論と幾何の交差点</li>
+                        <li>現代暗号にも応用</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🌊 モジュラー形式</h3>
+                    <ul>
+                        <li>対称性を持つ複素解析関数</li>
+                        <li>フーリエ展開と結び付く</li>
+                        <li>数論の深層構造を表現</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>🌉 谷山–志村予想</h3>
+                    <ul>
+                        <li>楕円曲線とモジュラー形式の対応</li>
+                        <li>異分野を結ぶ大橋</li>
+                        <li>証明の核心部分</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>⚡ フライ曲線</h3>
+                    <ul>
+                        <li>FLT反例から構成される特殊曲線</li>
+                        <li>矛盾を導く仕掛け</li>
+                        <li>論理的証明の起点</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content" role="tabpanel">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1637年 📝</h4>
+                        <p>フェルマーが余白に命題を記載</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>18-19世紀 🔍</h4>
+                        <p>オイラー、ジェルマン、クンマーらが部分的成果</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1955年 🌉</h4>
+                        <p>谷山–志村予想が提唱される</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1985年 💡</h4>
+                        <p>フライがFLTと楕円曲線を結び付ける</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1986年 🔑</h4>
+                        <p>リベットが決定的な定理を証明</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1993年 🎯</h4>
+                        <p>ワイルズが初回発表（後にギャップ発見）</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>1995年 🏆</h4>
+                        <p>テイラーとの共同作業で証明完成</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="proof" class="tab-content" role="tabpanel">
+            <h2 style="text-align: center; color: var(--primary); margin-bottom: 30px;">証明の論理構造</h2>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    FLTに反例が存在すると仮定
+                </div>
+                <div class="flow-step">
+                    フライ曲線を構成
+                </div>
+                <div class="flow-step">
+                    リベットの定理により<br>この曲線は非モジュラー
+                </div>
+                <div class="flow-step">
+                    谷山–志村予想により<br>すべての楕円曲線はモジュラー
+                </div>
+                <div class="flow-step">
+                    矛盾発生！<br>よってFLTに反例は存在しない
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔧 ワイルズの技法</h3>
+                    <ul>
+                        <li>ガロア表現の変形理論</li>
+                        <li>セミステーブル楕円曲線に限定</li>
+                        <li>大域と局所の整合性</li>
+                        <li>コリヴァギン–フラッハ法の応用</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🛠️ 修復過程</h3>
+                    <ul>
+                        <li>査読でギャップが発見</li>
+                        <li>テイラーとの共同作業</li>
+                        <li>新しいアイデアで解決</li>
+                        <li>厳密な証明の完成</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="impact" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌟 重要な教訓</h3>
+                    <ul>
+                        <li>単純な問いが最も深遠な数学へ通じる</li>
+                        <li>数学は共同体の成果である</li>
+                        <li>証明の厳密さが真理を確定する</li>
+                        <li>異分野の架橋が突破口となる</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 数学への影響</h3>
+                    <ul>
+                        <li>楕円曲線論の発展</li>
+                        <li>モジュラー性定理の確立</li>
+                        <li>新しい証明技法の開発</li>
+                        <li>数論幾何学の進歩</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="action-list">
+                <h3>📋 今日できるアクション</h3>
+                <div class="action-item">
+                    <strong>🔍 フライ曲線の概念を記事で学ぶ</strong><br>
+                    15分で基本的な仕組みを理解
+                </div>
+                <div class="action-item">
+                    <strong>🌉 谷山–志村予想の解説を読む</strong><br>
+                    楕円曲線とモジュラー形式の関係を把握
+                </div>
+                <div class="action-item">
+                    <strong>📝 ワイルズ証明の概略をメモする</strong><br>
+                    証明戦略の要点を整理
+                </div>
+            </div>
+
+            <h3 style="color: var(--primary); margin: 30px 0 20px 0;">📚 関連書籍</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">素数の音楽</div>
+                    <div class="book-author">マーカス・デュ・ソートイ</div>
+                    <div class="book-relation">数論史と未解決問題を物語として俯瞰できる</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">暗号解読</div>
+                    <div class="book-author">サイモン・シン</div>
+                    <div class="book-relation">数論の応用と数学の社会的インパクトを理解</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">数学ガール/フェルマーの最終定理</div>
+                    <div class="book-author">結城浩</div>
+                    <div class="book-relation">FLTの背景や関連概念を平易に学べる</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">無限の天才 ラマヌジャン</div>
+                    <div class="book-author">ロバート・キャニゲル</div>
+                    <div class="book-relation">数学者の創造性と共同体の支えを伝える</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">素数に憑かれた人たち</div>
+                    <div class="book-author">ジョン・ダービーシャー</div>
+                    <div class="book-relation">リーマン予想を軸に数論の深奥を学べる</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
