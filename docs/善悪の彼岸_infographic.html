@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>善悪の彼岸 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --bg-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #bdc3c7 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--accent);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .concept-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .action-list {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-light);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 善悪の彼岸</h1>
+            <p class="subtitle">ニーチェが描く価値転換の哲学 - 固定的善悪を超えて</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">📖 構造</button>
+            <button class="tab-button" onclick="showTab('relations')" role="tab">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>固定的な善悪の二分法を疑う</li>
+                        <li>生命肯定と創造の観点から価値を再評価</li>
+                        <li>群衆道徳を超えた自己超克</li>
+                        <li>権力への意思を軸とした新価値創造</li>
+                        <li>未来の哲学者は価値の立法者となる</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 書籍の特徴</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">9</div>
+                            <p>部構成</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">296</div>
+                            <p>箴言数</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌟 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>形而上学・道徳の哲学者偏見を暴露</li>
+                        <li>視点主義と心理学的洞察による価値再評価</li>
+                        <li>主人道徳vs奴隷道徳の対立分析</li>
+                        <li>学者の限界とヨーロッパ文化病理の診断</li>
+                        <li>自由精神者と貴族的理想の人間像提示</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔥 善悪の彼岸</h3>
+                    <p><span class="concept-badge">超越</span></p>
+                    <ul>
+                        <li>伝統的善悪二分法を越える立場</li>
+                        <li>価値の起源と機能を問う</li>
+                        <li>道徳そのものを対象化し再評価</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ 権力への意思</h3>
+                    <p><span class="concept-badge">力動</span></p>
+                    <ul>
+                        <li>生の根源的衝動は力の増大</li>
+                        <li>自己保存ではなく自己形作りへの推進</li>
+                        <li>創造と成長の原動力</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👑 主人道徳</h3>
+                    <p><span class="concept-badge">高貴</span></p>
+                    <ul>
+                        <li>強さ・高貴・自己肯定を善とする</li>
+                        <li>能動的価値体系</li>
+                        <li>創造と評価の源泉を自らに置く</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⛓️ 奴隷道徳</h3>
+                    <p><span class="concept-badge">反動</span></p>
+                    <ul>
+                        <li>弱さ・憐れみ・平等を善とする</li>
+                        <li>怨恨から価値を転倒する反動的道徳</li>
+                        <li>普遍化により支配を目指す</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 価値の転換</h3>
+                    <p><span class="concept-badge">再評価</span></p>
+                    <ul>
+                        <li>既存道徳価値を生の観点から再評価</li>
+                        <li>新たな尺度を創出</li>
+                        <li>ニヒリズム克服の核心手続き</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👁️ 視点主義</h3>
+                    <p><span class="concept-badge">多視点</span></p>
+                    <ul>
+                        <li>認識は常にある視点からの解釈</li>
+                        <li>無視点の真理は虚構</li>
+                        <li>複数視点の緊張が認識を豊かにする</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📝 前言</h3>
+                    <ul>
+                        <li>真理は女という比喩</li>
+                        <li>ドグマ的哲学の手つきのまずさを皮肉</li>
+                        <li>方法転換を宣言</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 第1部: 哲学者の偏見</h3>
+                    <ul>
+                        <li>形而上学的主張の背後の心理解剖</li>
+                        <li>道徳的利害の暴露</li>
+                        <li>認識論に視点主義を導入</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🕊️ 第2部: 自由精神</h3>
+                    <ul>
+                        <li>慣習からの離脱過程</li>
+                        <li>実験的思考の擁護</li>
+                        <li>懐疑の徳の重要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⛪ 第3部: 宗教性</h3>
+                    <ul>
+                        <li>宗教の心理的・文化的機能分析</li>
+                        <li>禁欲理想の権力性暴露</li>
+                        <li>宗教的価値の再評価</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💎 第4部: 箴言と間奏</h3>
+                    <ul>
+                        <li>短い箴言で洞察を連射</li>
+                        <li>人間類型・認識・道徳の分析</li>
+                        <li>読者の評価習慣を撹乱</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌿 第5部: 道徳の自然誌</h3>
+                    <ul>
+                        <li>道徳価値の起源を自然史的に説明</li>
+                        <li>主人道徳と奴隷道徳の対比準備</li>
+                        <li>価値の生成メカニズム解明</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <div class="flow-diagram">
+                <h3>🔗 概念間の関係性フロー</h3>
+                
+                <div class="flow-step">
+                    <div class="flow-box">視点主義</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">真理の絶対視を相対化</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">価値の転換の必要</div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-box">怨恨と弱さ</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">奴隷道徳の形成</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">ニヒリズムの深化</div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-box">権力への意思</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">自己超克</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">価値創造</div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="flow-box">自由精神者の実験</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">多視点の獲得</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">未来の哲学者</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎭 主人道徳 vs 奴隷道徳</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                    <div style="background: linear-gradient(135deg, var(--accent), #e67e22); color: white; padding: 15px; border-radius: 10px;">
+                        <h4>👑 主人道徳</h4>
+                        <ul style="list-style: none; margin-top: 10px;">
+                            <li>• 強さ・高貴</li>
+                            <li>• 自己肯定</li>
+                            <li>• 能動的創造</li>
+                        </ul>
+                    </div>
+                    <div style="background: linear-gradient(135deg, var(--secondary), #c0392b); color: white; padding: 15px; border-radius: 10px;">
+                        <h4>⛓️ 奴隷道徳</h4>
+                        <ul style="list-style: none; margin-top: 10px;">
+                            <li>• 弱さ・憐れみ</li>
+                            <li>• 怨恨・反動</li>
+                            <li>• 普遍化支配</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <p><strong>真理は女であり、ドグマはそれを口説けない</strong></p>
+                <p style="margin-top: 15px; opacity: 0.9;">認識論と方法の転換を象徴し、全編の問題設定を鮮やかに示す</p>
+            </div>
+
+            <div class="quote-card">
+                <p><strong>道徳的現象は存在しない。現象の道徳的解釈があるのみ</strong></p>
+                <p style="margin-top: 15px; opacity: 0.9;">道徳の相対性と解釈性を明言し、価値の転換の論拠を与える</p>
+            </div>
+
+            <div class="quote-card">
+                <p><strong>怪物と闘う者は、自らも怪物とならぬよう注意せよ</strong></p>
+                <p style="margin-top: 15px; opacity: 0.9;">否定の闘争が自己を蝕む危険を警告し、自己超克の方向付けを行う</p>
+            </div>
+
+            <div class="quote-card">
+                <p><strong>民族は自然が少数の偉大な人間に至る迂回路である</strong></p>
+                <p style="margin-top: 15px; opacity: 0.9;">貴族的理想と創造的少数者の役割を簡潔に示す</p>
+            </div>
+
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li><strong>道徳の系譜</strong> - 奴隷道徳と怨恨の体系的展開</li>
+                    <li><strong>ツァラトゥストラ</strong> - 自己超克の詩的表現</li>
+                    <li><strong>悦ばしき知識</strong> - 永劫回帰と神の死</li>
+                    <li><strong>反キリスト者</strong> - キリスト教道徳批判の先鋭化</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分）</h3>
+                
+                <div class="action-item">
+                    <div class="action-icon">📖</div>
+                    <div>
+                        <strong>序文を精読し要点をメモする</strong>
+                        <p>真理と女の比喩から始まる問題設定を理解</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-icon">🧠</div>
+                    <div>
+                        <strong>第1部を黙読し印象語を5つ書く</strong>
+                        <p>哲学者の偏見について直感的理解を深める</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-icon">💎</div>
+                    <div>
+                        <strong>好きな箴言を3つ抜き書きする</strong>
+                        <p>ニーチェの洞察を自分の言葉で咀嚼</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-icon">🤔</div>
+                    <div>
+                        <strong>自分の価値観を1つ疑ってみる</strong>
+                        <p>なぜそれを善/悪と思うのか起源を探る</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-icon">✍️</div>
+                    <div>
+                        <strong>主人道徳と奴隷道徳の例を身近から探す</strong>
+                        <p>現代社会での具体例を3つずつリストアップ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>🎯 長期的な読書プラン</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%"></div>
+                </div>
+                <p style="margin-top: 10px;">善悪の彼岸 → 道徳の系譜 → ツァラトゥストラ → 反キリスト者</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+
+            // Animate progress bars when actions tab is shown
+            if (tabName === 'actions') {
+                setTimeout(() => {
+                    const progressFill = document.querySelector('.progress-fill');
+                    progressFill.style.width = '25%';
+                }, 100);
+            }
+        }
+
+        // Initialize progress bar animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    const activeButton = document.querySelector('.tab-button.active');
+                    if (document.activeElement === activeButton) {
+                        e.preventDefault();
+                        const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                        const currentIndex = buttons.indexOf(activeButton);
+                        const nextIndex = (currentIndex + 1) % buttons.length;
+                        buttons[nextIndex].focus();
+                        buttons[nextIndex].click();
+                    }
+                }
+            });
+
+            // Animate cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
