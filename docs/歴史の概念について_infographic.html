@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歴史の概念について - ベンヤミン</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --bg-light: #ecf0f1;
+            --text-dark: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 10px;
+            background: var(--bg-light);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            border-bottom-color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #ffffff 0%, var(--bg-light) 100%);
+            border-left-color: var(--secondary);
+        }
+        
+        .concept-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 25px;
+        }
+        
+        .timeline-item:nth-child(odd)::before {
+            right: -32px;
+        }
+        
+        .timeline-item:nth-child(even)::before {
+            left: -32px;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .flow-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #c0392b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .quote-card::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, var(--accent) 0%, #e67e22 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid white;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                margin-left: 40px !important;
+            }
+            
+            .timeline-item::before {
+                left: -32px !important;
+            }
+            
+            .flow-step {
+                min-width: auto;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 歴史の概念について</h1>
+            <p>ヴァルター・ベンヤミン - 敗者の歴史と救済の政治学</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 論理構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="実践タブ">⚡ 今日の実践</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3>🎯 核心的メッセージ</h3>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--primary); font-weight: 500;">
+                    歴史は勝者の連続的進歩の物語ではなく、敗者・抑圧された者の苦難と闘争の痕跡を現在の危機の刹那（Jetztzeit）において掴み直し、過去を「救済」する介入の実践である。
+                </p>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📖 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>歴史主義の連続的・客観的記述を批判し、断絶と想起の政治を提起</li>
+                        <li>「敗者の歴史」を現在の危機において呼び戻す弱いメシア的力を強調</li>
+                        <li>進歩神話は支配のイデオロギーであり、非常事態は例外でなく常態</li>
+                        <li>革命は歴史の機関車ではなく、破局へ向かう列車を止める非常ブレーキ</li>
+                        <li>時間は均質・空虚ではなく、いま-時が過去の断片を稲妻のように照らす</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔄 歴史観の転換</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-step">従来の歴史主義<br>📈 連続・進歩・勝者</div>
+                        <div class="flow-step">ベンヤミンの批判<br>⚡ 断絶・危機・敗者</div>
+                        <div class="flow-step">新しい歴史実践<br>🔄 救済・想起・介入</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">18</div>
+                    <div>テーゼ数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div>主要概念</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>関連書籍</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <h3>📚 歴史主義（史学主義）</h3>
+                    <p>出来事を連続と因果で埋める客観主義的記述。勝者の視点を不可視化し、進歩神話を強化する。</p>
+                    <span class="concept-tag">勝者の連続史</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>⚔️ 歴史唯物主義（ベンヤミン版）</h3>
+                    <p>階級闘争の視角から資料の暴力性を露呈し、現在の危機において過去を救済する実践的史観。</p>
+                    <span class="concept-tag">闘争としての歴史</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>📈 進歩神話</h3>
+                    <p>技術・文明の直線的向上を歴史の必然とみなす物語。支配秩序を正当化する。</p>
+                    <span class="concept-tag">直線の幻想</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>💔 敗者の歴史</h3>
+                    <p>抑圧され消された記憶と闘争の軌跡。現在から呼び戻されるべき救済の対象。</p>
+                    <span class="concept-tag">抹消された声</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>⚡ いま-時（Jetztzeit）</h3>
+                    <p>均質・空虚な時間を破る充満の瞬間。過去が閃光のように現在に接続する契機。</p>
+                    <span class="concept-tag">断絶の刹那</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🕊️ メシア的時間</h3>
+                    <p>歴史の終末論的充満ではなく、弱く到来しうる救済の契機。倫理的・実践的促し。</p>
+                    <span class="concept-tag">弱い救済</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>👁️ 歴史の天使</h3>
+                    <p>過去の瓦礫を直視する寓意的視座。進歩の嵐に押し流される人類の状況を示す。</p>
+                    <span class="concept-tag">瓦礫を見る眼</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🏆 史料の略奪品</h3>
+                    <p>文化財や記録が支配の暴力を帯びることの指摘。無垢な資料は存在しない。</p>
+                    <span class="concept-tag">文化の戦利品</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🚨 非常事態</h3>
+                    <p>支配にとっての例外が被抑圧者にとっての常態であるという逆説的認識。</p>
+                    <span class="concept-tag">常在化する例外</span>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🛑 非常ブレーキ（革命）</h3>
+                    <p>進歩の機関車というメタファーを転倒し、破局への加速を停止する行為としての革命。</p>
+                    <span class="concept-tag">停止としての革命</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content">
+            <div class="card">
+                <h3>🔗 概念間の関係性</h3>
+                <svg width="100%" height="400" viewBox="0 0 800 400" style="background: #f8f9fa; border-radius: 10px;">
+                    <!-- 歴史主義から進歩神話への流れ -->
+                    <rect x="50" y="50" width="120" height="60" fill="#e74c3c" rx="10"/>
+                    <text x="110" y="75" text-anchor="middle" fill="white" font-size="12">歴史主義</text>
+                    <text x="110" y="90" text-anchor="middle" fill="white" font-size="10">勝者の視点</text>
+                    
+                    <line x1="170" y1="80" x2="220" y2="80" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="230" y="50" width="120" height="60" fill="#e74c3c" rx="10"/>
+                    <text x="290" y="75" text-anchor="middle" fill="white" font-size="12">進歩神話</text>
+                    <text x="290" y="90" text-anchor="middle" fill="white" font-size="10">支配の正当化</text>
+                    
+                    <!-- 歴史唯物主義の対抗 -->
+                    <rect x="50" y="200" width="120" height="60" fill="#2c3e50" rx="10"/>
+                    <text x="110" y="220" text-anchor="middle" fill="white" font-size="11">歴史唯物主義</text>
+                    <text x="110" y="235" text-anchor="middle" fill="white" font-size="10">階級闘争</text>
+                    <text x="110" y="250" text-anchor="middle" fill="white" font-size="10">の視角</text>
+                    
+                    <line x1="170" y1="230" x2="220" y2="230" stroke="#f39c12" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="230" y="200" width="120" height="60" fill="#f39c12" rx="10"/>
+                    <text x="290" y="220" text-anchor="middle" fill="white" font-size="12">いま-時</text>
+                    <text x="290" y="235" text-anchor="middle" fill="white" font-size="10">断絶の</text>
+                    <text x="290" y="250" text-anchor="middle" fill="white" font-size="10">介入</text>
+                    
+                    <line x1="350" y1="230" x2="400" y2="230" stroke="#f39c12" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="410" y="200" width="120" height="60" fill="#27ae60" rx="10"/>
+                    <text x="470" y="220" text-anchor="middle" fill="white" font-size="12">過去の救済</text>
+                    <text x="470" y="235" text-anchor="middle" fill="white" font-size="10">敗者の</text>
+                    <text x="470" y="250" text-anchor="middle" fill="white" font-size="10">記憶</text>
+                    
+                    <!-- 非常ブレーキ -->
+                    <rect x="600" y="125" width="120" height="60" fill="#8e44ad" rx="10"/>
+                    <text x="660" y="145" text-anchor="middle" fill="white" font-size="11">非常ブレーキ</text>
+                    <text x="660" y="160" text-anchor="middle" fill="white" font-size="10">停止としての</text>
+                    <text x="660" y="175" text-anchor="middle" fill="white" font-size="10">革命</text>
+                    
+                    <!-- 矢印の定義 -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>序盤（I–III）</h4>
+                    <p>歴史家の立場を規定。神学のドワーフの比喩で唯物論の背後動機を示唆し、歴史主義を相対化。</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>中盤前（IV–VI）</h4>
+                    <p>敗者の記憶と救済の課題を提示。「逆毛で歴史を梳く」姿勢と弱いメシア的力を打ち出す。</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>中盤（VII–IX）</h4>
+                    <p>進歩神話を正面から批判。「歴史の天使」の寓意で破局と嵐（進歩）を対置。</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>中盤後（X–XIII）</h4>
+                    <p>非常事態は常態であるとし、支配の時間秩序に抗する闘争の契機を論じる。</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>終盤（XIV–XVIII）</h4>
+                    <p>史料・文化財の略奪性を告発し、歴史唯物主義の方法（断絶の政治／想起の実践）を確立。</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>付記（A–B）</h4>
+                    <p>テーゼ全体の倫理的・神学的ニュアンスを補強し、実践への推力を明確化。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <h4>📜 史料の戦利品性</h4>
+                <p><strong>要旨:</strong> 歴史家は勝者の記録を戦利品として見よ。</p>
+                <p><em>重要性:</em> 史料の無垢性を否定し、記述の倫理的転回を迫る。</p>
+            </div>
+            
+            <div class="quote-card">
+                <h4>⚡ 稲妻的把握</h4>
+                <p><strong>要旨:</strong> 過去は危機の瞬間にのみ稲妻のように把握される。</p>
+                <p><em>重要性:</em> 均質時間を破る「いま-時」の要点を示す。</p>
+            </div>
+            
+            <div class="quote-card">
+                <h4>👁️ 歴史の天使</h4>
+                <p><strong>要旨:</strong> 歴史の天使は瓦礫の山を見続け、嵐が彼を未来へ吹き飛ばす。</p>
+                <p><em>重要性:</em> 進歩神話の暴力性と破局の現前化を可視化する。</p>
+            </div>
+            
+            <div class="quote-card">
+                <h4>🚨 常態としての非常事態</h4>
+                <p><strong>要旨:</strong> 我々にとっての非常事態は常態である。</p>
+                <p><em>重要性:</em> 危機の恒常化を認識し、政治的覚醒を促す。</p>
+            </div>
+            
+            <div class="quote-card">
+                <h4>🛑 革命の転換</h4>
+                <p><strong>要旨:</strong> 革命は機関車ではなく非常ブレーキである。</p>
+                <p><em>重要性:</em> 歴史運動の比喩を転倒し、停止の政治を提案する。</p>
+            </div>
+            
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li><strong>過去の未来</strong> - ラインハルト・コゼレック<br>
+                        <small>歴史時間概念を再編し、ベンヤミンの非連続的時間と対話する</small></li>
+                    <li><strong>歴史と階級意識</strong> - ジョルジュ・ルカーチ<br>
+                        <small>歴史意識と全体性の問題を提起し、唯物史観の条件を照射</small></li>
+                    <li><strong>ニーチェ、系譜、歴史</strong> - ミシェル・フーコー<br>
+                        <small>連続史への懐疑と断絶の方法論で強い共振がある</small></li>
+                    <li><strong>例外状態</strong> - ジョルジョ・アガンベン<br>
+                        <small>非常事態の常態化を理論化し、政治神学的含意を拡張</small></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3>⚡ 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <h4>📰 新聞を敗者の視点で読め</h4>
+                    <p>今日のニュースを読み、「誰の声が聞こえないか」「誰が勝者として描かれているか」を意識して読み直してみよう</p>
+                </div>
+                <div class="action-item">
+                    <h4>🏛️ 身近な記念碑の由来を調べよ</h4>
+                    <p>近所の銅像や記念碑について調べ、「なぜこれが記念されているのか」「何が記念されていないのか」を考えてみよう</p>
+                </div>
+                <div class="action-item">
+                    <h4>✍️ 今日の出来事を異議申立てとして記せ</h4>
+                    <p>今日体験した小さな出来事を、支配的な物語に対する「異議申立て」として日記に記録してみよう</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🎯 実践のポイント</h3>
+                <ul>
+                    <li>歴史を「勝者の物語」として疑う習慣をつける</li>
+                    <li>現在の危機において過去の声を聞く感性を養う</li>
+                    <li>進歩神話に対する批判的距離を保つ</li>
+                    <li>文化や制度の「暴力性」を見抜く眼を鍛える</li>
+                    <li>断絶と想起の政治を日常で実践する</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🔄 長期的な変化</h3>
+                <p>この思考法を続けることで、歴史や現在の出来事を多角的に捉え、支配的な物語に対する批判的思考力が身につきます。また、抑圧された声に耳を傾ける感性が育まれ、より公正で包摂的な社会認識が可能になります。</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // アクセシビリティ: キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    focusedElement.setAttribute('aria-selected', 'true');
+                }
+            }
+        });
+        
+        // タブボタンにaria属性を設定
+        document.querySelectorAll('.tab-button').forEach((button, index) => {
+            button.setAttribute('role', 'tab');
+            button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        });
+        
+        // タブコンテンツにaria属性を設定
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.setAttribute('role', 'tabpanel');
+            content.setAttribute('aria-hidden', content.classList.contains('active') ? 'false' : 'true');
+        });
+    </script>
+</body>
+</html>
