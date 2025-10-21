@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>芸術とは何か - トルストイ</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .concept-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid #f39c12;
+        }
+        
+        .concept-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .concept-tag {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .flow-step:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #e74c3c;
+        }
+        
+        .metric-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .quote-box:before {
+            content: """;
+            font-size: 3rem;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            opacity: 0.3;
+        }
+        
+        .action-item {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .book-item {
+            background: #f8f9fa;
+            border-left: 4px solid #2c3e50;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .circle1 {
+            background: #e74c3c;
+            left: 0;
+        }
+        
+        .circle2 {
+            background: #f39c12;
+            right: 0;
+        }
+        
+        .circle3 {
+            background: #2c3e50;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 芸術とは何か</h1>
+            <p>レフ・トルストイ - 感情伝達としての芸術論</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="概念タブ">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="実践タブ">⚡ 実践</button>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3>🎯 核心メッセージ</h3>
+                <div class="quote-box">
+                    芸術は美の名のもとに快楽を供給する娯楽ではなく、作者が経験した感情を他者に感染させ、人々を道徳的に結び直す人間固有の営みである
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📊 エグゼクティブサマリー</h3>
+                <ul>
+                    <li>トルストイは「美」中心の美学を退け、芸術を感情の感染＝伝達行為として定義する</li>
+                    <li>良い芸術の条件は個性・明瞭・誠実の三要素が生む感染性の強さにある</li>
+                    <li>芸術の目的は、人類を最善の感情で一致させる道徳・宗教的結合の形成である</li>
+                    <li>上流階級芸術と専門批評は快楽主義と権威主義を助長し、偽芸術を蔓延させる</li>
+                    <li>民衆的・簡素な形式は、普遍的理解を促し、倫理的有用性を高める</li>
+                </ul>
+            </div>
+            
+            <div class="flow-diagram">
+                <h3>🔄 芸術の感染プロセス</h3>
+                <div class="flow-step">
+                    <strong>1. 作者の感情体験</strong> - 誠実な個人的経験
+                </div>
+                <div class="flow-step">
+                    <strong>2. 表現・創作</strong> - 明瞭で個性的な形式化
+                </div>
+                <div class="flow-step">
+                    <strong>3. 感情の感染</strong> - 受け手への伝達
+                </div>
+                <div class="flow-step">
+                    <strong>4. 共同体形成</strong> - 道徳的結合の実現
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content">
+            <div class="card">
+                <h3>🎨 良い芸術の三条件</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle1">誠実さ<br>真心</div>
+                    <div class="venn-circle circle2">明瞭さ<br>分かりやすさ</div>
+                    <div class="venn-circle circle3">個性<br>独自性</div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">
+                    <span class="metric-badge">感染性の強さ = 誠実さ × 明瞭さ × 個性</span>
+                </p>
+            </div>
+            
+            <div class="grid">
+                <div class="concept-card">
+                    <div class="concept-tag">感情伝達</div>
+                    <h4>芸術</h4>
+                    <p>作者が経験した感情を他者に感染させ、共同の感情体験を生み出す人間の活動。美の追求ではなく感情伝達が本質。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <div class="concept-tag">伝わりやすさ</div>
+                    <h4>感染性（伝播力）</h4>
+                    <p>作品が受け手に同じ感情を起こす力。個性・明瞭さ・誠実さの度合いで高まる。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <div class="concept-tag">みんなに届く</div>
+                    <h4>普遍性</h4>
+                    <p>階級や教養に依存せず、多くの人が共有可能な感情の射程。民衆的基盤で強まる。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <div class="concept-tag">時代の良心</div>
+                    <h4>宗教的意識</h4>
+                    <p>時代における最高の倫理的・形而上の見通し。芸術はこれを感情として普及させる。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <div class="concept-tag">生活の芸術</div>
+                    <h4>民衆芸術</h4>
+                    <p>日常と言葉に根ざし、誰でも理解できる形で善き感情を分かち合う芸術。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <div class="concept-tag">見せかけ</div>
+                    <h4>偽芸術</h4>
+                    <p>快楽・権威・市場に奉仕し、難解さや豪奢さで価値を装う作品。感染性と倫理性に乏しい。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content">
+            <div class="card">
+                <h3>🏗️ 論理展開の構造</h3>
+                <ul>
+                    <li><strong>問題提起</strong> 📉 美の概念の混乱 - 評価基準が主観と権威に流れる現状を批判</li>
+                    <li><strong>定義提示</strong> 🎯 芸術＝感情の感染 - 言語・音楽・身体表現の共通原理として提示</li>
+                    <li><strong>価値基準</strong> ⭐ 感染性の三条件 - 個性・明瞭・誠実が感染力を生む</li>
+                    <li><strong>批判展開</strong> ❌ 美の理論と快楽主義 - 快楽としての美は相対的で恣意的</li>
+                    <li><strong>社会批判</strong> 🏛️ 上流階級芸術と権威 - 市場・批評が偽芸術を支える構図</li>
+                    <li><strong>目的論</strong> 🤝 道徳・宗教的統合 - 人類の一致と愛を感情として普及</li>
+                    <li><strong>応用例</strong> 🎼 事例批判 - 音楽や文学作品の具体的評価</li>
+                    <li><strong>結語</strong> 🌱 民衆的芸術への回帰 - 簡素・明瞭・普遍な形式を志向</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>🔗 概念間の関係性</h3>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                    <p><strong>感染性の公式:</strong></p>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <span class="metric-badge">誠実さ↑ × 明瞭さ↑ × 個性↑ → 感染性↑</span>
+                    </div>
+                    
+                    <p><strong>社会的影響:</strong></p>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <span class="metric-badge">感染性↑ → 共同体的結合↑ → 道徳的善の普及↑</span>
+                    </div>
+                    
+                    <p><strong>阻害要因:</strong></p>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <span class="metric-badge">美の理論重視 → 快楽主義 → 偽芸術の蔓延</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content">
+            <div class="card">
+                <h3>💬 重要な引用</h3>
+                
+                <div class="quote-box">
+                    「芸術とは、人が自ら経験した感情を他人に感染させる人間の活動である。」
+                    <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">
+                        💡 本書の中心的定義であり、美から感情伝達へと価値軸を転換する基点
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    「真の芸術の基準は美ではなく、感情の感染力である。」
+                    <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">
+                        💡 評価指標を快楽から感染性へ置き換え、審美主義を相対化する
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    「良い芸術は明瞭で、誠実で、個性的である。」
+                    <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">
+                        💡 質の三条件を明示し、創作と鑑賞の実践的ガイドラインを示す
+                    </div>
+                </div>
+                
+                <div class="quote-box">
+                    「芸術の目的は、人々を最善の感情で一致させることである。」
+                    <div style="font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">
+                        💡 芸術の道徳的・共同体的機能を端的に示す目的論
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="action" class="tab-content">
+            <div class="card">
+                <h3>⚡ 今日できるアクション</h3>
+                
+                <div class="action-item">
+                    <span>✍️</span>
+                    <div>
+                        <strong>詩を書き感情を伝える（20分）</strong><br>
+                        自分の体験した感情を誠実に、明瞭に表現してみる
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <span>💌</span>
+                    <div>
+                        <strong>家族へ手紙を書いて送る（15分）</strong><br>
+                        感謝や愛情を素直な言葉で伝える実践
+                    </div>
+                </div>
+                
+                <div class="action-item">
+                    <span>🔍</span>
+                    <div>
+                        <strong>好きな作品を誠実性で評価する（20分）</strong><br>
+                        美しさではなく、感情の伝わりやすさで作品を見直す
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                
+                <div class="book-item">
+                    <div class="book-title">判断力批判</div>
+                    <div class="book-author">イマヌエル・カント</div>
+                    <p>美と崇高の判断基準を探る古典で、トルストイの美学批判の対照軸となる。</p>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-title">詩学</div>
+                    <div class="book-author">アリストテレス</div>
+                    <p>芸術の模倣・カタルシス理論を提示し、感情の役割を体系化した古典。</p>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-title">経験としての芸術</div>
+                    <div class="book-author">ジョン・デューイ</div>
+                    <p>芸術を生活の経験と結びつけ、民衆的・実用的視点でトルストイと共鳴する。</p>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-title">感情と形式</div>
+                    <div class="book-author">スザンヌ・ランガー</div>
+                    <p>感情の象徴的形態としての芸術を論じ、感情伝達の理論的補強となる。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            
+            // アクセシビリティ属性を更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
