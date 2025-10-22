@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>里山資本主義 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2d5016, セカンダリー #8fbc8f, アクセント #ff6b35 -->
+    <style>
+        :root {
+            --primary: #2d5016;
+            --secondary: #8fbc8f;
+            --accent: #ff6b35;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e8 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            padding: 12px 20px;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "🌱";
+            position: absolute;
+            left: 0;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, white 0%, #f0f8f0 100%);
+        }
+        
+        .concept-card .tag {
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .flow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--secondary) 0%, #b8d4b8 100%);
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .flow-step:after {
+            content: "⬇️";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .flow-step:last-child:after {
+            display: none;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #ff8c5a 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .quote-card:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .action-item {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .action-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .venn-diagram {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌲 里山資本主義</h1>
+            <p class="subtitle">貨幣中心から地域循環へ - 森・水・人の関係性を再起動する新しい経済</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('relationships')" role="tab">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab">💬 重要な引用</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab">⚡ 今日のアクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <p>貨幣中心の成長依存を脱し、森・水・人の身近な資源と関係性を再起動させる「里山資本主義」で、生活コストを下げながら地域を稼ぐ循環をつくれる。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 問題の現状</h3>
+                    <ul>
+                        <li>人口減・需要縮小で規模の経済が失速</li>
+                        <li>地域から資金が流出する脆弱性</li>
+                        <li>外部依存が家計と自治体を圧迫</li>
+                        <li>単一産業依存のリスク増大</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌱 里山資本主義の解決策</h3>
+                    <ul>
+                        <li>木質バイオマスで熱・電力の地産地活</li>
+                        <li>空き家・遊休地などスラック資源活用</li>
+                        <li>ナリワイ複線化でリスク分散</li>
+                        <li>支出削減による可処分所得増</li>
+                        <li>域内循環で付加価値を地域に留める</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">↓30%</div>
+                    <div class="metric-label">生活コスト削減</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">↑50%</div>
+                    <div class="metric-label">エネルギー自給率</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">×3</div>
+                    <div class="metric-label">地域雇用創出</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>🌲 里山資本主義 <span class="tag">地域循環の再起動</span></h3>
+                    <p>貨幣に依存しすぎず、森・水・土と人の関係性を資本として活用し、生活コストを下げつつ地域で稼ぐ仕組み。環境・経済・福祉を同時に回す。</p>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>💰 マネー資本主義 <span class="tag">外部依存の脆弱性</span></h3>
+                    <p>貨幣利益の最大化を目的に、集中・規模の経済と外部依存を進める経済様式。人口減と需要縮小期には脆弱化する。</p>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>⚡ 分散型エネルギー <span class="tag">地産地活の電熱</span></h3>
+                    <p>木質バイオマス、太陽熱、小水力など地域スケールの発熱・発電。送配電ロスと価格変動リスクを抑える。</p>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🔥 木質バイオマス <span class="tag">森を燃やして森を守る</span></h3>
+                    <p>間伐材や端材を燃料として熱・電力を得る技術と産業。林業整備と雇用創出を両立する。</p>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🍅 地産地消 <span class="tag">域内循環</span></h3>
+                    <p>地域で生産した食・エネルギー・サービスを地域内で消費し、付加価値を域内に残す仕組み。</p>
+                </div>
+                
+                <div class="card concept-card">
+                    <h3>🔀 ナリワイの複線化 <span class="tag">小さく多く稼ぐ</span></h3>
+                    <p>単一の大企業雇用に依存せず、小さな仕事を複数持ちリスク分散と関係性を広げる生計戦略。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 30px;">📚 書籍の構造と論理展開</h3>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>🚨 問題提起：マネー資本主義の限界</strong><br>
+                        人口減・需要縮小で規模の経済が失速し、地域から資金が流出する脆弱性をデータで提示
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>🌍 海外の先行事例：分散自立の実証</strong><br>
+                        オーストリア・ギュッシング等で木質バイオマス熱供給を軸に地域が自立したプロセスを検証
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>🇯🇵 日本の里山事例：実装と学び</strong><br>
+                        岡山県真庭市や西粟倉村などで間伐材利用・熱の地産地活・地元企業連携が機能
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>📈 経済メカニズムの整理</strong><br>
+                        「支出の削減＝所得の増加」として可視化し、マイル短縮・熱利用・メンテ産業化の効果を解説
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>👥 人・組織・ルール：コモンズの再構築</strong><br>
+                        信頼・ルール・小さな合意の積み上げが投資リスクを下げる仕組みを提示
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div>
+                        <strong>🛠️ 実装ガイド：小さく始めて育てる</strong><br>
+                        熱需要からの着手、スラック資源の洗い出し、段階投資など今日からできるロードマップ
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content" role="tabpanel">
+            <div class="flow-diagram">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 30px;">🔗 概念間の関係性と因果関係</h3>
+                
+                <svg class="venn-diagram" viewBox="0 0 400 300">
+                    <circle cx="150" cy="120" r="80" fill="var(--primary)" opacity="0.3" stroke="var(--primary)" stroke-width="2"/>
+                    <circle cx="250" cy="120" r="80" fill="var(--secondary)" opacity="0.3" stroke="var(--secondary)" stroke-width="2"/>
+                    <circle cx="200" cy="180" r="80" fill="var(--accent)" opacity="0.3" stroke="var(--accent)" stroke-width="2"/>
+                    
+                    <text x="120" y="80" fill="var(--primary)" font-weight="bold" font-size="12">里山資本主義</text>
+                    <text x="270" y="80" fill="var(--primary)" font-weight="bold" font-size="12">分散エネルギー</text>
+                    <text x="180" y="230" fill="var(--primary)" font-weight="bold" font-size="12">地産地消</text>
+                    <text x="200" y="130" fill="var(--text-dark)" font-weight="bold" font-size="11" text-anchor="middle">域内循環</text>
+                </svg>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>💰 経済循環の流れ</h3>
+                    <ul>
+                        <li>里山資本主義 → 生活コスト低下 → 可処分所得増</li>
+                        <li>分散型エネルギー → 外部調達費削減 → 域内付加価値増</li>
+                        <li>地産地消 → 物流距離短縮 → CO2/コスト減</li>
+                        <li>外部依存縮小 → 資金流出減 → 地域内再投資</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌱 環境と経済の好循環</h3>
+                    <ul>
+                        <li>木質バイオマス × 林業整備 → 森林健全化</li>
+                        <li>スラック資源活用 → 初期投資圧縮</li>
+                        <li>コモンズ再生 → 信頼資本蓄積</li>
+                        <li>ナリワイ複線化 → 所得分散 → 家計耐性向上</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <h4>💡 支出削減の逆転発想</h4>
+                <p>「お金を稼ぐより先に、地域から出ていく支出を減らせば可処分所得は増える。」</p>
+                <small>→ 成長が鈍い環境でも再現性高く家計と地域を強くする逆転の発想</small>
+            </div>
+            
+            <div class="quote-card">
+                <h4>🔥 熱エネルギーの実用性</h4>
+                <p>「熱の自給は電力より導入が容易で、地域経済効果が大きい。」</p>
+                <small>→ 段階投資の起点として失敗確率を下げ、早期に便益を出せる実務的示唆</small>
+            </div>
+            
+            <div class="quote-card">
+                <h4>🌲 里山の価値再定義</h4>
+                <p>「里山は不要不急ではなく、暮らしと安全保障を支えるインフラである。」</p>
+                <small>→ 環境保全をコストではなく生存基盤と捉え直すパラダイム転換</small>
+            </div>
+            
+            <div class="quote-card">
+                <h4>⚠️ 単一依存のリスク</h4>
+                <p>「一つの大企業に頼る地域は、一つの故障点を抱えるシステムと同じだ。」</p>
+                <small>→ ナリワイ複線化と産業多様化の必要性を直感的に示す比喩</small>
+            </div>
+            
+            <div class="quote-card">
+                <h4>🤝 見えない資本</h4>
+                <p>「眠る資源を動かす知恵と関係性こそ、地方の見えない資本である。」</p>
+                <small>→ 有形資産の再活用と社会関係資本の重要性を統合して示す</small>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <h3 style="text-align: center; color: var(--primary); margin-bottom: 30px;">⚡ 今日から始められるアクション（15-30分で実行可能）</h3>
+            
+            <div class="action-grid">
+                <div class="action-item">
+                    🛒 近所の直売所を3件探し保存
+                </div>
+                <div class="action-item">
+                    📊 電気使用量を先月と比較記録
+                </div>
+                <div class="action-item">
+                    🌱 台所生ごみの堆肥化方法を調べる
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 30px;">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li><strong>「デフレの正体」</strong> - 藻谷浩介<br>
+                        <small>人口動態と需要縮小の現実をデータで示し、里山資本主義の前提を補強</small></li>
+                    <li><strong>「ナリワイをつくる」</strong> - 伊藤洋志<br>
+                        <small>小さな仕事を複数持つ生計戦略が、里山的な暮らしと地域循環を具体化</small></li>
+                    <li><strong>「限界費用ゼロ社会」</strong> - ジェレミー・リフキン<br>
+                        <small>分散・共有・ローカル生産の理論背景をグローバル視点で補完</small></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // Initialize progress bars animation
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+        
+        // Add click animation to action items
+        document.querySelectorAll('.action-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.background = 'var(--accent)';
+                this.style.color = 'white';
+                setTimeout(() => {
+                    this.style.background = 'var(--secondary)';
+                    this.style.color = 'var(--primary)';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
