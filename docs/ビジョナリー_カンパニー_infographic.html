@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビジョナリー・カンパニー - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #1e40af, アクセント #f59e0b -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .flow-item::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transition: width 0.3s ease;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #fbbf24 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quote {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .action-items {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-item {
+            background: var(--bg-light);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-chart {
+                gap: 15px;
+            }
+            
+            .flow-item {
+                min-width: 150px;
+                padding: 12px 20px;
+            }
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            left: 0;
+        }
+
+        .circle2 {
+            background: var(--accent);
+            right: 0;
+        }
+
+        .circle3 {
+            background: var(--secondary);
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 ビジョナリー・カンパニー</h1>
+            <p>時代を超える企業の原則 - 核を守り、進歩を促す</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">🏗️ 構造</button>
+            <button class="tab-button" onclick="showTab('metrics')" role="tab" aria-selected="false">📊 指標</button>
+            <button class="tab-button" onclick="showTab('actions')" role="tab" aria-selected="false">⚡ アクション</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="quote-section">
+                <div class="quote">"Clock building, not time telling."</div>
+                <p>人から仕組みへ軸足を移す設計思想を端的に示す</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>カリスマより仕組みが重要</li>
+                        <li>コア理念を中核に据える</li>
+                        <li>進歩を促す仕組みを構築</li>
+                        <li>組織全体の整合性が鍵</li>
+                        <li>持続的卓越性の実現</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 研究アプローチ</h3>
+                    <ul>
+                        <li>複数業界の長期比較研究</li>
+                        <li>ビジョナリー企業 vs 対照企業</li>
+                        <li>神話の反証と原則抽出</li>
+                        <li>再現可能な法則の発見</li>
+                        <li>長期超過リターンの実証</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚖️ 核を守り進歩を促す</h3>
+                    <ul>
+                        <li>不変のコア理念</li>
+                        <li>変化する戦略・戦術</li>
+                        <li>安定と変化の両輪</li>
+                        <li>二律背反の統合</li>
+                        <li>継続的進化の実現</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 ビジョナリー企業の自己強化ループ</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">コア理念の確立</div>
+                    <div class="flow-item">BHAG設定</div>
+                    <div class="flow-item">文化・人材の整合</div>
+                    <div class="flow-item">実験と学習</div>
+                    <div class="flow-item">制度化と拡張</div>
+                    <div class="flow-item">持続的卓越性</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏗️ 時計をつくる</h3>
+                    <ul>
+                        <li>個人依存からの脱却</li>
+                        <li>組織能力の設計</li>
+                        <li>繰り返し卓越性を生む仕組み</li>
+                        <li>理念・人材・プロセスの統合</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💎 コア・イデオロギー</h3>
+                    <ul>
+                        <li>本質的な価値観（Core Values）</li>
+                        <li>存在目的（Purpose）</li>
+                        <li>戦略変化でも不変</li>
+                        <li>意思決定の拠り所</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 BHAG</h3>
+                    <ul>
+                        <li>10〜30年スパンの大胆目標</li>
+                        <li>測定可能で明確</li>
+                        <li>組織の牽引力となる</li>
+                        <li>創意工夫を引き出す</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🤝 カルトのような文化</h3>
+                    <ul>
+                        <li>価値観への強いコミット</li>
+                        <li>適合者を惹きつける</li>
+                        <li>不適合者を排除</li>
+                        <li>明確な文化の境界</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧪 試して学ぶ</h3>
+                    <ul>
+                        <li>小規模実験の多数実施</li>
+                        <li>データによる選択</li>
+                        <li>成功の制度化</li>
+                        <li>適応的学習プロセス</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌱 生え抜き中心</h3>
+                    <ul>
+                        <li>内部人材の長期育成</li>
+                        <li>価値観の共有</li>
+                        <li>文化と理念の連続性</li>
+                        <li>要職への登用</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-diagram">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔗 概念間の関係性</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle1">コア理念<br>不変の核</div>
+                    <div class="venn-circle circle2">進歩促進<br>変化・実験</div>
+                    <div class="venn-circle circle3">全社整合<br>自己強化</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📖 第1部: 基本原則</h3>
+                    <ul>
+                        <li>時計をつくる、時を告げない</li>
+                        <li>利益以上の目的</li>
+                        <li>核を守り進歩を促す</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 第2部: 目標設定</h3>
+                    <ul>
+                        <li>BHAG（大胆な目標）</li>
+                        <li>長期ビジョンの力</li>
+                        <li>牽引力ある目標設定</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏢 第3部: 組織文化</h3>
+                    <ul>
+                        <li>カルトのような文化</li>
+                        <li>価値観の浸透</li>
+                        <li>強い結束力の形成</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔬 第4部: 学習機構</h3>
+                    <ul>
+                        <li>試して学ぶプロセス</li>
+                        <li>実験と選択</li>
+                        <li>成功の制度化</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👥 第5部: 人材育成</h3>
+                    <ul>
+                        <li>生え抜き中心の経営</li>
+                        <li>内部育成システム</li>
+                        <li>文化の継承</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚙️ 第6部: システム統合</h3>
+                    <ul>
+                        <li>妥協なき基準</li>
+                        <li>全社整合</li>
+                        <li>自己強化ループ</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"Preserve the core; stimulate progress."</div>
+                <p>不変と変化の両立という本書の中心命題</p>
+            </div>
+        </div>
+
+        <div id="metrics" class="tab-content" role="tabpanel">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">18社</div>
+                    <p>ビジョナリー企業</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">15倍</div>
+                    <p>市場平均超過リターン</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">6倍</div>
+                    <p>対照企業との差</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">50年+</div>
+                    <p>平均企業年数</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📈 長期業績指標</h3>
+                    <ul>
+                        <li>株価リターン: 市場平均の15倍</li>
+                        <li>売上成長: 持続的な拡大</li>
+                        <li>利益率: 業界トップクラス</li>
+                        <li>市場シェア: リーダー地位</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🏆 質的指標</h3>
+                    <ul>
+                        <li>従業員満足度: 高水準維持</li>
+                        <li>顧客ロイヤルティ: 強固な関係</li>
+                        <li>ブランド価値: 業界最高峰</li>
+                        <li>社会的評価: 尊敬される企業</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 持続性指標</h3>
+                    <ul>
+                        <li>CEO継承: 内部昇格率80%+</li>
+                        <li>文化継続: 価値観の一貫性</li>
+                        <li>イノベーション: 継続的創造</li>
+                        <li>危機対応: 強い回復力</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"Good enough never is."</div>
+                <p>高い基準を持続させる文化の核を示す</p>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content" role="tabpanel">
+            <div class="action-items">
+                <h3 style="color: var(--primary); margin-bottom: 20px;">⚡ 今日できるアクション（15-30分）</h3>
+                
+                <div class="action-item">
+                    <h4>📝 コア価値観を3つ書き出す</h4>
+                    <p>あなたの組織が絶対に譲れない価値観を明文化する</p>
+                </div>
+
+                <div class="action-item">
+                    <h4>🎯 10年BHAG案を1つ起草する</h4>
+                    <p>大胆で測定可能な長期目標の草案を作成する</p>
+                </div>
+
+                <div class="action-item">
+                    <h4>🔍 制度と理念の整合を点検する</h4>
+                    <p>現在の人事制度が価値観と一致しているかチェック</p>
+                </div>
+            </div>
+
+            <div class="card-grid" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>ビジョナリー・カンパニー2 飛躍の法則</li>
+                        <li>ビジョナリー・カンパニー4</li>
+                        <li>エクセレント・カンパニー</li>
+                        <li>学習する組織</li>
+                        <li>Measure What Matters</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 実装のポイント</h3>
+                    <ul>
+                        <li>小さく始めて段階的に拡大</li>
+                        <li>理念と行動の一致を重視</li>
+                        <li>継続的な測定と改善</li>
+                        <li>長期視点での取り組み</li>
+                        <li>全社的なコミットメント</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ よくある落とし穴</h3>
+                    <ul>
+                        <li>理念の形骸化</li>
+                        <li>短期成果への偏重</li>
+                        <li>トップダウンの押し付け</li>
+                        <li>制度の不整合</li>
+                        <li>継続性の欠如</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"Try a lot of stuff and keep what works."</div>
+                <p>実験と選択の学習プロセスを表す指針</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+
+            // Animate progress bars when metrics tab is shown
+            if (tabName === 'metrics') {
+                setTimeout(() => {
+                    const progressBars = document.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 100);
+            }
+        }
+
+        // Initialize progress bars animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
