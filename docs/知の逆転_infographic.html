@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知の逆転 - 科学進歩の新たなパラダイム</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .summary-block {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .summary-item.question {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+        
+        .summary-item.answer {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+        }
+        
+        .summary-item.why {
+            background: linear-gradient(135deg, #fff3e0, #ffcc80);
+        }
+        
+        .summary-item.how {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0 20px 0;
+        }
+        
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .flow-chart {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .flow-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 1s ease;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .action-list {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-item:hover {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+        }
+        
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-item {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🔄 知の逆転</h1>
+            <p>科学進歩の新たなパラダイム - 加速から謙虚な前進へ</p>
+        </div>
+
+        <div class="summary-block">
+            <h2>📋 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>❓ 問い</h3>
+                    <p>科学は今後も同じ速度で世界の根本原理を解き続けられるのか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>いいえ。根本的発見は減速し、進歩の重心は"前提の逆転"と問いの再設計へ移る。</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🤔 Why</h3>
+                    <p>観測・計算・実験の限界が高く、複雑系では決定論的モデルが破綻しやすい。資金や評価制度もリスクを抑制し、既存パラダイムを強化するため、革命的発見は生まれにくい。</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>🛠️ How</h3>
+                    <p>問いを小さく正確に定義し、反証条件と再現性を最優先に据える。異分野の方法を導入し、制度的誘因を調整する。技術楽観を抑え、エビデンスの質で意思決定する。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造分析タブ">🏗️ 構造分析</button>
+            <button class="tab-button" onclick="showTab('relations')" aria-label="関係性タブ">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">⚡ 実践</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏁 科学の終焉仮説</h3>
+                    <ul>
+                        <li>根本法則の発見はほぼ出尽くした</li>
+                        <li>今後は増分的改良や統合が中心</li>
+                        <li>大理論の時代の終わり</li>
+                        <li>パラダイム転換の頻度低下</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📉 収穫逓減</h3>
+                    <ul>
+                        <li>新発見1単位のコストが指数的増加</li>
+                        <li>資金・人材・時間の大量投入必要</li>
+                        <li>発見のコスパ悪化</li>
+                        <li>巨大装置への依存度上昇</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌀 複雑系と予測限界</h3>
+                    <ul>
+                        <li>多数の相互作用と非線形性</li>
+                        <li>長期精密予測が不可能</li>
+                        <li>精密予測は無理筋</li>
+                        <li>確率的アプローチが必要</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔬 反証可能性の限界</h3>
+                    <ul>
+                        <li>実験的検証困難な仮説増加</li>
+                        <li>超高エネルギー領域の問題</li>
+                        <li>試せない理論の罠</li>
+                        <li>理論選好の恣意化リスク</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📖 物語としての科学</h3>
+                    <ul>
+                        <li>データに基づくが物語構築が介在</li>
+                        <li>仮説選択に主観的要素</li>
+                        <li>科学はストーリーワーク</li>
+                        <li>意味づけの重要性</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 制度的誘因</h3>
+                    <ul>
+                        <li>評価・助成・業績圧力の影響</li>
+                        <li>低リスク志向の助長</li>
+                        <li>仕組みが行動を決める</li>
+                        <li>再現性危機の一因</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>❓ 問いの再設計</h3>
+                    <ul>
+                        <li>広すぎる問いを分解</li>
+                        <li>測定可能な定義の明確化</li>
+                        <li>問う力の刷新</li>
+                        <li>反証条件・成功指標の設定</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌐 学際統合</h3>
+                    <ul>
+                        <li>他分野のモデル・手法を移植</li>
+                        <li>新たな検証可能性を確立</li>
+                        <li>境界をまたぐ技</li>
+                        <li>混乱を招くが最短路にも</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🚀 導入：進歩神話への懐疑</h3>
+                    <ul>
+                        <li>科学進歩の直線的拡張への疑問</li>
+                        <li>歴史的ブレークスルーと現在の対比</li>
+                        <li>停滞感の分析</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌌 物理・宇宙論の限界</h3>
+                    <ul>
+                        <li>高エネルギー・宇宙スケールの検証困難</li>
+                        <li>巨大装置依存の問題</li>
+                        <li>代替仮説の不可識別性</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🧬 生命・進化・医療の複雑性</h3>
+                    <ul>
+                        <li>多因子系での因果推定困難</li>
+                        <li>再現性問題の深刻化</li>
+                        <li>効果量の小型化</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🧠 心・意識・AIの測定問題</h3>
+                    <ul>
+                        <li>主観と客観の橋渡しの難しさ</li>
+                        <li>操作的定義の限界</li>
+                        <li>代理指標の問題</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏢 制度と誘因の分析</h3>
+                    <ul>
+                        <li>保守化が起きる社会学的説明</li>
+                        <li>評価指標・資金配分の歪み</li>
+                        <li>出版慣行の問題</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌟 反論：楽観主義の視点</h3>
+                    <ul>
+                        <li>計測・計算進歩の可能性</li>
+                        <li>新規計測技術の光</li>
+                        <li>データ共有の進展</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <div class="flow-chart">
+                <h2>🔗 概念間の関係性フロー</h2>
+                <div class="flow-item">
+                    <div class="flow-box">収穫逓減↑</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">実験規模↑・費用↑</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">反証の困難化</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-box">複雑系・非線形性</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">長期予測限界</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">低リスク志向</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-box">制度的誘因</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">再現性危機</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">信頼性低下</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-box">問いの再設計</div>
+                    <div class="arrow">+</div>
+                    <div class="flow-box">学際統合</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-box">確実な前進</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">📈</span>
+                    <h3>収穫逓減</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <p>発見コスト増加率</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">🔬</span>
+                    <h3>検証困難</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 70%"></div>
+                    </div>
+                    <p>反証可能性の低下</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">🌀</span>
+                    <h3>複雑性</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                    <p>予測限界の拡大</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">🔄</span>
+                    <h3>逆転の必要性</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                    <p>パラダイム転換</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <p><strong>"大理論は尽きていないとしても、検証コストは人類の手に余る水準に近づいている。"</strong></p>
+                <small>💡 進歩減速の核心をコスト構造から示す</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"科学は事実の集積であると同時に、それを意味づける物語でもある。"</strong></p>
+                <small>📖 仮説選好とバイアスの不可避性を自覚させる</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"次のブレークスルーは新しい答えより、より良い問いから始まる。"</strong></p>
+                <small>❓ 『逆転』の中心である問いの再設計を強調</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"再現できない知見は、知らないことの洗練された表現に過ぎない。"</strong></p>
+                <small>🔬 再現性最優先の姿勢を促す警句</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"学際は混乱を招くが、検証可能性を回復する最短路にもなりうる。"</strong></p>
+                <small>🌐 学際統合のリスクとリターンを両面提示</small>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h2>⚡ 今日できるアクション（15-30分）</h2>
+                <div class="action-item" onclick="toggleCheck(this)">
+                    <span class="emoji">🤔</span>
+                    <span>研究テーマの前提を3つ疑う</span>
+                </div>
+                <div class="action-item" onclick="toggleCheck(this)">
+                    <span class="emoji">❓</span>
+                    <span>未解決問題を3件洗い出す</span>
+                </div>
+                <div class="action-item" onclick="toggleCheck(this)">
+                    <span class="emoji">📝</span>
+                    <span>仮説の反証条件を明文化する</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>科学の終焉</strong> - ジョン・ホーガン</li>
+                        <li><strong>科学革命の構造</strong> - トマス・クーン</li>
+                        <li><strong>反脆弱性</strong> - ナシーム・タレブ</li>
+                        <li><strong>ファスト&スロー</strong> - ダニエル・カーネマン</li>
+                        <li><strong>再現性の危機</strong> - ブライアン・ノセック</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <p>加速度的な進歩を信じる物語は、複雑性・収穫逓減・検証可能性の限界によって行き詰まりつつある。次の前進は「解の追加」ではなく、問いの定義、前提の見直し、異分野との接続という『逆転』から生まれる。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update aria-selected attributes
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        function toggleCheck(element) {
+            element.style.opacity = element.style.opacity === '0.5' ? '1' : '0.5';
+            element.style.textDecoration = element.style.textDecoration === 'line-through' ? 'none' : 'line-through';
+        }
+        
+        // Initialize progress bars animation
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+        
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % buttons.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>
