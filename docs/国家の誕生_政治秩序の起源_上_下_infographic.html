@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政治の起源と衰退 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #64748b, アクセント #dc2626 -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #dc2626;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .summary-block {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .summary-block h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .summary-item {
+            margin-bottom: 15px;
+        }
+        
+        .summary-item strong {
+            color: var(--primary);
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--secondary);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .concept-card {
+            border-top-color: var(--secondary);
+        }
+        
+        .concept-card .concept-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .structure-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            min-width: 120px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.5s ease;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--secondary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 0 30px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+        
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .action-card {
+            background: linear-gradient(135deg, var(--accent), #ef4444);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 50px;
+                text-align: left;
+            }
+            
+            .timeline-item:nth-child(odd) {
+                padding-right: 20px;
+                padding-left: 50px;
+                text-align: left;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+            
+            .flow-row {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 政治の起源と衰退</h1>
+            <p>良い統治の三要素とその歴史的展開</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>🎯 要約：問い×答え×根拠</h2>
+            <div class="summary-item">
+                <strong>❓ 問い:</strong> 近代的な良い政治秩序はどのように生まれ、なぜ衰退するのか？
+            </div>
+            <div class="summary-item">
+                <strong>✅ 答え:</strong> 強い国家・法の支配・アカウンタビリティの三位一体を、歴史に適った順序で実装し、再パトリモニアル化を抑える制度更新を続けた国が持続的な秩序を得る。
+            </div>
+            <div class="summary-item">
+                <strong>🔍 Why:</strong> 国家は戦争と課税が官僚制を促し、教会や宗教法が国家権力を法で縛り、代表制が説明責任を付与するという相互牽引で進化する。だが利権・血縁・派閥は恒常的に再侵入し、制度は時間とともに時代不適合を起こす。
+            </div>
+            <div class="summary-item">
+                <strong>🛠️ How:</strong> ①国家能力を高める ②権力を法で拘束する ③説明責任を設計する ④順序を誤らない ⑤衰退兆候に応じて制度を周期的に更新する
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('pillars')" aria-label="三つの柱">🏛️ 三つの柱</button>
+            <button class="tab-button" onclick="showTab('concepts')" aria-label="主要概念">📖 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造と関係">🔗 構造と関係</button>
+            <button class="tab-button" onclick="showTab('timeline')" aria-label="歴史的展開">⏰ 歴史的展開</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="今日のアクション">🎯 今日のアクション</button>
+        </div>
+
+        <div id="pillars" class="tab-content active">
+            <div class="structure-diagram">
+                <h2>🏛️ 良い統治の三つの柱</h2>
+                <div class="flow-chart">
+                    <div class="flow-row">
+                        <div class="flow-box">💪 強い国家<br><small>執行力</small></div>
+                        <div class="flow-arrow">+</div>
+                        <div class="flow-box">⚖️ 法の支配<br><small>権力の法拘束</small></div>
+                        <div class="flow-arrow">+</div>
+                        <div class="flow-box">🗳️ 民主的責任<br><small>説明責任</small></div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box" style="background: linear-gradient(135deg, var(--accent), #ef4444);">🎯 良い統治</div>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <h3>必要な柱</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">順序</div>
+                    <h3>成功の鍵</h3>
+                    <p>導入順序が結果を決定</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">更新</div>
+                    <h3>持続の条件</h3>
+                    <p>制度の周期的刷新</p>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>💪 強い国家（State Capacity）</h3>
+                    <ul>
+                        <li>徴税・治安・公共財供給の一貫した執行能力</li>
+                        <li>恣意でなく規則で動く官僚制が核心</li>
+                        <li>戦争と課税圧力が能力を鍛える</li>
+                        <li>血縁・縁故の論理を断ち切る必要</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚖️ 法の支配（Rule of Law）</h3>
+                    <ul>
+                        <li>権力者を含む全員が公開ルールに拘束</li>
+                        <li>恣意的支配の否定</li>
+                        <li>宗教権威が外部の法的錨となる</li>
+                        <li>司法の独立・違憲審査・財産権保護</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🗳️ 民主的アカウンタビリティ</h3>
+                    <ul>
+                        <li>政府が市民の代理人として機能</li>
+                        <li>選挙・議会・監査による説明強制</li>
+                        <li>都市化・商業発展が交渉力を生む</li>
+                        <li>早期導入はクライエンテリズムのリスク</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <div class="cards-grid">
+                <div class="card concept-card">
+                    <h3>パトリモニアル主義 <span class="concept-tag">縁故支配</span></h3>
+                    <ul>
+                        <li>公私の境界が曖昧</li>
+                        <li>血縁・個人的忠誠で公職配分</li>
+                        <li>国家形成の初期段階</li>
+                        <li>克服が近代化の条件</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>再パトリモニアル化 <span class="concept-tag">制度の私物化</span></h3>
+                    <ul>
+                        <li>形式上は近代官僚制</li>
+                        <li>非公式ネットワークが意思決定を私物化</li>
+                        <li>制度劣化の典型パターン</li>
+                        <li>利権・派閥の恒常的再侵入</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>ウェーバー型官僚制 <span class="concept-tag">能力主義行政</span></h3>
+                    <ul>
+                        <li>能力に基づく採用・昇進</li>
+                        <li>職務の明確化</li>
+                        <li>法に基づく運用</li>
+                        <li>近代国家の理想型</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>クライエンテリズム <span class="concept-tag">えこひいき取引</span></h3>
+                    <ul>
+                        <li>票や支持と引き換えに便益提供</li>
+                        <li>非普遍主義的な政治取引</li>
+                        <li>早期普選と弱官僚制の組み合わせで発生</li>
+                        <li>ラテンアメリカ・アフリカで顕著</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>ベトクラシー <span class="concept-tag">過剰分権の麻痺</span></h3>
+                    <ul>
+                        <li>多すぎる拒否権主体</li>
+                        <li>意思決定の停滞</li>
+                        <li>政策更新の不可能化</li>
+                        <li>アメリカの現代的課題</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>経路依存 <span class="concept-tag">歴史に縛られる</span></h3>
+                    <ul>
+                        <li>初期条件と偶発的分岐</li>
+                        <li>制度の自己強化</li>
+                        <li>将来の選択肢を狭める</li>
+                        <li>改革の困難さを説明</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="structure-diagram">
+                <h2>🔗 因果関係の構造</h2>
+                <svg width="100%" height="400" viewBox="0 0 800 400">
+                    <!-- 戦争→国家能力 -->
+                    <rect x="50" y="50" width="120" height="60" fill="#2563eb" rx="10"/>
+                    <text x="110" y="75" text-anchor="middle" fill="white" font-size="12">対外競争</text>
+                    <text x="110" y="90" text-anchor="middle" fill="white" font-size="12">戦争</text>
+                    
+                    <path d="M170 80 L230 80" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="250" y="50" width="120" height="60" fill="#2563eb" rx="10"/>
+                    <text x="310" y="75" text-anchor="middle" fill="white" font-size="12">国家能力</text>
+                    <text x="310" y="90" text-anchor="middle" fill="white" font-size="12">官僚制</text>
+                    
+                    <!-- 宗教→法の支配 -->
+                    <rect x="50" y="170" width="120" height="60" fill="#64748b" rx="10"/>
+                    <text x="110" y="195" text-anchor="middle" fill="white" font-size="12">宗教権威</text>
+                    <text x="110" y="210" text-anchor="middle" fill="white" font-size="12">教会・法学</text>
+                    
+                    <path d="M170 200 L230 200" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="250" y="170" width="120" height="60" fill="#64748b" rx="10"/>
+                    <text x="310" y="195" text-anchor="middle" fill="white" font-size="12">法の支配</text>
+                    <text x="310" y="210" text-anchor="middle" fill="white" font-size="12">権力拘束</text>
+                    
+                    <!-- 都市化→責任 -->
+                    <rect x="50" y="290" width="120" height="60" fill="#2563eb" rx="10"/>
+                    <text x="110" y="315" text-anchor="middle" fill="white" font-size="12">都市化</text>
+                    <text x="110" y="330" text-anchor="middle" fill="white" font-size="12">商業発展</text>
+                    
+                    <path d="M170 320 L230 320" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="250" y="290" width="120" height="60" fill="#2563eb" rx="10"/>
+                    <text x="310" y="315" text-anchor="middle" fill="white" font-size="12">責任</text>
+                    <text x="310" y="330" text-anchor="middle" fill="white" font-size="12">代表制</text>
+                    
+                    <!-- 統合→良い統治 -->
+                    <path d="M370 80 L480 180" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M370 200 L480 200" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <path d="M370 320 L480 220" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    
+                    <rect x="500" y="170" width="120" height="60" fill="#dc2626" rx="10"/>
+                    <text x="560" y="195" text-anchor="middle" fill="white" font-size="14" font-weight="bold">良い統治</text>
+                    <text x="560" y="210" text-anchor="middle" fill="white" font-size="12">三位一体</text>
+                    
+                    <!-- 衰退要因 -->
+                    <rect x="650" y="50" width="120" height="40" fill="#ef4444" rx="10"/>
+                    <text x="710" y="75" text-anchor="middle" fill="white" font-size="11">再パトリモニアル化</text>
+                    
+                    <rect x="650" y="110" width="120" height="40" fill="#ef4444" rx="10"/>
+                    <text x="710" y="135" text-anchor="middle" fill="white" font-size="11">クライエンテリズム</text>
+                    
+                    <rect x="650" y="170" width="120" height="40" fill="#ef4444" rx="10"/>
+                    <text x="710" y="195" text-anchor="middle" fill="white" font-size="11">ベトクラシー</text>
+                    
+                    <path d="M620 200 L650 200" stroke="#ef4444" stroke-width="2"/>
+                    <text x="635" y="195" text-anchor="middle" fill="#ef4444" font-size="12">×</text>
+                    
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#dc2626"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🇨🇳 中国モデル</h3>
+                    <ul>
+                        <li>国家先行：早期統一と法家思想</li>
+                        <li>能力主義官僚制の原型</li>
+                        <li>高能力/低法拘束の伝統</li>
+                        <li>外部の法錨が弱く恣意のリスク</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🇮🇳 インドモデル</h3>
+                    <ul>
+                        <li>宗教法先行：バラモン法と身分秩序</li>
+                        <li>俗権を拘束する法の支配</li>
+                        <li>高法拘束/低国家能力の伝統</li>
+                        <li>集権的国家能力は伸びにくい</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🇪🇺 欧州モデル</h3>
+                    <ul>
+                        <li>法と責任先行：教会-国家の競合</li>
+                        <li>都市自治と商人の台頭</li>
+                        <li>法の支配と代表制が先行</li>
+                        <li>後に国家能力と結合して成功</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>先史〜古代</h3>
+                    <p>血縁秩序の形成と初期国家の萌芽</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>中世</h3>
+                    <p>宗教権威と俗権の分離、法の支配の基盤</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>近世</h3>
+                    <p>戦争と課税による国家能力の強化</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>産業革命期</h3>
+                    <p>都市化・商業発展と代表制の拡大</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>19-20世紀</h3>
+                    <p>官僚制の専門化と民主化の進展</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3>現代</h3>
+                    <p>政治的衰退：再パトリモニアル化とベトクラシー</p>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📈 成功パターン</h3>
+                    <ul>
+                        <li>三要素の段階的構築</li>
+                        <li>外圧による能力向上</li>
+                        <li>宗教・法学による権力拘束</li>
+                        <li>経済発展と政治参加の拡大</li>
+                        <li>制度の周期的更新</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📉 失敗パターン</h3>
+                    <ul>
+                        <li>順序の誤り（早期民主化等）</li>
+                        <li>血縁・縁故の再侵入</li>
+                        <li>利害集団の沈殿</li>
+                        <li>制度の硬直化</li>
+                        <li>政策更新能力の喪失</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <h2>🎯 今日できるアクション（15-30分）</h2>
+            <div class="action-cards">
+                <div class="action-card" onclick="toggleAction(this)">
+                    <h3>📊 自国診断</h3>
+                    <p>国家力・法支配・責任を10点満点で採点せよ</p>
+                </div>
+                <div class="action-card" onclick="toggleAction(this)">
+                    <h3>🔍 制度分析</h3>
+                    <p>最近の規制一つを制度起源で分析せよ</p>
+                </div>
+                <div class="action-card" onclick="toggleAction(this)">
+                    <h3>🕵️ 利権発見</h3>
+                    <p>身近な利権・縁故の例を3つ記せ</p>
+                </div>
+            </div>
+
+            <div class="cards-grid" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>Why Nations Fail</strong> - 制度の包摂性と持続性</li>
+                        <li><strong>Seeing Like a State</strong> - 国家能力の限界</li>
+                        <li><strong>The Narrow Corridor</strong> - 国家と社会の均衡</li>
+                        <li><strong>The Rise and Decline of Nations</strong> - 利害集団の沈殿</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💡 重要な洞察</h3>
+                    <ul>
+                        <li>戦争は国家を鍛え、国家は戦争に備える</li>
+                        <li>制度は時間とともに利害に捕捉される</li>
+                        <li>順序を誤れば民主化が国家能力を損なう</li>
+                        <li>血縁と縁故の論理を断ち切ることが改革の核心</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        function toggleAction(element) {
+            element.style.transform = element.style.transform === 'scale(0.95)' ? 'scale(1)' : 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // Initialize progress bars animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
