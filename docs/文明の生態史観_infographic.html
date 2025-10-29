@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文明の生態史観 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #059669, アクセント #dc2626 -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #059669;
+            --accent: #dc2626;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .summary-block h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .summary-item.question {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+        }
+        
+        .summary-item.answer {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        }
+        
+        .summary-item.why {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+        }
+        
+        .summary-item.how {
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+        
+        .summary-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .concept-card {
+            border-top-color: var(--secondary);
+        }
+        
+        .concept-card h3 {
+            color: var(--secondary);
+        }
+        
+        .structure-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+            font-weight: 500;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .comparison-chart {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-side {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-side.peripheral {
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .comparison-side.central {
+            border-top: 4px solid var(--accent);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .action-card {
+            background: linear-gradient(135deg, var(--accent), #ef4444);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .related-books {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .book-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .book-relation {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .comparison-chart {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-row {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌍 文明の生態史観</h1>
+            <p>梅棹忠夫 - 環境が歴史を決める新しい見方</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 核心メッセージ</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>🤔 問い</h3>
+                    <p>なぜ西欧と日本は似た近代化を独立に達成できたのか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>ユーラシア周縁の湿潤・海洋生態と地政が、分権・交易・技術革新を促す制度進化を生み、内陸古典文明とは異なる発展パターンをもたらしたから</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why（なぜ）</h3>
+                    <p>生態条件（気候・地形・海との距離）が生業→社会構造→政治制度→知識流通を連鎖させ、遊牧圧・灌漑国家・官僚制に縛られた内陸とは異なる自由度を確保したため</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚙️ How（どうやって）</h3>
+                    <p>比較生態史（地域区分・生業類型・交易路・侵略圧の比較）で長期のパターンを抽出し、中心‐周縁の固定観念を疑い、日本・西欧の等時的現象を同型として読む</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造図タブ">🏗️ 構造と関係</button>
+            <button class="tab-button" onclick="showTab('comparison')" aria-label="比較分析タブ">⚖️ 比較分析</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">🎯 実践アクション</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card concept-card">
+                    <h3>🌱 生態史観</h3>
+                    <ul>
+                        <li>自然環境と生業が社会制度・歴史過程を方向づける見取り図</li>
+                        <li>地理×歴史の総合視角</li>
+                        <li>一言要約：環境が歴史の器</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🏝️ ユーラシア周縁型文明</h3>
+                    <ul>
+                        <li>大陸の端部で海に開き、適度な降水と安全保障上の緩衝を得て発展</li>
+                        <li>西欧・日本が代表例</li>
+                        <li>一言要約：海洋周縁の推進力</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🏛️ 内陸古典文明圏</h3>
+                    <ul>
+                        <li>灌漑と官僚制に基づく大河文明を基盤</li>
+                        <li>遊牧征服圧の周期にさらされた地域（中国・中東など）</li>
+                        <li>一言要約：大河と遊牧の縛り</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🔄 等時的現象（パラレリズム）</h3>
+                    <ul>
+                        <li>離れた地域で同時期に似た制度変化や技術革新が発生</li>
+                        <li>共通の生態・構造に由来</li>
+                        <li>一言要約：離れて同型</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🎯 周縁の優位</h3>
+                    <ul>
+                        <li>古典中心から距離があるほど制度硬直から自由</li>
+                        <li>革新を取り込みやすいという逆説的命題</li>
+                        <li>一言要約：遠さが強み</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🐎 遊牧‐農耕複合</h3>
+                    <ul>
+                        <li>内陸で遊牧勢力と農耕国家が交互に支配・融合</li>
+                        <li>政治の周期性を生むダイナミクス</li>
+                        <li>一言要約：草原の周期圧</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="structure-diagram">
+                <h2>🔗 因果関係の構造図</h2>
+                <div class="flow-chart">
+                    <div class="flow-row">
+                        <div class="flow-box">気候・地形・海への開放度</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-box">生業（稲作/畑作/遊牧）</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-box">余剰と季節性</div>
+                    </div>
+                    <div class="flow-row">
+                        <div class="flow-box">社会組織（分権/中央集権）</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-box">政治制度の硬直度</div>
+                    </div>
+                    <div class="flow-row">
+                        <div class="flow-box">海上交易圏の発達</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">都市・商業の自立</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">技術・知識の蓄積</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📈 論理展開の流れ</h3>
+                    <ul>
+                        <li>問題提起：日本の近代化は模倣か独自か</li>
+                        <li>方法論提示：生態史観の導入</li>
+                        <li>地域区分：海洋周縁と内陸古典圏の大別</li>
+                        <li>内部力学：遊牧‐農耕の周期と制度硬直</li>
+                        <li>周縁の論理：革新と情報循環のメカニズム</li>
+                        <li>等時性の提示：西欧と日本の並行近代化</li>
+                        <li>反転する中心観：周縁の優位を理論化</li>
+                        <li>帰結と示唆：比較の単位・時間幅の再設計</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💬 重要な引用</h3>
+                    <ul>
+                        <li>「文明発展の鍵は自然と社会の結合様式にあり、日本と西欧は似た生態のうえに同型の進化をした」</li>
+                        <li>「内陸の大帝国は維持装置の重さが革新を阻む一方、周縁は自由度が高く革新を採用しやすい」</li>
+                        <li>「歴史は拡散史観でも単線進化でもなく、等時的・多元的なパターンの比較で読むべきだ」</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="comparison" class="tab-content">
+            <div class="comparison-chart">
+                <div class="comparison-side peripheral">
+                    <h3>🌊 周縁型文明（日本・西欧）</h3>
+                    <ul>
+                        <li>海洋に開かれた地理的位置</li>
+                        <li>適度な降水量と温暖湿潤気候</li>
+                        <li>分権的な政治構造</li>
+                        <li>海上交易による技術・情報流入</li>
+                        <li>制度の柔軟性と革新受容力</li>
+                        <li>都市・商業の自立発展</li>
+                    </ul>
+                </div>
+                <div class="comparison-side central">
+                    <h3>🏛️ 内陸古典文明（中国・中東）</h3>
+                    <ul>
+                        <li>大河流域の灌漑農業基盤</li>
+                        <li>乾燥・半乾燥気候</li>
+                        <li>中央集権的な官僚制</li>
+                        <li>遊牧民の周期的侵入圧</li>
+                        <li>制度維持コストによる硬直化</li>
+                        <li>帝国の興亡サイクル</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <p>主要な文明類型<br>（周縁型 vs 内陸型）</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <p>主要概念<br>（生態史観の構成要素）</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <p>関連書籍<br>（比較研究の参考文献）</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <h2>🎯 今日できるアクション（15-30分）</h2>
+            <div class="action-cards">
+                <div class="action-card">
+                    <h3>🗺️ 地図作成</h3>
+                    <p>世界地図に周縁と内陸を描き分ける</p>
+                </div>
+                <div class="action-card">
+                    <h3>📅 年表比較</h3>
+                    <p>日本史と西欧史の年表を1枚比較する</p>
+                </div>
+                <div class="action-card">
+                    <h3>🌍 地域分析</h3>
+                    <p>自地域の気候・地形条件を要約する</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 40px;">📚 関連書籍</h2>
+            <div class="related-books">
+                <div class="book-card">
+                    <div class="book-title">銃・病原菌・鉄</div>
+                    <div class="book-author">ジャレド・ダイアモンド</div>
+                    <div class="book-relation">地理・生態が文明格差を生む因果を多地域で検証。生態史観の国際比較版。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">地中海</div>
+                    <div class="book-author">フェルナン・ブローデル</div>
+                    <div class="book-relation">長期持続と環境・交易ネットワークが歴史を規定するという視角が響き合う。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">近代世界システム</div>
+                    <div class="book-author">イマニュエル・ウォーラーステイン</div>
+                    <div class="book-relation">中心‐周辺の再編理論を経済史から展開。周縁の位置づけを比較可能にする。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">風土</div>
+                    <div class="book-author">和辻哲郎</div>
+                    <div class="book-relation">自然環境が文化性格を形づくるという哲学的考察。生態と文化の連関を補強。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">情報の文明学</div>
+                    <div class="book-author">梅棹忠夫</div>
+                    <div class="book-relation">本書の方法を情報社会論へ拡張。生態史観の現代的応用。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">歴史の研究</div>
+                    <div class="book-author">アーノルド・トインビー</div>
+                    <div class="book-relation">文明の興亡を比較する大著。挑戦と応答の枠組みが外圧・適応論と通底。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            
+            // アクセシビリティ属性を更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
