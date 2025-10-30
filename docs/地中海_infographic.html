@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地中海 - フェルナン・ブローデル</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #0891b2, アクセント #dc2626 -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #0891b2;
+            --accent: #dc2626;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: white;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .summary-block h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr;
+        }
+        
+        .summary-item {
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .summary-item.question {
+            background: #fef2f2;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .summary-item.answer {
+            background: #eff6ff;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .summary-item.why {
+            background: #f0fdfa;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .summary-item.how {
+            background: #fefce8;
+            border-left: 3px solid #eab308;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            color: var(--text-light);
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .card-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr;
+        }
+        
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 3px solid var(--primary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .card li {
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .concept-card {
+            border-top-color: var(--secondary);
+        }
+        
+        .concept-card h3 {
+            color: var(--secondary);
+        }
+        
+        .structure-card {
+            border-top-color: var(--accent);
+        }
+        
+        .structure-card h3 {
+            color: var(--accent);
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+        
+        .time-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .time-layer {
+            padding: 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .time-layer.long {
+            background: linear-gradient(90deg, var(--primary), rgba(37, 99, 235, 0.1));
+            color: white;
+        }
+        
+        .time-layer.medium {
+            background: linear-gradient(90deg, var(--secondary), rgba(8, 145, 178, 0.1));
+            color: white;
+        }
+        
+        .time-layer.short {
+            background: linear-gradient(90deg, var(--accent), rgba(220, 38, 38, 0.1));
+            color: white;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .flow-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 200px;
+            border: 2px solid var(--primary);
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .quote-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .action-list h3 {
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            border-left: 3px solid #f59e0b;
+        }
+        
+        @media (min-width: 768px) {
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .flow-chart {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .flow-arrow {
+                transform: rotate(-90deg);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🌊 地中海 - フェルナン・ブローデル</h1>
+            <p class="subtitle">歴史は構造が動かす - 16世紀地中海世界の長期持続</p>
+        </div>
+
+        <div class="summary-block">
+            <h2>📋 要約 - 問い×答え×根拠</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <strong>❓ 問い</strong><br>
+                    16世紀の「地中海世界」は何によって動き、いかに理解すべきか？
+                </div>
+                <div class="summary-item answer">
+                    <strong>💡 答え</strong><br>
+                    地理・気候・人口・交易・金融の長期構造（長期持続）が中心で、事件はその上の波（短期）に過ぎない
+                </div>
+                <div class="summary-item why">
+                    <strong>🔍 Why</strong><br>
+                    風と潮流・山脈と平野・季節性が航海と輸送の可能性集合を規定し、銀の流入や価格革命が帝国の選択肢を縛ったため
+                </div>
+                <div class="summary-item how">
+                    <strong>⚙️ How</strong><br>
+                    時間を三層（地理の遅い時間／社会経済の中期循環／事件の短期）に分け、地理→構造→事件の順で因果を追う
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>⏰ 時間の三層構造</h3>
+            <div class="time-layers">
+                <div class="time-layer long">
+                    <strong>長期持続（地理的時間）</strong> - 地理・気候・人口・経済構造
+                </div>
+                <div class="time-layer medium">
+                    <strong>中期循環（コンジュンクチュール）</strong> - 数十年規模の景気・価格・人口波動
+                </div>
+                <div class="time-layer short">
+                    <strong>短期（出来事の歴史）</strong> - 戦争・外交・人物の政治史
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造と論理タブ">🏗️ 構造と論理</button>
+            <button class="tab-button" onclick="showTab('relations')" aria-label="関係性タブ">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">🎯 今日のアクション</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>🏔️ 長期持続</h3>
+                    <ul>
+                        <li>地理・気候・人口・経済構造の時間層</li>
+                        <li>世紀単位で人間活動を制約・誘導</li>
+                        <li>出来事理解の前提となる地盤</li>
+                        <li>変化が遅く、歴史の基盤を形成</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🏛️ 構造</h3>
+                    <ul>
+                        <li>制度・市場・技術・地理条件の結合体</li>
+                        <li>個々の行為者の選好の上位に位置</li>
+                        <li>行動可能性を規定する枠組み</li>
+                        <li>反復的で持続的な制約条件</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🌊 コンジュンクチュール</h3>
+                    <ul>
+                        <li>数十年規模の景気・価格・人口波動</li>
+                        <li>長期構造と短期事件の媒介</li>
+                        <li>趨勢を形づくる中期の時間</li>
+                        <li>時代の潮目を示す指標</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>⚡ 出来事の歴史</h3>
+                    <ul>
+                        <li>戦争・外交・人物など短期の出来事</li>
+                        <li>注目度は高いが表層的</li>
+                        <li>構造に条件づけられる波</li>
+                        <li>政治史の伝統的対象</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🌍 地中海世界</h3>
+                    <ul>
+                        <li>海と周辺陸域・島々・港市の交流圏</li>
+                        <li>多中心で海路と陸路が織り成す複合体</li>
+                        <li>一体の経済・文化ネットワーク</li>
+                        <li>分析の基本単位となる世界</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>💰 価格革命</h3>
+                    <ul>
+                        <li>16世紀の持続的物価上昇</li>
+                        <li>新大陸銀流入・人口増・貨幣供給拡大</li>
+                        <li>信用・国家財政・賃金実質に波及</li>
+                        <li>インフレの世紀を象徴</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="card-grid">
+                <div class="card structure-card">
+                    <h3>📍 第一部：地理的時間</h3>
+                    <ul>
+                        <li>海盆・海流・風系・山脈・平野を描写</li>
+                        <li>気候・作物・季節移動の制約</li>
+                        <li>地中海世界の物理的・生態的基盤</li>
+                        <li>交通と生業の可能性集合を規定</li>
+                        <li>後続の社会経済構造の土台</li>
+                    </ul>
+                </div>
+                <div class="card structure-card">
+                    <h3>📈 第二部：社会経済の長期傾向</h3>
+                    <ul>
+                        <li>人口動態と都市階層の分析</li>
+                        <li>交易圏・価格革命・信用金融</li>
+                        <li>ヴェネツィア/ジェノヴァの役割</li>
+                        <li>中心と周辺の再編過程</li>
+                        <li>構造と景気循環の結合</li>
+                    </ul>
+                </div>
+                <div class="card structure-card">
+                    <h3>⚔️ 第三部：出来事の歴史</h3>
+                    <ul>
+                        <li>フィリップ2世時代の戦争・外交</li>
+                        <li>レパント海戦等の軍事事件</li>
+                        <li>宮廷政治・海賊・境界紛争</li>
+                        <li>事件を構造の文脈に位置づけ</li>
+                        <li>政治史の構造的理解</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <div class="chart-container">
+                <h3>🔗 因果関係の流れ</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">地理・気候</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-item">航行条件/輸送コスト</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-item">市場圏の形成</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-item">都市階層</div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌬️ 自然→経済</h3>
+                    <ul>
+                        <li>風・潮流・季節性 → 航路タイミング</li>
+                        <li>商機/在庫回転 → 利潤率</li>
+                        <li>山地/平野/港市 → 物流強化</li>
+                        <li>小氷期 → 収穫不安定 → 価格変動</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💎 銀→金融→帝国</h3>
+                    <ul>
+                        <li>新大陸銀 → ジェノヴァ金融台頭</li>
+                        <li>スペイン帝国財政の依存</li>
+                        <li>価格革命/債務脆弱性</li>
+                        <li>帝国間競争の制約条件</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>👥 人口→市場</h3>
+                    <ul>
+                        <li>人口増加 → 食糧需要増</li>
+                        <li>穀物価格上昇 → 周辺商業化</li>
+                        <li>貧困・移住 → 労働市場変化</li>
+                        <li>都市成長 → 階層分化</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <p><strong>"歴史には異なる速度の時間があり、地理の遅い時間、社会経済の中期の時間、出来事の短い時間が重なり合う"</strong></p>
+                <small>→ 時間の三層モデルという本書の方法論的中核</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"地中海は海であると同時に、その周囲の山と平野、都市と内陸を結ぶ一体の世界である"</strong></p>
+                <small>→ 海と陸を統合する分析単位（世界＝交流圏）を提示</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"人間の行動は風と潮流、季節の鎖につながれている"</strong></p>
+                <small>→ 自然条件が輸送コストと商機を通じて経済・政治を制約</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"16世紀の価格革命は、銀の流入と人口動態が信用と国家財政に及ぼした圧力の表現である"</strong></p>
+                <small>→ 貨幣・人口・財政をつなぐ構造因果としてインフレを位置づけ</small>
+            </div>
+            <div class="quote-card">
+                <p><strong>"フィリップ2世の政治は、出来事として眺めるだけでは理解できず、構造の上で測られるべきである"</strong></p>
+                <small>→ 政治史を長期構造の枠に戻すという本書の結論</small>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>🎯 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>🗺️ 身近な地図で地形と道を確認する</strong><br>
+                    自分の住む地域の地形図を見て、道路や鉄道がどう地形に沿っているかを観察
+                </div>
+                <div class="action-item">
+                    <strong>📊 生活を長期・中期・短期で棚卸し</strong><br>
+                    自分の人生を「長期の基盤」「中期の変化」「短期の出来事」に分けて整理
+                </div>
+                <div class="action-item">
+                    <strong>🚛 地元の物流経路を簡単に図示する</strong><br>
+                    近所のスーパーの商品がどこから来るか、物流の流れを簡単に描いてみる
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li><strong>地中海 世界の歴史</strong> - デイヴィッド・アブラフィア</li>
+                    <li><strong>The Corrupting Sea</strong> - ホーデン／パーセル</li>
+                    <li><strong>近代世界システム</strong> - ウォーラーステイン</li>
+                    <li><strong>産業革命前夜のヨーロッパ</strong> - チポラ</li>
+                    <li><strong>フェリペ2世の大戦略</strong> - ジェフリー・パーカー</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // アクセシビリティ: キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    focusedElement.setAttribute('aria-selected', 'true');
+                }
+            }
+        });
+        
+        // タブボタンにaria属性を設定
+        document.querySelectorAll('.tab-button').forEach((button, index) => {
+            button.setAttribute('role', 'tab');
+            button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        });
+        
+        // タブコンテンツにaria属性を設定
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.setAttribute('role', 'tabpanel');
+        });
+    </script>
+</body>
+</html>
