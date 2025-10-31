@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヤバい経済学 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .summary-block {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .summary-item {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .summary-item h3 {
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .summary-item .answer {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .summary-item .why-how {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .concept-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .concept-card .definition {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .concept-card .summary {
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .structure-diagram {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flow-box {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            flex: 1;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .arrow {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chapter-item {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .chapter-item h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .chapter-item .points {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .chapter-item .logic {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-emoji {
+            font-size: 1.5rem;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .book-card {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 15px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .flow-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📊 ヤバい経済学</h1>
+            <p>インセンティブとデータで世界の謎を解く</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>🎯 核心メッセージ</h2>
+            <p><strong>インセンティブと情報、そしてデータ分析の力を使えば、常識では説明しにくい社会現象の因果メカニズムを暴き、より妥当な意思決定ができる。</strong></p>
+        </div>
+
+        <div class="summary-block">
+            <h2>📋 要約：問い×答え×根拠</h2>
+            <div class="summary-item">
+                <h3>❓ 人はなぜときに不正や予期せぬ行動をとるのか？</h3>
+                <div class="answer">💡 設計されたインセンティブが行動を歪めるから</div>
+                <div class="why-how">
+                    <strong>Why:</strong> 人は利得と罰の差に敏感に反応するため<br>
+                    <strong>How:</strong> 報酬・罰の設計を再点検し、指標のゲーミングを監視する
+                </div>
+            </div>
+            <div class="summary-item">
+                <h3>❓ 情報は権力とどう結びつくのか？</h3>
+                <div class="answer">💡 情報の非対称性がレントの源泉となる</div>
+                <div class="why-how">
+                    <strong>Why:</strong> 片側が有利な情報を握ると相手の選好を操作できる<br>
+                    <strong>How:</strong> 情報公開・比較指標を整備し、交渉の非対称を縮める
+                </div>
+            </div>
+            <div class="summary-item">
+                <h3>❓ 貧困地域のドラッグディーラーはなぜ低収入なのか？</h3>
+                <div class="answer">💡 トーナメント型の超格差報酬構造の末端にいるから</div>
+                <div class="why-how">
+                    <strong>Why:</strong> スターへの期待がリスクを正当化し供給過多を生む<br>
+                    <strong>How:</strong> 実収益分布を可視化し、参入の費用対効果を再評価する
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造図タブ">🔗 構造と関係性</button>
+            <button class="tab-button" onclick="showTab('chapters')" aria-label="章構成タブ">📚 章構成</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">⚡ 今日のアクション</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📖 関連書籍</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <h2>🧠 主要概念</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>🎯 インセンティブ設計</h3>
+                    <div class="definition">報酬・罰・社会的評価が行動を方向づける仕組み。設計次第で期待外の副作用（不正・モラルハザード）も生む。</div>
+                    <span class="summary">動機の設計図</span>
+                </div>
+                <div class="concept-card">
+                    <h3>📊 情報の非対称性</h3>
+                    <div class="definition">当事者間の情報格差が取引条件や行動を歪める状況。レントや搾取の温床となる。</div>
+                    <span class="summary">情報は力</span>
+                </div>
+                <div class="concept-card">
+                    <h3>🤝 代理人問題</h3>
+                    <div class="definition">委任者と代理人の利害不一致が意思決定を歪める問題。手数料や評価指標が鍵。</div>
+                    <span class="summary">他人任せの歪み</span>
+                </div>
+                <div class="concept-card">
+                    <h3>🔬 自然実験・疑似実験</h3>
+                    <div class="definition">制度変更や外生ショックを利用して因果効果を推定する手法。</div>
+                    <span class="summary">現実の実験室</span>
+                </div>
+                <div class="concept-card">
+                    <h3>⚖️ 相関と因果の区別</h3>
+                    <div class="definition">同時に動く現象が原因関係を持つとは限らないという統計の基本規律。</div>
+                    <span class="summary">混同禁止</span>
+                </div>
+                <div class="concept-card">
+                    <h3>🎪 トーナメント型労働市場</h3>
+                    <div class="definition">上位少数が大きな報酬を得て、下位多数が低報酬となるスター型分配。</div>
+                    <span class="summary">勝者総取り</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <h2>🔗 構造と関係性</h2>
+            <div class="structure-diagram">
+                <h3>📈 因果関係の流れ</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">
+                        <div class="flow-box">インセンティブ</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">行動変化</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">期待外効果（不正・ゲーミング）</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-box">情報の非対称性</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">代理人問題</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">レント獲得・搾取</div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-box">制度ショック（自然実験）</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">因果推定</div>
+                        <div class="arrow">→</div>
+                        <div class="flow-box">政策含意</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">主要事例研究</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">重要概念</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">今日のアクション</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapters" class="tab-content">
+            <h2>📚 章構成と論理展開</h2>
+            <div class="chapter-list">
+                <div class="chapter-item">
+                    <h3>🔍 序論：経済学で世界を覗く</h3>
+                    <div class="points">• 経済学的思考はインセンティブとデータで"因果"を解く道具箱</div>
+                    <div class="logic">常識や道徳判断から離れ、奇妙な問いに経済学を適用する宣言</div>
+                </div>
+                <div class="chapter-item">
+                    <h3>🎓 教師と相撲取り：不正とインセンティブ</h3>
+                    <div class="points">• 報酬・罰の設計が不正を誘発する</div>
+                    <div class="logic">テスト回答のパターン分析や取組結果の偏りから不正を統計的に検出</div>
+                </div>
+                <div class="chapter-item">
+                    <h3>🏠 KKKと不動産仲介：情報の力</h3>
+                    <div class="points">• 情報の非対称性が行動と価格を歪める</div>
+                    <div class="logic">暗号暴露の歴史と仲介手数料の構造比較で、情報公開の効果を示す</div>
+                </div>
+                <div class="chapter-item">
+                    <h3>💊 ドラッグディーラー：なぜ実家暮らし？</h3>
+                    <div class="points">• スター型の報酬分配が末端の低所得を生む</div>
+                    <div class="logic">ギャング会計簿の解析から、リスク高・低賃金・昇格確率低の実態を解明</div>
+                </div>
+                <div class="chapter-item">
+                    <h3>🚔 犯罪減少：本当の理由は？</h3>
+                    <div class="points">• 中絶合法化と犯罪低下の時差相関を提示（論争含む）</div>
+                    <div class="logic">コホート比較と代替要因の統制で仮説の整合性を検証</div>
+                </div>
+                <div class="chapter-item">
+                    <h3>👨‍👩‍👧‍👦 完璧な親・名前の力：何が本当に効く？</h3>
+                    <div class="points">• 背景要因が主要で、行為の直接効果は限定的</div>
+                    <div class="logic">大規模データで子育て要因と成果の関連を分解し、シグナルと因果を峻別</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <h2>💬 重要引用</h2>
+            <div class="quote-card">
+                <div class="quote-text">インセンティブが世界を動かす。</div>
+                <div class="quote-importance">行動原理の中核であり、各章の分析軸となるため。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">相関は因果ではない。</div>
+                <div class="quote-importance">誤推論を避ける統計的規律で、政策含意の妥当性を左右する。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">情報は権力であり、非対称は行動を歪める。</div>
+                <div class="quote-importance">不正やレントのメカニズムを説明する基底概念だから。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">データは直感を裏切ることがある。</div>
+                <div class="quote-importance">常識を疑い、証拠から考える姿勢を促す。</div>
+            </div>
+            <div class="quote-card">
+                <div class="quote-text">正しい問いを立てれば、世界は違って見える。</div>
+                <div class="quote-importance">分析の出発点が結論の質を決めるという教訓。</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <h2>⚡ 今日できるアクション（15-30分）</h2>
+            <div class="action-list">
+                <div class="action-item">
+                    <div class="action-emoji">🎯</div>
+                    <div>
+                        <strong>身近なインセンティブを書き出す</strong><br>
+                        職場・学校・家庭での報酬・罰の仕組みを3つリストアップ
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">💰</div>
+                    <div>
+                        <strong>家計の直近支出を分類集計</strong><br>
+                        先月の支出を5カテゴリに分けて金額と割合を計算
+                    </div>
+                </div>
+                <div class="action-item">
+                    <div class="action-emoji">📊</div>
+                    <div>
+                        <strong>関心テーマのデータ取得計画作成</strong><br>
+                        気になる社会問題について入手可能なデータソースを調査
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <h2>📖 関連書籍</h2>
+            <div class="book-grid">
+                <div class="book-card">
+                    <div class="book-title">超ヤバい経済学（SuperFreakonomics）</div>
+                    <div class="book-author">スティーヴン・D・レヴィット、スティーヴン・J・ダブナー</div>
+                    <div class="book-relation">同コンセプトの続編で、インセンティブとデータ分析をさらに拡張。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">Think Like a Freak</div>
+                    <div class="book-author">スティーヴン・D・レヴィット、スティーヴン・J・ダブナー</div>
+                    <div class="book-relation">"問いの立て方"を実務に落とし込む思考術を提示。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">予想どおりに不合理</div>
+                    <div class="book-author">ダン・アリエリー</div>
+                    <div class="book-relation">人間の非合理行動を実験で示し、インセンティブ設計の落とし穴を補完。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">The Undercover Economist</div>
+                    <div class="book-author">ティム・ハーフォード</div>
+                    <div class="book-relation">日常現象を経済学で読み解くアプローチが共通。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">シグナル&ノイズ</div>
+                    <div class="book-author">ネイト・シルバー</div>
+                    <div class="book-relation">相関と因果の区別や予測の限界をデータで論じる。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">FACTFULNESS</div>
+                    <div class="book-author">ハンス・ロスリング</div>
+                    <div class="book-relation">直感に反する事実をデータで学ぶ姿勢が合致。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">統計学が最強の学問である</div>
+                    <div class="book-author">西内啓</div>
+                    <div class="book-relation">データ駆動の意思決定と因果志向の基礎を平易に解説。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Update aria-selected attributes for accessibility
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Initialize accessibility attributes
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+
+        // Keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('tab-button')) {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(e.target);
+                let newIndex;
+
+                if (e.key === 'ArrowRight') {
+                    newIndex = (currentIndex + 1) % buttons.length;
+                } else if (e.key === 'ArrowLeft') {
+                    newIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                } else {
+                    return;
+                }
+
+                e.preventDefault();
+                buttons[newIndex].focus();
+                buttons[newIndex].click();
+            }
+        });
+    </script>
+</body>
+</html>
