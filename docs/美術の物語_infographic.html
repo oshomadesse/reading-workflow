@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美術の物語 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-block {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .summary-item.question {
+            background: linear-gradient(135deg, #fff, #f8f9ff);
+            border-color: var(--primary);
+        }
+
+        .summary-item.answer {
+            background: linear-gradient(135deg, #fff, #f9f8ff);
+            border-color: var(--secondary);
+        }
+
+        .summary-item.why {
+            background: linear-gradient(135deg, #fff, #fff8f9);
+            border-color: var(--accent);
+        }
+
+        .summary-item.how {
+            background: linear-gradient(135deg, #f8fff8, #fff);
+            border-color: #28a745;
+        }
+
+        .summary-item h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 20px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -32px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -32px;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .relationship-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .action-items {
+            background: linear-gradient(135deg, var(--accent), #ff9a9e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .action-items h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+            }
+            
+            .timeline-item::before {
+                left: -32px !important;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎨 美術の物語</h1>
+            <p>芸術家たちの問題解決の軌跡を読み解く</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>❓ 問い</h3>
+                    <p>美術史とは何の物語で、どう見ればよいか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>芸術は直線的な進歩ではなく、各時代の芸術家が目的と制約の下で表現上の課題を解く連鎖であり、私たちは先入観を脇に置き「見る」力を鍛える物語。</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why（なぜ）</h3>
+                    <p>作品は宗教・権力・市場・技術に規定され、伝統と革新の緊張が様式を生むため価値は文脈依存である。</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚡ How（どのように）</h3>
+                    <p>異なる時代・用途の作品を並べ、線・色・構図などの形と機能・素材・パトロネージを比較観察し、仮説と気づきを短く言語化して更新する。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('timeline')" aria-label="歴史タイムラインタブ">📅 歴史の流れ</button>
+            <button class="tab-button" onclick="showTab('relationships')" aria-label="関係性タブ">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">🎯 実践</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>👁️ 見ることと知ること</h3>
+                    <ul>
+                        <li>予備知識や思い込みは視覚判断を歪める</li>
+                        <li>鑑賞は訓練された観察によって初めて深まる</li>
+                        <li>「知っている」より「見る」ことを重視</li>
+                        <li>観察力の鍛錬が鑑賞の基礎</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔄 伝統と革新</h3>
+                    <ul>
+                        <li>過去の解法（伝統）を継承しつつ変形</li>
+                        <li>時代の要請に応じて破り変形する力学</li>
+                        <li>新しい様式を生む原動力</li>
+                        <li>継承と変容の絶妙なバランス</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎭 様式（スタイル）</h3>
+                    <ul>
+                        <li>特定の時代・地域・作家に共通する形態的特徴</li>
+                        <li>表現言語として機能</li>
+                        <li>目的や観客に依存して変化</li>
+                        <li>時代の視覚言語を体現</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 機能と目的</h3>
+                    <ul>
+                        <li>礼拝・権威表象・記念・娯楽などの役割</li>
+                        <li>機能が形と図像を規定する</li>
+                        <li>用途が表現方法を決定</li>
+                        <li>社会的文脈との密接な関係</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>👑 パトロネージ（後援）</h3>
+                    <ul>
+                        <li>教会・宮廷・市場・個人収集家などの支援</li>
+                        <li>主題選択や規模、材料を左右</li>
+                        <li>依頼が内容を動かす力</li>
+                        <li>経済的基盤が創作を規定</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🛠️ 素材と技術</h3>
+                    <ul>
+                        <li>フレスコ・油彩・版画・写真などの手段</li>
+                        <li>可能な表現範囲と効果を決定</li>
+                        <li>発明が表現を刷新する</li>
+                        <li>手段が可能性を拡張</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🌿 自然観察と理想化</h3>
+                    <ul>
+                        <li>可視世界の忠実な観察</li>
+                        <li>理念的な完全性の追求</li>
+                        <li>選択と強調のバランス</li>
+                        <li>写実と理念の緊張関係</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📐 空間表現</h3>
+                    <ul>
+                        <li>遠近法・陰影法・色彩遠近など</li>
+                        <li>空間再現の方法論</li>
+                        <li>観者の経験を大きく変える技術革新</li>
+                        <li>奥行きの技法が視覚体験を変革</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🏺 先史・古代エジプト・オリエント</h4>
+                        <p>実用・儀礼・記録という強い機能性の下で、図像の規範が形成される。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🏛️ ギリシア・ローマ</h4>
+                        <p>自然観察と理想化の統合、人体表現と空間の探求が古典的規範を確立。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>⛪ 中世（ビザンティン・ロマネスク・ゴシック）</h4>
+                        <p>宗教的機能と象徴性が優先し、超越を可視化するための様式が発達。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🎨 ルネサンス</h4>
+                        <p>人文主義・科学的観察・透視図法・油彩技術が統合され、個人作家の役割が増す。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>✨ マニエリスム〜バロック</h4>
+                        <p>規範の意識的変形と劇的効果、宗教改革と権力演出が視覚言語を刷新。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🌸 18世紀〜19世紀前半</h4>
+                        <p>ロココの親密さ、新古典の規範回帰、ロマン主義の主観の拡張。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>📸 19世紀後半</h4>
+                        <p>写真の登場と市場の成長が写実主義・印象派を促し、見る行為自体が主題化。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>🚀 20世紀初頭〜中葉</h4>
+                        <p>前衛の断絶と連続—キュビスム、抽象、表現主義などが表現の自律を推し進める。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relationships" class="tab-content">
+            <div class="relationship-diagram">
+                <h3>🔗 概念間の関係性</h3>
+                <div class="flow-chart">
+                    <div class="flow-item">パトロネージ</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">機能・目的</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">様式形成</div>
+                </div>
+                <div class="flow-chart">
+                    <div class="flow-item">素材・技術</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">表現範囲</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">形態的特徴</div>
+                </div>
+                <div class="flow-chart">
+                    <div class="flow-item">伝統</div>
+                    <div class="flow-arrow">↔</div>
+                    <div class="flow-item">革新</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">新様式</div>
+                </div>
+                <div class="flow-chart">
+                    <div class="flow-item">観察訓練</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">文脈理解</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">深い鑑賞</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <p>主要概念</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <p>歴史時代</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <p>関連書籍</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <p>実践アクション</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-items">
+                <h3>🎯 今日できるアクション（15〜30分）</h3>
+                <div class="action-list">
+                    <div class="action-item">
+                        <h4>🔍 同一主題の作品を2点比較観察</h4>
+                        <p>同じテーマ（例：聖母子、風景）の異なる時代の作品を並べて見比べ、違いを言語化する</p>
+                    </div>
+                    <div class="action-item">
+                        <h4>📝 作品の機能・様式・素材を記す</h4>
+                        <p>1つの作品について「何のために作られたか」「どんな技法か」「何でできているか」をメモする</p>
+                    </div>
+                    <div class="action-item">
+                        <h4>🎨 1作品で線・色・構図を要素分解</h4>
+                        <p>好きな作品を選び、線の使い方、色の配置、構図のバランスを個別に観察・記録する</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>ガードナーの芸術</strong> - 別視点での美術史通史</li>
+                        <li><strong>見るということ</strong> - 「見る」行為の批評的枠組み</li>
+                        <li><strong>Power of Art</strong> - 個別作家と作品のドラマ</li>
+                        <li><strong>現代アート、超入門!</strong> - 20世紀以降の前衛解説</li>
+                        <li><strong>The Painted Word</strong> - 理論と市場の力学</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💡 重要な引用</h3>
+                    <ul>
+                        <li>"There really is no such thing as Art. There are only artists."</li>
+                        <li>私たちは『知っている』に頼らず、『見る』ことを学ばねばならない</li>
+                        <li>美術の物語は技術的進歩の直線ではなく、変化する必要と理念への応答</li>
+                        <li>様式の価値は絶対ではなく、その目的と機能に照らして判断される</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性を更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化時にアクセシビリティ属性を設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+            });
+        });
+    </script>
+</body>
+</html>
