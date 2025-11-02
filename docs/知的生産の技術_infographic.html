@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知的生産の技術 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #64748b, アクセント #f59e0b -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .summary-block {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .summary-item.question { background: #eff6ff; border-color: var(--primary); }
+        .summary-item.answer { background: #f0fdf4; border-color: #22c55e; }
+        .summary-item.why { background: #fef3c7; border-color: var(--accent); }
+        .summary-item.how { background: #f3e8ff; border-color: #8b5cf6; }
+
+        .summary-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .workflow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .workflow-step {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            text-align: center;
+            min-width: 120px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .workflow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .concept-network {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .network-node {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .network-node.core {
+            background: var(--accent);
+            font-weight: bold;
+        }
+
+        .action-items {
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .action-items h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .action-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 知的生産の技術</h1>
+            <p>創造を手順化する - 記録・索引・編集のワークフロー</p>
+        </header>
+
+        <section class="summary-block">
+            <h2>🎯 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>❓ 問い</h3>
+                    <p>どうすれば安定して質の高い発想・文章・研究成果を生み出せるか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>思考を外部化し、カードとファイルを核とする記録・索引・編集のワークフローを回す</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why</h3>
+                    <p>人間の記憶は脆弱だが、情報を最小単位に分解し索引で再結合すると、検索性・再利用性・偶然の結合が飛躍的に増える</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚙️ How</h3>
+                    <p>①即時メモ化②一枚一事項のカード化③索引網作成④並べ替え編集⑤道具・環境の標準化</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="workflow-diagram">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 知的生産ワークフロー</h2>
+            <div class="workflow-steps">
+                <div class="workflow-step">📝 記録</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">🗂️ カード化</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">🔍 索引化</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">✂️ 編集</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">📄 出力</div>
+            </div>
+        </div>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('concepts')" role="tab" aria-selected="true">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('techniques')" role="tab">🛠️ 技術詳細</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab">📖 構造・論理</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('related')" role="tab">📚 関連書籍</button>
+        </nav>
+
+        <div id="concepts" class="tab-content active" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎯 知的生産</h3>
+                    <ul>
+                        <li>情報を収集・整理・再構成して新しい知や表現を生む</li>
+                        <li>習得・改善できる「技術」として扱う</li>
+                        <li>才能依存から手順設計への転換</li>
+                        <li>再現可能な創造プロセス</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📝 メモ/記録の習慣</h3>
+                    <ul>
+                        <li>気づき・事実・引用を即時に記す</li>
+                        <li>日時・出典を必須属性として付す</li>
+                        <li>思考の外部化による記憶補完</li>
+                        <li>検証可能性の担保</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🗃️ 一枚一事項カード</h3>
+                    <ul>
+                        <li>一つの概念・事実・洞察をカード一枚に限定</li>
+                        <li>後から自在に組み替える最小単位</li>
+                        <li>可動性と再結合性を最大化</li>
+                        <li>構成の自由度向上</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔍 見出しカード（索引）</h3>
+                    <ul>
+                        <li>テーマやキーワードで関連カードを指示</li>
+                        <li>分類より検索を優先する仕掛け</li>
+                        <li>発見・再発見の効率化</li>
+                        <li>過剰分類の硬直を回避</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📦 カードボックス</h3>
+                    <ul>
+                        <li>カードを保存・並べ替え・抜き差し</li>
+                        <li>編集可能性を担保する作業台</li>
+                        <li>物理的な近接による偶然の発見</li>
+                        <li>セレンディピティの舞台</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📁 ファイル（封筒/箱）</h3>
+                    <ul>
+                        <li>資料・切り抜き・書類をテーマ別収容</li>
+                        <li>過度な分類を避け、索引で探す</li>
+                        <li>軽量な資料庫として機能</li>
+                        <li>シンプルな保管法の実践</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="techniques" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>✂️ 編集としての思考</h3>
+                    <ul>
+                        <li>発想は素材の取捨選択と配列替えから生まれる</li>
+                        <li>並べ替えが論理を生む</li>
+                        <li>ひらめき待ちから作業化への転換</li>
+                        <li>再現可能な創造メソッド</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚙️ ワークフロー標準化</h3>
+                    <ul>
+                        <li>記録→索引→編集→執筆→保管の手順化</li>
+                        <li>道具・時間・場所を固定化</li>
+                        <li>作業負荷の平準化</li>
+                        <li>継続による再現性向上</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📋 出典管理</h3>
+                    <ul>
+                        <li>引用元・日付・所在を体系的に記録</li>
+                        <li>検証性と再利用性を担保</li>
+                        <li>信頼の根拠を明確化</li>
+                        <li>後日の迷いを防止</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎲 偶然の発見</h3>
+                    <ul>
+                        <li>索引網と物理的近接が新結合を誘発</li>
+                        <li>箱の中で隣り合うことが発想を招く</li>
+                        <li>並置による閃きの創出</li>
+                        <li>セレンディピティの条件設計</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">1</span>
+                    <div class="stat-label">枚一事項の原則</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">基本要素<br>記録・索引・編集</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">ワークフロー段階</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🚀 導入</h3>
+                    <ul>
+                        <li>知的生産を「技術」と位置づけ</li>
+                        <li>誰でも上達できる対象だと宣言</li>
+                        <li>才能論からの脱却</li>
+                        <li>手順化による民主化</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📝 記録の技術</h3>
+                    <ul>
+                        <li>メモの即時性重視</li>
+                        <li>属性（日時/出典）の付与</li>
+                        <li>フォーマットの標準化</li>
+                        <li>思考外部化の基礎</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🗃️ カードの技術</h3>
+                    <ul>
+                        <li>一枚一事項の徹底</li>
+                        <li>見出しカード活用</li>
+                        <li>カードボックス運用</li>
+                        <li>並べ替えによる発想</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📁 ファイルの技術</h3>
+                    <ul>
+                        <li>封筒/箱を用いた簡潔保管</li>
+                        <li>分類より索引を優先</li>
+                        <li>軽量な情報管理</li>
+                        <li>過度な体系化の回避</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔍 発見と編集</h3>
+                    <ul>
+                        <li>素材の配列替えが論理を生む</li>
+                        <li>セレンディピティの条件</li>
+                        <li>偶然の結合促進</li>
+                        <li>創造的再構成</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>✍️ 執筆・表現</h3>
+                    <ul>
+                        <li>カード束から構成案へ</li>
+                        <li>草稿→清書の段階化</li>
+                        <li>推敲の着眼点</li>
+                        <li>出力プロセスの体系化</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>💡 技術としての知的生産</h3>
+                    <ul>
+                        <li>「知的生産は訓練可能な『技術』である」</li>
+                        <li>才能依存から手順設計への発想転換</li>
+                        <li>誰でも習得・改善可能</li>
+                        <li>再現性のある創造プロセス</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>✂️ 編集による発想</h3>
+                    <ul>
+                        <li>「発想は素材の編集から生まれる」</li>
+                        <li>取捨と配列替えの重要性</li>
+                        <li>ひらめき待ちからの脱却</li>
+                        <li>作業による創造の実現</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🗃️ 一枚一事項の原則</h3>
+                    <ul>
+                        <li>「カードは一枚に一つの事項を記せ」</li>
+                        <li>可動性と再結合性の最大化</li>
+                        <li>構成の自由度向上</li>
+                        <li>編集作業の効率化</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔍 索引主義の採用</h3>
+                    <ul>
+                        <li>「分類より索引を重視せよ」</li>
+                        <li>過剰分類の硬直回避</li>
+                        <li>探索と再発見の効率化</li>
+                        <li>柔軟な情報管理</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📋 出典の重要性</h3>
+                    <ul>
+                        <li>「メモには必ず日付と出典を付す」</li>
+                        <li>検証可能性の担保</li>
+                        <li>後日の再利用・引用で迷わない</li>
+                        <li>信頼性の基盤構築</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="related" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🧠 思考の整理学</h3>
+                    <ul>
+                        <li>著者: 外山滋比古</li>
+                        <li>発想を生むための思考とメモの扱い</li>
+                        <li>本書の思考外部化と補完的</li>
+                        <li>創造的思考の育成法</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💡 発想法</h3>
+                    <ul>
+                        <li>著者: 川喜田二郎</li>
+                        <li>KJ法によるカードの群化・構造化</li>
+                        <li>本書の編集観と響き合う</li>
+                        <li>データから洞察への変換</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📊 超整理法</h3>
+                    <ul>
+                        <li>著者: 野口悠紀雄</li>
+                        <li>索引主義と軽量な情報管理</li>
+                        <li>実務面での拡張</li>
+                        <li>デジタル時代の整理術</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎨 アイデアのつくり方</h3>
+                    <ul>
+                        <li>著者: ジェームズ・W・ヤング</li>
+                        <li>素材収集と組み合わせによる創造</li>
+                        <li>創造過程の理論化</li>
+                        <li>アイデア生成の5段階</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>✍️ 理科系の作文技術</h3>
+                    <ul>
+                        <li>著者: 木下是雄</li>
+                        <li>カードから文章化する際の論理的記述</li>
+                        <li>作法の具体化</li>
+                        <li>明確な文章構成法</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📝 メモの魔力</h3>
+                    <ul>
+                        <li>著者: 前田裕二</li>
+                        <li>メモの抽象化・転用</li>
+                        <li>外部化→編集の実践例</li>
+                        <li>現代的なメモ活用法</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-items">
+            <h3>🚀 今日できるアクション（15-30分で実行可能）</h3>
+            <div class="action-list">
+                <div class="action-item">
+                    <strong>📋 白紙カード10枚に見出しを書く</strong>
+                    <p>興味のあるテーマで見出しカードを作成し、索引の基盤を構築</p>
+                </div>
+                <div class="action-item">
+                    <strong>📁 封筒ファイルを3つ作りラベル貼る</strong>
+                    <p>進行中のプロジェクトごとに資料収集の仕組みを準備</p>
+                </div>
+                <div class="action-item">
+                    <strong>📖 読書メモを3枚一項目で書く</strong>
+                    <p>現在読んでいる本から重要ポイントをカード化して実践開始</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="concept-network">
+            <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🕸️ 概念の関係性ネットワーク</h3>
+            <div style="text-align: center;">
+                <span class="network-node core">記録・索引・編集</span>
+                <span class="network-node">メモ習慣</span>
+                <span class="network-node">一枚一事項</span>
+                <span class="network-node">見出しカード</span>
+                <span class="network-node">カードボックス</span>
+                <span class="network-node">ファイル管理</span>
+                <span class="network-node">編集思考</span>
+                <span class="network-node">ワークフロー</span>
+                <span class="network-node">出典管理</span>
+                <span class="network-node core">セレンディピティ</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('tab-button')) {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % buttons.length;
+                    buttons[nextIndex].focus();
+                    buttons[nextIndex].click();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                    buttons[prevIndex].focus();
+                    buttons[prevIndex].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
