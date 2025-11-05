@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>存在と時間 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #3498db, アクセント #e74c3c -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--light) 0%, #bdc3c7 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: linear-gradient(135deg, var(--secondary) 0%, #5dade2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .summary-block h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .summary-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        
+        .summary-item strong {
+            color: #fff;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: var(--light);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .tab-button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .concept-card {
+            border-left-color: var(--accent);
+        }
+        
+        .structure-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, var(--secondary) 0%, #5dade2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            min-width: 120px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--secondary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            width: 45%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .timeline-item:nth-child(odd):before {
+            right: -32px;
+        }
+        
+        .timeline-item:nth-child(even):before {
+            left: -32px;
+        }
+        
+        .action-list {
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .action-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid rgba(255,255,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+            }
+            
+            .timeline:before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+            }
+            
+            .timeline-item:before {
+                left: -32px !important;
+            }
+            
+            .flow-row {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 存在と時間</h1>
+            <div class="subtitle">マルティン・ハイデガー - 存在の意味を問う現象学的実存分析</div>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 要約 - 問い×答え×根拠</h2>
+            <div class="summary-item">
+                <strong>❓ 問い:</strong> 存在の意味はいかに理解可能か？
+            </div>
+            <div class="summary-item">
+                <strong>✅ 答え:</strong> 現存在の時間性（被投性×投企×没落としての配慮）が、世界内存在の実践において存在を開示する
+            </div>
+            <div class="summary-item">
+                <strong>🔍 Why:</strong> 存在は現存在の自己理解においてしか現れず、最も本来的には死への先駆と不安で露わになる
+            </div>
+            <div class="summary-item">
+                <strong>⚡ How:</strong> 日常的実践の現象学から出発し、世人の匿名性を突き抜け、良心の呼び声に応答して決意的に生きることで、存在理解を歴史的・時間的地平において確かめる
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造分析タブ">🏗️ 構造分析</button>
+            <button class="tab-button" onclick="showTab('timeline')" aria-label="論理展開タブ">📈 論理展開</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">🎯 実践</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">16</span>
+                    <div class="stat-label">核心概念</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">配慮の構造</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2</span>
+                    <div class="stat-label">存在様態</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card concept-card">
+                    <h3>🧠 現存在（Dasein）</h3>
+                    <ul>
+                        <li>自らの存在が問題となる存在者</li>
+                        <li>世界に関わりつつ自己を可能性として生きる</li>
+                        <li>常に各自のものである固有性</li>
+                        <li>一言: 自己を問う存在</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🌍 世界内存在</h3>
+                    <ul>
+                        <li>世界との関わりの中で既に活動</li>
+                        <li>孤立した主観ではなく関係の網の目</li>
+                        <li>実践的関与が一次的</li>
+                        <li>一言: 関係としての在り方</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💝 配慮（Sorge）</h3>
+                    <ul>
+                        <li>被投性・投企・没落の統一</li>
+                        <li>現存在の基本構造</li>
+                        <li>自己と世界への気づかい</li>
+                        <li>一言: 生の構造</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🎯 被投性（Geworfenheit）</h3>
+                    <ul>
+                        <li>選べない状況に投げ込まれた事実</li>
+                        <li>出自・時代・身体を引き受ける</li>
+                        <li>既にそこにある制約</li>
+                        <li>一言: すでにある</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🚀 投企（Entwurf）</h3>
+                    <ul>
+                        <li>自己の可能性へ先行して企てる</li>
+                        <li>未来へ向け自分を選び直す</li>
+                        <li>可能性の開示</li>
+                        <li>一言: 可能性へ投げる</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📉 没落（Verfallen）</h3>
+                    <ul>
+                        <li>世人へ流され平均化される</li>
+                        <li>おしゃべり・好奇心・曖昧さ</li>
+                        <li>日常の失重状態</li>
+                        <li>一言: 流される</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>👥 世人（das Man）</h3>
+                    <ul>
+                        <li>「みんながそうする」匿名基準</li>
+                        <li>責任の希薄化を生む</li>
+                        <li>行為を規定する常識</li>
+                        <li>一言: 匿名の常識</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>🔧 就手性（Zuhandenheit）</h3>
+                    <ul>
+                        <li>道具が目的連関で円滑に働く</li>
+                        <li>使うなかで背景化</li>
+                        <li>実践的関与の現れ</li>
+                        <li>一言: 使える</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>👁️ 現成性（Vorhandenheit）</h3>
+                    <ul>
+                        <li>対象を理論的・観察的に眺める</li>
+                        <li>故障や中断で就手性が壊れると露呈</li>
+                        <li>二次的な対象化</li>
+                        <li>一言: 目の前の物</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>😰 不安（Angst）</h3>
+                    <ul>
+                        <li>世界の意味網がほどける体験</li>
+                        <li>自己の可能性が素裸に開く</li>
+                        <li>本来的自己への通路</li>
+                        <li>一言: 素開き</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>📞 良心の呼び声</h3>
+                    <ul>
+                        <li>世人から自己へ呼び戻す沈黙の声</li>
+                        <li>罪責を引き受ける契機</li>
+                        <li>本来的自己への召喚</li>
+                        <li>一言: 呼び戻し</li>
+                    </ul>
+                </div>
+
+                <div class="card concept-card">
+                    <h3>💀 死への存在</h3>
+                    <ul>
+                        <li>最も固有で逃れられない可能性</li>
+                        <li>死に向けた先駆</li>
+                        <li>自己の全体性を締め括る</li>
+                        <li>一言: 先駆と引き受け</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="structure-diagram">
+                <h2>🏗️ 配慮の三重構造</h2>
+                <div class="flow-chart">
+                    <div class="flow-row">
+                        <div class="flow-box">被投性<br>すでにある</div>
+                        <div class="flow-arrow">+</div>
+                        <div class="flow-box">投企<br>可能性へ</div>
+                        <div class="flow-arrow">+</div>
+                        <div class="flow-box">没落<br>世人へ流れる</div>
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box" style="background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);">配慮（Sorge）<br>現存在の基本構造</div>
+                </div>
+            </div>
+
+            <div class="structure-diagram">
+                <h2>🔄 存在様態の転換</h2>
+                <div class="flow-chart">
+                    <div class="flow-row">
+                        <div class="flow-box">就手性<br>円滑な使用</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">破綻・故障</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">現成性<br>対象化</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔗 概念間の関係性</h3>
+                    <ul>
+                        <li>共在 → 世人の規範 → 日常の平均化</li>
+                        <li>不安 → 意味網の解体 → 本来的自己</li>
+                        <li>死への存在 → 先駆 → 決意性</li>
+                        <li>時間性 ↔ 配慮の三契機の統一</li>
+                        <li>決意性 + 歴史性 → 伝承の選び直し</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ 時間性の構造</h3>
+                    <ul>
+                        <li>未来性（投企）- 可能性への先駆</li>
+                        <li>既往性（被投）- 既にあることの引受</li>
+                        <li>現前性（没落）- 今ここでの関与</li>
+                        <li>統一体として存在の地平をなす</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="tab-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>🎯 序論</h3>
+                    <p>存在の問いの再起と現象学的解釈学の方法論位置づけ</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>🌍 第一部前半</h3>
+                    <p>現存在の予備的根本分析 - 世界内存在・用具論・日常性</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>👥 第一部中核</h3>
+                    <p>世人・おしゃべり・好奇心・曖昧さによる没落の描出</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>😰 第一部転回</h3>
+                    <p>不安が日常の意味網を解体し、自己の固有性の地平を開く</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>💝 第一部結</h3>
+                    <p>配慮（被投・投企・没落）の統一として現存在を規定</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>💀 第二部</h3>
+                    <p>現存在と時間性 - 死への存在・良心・罪責・決意性</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>⏰ 第二部深化</h3>
+                    <p>本来的時間性と日常的時間の対照、未来性の優位</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>📚 第二部展開</h3>
+                    <p>歴史性（継承・運命・共同体）への接続</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>🎯 総括</h3>
+                    <p>時間は存在の可能的地平である（第三部予告・未完）</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>💭 「存在の意味への問いは忘却されている」</h3>
+                    <ul>
+                        <li>本書全体の動機づけ</li>
+                        <li>問題設定を明確化</li>
+                        <li>哲学史への批判的視点</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 「現存在は常に各自のものである」</h3>
+                    <ul>
+                        <li>実存の固有性の原理</li>
+                        <li>自分であることの根本</li>
+                        <li>一般化不可能性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💝 「現存在の存在は配慮である」</h3>
+                    <ul>
+                        <li>人間存在の統一構造を規定</li>
+                        <li>本書の中心テーゼ</li>
+                        <li>三重構造の統一点</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔧 「用具はまず就手的に現れる」</h3>
+                    <ul>
+                        <li>実践が知的観察より一次的</li>
+                        <li>世界内存在の具体例</li>
+                        <li>理論的態度への批判</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>😰 「不安は世界を無意味にする」</h3>
+                    <ul>
+                        <li>本来的自己への通路</li>
+                        <li>情態の存在論的意義</li>
+                        <li>意味網の解体体験</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💀 「現存在は死への存在である」</h3>
+                    <ul>
+                        <li>固有性の核心をなす先駆</li>
+                        <li>本来的実存の条件</li>
+                        <li>全体性への視点</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⏰「時間は存在の可能的地平である」</h3>
+                    <ul>
+                        <li>「存在=時間性」の結論</li>
+                        <li>本書の最終的到達点</li>
+                        <li>存在論の新地平</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>🎯 今日できる実践アクション</h3>
+                <div class="action-item">
+                    <strong>🔧 身近な道具の就手性を観察する（15分）</strong><br>
+                    ペン、スマホ、コップなど日常の道具を使う時の「透明性」を意識し、故障や不具合で「現成化」する瞬間を観察する
+                </div>
+                <div class="action-item">
+                    <strong>🤔 今日の選択を世人から区別する（20分）</strong><br>
+                    「みんながそうするから」で行った行動と、自分で選んだ行動を振り返り、どちらが多いか記録する
+                </div>
+                <div class="action-item">
+                    <strong>💀 自分の死について10分間書く（10分）</strong><br>
+                    死の固有性・確実性・不確定性を意識し、それが今の生き方にどう影響するか自由に書く
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>イデーン I</strong> - フッサール（現象学的方法の基礎）</li>
+                        <li><strong>存在と無</strong> - サルトル（実存分析の継承・展開）</li>
+                        <li><strong>知覚の現象学</strong> - メルロー=ポンティ（身体性の精緻化）</li>
+                        <li><strong>真理と方法</strong> - ガダマー（解釈学の拡大）</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 さらなる探求</h3>
+                    <ul>
+                        <li><strong>死に至る病</strong> - キルケゴール（実存的先駆）</li>
+                        <li><strong>時間と存在</strong> - ハイデガー後期（反省的言い換え）</li>
+                        <li><strong>哲学</strong> - ヤスパース（実存哲学の比較）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-hidden', 'true');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            const selectedContent = document.getElementById(tabName);
+            const selectedButton = event.target;
+            
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+                selectedContent.setAttribute('aria-hidden', 'false');
+            }
+            
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+                selectedButton.setAttribute('aria-selected', 'true');
+            }
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+            
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach((content, index) => {
+                content.setAttribute('role', 'tabpanel');
+                content.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
+            });
+        });
+    </script>
+</body>
+</html>
