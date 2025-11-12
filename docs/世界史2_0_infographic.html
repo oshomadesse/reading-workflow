@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史2.0 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #64748b, アクセント #f59e0b -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-block {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .summary-item.question {
+            background: #eff6ff;
+            border-color: var(--primary);
+        }
+
+        .summary-item.answer {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+
+        .summary-item.why {
+            background: #fef3c7;
+            border-color: var(--accent);
+        }
+
+        .summary-item.how {
+            background: #f3e8ff;
+            border-color: #8b5cf6;
+        }
+
+        .summary-item h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-definition {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .flow-chart {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart h3 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--bg-light), white);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .venn-diagram {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .action-list h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .action-item {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌍 世界史2.0</h1>
+            <p>多層史観で読み解く新しい世界秩序</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>❓ 問い</h3>
+                    <p>なぜ今、従来の世界史の見方では世界を読み解けないのか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>主要アクターの多層化（国家・企業・宗教・都市・ネットワーク）と地経学化（技術・金融・供給網・情報戦）が進み、覇権構造が多極化したから</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why</h3>
+                    <p>米中対立、ウクライナ戦争、サプライチェーン分断、プラットフォーム支配、認知戦の常態化が、軍事力だけでは説明できない影響力の変位を示している</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚡ How</h3>
+                    <p>1) 多層のアクターと相互依存を地図化し、2) 技術・金融・エネルギー・情報の4領域で脆弱性を特定し、3) 価値と利益を接続する現実主義的戦略を設計・運用する</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🎯 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造分析タブ">🏗️ 構造分析</button>
+            <button class="tab-button" onclick="showTab('relations')" aria-label="関係性タブ">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">🚀 アクション</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌐 世界史2.0</h3>
+                    <ul>
+                        <li>国家中心の直線的史観を拡張</li>
+                        <li>多主体（企業・宗教・ネットワーク）を統合</li>
+                        <li>軍事・技術・金融・情報・文化を横断</li>
+                        <li>多層史観で複雑性を捉える</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 多主体・多層で読む新しい世界史
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚖️ 多極化</h3>
+                    <ul>
+                        <li>米国一極体制の終焉</li>
+                        <li>地域大国の台頭</li>
+                        <li>企業・都市・宗教共同体の影響力拡大</li>
+                        <li>権力構造の複数化</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 力の中心が複数化
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 覇権移行</h3>
+                    <ul>
+                        <li>既存覇権国と台頭国の実力拮抗</li>
+                        <li>秩序の不安定化過程</li>
+                        <li>トゥキディデスの罠</li>
+                        <li>安全保障ジレンマの発生</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 覇権の座の揺らぎ
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 情報戦・認知戦</h3>
+                    <ul>
+                        <li>メディア・SNS・AIを活用</li>
+                        <li>相手と大衆の判断を操作</li>
+                        <li>「真実」より「信念形成」を競う</li>
+                        <li>行動変容を目的とする</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 信念を巡る戦い
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 地経学</h3>
+                    <ul>
+                        <li>経済手段で地政学的目的を達成</li>
+                        <li>貿易・金融・技術規制を活用</li>
+                        <li>制裁とデカップリング</li>
+                        <li>相互依存の武器化</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 経済で戦略を動かす
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 供給網安全保障</h3>
+                    <ul>
+                        <li>重要物資・技術の調達多元化</li>
+                        <li>政治的リスクへの耐性構築</li>
+                        <li>サプライチェーンの再設計</li>
+                        <li>経済安全保障政策の中核</li>
+                    </ul>
+                    <div class="concept-definition">
+                        <strong>一言要約:</strong> 断たれない供給の設計
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="flow-chart">
+                <h3>📊 世界史2.0の分析フレームワーク</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div>
+                            <strong>🎯 導入</strong>
+                            <p>パンデミック・ウクライナ戦争・米中対立を素材に世界史2.0の必要性を提起</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div>
+                            <strong>📚 歴史枠組み再点検</strong>
+                            <p>帝国循環・ウェストファリア体制・冷戦・単極時代の特徴と限界を整理</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div>
+                            <strong>🔍 2.0のレンズ</strong>
+                            <p>技術・金融・情報・エネルギー・食料を横串で統合する分析軸</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div>
+                            <strong>🌏 地域・主体別分析</strong>
+                            <p>米中・欧露・中東・インド/ASEAN・アフリカ + 企業・宗教・都市の役割</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div>
+                            <strong>🎯 政策インプリケーション</strong>
+                            <p>経済安全保障・供給網再編・標準化戦略・リスク分散の具体化</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div>
+                            <strong>🇯🇵 日本への提言</strong>
+                            <p>価値と利益の両立・複線的外交・技術投資で戦略的自律を確保</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">4</span>
+                    <div class="stat-label">主要分析領域<br>(技術・金融・情報・エネルギー)</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">主要アクター<br>(国家・企業・宗教・都市・ネットワーク)</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">6</span>
+                    <div class="stat-label">地域分析対象<br>(米中・欧露・中東・インド・ASEAN・アフリカ)</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <div class="flow-chart">
+                <h3>🔗 概念間の因果関係</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <strong>技術革新（AI・プラットフォーム）</strong> → 情報戦強化 → 認知の分断 → 政策決定への影響拡大
+                    </div>
+                    <div class="flow-step">
+                        <strong>多極化 + 地経学の台頭</strong> → 供給網分断 → 経済安全保障政策の前面化 → 同盟と産業政策の再設計
+                    </div>
+                    <div class="flow-step">
+                        <strong>覇権移行</strong> → 安全保障のジレンマ → 軍拡と制裁応酬 → 地域紛争の頻発
+                    </div>
+                    <div class="flow-step">
+                        <strong>文化・宗教の動員力</strong> → 正統性の獲得/維持 → 交渉コスト上昇 → 紛争の長期化
+                    </div>
+                    <div class="flow-step">
+                        <strong>ルールベース秩序の毀損</strong> → 報復の連鎖 → 取引空間の縮小 → 影響力は経済・情報領域へシフト
+                    </div>
+                </div>
+            </div>
+
+            <svg class="venn-diagram" viewBox="0 0 400 300">
+                <circle cx="150" cy="120" r="80" fill="rgba(37, 99, 235, 0.3)" stroke="#2563eb" stroke-width="2"/>
+                <circle cx="250" cy="120" r="80" fill="rgba(245, 158, 11, 0.3)" stroke="#f59e0b" stroke-width="2"/>
+                <circle cx="200" cy="180" r="80" fill="rgba(100, 116, 139, 0.3)" stroke="#64748b" stroke-width="2"/>
+                
+                <text x="120" y="90" font-size="12" fill="#2563eb" font-weight="bold">国家</text>
+                <text x="260" y="90" font-size="12" fill="#f59e0b" font-weight="bold">企業</text>
+                <text x="180" y="220" font-size="12" fill="#64748b" font-weight="bold">宗教・文化</text>
+                
+                <text x="200" y="130" font-size="10" fill="#1e293b" text-anchor="middle">多層的</text>
+                <text x="200" y="145" font-size="10" fill="#1e293b" text-anchor="middle">ガバナンス</text>
+                
+                <text x="200" y="20" font-size="14" fill="#1e293b" font-weight="bold" text-anchor="middle">世界史2.0の主要アクター</text>
+            </svg>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>💬 重要な引用</h3>
+                    <ul>
+                        <li>「国家は依然として主役だが、企業と宗教共同体、プラットフォームが第二の主役として秩序を動かす」</li>
+                        <li>「情報戦は『真実』ではなく『信念の形成』を競う認知の戦い」</li>
+                        <li>「制裁とデカップリングは、相互依存を武器化した地経学の典型」</li>
+                        <li>「正義の言葉だけでは戦争は止まらない。抑止と交渉の設計が不可欠」</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>🚀 今日できるアクション（15-30分）</h3>
+                <div class="action-item">
+                    <strong>📰 主要ニュース3件を年代順に並べる</strong>
+                    <p>最近の国際情勢を時系列で整理し、因果関係を考察</p>
+                </div>
+                <div class="action-item">
+                    <strong>📋 外務省公表の声明を1本精読</strong>
+                    <p>日本の公式見解を通じて外交政策の論理を理解</p>
+                </div>
+                <div class="action-item">
+                    <strong>✍️ 日本の強み弱みを各3つ書き出す</strong>
+                    <p>戦略的自律の観点から現状分析を実施</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li><strong>世界史の極意</strong> - 佐藤優<br>
+                        <small>同一著者による世界史の読み方の基礎</small></li>
+                        <li><strong>文明の衝突</strong> - ハンチントン<br>
+                        <small>文化・宗教要因を国際秩序分析に組み込む</small></li>
+                        <li><strong>大国の興亡</strong> - ポール・ケネディ<br>
+                        <small>軍事・経済力の長期変動と覇権移行</small></li>
+                        <li><strong>米中戦争前夜</strong> - グレアム・アリソン<br>
+                        <small>トゥキディデスの罠と米中対立の理論化</small></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 日本の戦略的課題</h3>
+                    <ul>
+                        <li>価値（民主主義・法の支配）と利益の両立</li>
+                        <li>供給網・情報空間・外交の三位一体再設計</li>
+                        <li>複線的外交による戦略的自律の確保</li>
+                        <li>技術・人材投資と危機管理体制の強化</li>
+                        <li>歴史リテラシーの向上</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性を更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstButton = document.querySelector('.tab-button');
+            if (firstButton) {
+                firstButton.setAttribute('aria-selected', 'true');
+            }
+        });
+    </script>
+</body>
+</html>
