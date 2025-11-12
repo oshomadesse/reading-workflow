@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国富論 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #64748b, アクセント #f59e0b -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+        }
+        
+        .summary-item.question {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: var(--primary);
+        }
+        
+        .summary-item.answer {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #22c55e;
+        }
+        
+        .summary-item.why {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-color: var(--accent);
+        }
+        
+        .summary-item.how {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border-color: #ec4899;
+        }
+        
+        .summary-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .concept-card {
+            border-top-color: var(--accent);
+        }
+        
+        .concept-card .tag {
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .flow-diagram h3 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 1.4rem;
+        }
+        
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .flow-step .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .quote-section {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .quote::before {
+            content: """;
+            font-size: 3rem;
+            color: var(--primary);
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+        
+        .quote-importance {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-top: 10px;
+        }
+        
+        .action-items {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .action-items h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-list {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-item::before {
+            content: "✓";
+            background: var(--accent);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        .related-books {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-radius: 8px;
+                margin-bottom: 5px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                gap: 15px;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .summary-grid {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 国富論</h1>
+            <div class="subtitle">アダム・スミス - 市場経済の原理と国家の役割</div>
+        </header>
+
+        <section class="summary-block">
+            <h2>🎯 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>❓ 問い</h3>
+                    <p>国の富は何から生まれ、どうすれば持続的に増えるのか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>分業と資本蓄積が生産力を押し上げ、競争的市場での自利追求が価格シグナルを通じて効率的配分を生む。国家は司法・防衛・公共財に注力し、特権や保護貿易などの歪みを最小化するべきである。</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why（なぜそうなのか）</h3>
+                    <p>分業は熟練の深化・時間節約・機械化を促し、資本蓄積は労働の装備を高める。競争は市場価格を自然価格へ収斂させ、資源を高価値用途へ移す。一方、関税・独占は競争を阻害し、価格歪みと非効率をもたらす。</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚙️ How（そのためには）</h3>
+                    <p>関税・独占特権の撤廃と自由貿易の推進、法の支配と契約執行の強化、教育・インフラ等の公共事業の整備、簡素で公平な課税を実施する。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🧠 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造・論理タブ">🏗️ 構造・論理</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="アクションタブ">✅ アクション</button>
+            <button class="tab-button" onclick="showTab('books')" aria-label="関連書籍タブ">📖 関連書籍</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card concept-card">
+                    <h3>⚙️ 分業 <span class="tag">生産性の源</span></h3>
+                    <ul>
+                        <li>作業を工程ごとに専門化</li>
+                        <li>各人が特定タスクに集中</li>
+                        <li>生産性が飛躍的に向上</li>
+                        <li>市場の広さによって深さが決まる</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🌐 市場の広さ <span class="tag">分業の限界</span></h3>
+                    <ul>
+                        <li>取引相手や需要の規模</li>
+                        <li>分業の可能性を制約</li>
+                        <li>市場拡大で分業深化</li>
+                        <li>貿易・インフラが鍵</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>💰 自然価格と市場価格 <span class="tag">価格の錨</span></h3>
+                    <ul>
+                        <li>自然価格：長期均衡価格</li>
+                        <li>市場価格：短期変動価格</li>
+                        <li>賃金・利潤・地代を十分に賄う</li>
+                        <li>需給変動で上下する</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>👁️ 見えざる手 <span class="tag">自生的調整</span></h3>
+                    <ul>
+                        <li>自利の追求が社会利益に</li>
+                        <li>競争的環境が前提</li>
+                        <li>意図せざる結果</li>
+                        <li>市場の調整機能</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>🏭 資本と資本蓄積 <span class="tag">装備の強化</span></h3>
+                    <ul>
+                        <li>将来の生産のための留保</li>
+                        <li>機械化・分業深化を可能に</li>
+                        <li>生産性を高める</li>
+                        <li>投資と成長の源泉</li>
+                    </ul>
+                </div>
+                <div class="card concept-card">
+                    <h3>💵 賃金・利潤・地代 <span class="tag">分配の三本柱</span></h3>
+                    <ul>
+                        <li>所得分配の三大要素</li>
+                        <li>価格の構成要素</li>
+                        <li>自然価格を規定</li>
+                        <li>経済発展で変化</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3>🔄 経済成長の循環メカニズム</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div>市場の広さ → 分業の深化</div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div>熟練・時間節約・機械化 → 生産性向上</div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div>余剰拡大 → 交換の活発化</div>
+                    </div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div>市場の広さ拡大（正の循環）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📖 第I編 - 生産力の原因</h3>
+                    <ul>
+                        <li>釘工場の例で分業効果を実証</li>
+                        <li>賃金・利潤・地代が価格構成</li>
+                        <li>自然価格と市場価格の区別</li>
+                        <li>競争による価格調整機能</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏦 第II編 - ストック（資本）</h3>
+                    <ul>
+                        <li>資本の循環・蓄積・利子</li>
+                        <li>貨幣と実物資本の違い</li>
+                        <li>貯蓄が投資と成長を支援</li>
+                        <li>生産的労働と非生産的労働</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 第III編 - 富の進展の歴史</h3>
+                    <ul>
+                        <li>都市と農村の発展順序</li>
+                        <li>制度と政策の長期影響</li>
+                        <li>歴史的発展パターン分析</li>
+                        <li>自然的進歩と人為的阻害</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚖️ 第IV編 - 経済体系の批判</h3>
+                    <ul>
+                        <li>重商主義と重農主義の比較</li>
+                        <li>保護貿易・独占特権の弊害</li>
+                        <li>自然自由の体制を擁護</li>
+                        <li>絶対優位と自由貿易論</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏛️ 第V編 - 主権者の歳入</h3>
+                    <ul>
+                        <li>政府の正当な職務範囲</li>
+                        <li>防衛・司法・公共事業・教育</li>
+                        <li>課税原則（公平・確実・便宜・最小徴税費）</li>
+                        <li>制度設計の実務的指針</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">編構成</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">10</div>
+                    <div class="metric-label">主要概念</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">政府の役割</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">4</div>
+                    <div class="metric-label">課税原則</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-section">
+                <div class="quote">
+                "It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest."
+                <div class="quote-importance">💡 自利が交換を動機づけ、結果として相互利益と供給を生む市場の根本原理を示す。</div>
+                </div>
+                
+                <div class="quote">
+                "The greatest improvements in the productive powers of labour… have been the effects of the division of labour."
+                <div class="quote-importance">💡 成長の一次因が分業であることを明確化し、政策の焦点を生産性に据える根拠となる。</div>
+                </div>
+                
+                <div class="quote">
+                "The division of labour is limited by the extent of the market."
+                <div class="quote-importance">💡 市場拡大（貿易・インフラ）が分業深化と生産性向上の鍵である因果連鎖を端的に表す。</div>
+                </div>
+                
+                <div class="quote">
+                "He intends only his own gain… and he is in this, as in many other cases, led by an invisible hand…"
+                <div class="quote-importance">💡 競争的環境で自利が社会的利益へと転化する仕組みの核心を示す概念的支点。</div>
+                </div>
+                
+                <div class="quote">
+                "Little else is requisite to carry a state to the highest degree of opulence… but peace, easy taxes, and a tolerable administration of justice."
+                <div class="quote-importance">💡 繁栄の政策要件を簡潔に示し、限定政府・法の支配・簡素課税の重要性を凝縮する。</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-items">
+                <h3>🎯 今日できるアクション（15-30分）</h3>
+                <div class="action-list">
+                    <div class="action-item">自分の仕事の分業を洗い出す</div>
+                    <div class="action-item">近所のスーパーの価格要因を列挙する</div>
+                    <div class="action-item">家庭の購買で比較可能な品を3つ選ぶ</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <div class="related-books">
+                <div class="book-card">
+                    <div class="book-title">経済学および課税の原理</div>
+                    <div class="book-author">デヴィッド・リカード</div>
+                    <div class="book-relation">古典派を発展させ、分配理論と貿易理論を精緻化。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">資本論</div>
+                    <div class="book-author">カール・マルクス</div>
+                    <div class="book-relation">古典派の価値・分配論を批判的に継承し体系化。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">資本主義と自由</div>
+                    <div class="book-author">ミルトン・フリードマン</div>
+                    <div class="book-relation">限定政府と市場の役割を20世紀の文脈で再定式化。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">自由の条件</div>
+                    <div class="book-author">フリードリヒ・ハイエク</div>
+                    <div class="book-relation">自生的秩序と市場の情報機能を理論化。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">大転換</div>
+                    <div class="book-author">カール・ポランニー</div>
+                    <div class="book-relation">自己調整的市場観への歴史的・制度的批判を提示。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">雇用・利子および貨幣の一般理論</div>
+                    <div class="book-author">ジョン・メイナード・ケインズ</div>
+                    <div class="book-relation">古典派的均衡観に対するマクロ経済学的対抗軸。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">21世紀の資本</div>
+                    <div class="book-author">トマ・ピケティ</div>
+                    <div class="book-relation">資本蓄積と不平等の長期データ分析で古典的論点を再検討。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+        
+        // アクセシビリティ: キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    focusedElement.setAttribute('aria-selected', 'true');
+                }
+            }
+        });
+        
+        // タブボタンにaria属性を設定
+        document.querySelectorAll('.tab-button').forEach((button, index) => {
+            button.setAttribute('role', 'tab');
+            button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        });
+        
+        // タブコンテンツにaria属性を設定
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.setAttribute('role', 'tabpanel');
+            content.setAttribute('aria-hidden', content.classList.contains('active') ? 'false' : 'true');
+        });
+    </script>
+</body>
+</html>
