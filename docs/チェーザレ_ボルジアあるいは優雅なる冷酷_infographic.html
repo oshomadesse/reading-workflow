@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チェーザレ・ボルジア：権力の技法</title>
+    <!-- カラーパレット: プライマリー #8B0000, セカンダリー #DAA520, アクセント #2F4F4F -->
+    <style>
+        :root {
+            --primary: #8B0000;
+            --secondary: #DAA520;
+            --accent: #2F4F4F;
+            --bg-light: #FFF8DC;
+            --text-dark: #2C2C2C;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #F5F5DC 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, #A52A2A 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .summary-item.question { background: #F0F8FF; }
+        .summary-item.answer { background: #F0FFF0; }
+        .summary-item.why { background: #FFF8DC; }
+        .summary-item.how { background: #FDF5E6; }
+        
+        .summary-item h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 15px;
+            border: none;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, #A52A2A 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .concept-definition {
+            background: linear-gradient(135deg, #F8F8FF 0%, #E6E6FA 100%);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .flow-chart {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .flow-chart h3 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+        
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, var(--secondary) 0%, #FFD700 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+            position: relative;
+            min-width: 250px;
+        }
+        
+        .flow-step:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .quote-section {
+            background: linear-gradient(135deg, var(--accent) 0%, #708090 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .quote-section:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            padding-left: 40px;
+        }
+        
+        .quote-importance {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            padding-left: 40px;
+        }
+        
+        .action-items {
+            background: linear-gradient(135deg, #98FB98 0%, #90EE90 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .action-items h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .action-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .action-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-emoji {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-step {
+                min-width: 200px;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>👑 チェーザレ・ボルジア</h1>
+            <div class="subtitle">権力の技法：無秩序を秩序に変える冷酷なる統治術</div>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 エグゼクティブ・サマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-item question">
+                    <h3>🤔 問い</h3>
+                    <p>権力が分立し陰謀が渦巻く混乱期に、いかにして安定と正統を確立するか？</p>
+                </div>
+                <div class="summary-item answer">
+                    <h3>💡 答え</h3>
+                    <p>目的合理的な暴力の独占と迅速な"見せ方"を用いて恐怖と期待を管理し、成果を制度化して支持へ転換する。</p>
+                </div>
+                <div class="summary-item why">
+                    <h3>🔍 Why（なぜそうなのか）</h3>
+                    <p>チェーザレはロマーニャで電撃戦と示威行為により暴力を独占し、治安・課税・道路整備で可視的成果を出し、苛政の責任を代理に転嫁して民意を回復した。だが教皇権という外的基盤に依存したため、継承の混乱で失脚した。</p>
+                </div>
+                <div class="summary-item how">
+                    <h3>⚡ How（そのためには）</h3>
+                    <p>1) 初動で敵対勢力を分断・急襲し暴力を独占する 2) 軍事と行政を一体運用し治安・財政・交通を短期改善する 3) 見せしめは一度に迅速・象徴的に行い、恩恵は反復して与える 4) 人材は能力で登用し、報酬と恐怖で忠誠を設計する 5) 宣伝と儀礼で正統を演出する 6) 個人権力に依存せず、制度・後継・同盟でリスク分散する</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🎯 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="統治構造タブ">🏛️ 統治構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">🎯 実践</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>⚔️ ヴィルトゥ</h3>
+                    <ul>
+                        <li>時勢を切り開く力量・胆力・機略の総体</li>
+                        <li>運に抗う能動性</li>
+                        <li>状況判断と迅速な実行力</li>
+                        <li>逆境を機会に変える意志</li>
+                    </ul>
+                    <div class="concept-definition">能動の力</div>
+                </div>
+
+                <div class="card">
+                    <h3>🎲 フォルトゥナ</h3>
+                    <ul>
+                        <li>制御不能な偶然と環境の変動</li>
+                        <li>備えと構えで被害を減らす対象</li>
+                        <li>予測困難な政治情勢</li>
+                        <li>個人の力を超えた外的要因</li>
+                    </ul>
+                    <div class="concept-definition">運と環境</div>
+                </div>
+
+                <div class="card">
+                    <h3>❄️ 優雅なる冷酷</h3>
+                    <ul>
+                        <li>目的に適い、過不足なく演出された限定的暴力</li>
+                        <li>恐怖を秩序へ転換する技法</li>
+                        <li>計算された厳罰の実行</li>
+                        <li>感情ではなく戦略的判断</li>
+                    </ul>
+                    <div class="concept-definition">計算された厳罰</div>
+                </div>
+
+                <div class="card">
+                    <h3>🏰 ロマーニャ統治モデル</h3>
+                    <ul>
+                        <li>暴力独占→治安回復→行政整備→象徴演出</li>
+                        <li>段階的統治の完成形</li>
+                        <li>軍事と行政の一体運用</li>
+                        <li>短期成果の可視化</li>
+                    </ul>
+                    <div class="concept-definition">段階統治</div>
+                </div>
+
+                <div class="card">
+                    <h3>🎭 見せしめと贖罪</h3>
+                    <ul>
+                        <li>代理に苛政を担わせた後に断罪</li>
+                        <li>支配者が公正を示す演出</li>
+                        <li>責任の劇場化</li>
+                        <li>民意回復の戦略的手法</li>
+                    </ul>
+                    <div class="concept-definition">責任の劇場化</div>
+                </div>
+
+                <div class="card">
+                    <h3>👑 権力の正統化</h3>
+                    <ul>
+                        <li>武力の結果を制度・儀礼・物的成果で承認へ変える</li>
+                        <li>支持基盤の拡大</li>
+                        <li>宣伝と象徴の活用</li>
+                        <li>継続的な正統性の演出</li>
+                    </ul>
+                    <div class="concept-definition">承認装置</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="flow-chart">
+                <h3>🔄 チェーザレの統治プロセス</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">⚡ 電撃戦による暴力独占</div>
+                    <div class="flow-step">🛡️ 治安回復・財政再建</div>
+                    <div class="flow-step">🏗️ 道路整備・行政改革</div>
+                    <div class="flow-step">🎭 代理断罪による責任転嫁</div>
+                    <div class="flow-step">👑 正統性の演出・支持獲得</div>
+                    <div class="flow-step">💥 教皇死去による基盤崩壊</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">年間でロマーニャ統一</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">主要概念の体系化</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500</div>
+                    <div class="stat-label">年後も研究される統治術</div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📊 情報と速度</h3>
+                    <ul>
+                        <li>偵察・伝令・機動で意思決定の回転率を高める</li>
+                        <li>先手必勝の戦略実行</li>
+                        <li>情報収集網の構築</li>
+                        <li>迅速な判断と行動</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👥 人材登用と忠誠設計</h3>
+                    <ul>
+                        <li>能力主義の起用</li>
+                        <li>報酬と恐怖を組み合わせ離反を抑止</li>
+                        <li>レオナルド・ダ・ヴィンチの起用</li>
+                        <li>実力者の戦略的配置</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🤝 分断と同盟</h3>
+                    <ul>
+                        <li>敵対勢力を各個撃破</li>
+                        <li>同盟で包囲網を管理</li>
+                        <li>外交と軍事の連動</li>
+                        <li>勢力均衡の操作</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ 個人権力の限界</h3>
+                    <ul>
+                        <li>基盤を個人や血縁に依存すると継承時に脆弱化</li>
+                        <li>教皇権への過度な依存</li>
+                        <li>制度化の不備</li>
+                        <li>後継者問題の未解決</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-section">
+                <div class="quote">"恐れられる方が安全だが、憎まれてはならない。"</div>
+                <div class="quote-importance">恐怖と憎悪の線引きが秩序維持の中核であるため。</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"冷酷は一度に迅速に、恩恵は小分けに。"</div>
+                <div class="quote-importance">心理的効果を最大化し反発を最小化する原則を示す。</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"代理に苛政を担わせ、のちに断罪して公正を演出。"</div>
+                <div class="quote-importance">責任の劇場化が正統化の強力な装置となるため。</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"運に抗するには、地歩と制度を築け。"</div>
+                <div class="quote-importance">フォルトゥナへの備えとして制度化の必然性を指す。</div>
+            </div>
+
+            <div class="quote-section">
+                <div class="quote">"速度は力に勝る。先んじる者が支配する。"</div>
+                <div class="quote-importance">情報と機動が意思決定優位をもたらす核心だから。</div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-items">
+                <h3>🎯 今日できるアクション</h3>
+                <div class="action-list">
+                    <div class="action-item">
+                        <span class="action-emoji">📝</span>
+                        <span>意思決定の原則を3つ書き出す</span>
+                    </div>
+                    <div class="action-item">
+                        <span class="action-emoji">🗺️</span>
+                        <span>重要利害関係者をマップ化する</span>
+                    </div>
+                    <div class="action-item">
+                        <span class="action-emoji">⚡</span>
+                        <span>直近課題の初動計画を作成する</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>君主論 - ニッコロ・マキャベリ</li>
+                        <li>チェーザレ・ボルジアの生涯 - ラファエル・サバティーニ</li>
+                        <li>イタリア・ルネサンスの文化 - ヤーコプ・ブルクハルト</li>
+                        <li>ボルジア家 - クリストファー・ヒバート</li>
+                        <li>レオナルド・ダ・ヴィンチ 手稿選集</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎓 学習ポイント</h3>
+                    <ul>
+                        <li>権力獲得と維持の段階的プロセス</li>
+                        <li>恐怖と恩恵のバランス設計</li>
+                        <li>制度化による継承リスク対策</li>
+                        <li>情報と速度の戦略的活用</li>
+                        <li>正統性演出の重要性</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+        }
+
+        // アクセシビリティ対応
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+            });
+
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.setAttribute('role', 'tabpanel');
+                content.setAttribute('aria-hidden', content.classList.contains('active') ? 'false' : 'true');
+            });
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('tab-button')) {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const nextIndex = e.key === 'ArrowRight' 
+                        ? (currentIndex + 1) % buttons.length
+                        : (currentIndex - 1 + buttons.length) % buttons.length;
+                    
+                    buttons[nextIndex].focus();
+                    buttons[nextIndex].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
