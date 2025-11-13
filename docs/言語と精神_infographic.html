@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>言語と心 - チョムスキー言語学入門</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .summary-block {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .summary-block h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f8f9ff, #fff);
+        }
+
+        .summary-item h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px 5px 5px 0;
+        }
+
+        .flow-diagram {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-right: 15px;
+            margin-bottom: 10px;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-right: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .action-list {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .action-list h3 {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .action-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🧠 言語と心</h1>
+            <p>チョムスキー言語学入門 - 人間の言語能力の本質を探る</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 要約：問い×答え×根拠</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h3>🤔 問い</h3>
+                    <p>人間はどのように言語を獲得し、なぜ無限の表現を創造できるのか？</p>
+                </div>
+                <div class="summary-item">
+                    <h3>💡 答え</h3>
+                    <p>言語は生得的な言語能力に基づく内部の規則系（普遍文法）であり、子どもは乏しい刺激からその構造を迅速に引き出すため、創造的で無限の運用が可能となる。</p>
+                </div>
+                <div class="summary-item">
+                    <h3>🔍 Why（なぜ）</h3>
+                    <p>入力の貧困にもかかわらず普遍的かつ迅速な獲得が起こる事実、文法性直観の一貫性、言語間の深い共通性、発達・障害の解離が心的モジュールの存在を示唆する。</p>
+                </div>
+                <div class="summary-item">
+                    <h3>⚙️ How（どのように）</h3>
+                    <p>生成文法で表象と計算の仕組みを形式化し、話者の直観判断・獲得データ・比較言語学的証拠を統合して理論を精緻化する。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('concepts')" aria-label="主要概念タブ">🎯 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造と論理タブ">🏗️ 構造と論理</button>
+            <button class="tab-button" onclick="showTab('relations')" aria-label="関係性タブ">🔗 関係性</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="重要引用タブ">💬 重要引用</button>
+            <button class="tab-button" onclick="showTab('actions')" aria-label="実践アクションタブ">🎯 実践</button>
+        </div>
+
+        <div id="concepts" class="tab-content active">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🧬 普遍文法（UG）</h3>
+                    <ul>
+                        <li>人が生得的に備える言語の設計原理</li>
+                        <li>個別言語獲得を導く初期状態</li>
+                        <li>制約の集合として機能</li>
+                        <li>全人類共通の言語設計図</li>
+                    </ul>
+                    <div class="concept-tag">生得的な設計図</div>
+                </div>
+                
+                <div class="card">
+                    <h3>⚡ 生成文法</h3>
+                    <ul>
+                        <li>有限の規則から無限の文集合を生成</li>
+                        <li>音形と意味の対応を記述</li>
+                        <li>形式理論として構築</li>
+                        <li>計算的アプローチを採用</li>
+                    </ul>
+                    <div class="concept-tag">無限を生む有限規則</div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎨 言語の創造性</h3>
+                    <ul>
+                        <li>前例に依存せず新たな文を理解・産出</li>
+                        <li>模倣では説明できない現象</li>
+                        <li>規則に基づく計算が基盤</li>
+                        <li>人間言語の本質的特徴</li>
+                    </ul>
+                    <div class="concept-tag">無限の新規性</div>
+                </div>
+                
+                <div class="card">
+                    <h3>📉 貧困刺激論証</h3>
+                    <ul>
+                        <li>入力が不十分でも高度な文法知識を獲得</li>
+                        <li>生得的知識の必要性を示す</li>
+                        <li>経験主義への反証</li>
+                        <li>言語獲得の核心的問題</li>
+                    </ul>
+                    <div class="concept-tag">入力だけでは足りない</div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎭 コンピテンス／パフォーマンス</h3>
+                    <ul>
+                        <li>内在化された文法知識（コンピテンス）</li>
+                        <li>実際の使用に伴う制約（パフォーマンス）</li>
+                        <li>理想化された話者の知識を対象</li>
+                        <li>言語理論の基本的区別</li>
+                    </ul>
+                    <div class="concept-tag">知識と使用の区別</div>
+                </div>
+                
+                <div class="card">
+                    <h3>🧠 言語能力（言語器官）</h3>
+                    <ul>
+                        <li>生物学的に規定された心的モジュール</li>
+                        <li>言語の計算・表象システム</li>
+                        <li>他の認知能力から独立</li>
+                        <li>発達・障害で解離を示す</li>
+                    </ul>
+                    <div class="concept-tag">心の専用モジュール</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="flow-diagram">
+                <h3>📚 構造と論理展開</h3>
+                <div class="flow-step">
+                    <div class="flow-box">導入</div>
+                    <span class="flow-arrow">→</span>
+                    <p>言語研究は人間精神の本質に迫る科学であるという問題提起</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">第I部</div>
+                    <span class="flow-arrow">→</span>
+                    <p>言語の創造性：模倣や連想では説明不能な新規文の理解・生成を示し、規則に基づく計算モデルの必要性を提示</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">第II部</div>
+                    <span class="flow-arrow">→</span>
+                    <p>言語の形式的性質：音形と意味の対応を与える抽象的・階層的構造を仮定し、生成文法の枠組みを概説</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">第III部</div>
+                    <span class="flow-arrow">→</span>
+                    <p>心の研究への貢献：言語能力の生得性・モジュール性を論じ、心理学・生物学・哲学への含意を整理</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">方法論</div>
+                    <span class="flow-arrow">→</span>
+                    <p>直観判断・習得データ・理論的簡潔性を統合し、形式的十分性と説明的十分性を両立する研究計画を提案</p>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-box">結語</div>
+                    <span class="flow-arrow">→</span>
+                    <p>言語学は自然科学の一部として心の設計原理を明らかにしうる、として研究アジェンダを確立</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <div class="flow-diagram">
+                <h3>🔗 概念間の関係性</h3>
+                <svg width="100%" height="400" viewBox="0 0 800 400">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- UG -->
+                    <rect x="50" y="50" width="120" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="110" y="85" text-anchor="middle" fill="white" font-size="14">生得的UG</text>
+                    
+                    <!-- 入力の貧困を補完 -->
+                    <rect x="220" y="50" width="140" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="290" y="85" text-anchor="middle" fill="white" font-size="12">入力の貧困を補完</text>
+                    
+                    <!-- 迅速な獲得 -->
+                    <rect x="410" y="50" width="120" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="470" y="85" text-anchor="middle" fill="white" font-size="14">迅速な獲得</text>
+                    
+                    <!-- 個別言語の文法 -->
+                    <rect x="220" y="150" width="140" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="290" y="185" text-anchor="middle" fill="white" font-size="12">個別言語の文法</text>
+                    
+                    <!-- 言語の創造性 -->
+                    <rect x="410" y="150" width="120" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="470" y="185" text-anchor="middle" fill="white" font-size="12">言語の創造性</text>
+                    
+                    <!-- 直観的文法判断 -->
+                    <rect x="50" y="250" width="140" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="120" y="285" text-anchor="middle" fill="white" font-size="12">直観的文法判断</text>
+                    
+                    <!-- 生成文法の検証 -->
+                    <rect x="220" y="250" width="140" height="60" rx="10" fill="url(#grad1)"/>
+                    <text x="290" y="285" text-anchor="middle" fill="white" font-size="12">生成文法の検証</text>
+                    
+                    <!-- Arrows -->
+                    <path d="M170 80 L220 80" stroke="#f093fb" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M360 80 L410 80" stroke="#f093fb" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M110 110 L290 150" stroke="#f093fb" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M360 180 L410 180" stroke="#f093fb" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                    <path d="M190 280 L220 280" stroke="#f093fb" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                    
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#f093fb"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🔄 因果関係の流れ</h3>
+                    <ul>
+                        <li>生得的UG → 入力の貧困を補完 → 迅速な獲得</li>
+                        <li>UG + 経験入力 → 個別言語の文法（内在化）</li>
+                        <li>内在化文法（コンピテンス） → 言語の創造性を可能化</li>
+                        <li>直観的文法判断 → 生成文法の仮説検証データ</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🧪 理論と実証の循環</h3>
+                    <ul>
+                        <li>パフォーマンス要因 → 実際の発話誤りや制約を説明</li>
+                        <li>生物学的基盤 → 言語能力のモジュール性を支持</li>
+                        <li>形式的十分性を達成 → 説明的十分性の検討へ</li>
+                        <li>比較言語学的共通性 → UGの原理・パラメータを示唆</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>💭 核心的メッセージ</h3>
+                    <blockquote style="border-left: 4px solid var(--accent); padding-left: 20px; font-style: italic; margin: 15px 0;">
+                        "人間の言語を研究することは、人間本性の核心に迫る営みである。"
+                    </blockquote>
+                    <p><strong>重要性：</strong> 言語学を人文学ではなく心の自然科学として位置づけ、全編の方法論的基調を定める。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>♾️ 無限性の原理</h3>
+                    <blockquote style="border-left: 4px solid var(--accent); padding-left: 20px; font-style: italic; margin: 15px 0;">
+                        "言語は有限の手段から無限の表現を生成する計算体系である。"
+                    </blockquote>
+                    <p><strong>重要性：</strong> 模倣・統計的連想ではなく、規則と表象の理論が必要だと示す中心主張。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>👶 獲得の謎</h3>
+                    <blockquote style="border-left: 4px solid var(--accent); padding-left: 20px; font-style: italic; margin: 15px 0;">
+                        "子どもは乏しく雑音を含む入力にもかかわらず、豊かな文法を素早く獲得する。"
+                    </blockquote>
+                    <p><strong>重要性：</strong> 生得的知識（UG）の仮定を正当化する経験的観察として機能する。</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 理論の焦点</h3>
+                    <blockquote style="border-left: 4px solid var(--accent); padding-left: 20px; font-style: italic; margin: 15px 0;">
+                        "言語理論は主として理想化された話者‐聞き手の知識を対象とする。"
+                    </blockquote>
+                    <p><strong>重要性：</strong> コンピテンス／パフォーマンスの区別を明確にし、データ解釈の基準を与える。</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <div class="action-list">
+                <h3>🎯 今日できるアクション（15-30分で実行可能）</h3>
+                
+                <div class="action-item">
+                    <span class="emoji">📝</span>
+                    <strong>母語の文法直観を10例記録</strong>
+                    <p>「この文は正しい/おかしい」と感じる例文を10個書き出し、なぜそう感じるかを考察する</p>
+                </div>
+                
+                <div class="action-item">
+                    <span class="emoji">🔄</span>
+                    <strong>語順規則で文を10個生成</strong>
+                    <p>日本語の基本語順（SOV）を意識して、新しい文を10個作り、規則性を確認する</p>
+                </div>
+                
+                <div class="action-item">
+                    <span class="emoji">👂</span>
+                    <strong>子どもの発話を10分観察・記録</strong>
+                    <p>身近な子どもの言語使用を観察し、創造的な表現や文法的特徴をメモする</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <p>主要概念</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <p>関連書籍</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <p>重要引用</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <p>実践アクション</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📚 関連書籍（さらなる学習のために）</h3>
+                <ul>
+                    <li><strong>生成文法</strong> - ノーム・チョムスキー <span class="emoji">📖</span></li>
+                    <li><strong>統辞理論の諸相</strong> - ノーム・チョムスキー <span class="emoji">🎯</span></li>
+                    <li><strong>The Language Instinct</strong> - スティーブン・ピンカー <span class="emoji">🧠</span></li>
+                    <li><strong>The Modularity of Mind</strong> - ジェリー・フォーダー <span class="emoji">🔬</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update aria-selected attributes
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // Initialize progress bars animation
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+        
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('tab-button')) {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % buttons.length;
+                    buttons[nextIndex].focus();
+                    buttons[nextIndex].click();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                    buttons[prevIndex].focus();
+                    buttons[prevIndex].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
