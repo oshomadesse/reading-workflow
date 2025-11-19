@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>武士道 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #34495e, アクセント #e74c3c -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .summary-block {
+            background: var(--white);
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .summary-block h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .summary-content {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .summary-item {
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+        
+        .summary-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .tab-button {
+            background: var(--light);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▸";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .virtue-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .virtue-circle {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            min-height: 400px;
+        }
+        
+        .virtue-item {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .virtue-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .virtue-item.center {
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
+            font-size: 1.2rem;
+            padding: 25px 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+            padding-right: 30px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            text-align: left;
+            padding-left: 30px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 10px;
+        }
+        
+        .timeline-item:nth-child(odd):before {
+            right: -7px;
+        }
+        
+        .timeline-item:nth-child(even):before {
+            left: -7px;
+        }
+        
+        .timeline-content {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .action-items {
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
+            color: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .action-items h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .action-list {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .action-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .related-books {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .book-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-relation {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-radius: 8px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline:before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+                text-align: left !important;
+                padding-left: 20px !important;
+                padding-right: 0 !important;
+            }
+            
+            .timeline-item:before {
+                left: -27px !important;
+            }
+            
+            .virtue-circle {
+                flex-direction: column;
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>⚔️ 武士道</h1>
+            <p>新渡戸稲造による日本武士の倫理体系</p>
+        </header>
+
+        <div class="summary-block">
+            <h2>📋 エグゼクティブ・サマリー</h2>
+            <div class="summary-content">
+                <div class="summary-item">
+                    <strong>❓ 問い：</strong>
+                    武士道とは何か、なぜ成立し、どう実践されるのか？
+                </div>
+                <div class="summary-item">
+                    <strong>💡 答え：</strong>
+                    武士道は義・勇・仁・礼・誠・名誉・忠義・克己を核に、個人の内的徳と社会的責務を統合する人格規範である。
+                </div>
+                <div class="summary-item">
+                    <strong>🔍 Why（なぜ）：</strong>
+                    封建社会の統治需要と武の実戦経験、儒教・仏教・神道の思想的資源が結合し、信頼と自制を保証する徳目体系が要請されたから。
+                </div>
+                <div class="summary-item">
+                    <strong>⚙️ How（どのように）：</strong>
+                    家庭と藩校の教育、日々の鍛錬、刀や儀礼といった象徴、名誉と恥の評価メカニズムを通じて徳が内面化され、行為基準として運用されたから。
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('virtues')" aria-label="徳目タブ">🎯 八つの徳目</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">🏗️ 構造と関係性</button>
+            <button class="tab-button" onclick="showTab('practice')" aria-label="実践タブ">⚡ 実践と制度</button>
+            <button class="tab-button" onclick="showTab('legacy')" aria-label="影響タブ">🌟 影響と継承</button>
+        </div>
+
+        <div id="virtues" class="tab-content active">
+            <div class="virtue-diagram">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">武士道の八徳</h2>
+                <div class="virtue-circle">
+                    <div class="virtue-item">⚖️ 義<br><small>正義</small></div>
+                    <div class="virtue-item">🦁 勇<br><small>胆力</small></div>
+                    <div class="virtue-item">❤️ 仁<br><small>慈悲</small></div>
+                    <div class="virtue-item center">⚔️ 武士道</div>
+                    <div class="virtue-item">🙏 礼<br><small>作法</small></div>
+                    <div class="virtue-item">✨ 誠<br><small>真実</small></div>
+                    <div class="virtue-item">🏆 名誉<br><small>面目</small></div>
+                    <div class="virtue-item">🤝 忠義<br><small>忠節</small></div>
+                    <div class="virtue-item">🧘 克己<br><small>自制</small></div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>⚖️ 義（Rectitude）</h3>
+                    <ul>
+                        <li>理にかなう正しさを貫く判断力</li>
+                        <li>迷わず然るべき時に然るべきを行う</li>
+                        <li>全ての徳の根幹をなす基準</li>
+                        <li>死すべき時は死し、撃つべき時は撃つ</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🦁 勇（Courage）</h3>
+                    <ul>
+                        <li>義に裏づけられた胆力</li>
+                        <li>正しい目的に奉仕する時のみ徳となる</li>
+                        <li>無謀や蛮勇とは明確に区別</li>
+                        <li>恐怖に打ち勝つ精神的強さ</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>❤️ 仁（Benevolence）</h3>
+                    <ul>
+                        <li>力ある者が弱き者を慈しむ慈愛</li>
+                        <li>武の剛を和らげる人間味</li>
+                        <li>寛恕と思いやりの心</li>
+                        <li>支配者の責任として発揮される</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🙏 礼（Politeness）</h3>
+                    <ul>
+                        <li>他者への共感と敬意の外化</li>
+                        <li>恐れからの形式ではなく徳の表現</li>
+                        <li>相手の感情への配慮</li>
+                        <li>社会的調和を生む作法</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>✨ 誠（Veracity）</h3>
+                    <ul>
+                        <li>虚偽を避け約束を守る真実性</li>
+                        <li>言葉と行為の一致を重んじる</li>
+                        <li>人格の礎となる条件</li>
+                        <li>信頼関係の基盤</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏆 名誉（Honor）</h3>
+                    <ul>
+                        <li>自己の価値と名を汚さぬ覚悟</li>
+                        <li>共同体の信認を支える内的規範</li>
+                        <li>恥の感情と連動する自律機構</li>
+                        <li>評判と尊厳の護持</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🤝 忠義（Loyalty）</h3>
+                    <ul>
+                        <li>主君や共同体への忠実</li>
+                        <li>義に反しない限りにおいて最重要</li>
+                        <li>社会的結束の要</li>
+                        <li>理念への献身も含む</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🧘 克己（Self-Control）</h3>
+                    <ul>
+                        <li>欲望と怒りを制し己を律する能力</li>
+                        <li>全ての徳の運用基盤</li>
+                        <li>感情の統制と理性の優位</li>
+                        <li>修養による内的鍛錬</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🌱 思想的源流</h3>
+                    <ul>
+                        <li>儒教：義・仁・礼・忠の徳目</li>
+                        <li>仏教：克己・無常観・慈悲の精神</li>
+                        <li>神道：清明・名誉・祖先観</li>
+                        <li>封建慣習：主従関係と武の実践</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏗️ 階層構造</h3>
+                    <ul>
+                        <li>義：全ての徳の根幹</li>
+                        <li>勇：義に従属する実行力</li>
+                        <li>誠：言行一致の信頼性</li>
+                        <li>名誉：社会的評価の獲得</li>
+                        <li>忠義：共同体への結束</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚖️ 補完関係</h3>
+                    <ul>
+                        <li>仁が勇の過剰を緩和</li>
+                        <li>礼が仁を可視化</li>
+                        <li>克己が全徳の実行を支える</li>
+                        <li>名誉と恥が自律を促進</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔄 統治メカニズム</h3>
+                    <ul>
+                        <li>教育・修養による徳の内面化</li>
+                        <li>行動規範の確立</li>
+                        <li>信頼の蓄積</li>
+                        <li>社会秩序の安定</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">武士道の発展過程</h2>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>平安〜鎌倉時代</h4>
+                        <p>武士階級の成立と実戦経験の蓄積</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>室町〜戦国時代</h4>
+                        <p>儒教・仏教思想との融合</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>江戸時代</h4>
+                        <p>平和な統治下での徳目体系の完成</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>明治以降</h4>
+                        <p>近代化と国際化への適応</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="practice" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🏫 教育・修養</h3>
+                    <ul>
+                        <li>家庭教育：幼少期からの徳の涵養</li>
+                        <li>藩校：組織的な人格形成</li>
+                        <li>武芸：身体と精神の統合訓練</li>
+                        <li>日課・規律：反復による習慣化</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚔️ 象徴と制度</h3>
+                    <ul>
+                        <li>刀：武士の魂の象徴</li>
+                        <li>責任と抑制の自覚装置</li>
+                        <li>暴力の正当化条件を厳格化</li>
+                        <li>記号的な権威の表現</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚰️ 切腹・仇討ち</h3>
+                    <ul>
+                        <li>名誉回復の極端な慣行</li>
+                        <li>責任引受の制度化</li>
+                        <li>法と徳の緊張関係</li>
+                        <li>歴史的制約の産物</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>👩 女性の役割</h3>
+                    <ul>
+                        <li>内助・徳育の担い手</li>
+                        <li>家の品位を支える存在</li>
+                        <li>静的な勇と節の体現</li>
+                        <li>次世代への徳の継承</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">8</span>
+                    <div class="stat-label">主要徳目</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">思想的源流<br>(儒・仏・神)</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12</span>
+                    <div class="stat-label">章構成</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">700+</span>
+                    <div class="stat-label">年の歴史</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="legacy" class="tab-content">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🌍 国際的影響</h3>
+                    <ul>
+                        <li>西洋騎士道との比較研究</li>
+                        <li>日本文化理解の橋渡し</li>
+                        <li>普遍的倫理としての再評価</li>
+                        <li>グローバル・エシックスへの貢献</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🏢 現代への適応</h3>
+                    <ul>
+                        <li>忠義：法人・公共・理念への忠実</li>
+                        <li>名誉：レピュテーション管理</li>
+                        <li>礼：市民的エチケット</li>
+                        <li>義：コンプライアンスと倫理</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📚 学術的価値</h3>
+                    <ul>
+                        <li>比較文化論の先駆的研究</li>
+                        <li>東西思想の架橋</li>
+                        <li>倫理学・社会学への貢献</li>
+                        <li>日本学の基礎文献</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>💼 ビジネス倫理</h3>
+                    <ul>
+                        <li>リーダーシップの徳目</li>
+                        <li>組織の信頼構築</li>
+                        <li>ステークホルダーへの責任</li>
+                        <li>持続可能な経営哲学</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="related-books">
+                <h2 style="grid-column: 1/-1; text-align: center; color: var(--primary); margin-bottom: 20px;">📖 関連書籍</h2>
+                <div class="book-card">
+                    <div class="book-title">葉隠</div>
+                    <div class="book-author">山本常朝</div>
+                    <div class="book-relation">武士道の実践的心構えを江戸期の内面倫理から描く対照資料。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">五輪書</div>
+                    <div class="book-author">宮本武蔵</div>
+                    <div class="book-relation">武の術理と心法を統合し、勇と克己の運用を具体化する古典。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">論語</div>
+                    <div class="book-author">孔子</div>
+                    <div class="book-relation">義・仁・礼・忠など武士道の徳目の儒教的源泉を理解できる。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">菊と刀</div>
+                    <div class="book-author">ルース・ベネディクト</div>
+                    <div class="book-relation">名誉と恥の文化論から武士道の社会心理的基盤を再解釈できる。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">風土</div>
+                    <div class="book-author">和辻哲郎</div>
+                    <div class="book-relation">日本の倫理形成を文化・環境から捉え、武士道の背景を広く理解。</div>
+                </div>
+                <div class="book-card">
+                    <div class="book-title">代表的日本人</div>
+                    <div class="book-author">新渡戸稲造</div>
+                    <div class="book-relation">武士道と通底する徳の理想像を人物評伝を通じて補完する。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-items">
+            <h3>⚡ 今日できるアクション（15-30分）</h3>
+            <div class="action-list">
+                <div class="action-item">
+                    <span>⚖️</span>
+                    <span>今日の意思決定を「義」で点検</span>
+                </div>
+                <div class="action-item">
+                    <span>🙏</span>
+                    <span>一人に礼と感謝を丁寧に伝える</span>
+                </div>
+                <div class="action-item">
+                    <span>🧘</span>
+                    <span>15分呼吸法で欲と怒りを鎮める</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-hidden', 'true');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // Show selected tab content
+            const selectedContent = document.getElementById(tabName);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+                selectedContent.setAttribute('aria-hidden', 'false');
+            }
+            
+            // Add active class to clicked button
+            const selectedButton = event.target;
+            selectedButton.classList.add('active');
+            selectedButton.setAttribute('aria-selected', 'true');
+        }
+
+        // Initialize accessibility attributes
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach((button, index) => {
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            });
+            
+            tabContents.forEach((content, index) => {
+                content.setAttribute('role', 'tabpanel');
+                content.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
+            });
+        });
+    </script>
+</body>
+</html>
