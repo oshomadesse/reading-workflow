@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サイコロジー・オブ・マネー インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea / セカンダリー #764ba2 / アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 32px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+header p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 20px;
+  margin: 24px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 12px;
+}
+.summary-item strong {
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 4px;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 16px;
+  border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.tab-btn:hover {
+  color: var(--primary);
+}
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+.card li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  border-left: 3px solid var(--accent);
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.chapter-card h3 {
+  font-size: 1.05rem;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+.chapter-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+.example-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+}
+.example-card h3 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+.example-card .context {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.example-card .insight {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-left: 4px solid var(--secondary);
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+}
+.quote-card blockquote {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.quote-card .why {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.action-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--accent);
+}
+.action-card h3 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.action-card .purpose {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 6px;
+}
+.action-card .effect {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  background: rgba(240,147,251,0.1);
+  padding: 6px;
+  border-radius: 4px;
+}
+.visual-section {
+  margin: 24px 0;
+}
+.bar-chart {
+  margin: 16px 0;
+}
+.bar-item {
+  margin-bottom: 12px;
+}
+.bar-label {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.bar-bg {
+  background: var(--border);
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: width 1s ease-out;
+}
+.concept-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+.flow-diagram {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.flow-arrow {
+  color: var(--accent);
+  margin: 0 8px;
+  font-weight: bold;
+}
+footer {
+  margin-top: 48px;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .tab-btn {
+    white-space: nowrap;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📘 サイコロジー・オブ・マネー</h1>
+  <p>お金の成果は知識より「行動と心理」で決まる</p>
+</header>
+
+<div class="container">
+
+  <div class="summary-block">
+    <h2>💡 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      お金で賢く成果を出す決定因は何か？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      金融知識よりも行動と心理。合理的でなくとも"十分に妥当"な選択を長期にわたり続け、余裕を持ち、複利を損なう失敗を回避することが最重要。
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか？）</strong>
+      富は複利とテール（少数の大当たり）によって偏って生まれ、短期の不確実性は高い。結果には運とリスクが大きく混じるため、比較や短期最適化は無意味で、制御可能なのは自分の行動のみ。過剰なレバレッジや過信は一度の破綻で複利を無にする。
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには？）</strong>
+      "十分（Enough）"の基準を明文化し、貯蓄率と継続可能性を最優先。安全余裕（Margin of Safety）を確保し、暴落前提の設計と分散・低コスト・自動化で感情の介入を減らす。時間軸を長く取り、見栄の消費を抑え、生活・キャリア設計でもリスク源を下げて独立性を高める。
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <h2 style="margin-bottom:16px; color:var(--primary);">🧠 主要概念の詳細</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>⏳ 複利</h3>
+        <ul>
+          <li>利益が利益を生む連鎖</li>
+          <li>長く続けるほど指数的に効く</li>
+          <li>中断に弱い</li>
+          <li>時間が最大の味方</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>富の大部分は最後の数年で生まれる。途中離脱は複利を無にする。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🎲 運とリスク</h3>
+        <ul>
+          <li>成果には制御不能な偶然が混ざる</li>
+          <li>成功/失敗の単純比較は危険</li>
+          <li>他者の結果を模倣するリスク</li>
+          <li>自分の行動のみ制御可能</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>運を実力と誤認すると過信し、リスクを軽視すると破綻する。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📊 テール（裾野）</h3>
+        <ul>
+          <li>少数の大当たりが平均を左右</li>
+          <li>損益も成功も偏在する</li>
+          <li>外れ多数を許容する必要</li>
+          <li>勝者を保持し続ける</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>投資も人生も少数の選択が全体を決める。外れを恐れて勝者を手放すと損。
+        </div>
+      </div>
+      <div class="card">
+        <h3>✋ 十分（Enough）</h3>
+        <ul>
+          <li>欲望に上限を設ける基準</li>
+          <li>過剰なリスクを防ぐ</li>
+          <li>満足を守る</li>
+          <li>破滅の防波堤</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>上限なき欲望は一度の失敗で全てを失う。"十分"が安全弁になる。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🧭 合理的より妥当</h3>
+        <ul>
+          <li>数理最適より感情に耐える選択</li>
+          <li>続けられる戦略を重視</li>
+          <li>完璧より一貫性</li>
+          <li>心理的持続可能性</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>最適解でも続かなければ無意味。妥当な選択を長期継続する方が勝つ。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🛡️ 安全余裕</h3>
+        <ul>
+          <li>予期せぬ不運に備えるクッション</li>
+          <li>過剰レバレッジの反対</li>
+          <li>モデル誤差への耐性</li>
+          <li>強制売却を回避</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>未来は想定外だらけ。余裕がないと一度の暴落で退場する。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🕊️ 独立性（Freedom）</h3>
+        <ul>
+          <li>自分の時間と選択を自分で決める</li>
+          <li>富の本質的価値</li>
+          <li>見栄より自由</li>
+          <li>幸福の核心</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>お金の最大の価値は選択肢と時間の主権。見栄は自由を奪う。
+        </div>
+      </div>
+      <div class="card">
+        <h3>💰 貯蓄率</h3>
+        <ul>
+          <li>収入より支出管理が重要</li>
+          <li>富の加速度を左右</li>
+          <li>コントロール可能な核</li>
+          <li>最大の可動レバー</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>収入は外部依存だが支出は自分次第。貯蓄率が複利の燃料になる。
+        </div>
+      </div>
+      <div class="card">
+        <h3>👻 見えない富</h3>
+        <ul>
+          <li>支出しなかったお金＝流動性</li>
+          <li>選択肢と安心</li>
+          <li>派手さと逆相関</li>
+          <li>静かな豊かさ</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>見える富（消費）は尊敬を買えない。見えない富が自由を生む。
+        </div>
+      </div>
+      <div class="card">
+        <h3>♻️ 継続可能性</h3>
+        <ul>
+          <li>市場や感情の荒波でも続く設計</li>
+          <li>複利の前提条件</li>
+          <li>自動化と分散</li>
+          <li>感情介入を減らす</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>どんな戦略も続かなければ無意味。継続こそ複利の鍵。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📖 ナラティブ錯覚</h3>
+        <ul>
+          <li>物語で因果を過剰に説明</li>
+          <li>再現困難な成功談に注意</li>
+          <li>運を実力と誤認</li>
+          <li>検証なき物語を疑う</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>人は物語を好むが、因果は複雑。単純化された成功談は危険。
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚡ 驚き（Surprise）</h3>
+        <ul>
+          <li>未来は常に想定外を含む</li>
+          <li>過去データの過信は禁物</li>
+          <li>モデルは必ず誤る</li>
+          <li>未知の常態</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>歴史は繰り返さない。安全余裕で想定外に備える必要がある。
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-section">
+      <h3 style="color:var(--secondary); margin-bottom:12px;">🔗 概念間の関係性</h3>
+      <div class="flow-diagram">
+        <div class="flow-item">
+          <span>貯蓄率↑</span><span class="flow-arrow">→</span><span>安全余裕↑</span><span class="flow-arrow">→</span><span>継続可能性↑</span><span class="flow-arrow">→</span><span>複利稼働↑</span><span class="flow-arrow">→</span><span>富↑</span>
+        </div>
+        <div class="flow-item">
+          <span>"十分"定義</span><span class="flow-arrow">→</span><span>欲望抑制</span><span class="flow-arrow">→</span><span>過剰リスク回避</span><span class="flow-arrow">→</span><span>破綻確率↓</span>
+        </div>
+        <div class="flow-item">
+          <span>分散×低コスト×自動化</span><span class="flow-arrow">→</span><span>感情介入↓</span><span class="flow-arrow">→</span><span>行動一貫性↑</span><span class="flow-arrow">→</span><span>複利保全</span>
+        </div>
+        <div class="flow-item">
+          <span>運・リスク自覚</span><span class="flow-arrow">→</span><span>他者比較↓</span><span class="flow-arrow">→</span><span>妥当戦略堅持</span><span class="flow-arrow">→</span><span>途中離脱↓</span>
+        </div>
+        <div class="flow-item">
+          <span>テール存在</span><span class="flow-arrow">→</span><span>外れ多数許容</span><span class="flow-arrow">→</span><span>大当たり保持</span><span class="flow-arrow">→</span><span>リターン偏り享受</span>
+        </div>
+        <div class="flow-item">
+          <span>安全余裕↑</span><span class="flow-arrow">→</span><span>想定外耐性↑</span><span class="flow-arrow">→</span><span>強制売却回避</span><span class="flow-arrow">→</span><span>長期保有実現</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:16px; color:var(--primary);">📚 各章の要約</h2>
+    
+    <div class="chapter-card">
+      <h3>1. 人は誰も狂ってはいない</h3>
+      <p>各人の経験が金融観を形作る。異なる結論は合理性の欠如でなく履歴の差。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>この章は他者の選択を安易に批判せず、自分の経験バイアスを自覚するための土台となる。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>2. 運とリスク</h3>
+      <p>成功も失敗も偶然の影響が大きい。他者の結果を模倣する危うさを示す。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>運を実力と誤認すると過信し、リスクを軽視すると破綻する。謙虚さの必要性を説く。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>3. 決して十分でない</h3>
+      <p>上限なき欲望は破滅の源。自分の"十分"を定義し越えない仕組みが要る。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>"十分"がないと過剰リスクで一度の失敗が全てを奪う。安全弁として機能する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>4. 複利の驚異</h3>
+      <p>長期こそ力。ただし一度の破綻で無に帰すため守備が重要。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>複利は時間の関数。途中離脱を防ぐ設計が富の前提条件となる。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>5. 富を築くことと守ること</h3>
+      <p>攻めはリスク許容、守りは偏執的安全余裕。両輪で継続可能性を確保。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>攻めだけでは破綻し、守りだけでは成長しない。バランスが長期成功の鍵。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>6. テールがすべてを支配する</h3>
+      <p>少数の勝ちが全体を決める。外れ多数に耐えて勝者を保有する。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>投資も人生も少数の選択が全体を決める。外れを恐れて勝者を手放すと損。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>7. 自由（独立性）</h3>
+      <p>富の核心価値は自分の時間を自分で決める自由にある。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>お金の最大の価値は選択肢と時間の主権。見栄は自由を奪う。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>8. 車中の男の逆説／見えない富</h3>
+      <p>見栄は尊敬を買えない。富は支出でなく"支出しない選択"に宿る。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>見える富（消費）は尊敬を買えない。見えない富が自由と選択肢を生む。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>9. 貯蓄と妥当性</h3>
+      <p>貯蓄率は最大の可動レバー。合理性より"続けられる妥当"を選ぶ。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>収入は外部依存だが支出は自分次第。貯蓄率が複利の燃料になる。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>10. 驚きと安全余裕</h3>
+      <p>未来は想定外だらけ。安全余裕でモデル誤差に耐える。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>歴史は繰り返さない。余裕がないと一度の暴落で退場する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>11. 人は変わる／悲観の誘惑／信じたいもの</h3>
+      <p>欲望は変化する。悲観は説得力が強いが費用が高い。検証なき物語を疑う。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>長期計画は欲望変化を織り込む必要がある。悲観に流されず、物語を検証する姿勢が重要。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>12. 総まとめと告白</h3>
+      <p>著者自身の行動原則を開示し、実践に落とすための核を再確認。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>理論を実践に落とす具体例として、読者が自分の原則を作る手本となる。
+      </div>
+    </div>
+
+    <div class="visual-section">
+      <h3 style="color:var(--secondary); margin-bottom:12px;">📈 章の重要度（相対的）</h3>
+      <div class="bar-chart">
+        <div class="bar-item">
+          <div class="bar-label">複利の驚異</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:95%;">95%</div>
+          </div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label">運とリスク</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:90%;">90%</div>
+          </div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label">十分（Enough）</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:88%;">88%</div>
+          </div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label">安全余裕</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:85%;">85%</div>
+          </div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label">貯蓄と妥当性</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:82%;">82%</div>
+          </div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label">テール</div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:80%;">80%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:16px; color:var(--primary);">💼 具体例</h2>
+
+    <div class="example-card">
+      <h3>🚗 例1：高級車の逆説</h3>
+      <div class="context">
+        <strong>背景：</strong>高級車を買って尊敬を得ようとする人は多いが、実際には他人は車ではなく「自分が高級車を持てるか」を考えている。
+      </div>
+      <div class="insight">
+        <strong>示唆：</strong>見栄の消費は尊敬を買えない。むしろ支出しなかったお金（見えない富）が選択肢と自由を生む。
+      </div>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>見える富は他者の尊敬を得られず、見えない富こそが独立性と幸福の源泉であることを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>📉 例2：2008年金融危機での強制売却</h3>
+      <div class="context">
+        <strong>背景：</strong>レバレッジを効かせた投資家は暴落時に強制売却され、その後の回復を享受できなかった。一方、安全余裕を持つ投資家は保有を続け複利を享受した。
+      </div>
+      <div class="insight">
+        <strong>示唆：</strong>過剰なリスクは一度の暴落で複利を無にする。安全余裕が長期保有を可能にする。
+      </div>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>安全余裕がないと想定外の暴落で退場し、複利の恩恵を失う。余裕こそ継続の前提。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>💡 例3：ウォーレン・バフェットの複利</h3>
+      <div class="context">
+        <strong>背景：</strong>バフェットの資産の大部分は65歳以降に築かれた。年率リターンは高くないが、50年以上続けたことで複利が爆発的に効いた。
+      </div>
+      <div class="insight">
+        <strong>示唆：</strong>複利は時間の関数。短期最適化より長期継続が富を生む。
+      </div>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>複利の真価は最後の数年で現れる。途中離脱を防ぐ設計が最重要であることを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🎯 例4：テールの支配（投資ポートフォリオ）</h3>
+      <div class="context">
+        <strong>背景：</strong>ベンチャーキャピタルのポートフォリオでは、大半の投資は失敗するが、1〜2件の大当たりが全体のリターンを決める。
+      </div>
+      <div class="insight">
+        <strong>示唆：</strong>外れ多数を許容し、勝者を保持し続けることが重要。早期売却は機会損失を生む。
+      </div>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>投資も人生も少数の選択が全体を決める。外れを恐れて勝者を手放すと損することを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🧘 例5：貯蓄率のコントロール</h3>
+      <div class="context">
+        <strong>背景：</strong>収入を増やすのは外部依存だが、支出を減らすのは自分次第。貯蓄率を上げることで複利の燃料を増やせる。
+      </div>
+      <div class="insight">
+        <strong>示唆：</strong>貯蓄率は最大の可動レバー。収入より支出管理が富の加速度を左右する。
+      </div>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>制御可能な行動に焦点を当てることで、富の形成を加速できることを示す。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:16px; color:var(--primary);">💬 重要な引用</h2>
+
+    <div class="quote-card">
+      <blockquote>"お金の成功は知識ではなく行動だ。"</blockquote>
+      <div class="why"><strong>重要性：</strong>制御可能な行動設計へ焦点を移す指針となる。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"富とは見えないもの、使わなかったお金だ。"</blockquote>
+      <div class="why"><strong>重要性：</strong>見栄より流動性と選択肢を重視する視点を与える。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"合理的でなくても、妥当で一貫せよ。"</blockquote>
+      <div class="why"><strong>重要性：</strong>継続可能性が複利の必要条件であると示す。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"複利は時間と忍耐の報酬だ。"</blockquote>
+      <div class="why"><strong>重要性：</strong>長期思考と途中離脱回避の価値を強調する。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"幸運と不運は無視できない。"</blockquote>
+      <div class="why"><strong>重要性：</strong>他者比較や過剰な自己賛美・自己嫌悪を抑える。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"テールが平均を決める。"</blockquote>
+      <div class="why"><strong>重要性：</strong>外れ多数を許容し勝者を保持する必要を示す。</div>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"安全余裕は誤りに耐える余白だ。"</blockquote>
+      <div class="why"><strong>重要性：</strong>予測不能な未来への実践的防御策になる。</div>
+    </div>
+
+    <div style="margin-top:24px; padding:16px; background:rgba(102,126,234,0.1); border-radius:8px;">
+      <p style="font-size:0.9rem; color:var(--text-light);">
+        <strong>補足：</strong>これらの引用は本書の核心メッセージを凝縮しており、行動指針として機能する。各引用を自分の言葉で言い換え、日常の意思決定に組み込むことが推奨される。
+      </p>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:16px; color:var(--primary);">✅ 今日のアクション</h2>
+
+    <div class="action-card">
+      <h3>📝 アクション1：自分の"十分"を200字で定義する</h3>
+      <div class="purpose">
+        <strong>目的：</strong>欲望の上限を明文化し、過剰リスクを防ぐ安全弁を作る。
+      </div>
+      <div class="effect">
+        <strong>期待効果：</strong>"十分"の基準が明確になることで、無謀な投資や見栄の消費を抑制でき、満足度と安全性が向上する。
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>💰 アクション2：家計を3区分し貯蓄率を計算する</h3>
+      <div class="purpose">
+        <strong>目的：</strong>収入・支出・貯蓄を可視化し、最大の可動レバーである貯蓄率を把握する。
+      </div>
+      <div class="effect">
+        <strong>期待効果：</strong>貯蓄率が明確になることで、支出削減の余地が見え、複利の燃料を増やす具体的な行動が取れる。
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>📉 アクション3：暴落時の行動ルールを3つ記す</h3>
+      <div class="purpose">
+        <strong>目的：</strong>感情的な売却を防ぐため、事前に冷静な行動ルールを設定する。
+      </div>
+      <div class="effect">
+        <strong>期待効果：</strong>暴落時にルールに従うことで、強制売却を回避し、長期保有と複利の恩恵を享受できる。
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>🔍 アクション4：過去1年の"見栄の支出"をリストアップ</h3>
+      <div class="purpose">
+        <strong>目的：</strong>他者の目を意識した消費を洗い出し、見えない富への転換余地を発見する。
+      </div>
+      <div class="effect">
+        <strong>期待効果：</strong>見栄の支出を削減することで、貯蓄率が上がり、独立性と選択肢が増える。
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>📊 アクション5：ポートフォリオの安全余裕を確認</h3>
+      <div class="purpose">
+        <strong>目的：</strong>現在の投資配分が暴落に耐えられるか、レバレッジや集中リスクがないかを点検する。
+      </div>
+      <div class="effect">
+        <strong>期待効果：</strong>安全余裕が不足している場合は分散や現金比率を調整し、想定外への耐性を高められる。
+      </div>
+    </div>
+
+    <div style="margin-top:24px; padding:16px; background:linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1)); border-radius:8px; border-left:4px solid var(--accent);">
+      <p style="font-size:0.9rem; color:var(--text);">
+        <strong>💡 実践のコツ：</strong>これらのアクションは15〜30分で完了できる。まず1つ選んで今日中に実行し、残りを週内に消化することで、本書の知識を行動に変換できる。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p style="margin-bottom:8px;">📚 関連書籍</p>
+  <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px;">
+    <span class="concept-badge">賢明なる投資家（グレアム）</span>
+    <span class="concept-badge">ランダムウォーク投資法（マルキール）</span>
+    <span class="concept-badge">ファクトフルネス（ロスリング）</span>
+    <span class="concept-badge">ファスト＆スロー（カーネマン）</span>
+    <span class="concept-badge">Your Money or Your Life（ロビン）</span>
+    <span class="concept-badge">反脆弱性（タレブ）</span>
+  </div>
+  <p style="margin-top:16px; font-size:0.85rem; opacity:0.9;">
+    本インフォグラフィックは「サイコロジー・オブ・マネー」の核心を視覚化したものです。<br>
+    行動と心理で富を築く旅を、今日から始めましょう。
+  </p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+
+  const barFills = document.querySelectorAll('.bar-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.getAttribute('style').match(/width:\s*(\d+%)/)[1];
+      }
+    });
+  }, { threshold: 0.5 });
+
+  barFills.forEach(bar => {
+    const originalWidth = bar.style.width;
+    bar.style.width = '0%';
+    bar.setAttribute('data-width', originalWidth);
+    observer.observe(bar);
+  });
+});
+</script>
+
+</body>
+</html>
