@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIE WITH ZERO インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --text: #333;
+  --card-bg: #fff;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 5px solid var(--accent);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 1rem;
+}
+.summary-item strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--secondary);
+  margin-bottom: 0.3rem;
+}
+.summary-item p {
+  font-size: 0.95rem;
+  margin-left: 1rem;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  border-color: var(--secondary);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.card {
+  background: var(--card-bg);
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--secondary);
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.diagram-container {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+.diagram-container h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+.flow-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+.flow-step {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  font-size: 0.95rem;
+  position: relative;
+}
+.flow-step:after {
+  content: "↓";
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  color: var(--accent);
+}
+.flow-step:last-child:after {
+  content: "";
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.metric-card {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.metric-card .number {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.metric-card .label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+.venn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  position: relative;
+}
+.venn-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+}
+.venn-circle.c1 {
+  background: var(--primary);
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.venn-circle.c2 {
+  background: var(--secondary);
+  bottom: 0;
+  left: 20%;
+}
+.venn-circle.c3 {
+  background: var(--accent);
+  bottom: 0;
+  right: 20%;
+}
+.venn-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.95);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: var(--secondary);
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+.action-list {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+.action-list h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.action-list ol {
+  padding-left: 1.5rem;
+}
+.action-list li {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+}
+.book-list {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.book-list h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.book-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.book-item:last-child {
+  border-bottom: none;
+}
+.book-item strong {
+  display: block;
+  color: var(--secondary);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+.book-item em {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+.book-item p {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    flex-direction: column;
+  }
+  .tab-btn {
+    width: 100%;
+  }
+  .venn-circle {
+    width: 120px;
+    height: 120px;
+    font-size: 0.75rem;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>💰 DIE WITH ZERO 💰</h1>
+  <p>ゼロで死ぬ — 人生が豊かになりすぎる究極のルール</p>
+</header>
+
+<div class="container">
+  <section class="summary-block" role="region" aria-label="要約">
+    <h2>📌 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      <p>私たちはどのようにお金・時間・健康を配分すれば、人生の満足を最大化できるか？</p>
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      <p>経験への前倒し投資と計画的な消費で「ゼロで死ぬ」ことを目標にする。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか？）</strong>
+      <p>経験は時間と健康がある時にこそ効用が高く、記憶が継続的な満足（思い出配当）を生む。一方、過度の貯蓄は後年の健康低下や時間不足で効用を失う。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🛠 How（そのためには？）</strong>
+      <p>年齢別のタイムバケツでやりたい経験を設計し、ピーク資産額を定めて貯蓄を打ち止める。余命や長寿リスクは保険・年金でヘッジし、生前贈与を前倒しする。</p>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">🧩 主要概念</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">🔗 関係性</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">📊 構造図</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">🎯 今日のアクション</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">📚 関連書籍</button>
+  </nav>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3>🎯 ダイ・ウィズ・ゼロ</h3>
+        <ul>
+          <li>最期に金融資産を残さない</li>
+          <li>人生満足を最大化する計画</li>
+          <li>残高ゼロ＝満足最大</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎢 経験への投資</h3>
+        <ul>
+          <li>モノより経験にお金を振り向ける</li>
+          <li>人生の質を高める支出優先</li>
+          <li>買うのは体験価値</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💭 思い出配当</h3>
+        <ul>
+          <li>一度の経験が長期に満足を生む</li>
+          <li>回想・共有で効果が継続</li>
+          <li>記憶の複利</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🪣 タイムバケツ</h3>
+        <ul>
+          <li>人生を年齢帯に区切る</li>
+          <li>各期で実行したい経験を割り当て</li>
+          <li>年齢別設計図</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚖️ 時間・健康・お金</h3>
+        <ul>
+          <li>若い時：時間×健康豊富、金少ない</li>
+          <li>老いると逆転する非対称性</li>
+          <li>若さは最大資産</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📈 ピーク資産額</h3>
+        <ul>
+          <li>貯蓄の目標到達点</li>
+          <li>以後は取り崩しと経験投資へ</li>
+          <li>貯めどまり点</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎁 生前贈与の前倒し</h3>
+        <ul>
+          <li>相続ではなく効用が高い時期に</li>
+          <li>受け手の価値を最大化</li>
+          <li>渡すなら今</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🛡️ 長寿リスクとヘッジ</h3>
+        <ul>
+          <li>想定以上に長生きする不確実性</li>
+          <li>保険・年金・年金化で緩和</li>
+          <li>安心設計で使う</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📉 消費の平準化</h3>
+        <ul>
+          <li>余命と健康の推移を踏まえる</li>
+          <li>年代ごとに最適な支出配分</li>
+          <li>滑らかに使う</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🚀 リスクの前倒し</h3>
+        <ul>
+          <li>若いほど損失からの回復が容易</li>
+          <li>挑戦や冒険を早期に行う</li>
+          <li>若いうちに挑む</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="diagram-container">
+      <h3>🔗 概念間の因果関係</h3>
+      <div class="flow-chart">
+        <div class="flow-step">若いほど健康×時間が豊富 → 経験の限界効用が高い</div>
+        <div class="flow-step">経験投資を前倒し → 記憶化 → 思い出配当の蓄積</div>
+        <div class="flow-step">タイムバケツ設計 → 実行の可視化・先送り防止</div>
+        <div class="flow-step">ピーク資産額の設定 → 貯蓄の打ち止め → 取り崩し加速</div>
+        <div class="flow-step">長寿リスクのヘッジ → 生活不安の低下 → 消費の心理的障壁が低下</div>
+        <div class="flow-step">生前贈与の前倒し → 受益時期の適合 → 家族全体の効用最大化</div>
+        <div class="flow-step">消費の平準化 → 年代別の最適支出 → 最期の残高がゼロに近づく</div>
+      </div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <span class="number">3</span>
+        <span class="label">時間・健康・お金</span>
+      </div>
+      <div class="metric-card">
+        <span class="number">0</span>
+        <span class="label">目標残高</span>
+      </div>
+      <div class="metric-card">
+        <span class="number">∞</span>
+        <span class="label">思い出配当</span>
+      </div>
+      <div class="metric-card">
+        <span class="number">10年</span>
+        <span class="label">タイムバケツ刻み</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="diagram-container">
+      <h3>⚖️ 時間・健康・お金のトレードオフ（Venn図）</h3>
+      <div class="venn-container">
+        <div class="venn-circle c1">⏰<br>時間</div>
+        <div class="venn-circle c2">💪<br>健康</div>
+        <div class="venn-circle c3">💰<br>お金</div>
+        <div class="venn-center">🎯<br>最適な<br>経験投資</div>
+      </div>
+    </div>
+
+    <div class="diagram-container">
+      <h3>📐 構造と論理展開（フローチャート）</h3>
+      <div class="flow-chart">
+        <div class="flow-step">❗ 問題提起：過度の貯蓄と先送りは満足を毀損</div>
+        <div class="flow-step">💡 原理1：経験投資はモノより効用が高く、思い出配当を生む</div>
+        <div class="flow-step">💡 原理2：健康・時間・金の非対称性を直視し、若年期に前倒し</div>
+        <div class="flow-step">🗓️ 設計術：タイムバケツで年齢帯ごとに経験を具体化</div>
+        <div class="flow-step">💼 資産戦略：ピーク資産額を定め、取り崩し中心へ切り替え</div>
+        <div class="flow-step">🛡️ リスク管理：長寿リスクは年金化・保険でカバー</div>
+        <div class="flow-step">👨‍👩‍👧 家族戦略：生前贈与で効用を最大化</div>
+        <div class="flow-step">✅ 実装：消費の平準化とモニタリングで「ゼロで死ぬ」軌道へ</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="action-list">
+      <h3>🎯 今日できるアクション</h3>
+      <ol>
+        <li>📅 <strong>時間バケツを10年刻みで描く</strong><br>20代・30代・40代…と区切り、各期でやりたい経験をリストアップ</li>
+        <li>🎟️ <strong>次の週末の経験予定を1件予約</strong><br>旅行・イベント・新しい体験を具体的にスケジュールに入れる</li>
+        <li>💰 <strong>ピーク資産と引退基準を一行設定</strong><br>「○○歳で○○万円に到達したら取り崩し開始」と明文化する</li>
+      </ol>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>💬 重要な引用 1</h3>
+        <ul>
+          <li>「お金は経験に換えてこそ価値を持つ」</li>
+          <li>支出の優先順位をモノから経験へ転換する指針</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💬 重要な引用 2</h3>
+        <ul>
+          <li>「思い出は複利の配当を生む」</li>
+          <li>一度の経験が長期の満足を生む核心メカニズム</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💬 重要な引用 3</h3>
+        <ul>
+          <li>「時間・健康・金の三つ巴を見よ」</li>
+          <li>意思決定で何を最優先すべきかのフレーム</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💬 重要な引用 4</h3>
+        <ul>
+          <li>「死ぬときの口座残高はゼロが目標」</li>
+          <li>目的関数を明確化し、過剰な貯蓄を抑制</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💬 重要な引用 5</h3>
+        <ul>
+          <li>「若さは最大の資産である」</li>
+          <li>リスクや冒険の前倒しを正当化する根拠</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="book-list">
+      <h3>📚 関連書籍</h3>
+      <div class="book-item">
+        <strong>📖 ハッピーマネー お金と幸せの科学</strong>
+        <em>エリザベス・ダン, マイケル・ノートン</em>
+        <p>お金の使い方が幸福に与える影響を実証、経験への支出を推奨。</p>
+      </div>
+      <div class="book-item">
+        <strong>📖 The Psychology of Money</strong>
+        <em>モーガン・ハウセル</em>
+        <p>金銭観と行動の心理を解説し、貯蓄と消費のバランス思考を補強。</p>
+      </div>
+      <div class="book-item">
+        <strong>📖 Your Money or Your Life</strong>
+        <em>ヴィッキー・ロビン, ジョー・ドミンゲス</em>
+        <p>時間＝生命エネルギーという視点で支出最適化を説く。</p>
+      </div>
+      <div class="book-item">
+        <strong>📖 LIFE SHIFT</strong>
+        <em>リンダ・グラットン, アンドリュー・スコット</em>
+        <p>長寿化時代の人生設計を提示し、長寿リスクへの視点を与える。</p>
+      </div>
+      <div class="book-item">
+        <strong>📖 How Will You Measure Your Life?</strong>
+        <em>クレイトン・M・クリステンセン</em>
+        <p>人生の成功指標を再定義し、経験重視の生き方と整合。</p>
+      </div>
+      <div class="book-item">
+        <strong>📖 死ぬ瞬間の5つの後悔</strong>
+        <em>ブロニー・ウェア</em>
+        <p>終末期の後悔から、先送りせず経験を選ぶ重要性を裏づける。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-tab');
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      contents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
