@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>幸福の資本論 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.summary-block {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.summary-block h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.summary-item {
+  margin-bottom: 1rem;
+}
+
+.summary-item strong {
+  display: block;
+  color: var(--secondary);
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.summary-item p {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  border-radius: 0.5rem 0.5rem 0 0;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.tab-btn:hover {
+  background: var(--bg);
+  color: var(--primary);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 3px solid var(--primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+
+.reason-box strong {
+  color: var(--secondary);
+}
+
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--secondary);
+}
+
+.chapter-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+  color: var(--secondary);
+}
+
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.chapter-card li {
+  padding: 0.3rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.88rem;
+}
+
+.chapter-card li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.example-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 3px solid var(--accent);
+}
+
+.example-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.example-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.quote-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-left: 4px solid var(--primary);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  font-style: italic;
+}
+
+.quote-card .quote-text {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.quote-card .quote-importance {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+}
+
+.action-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-card p {
+  font-size: 0.9rem;
+  opacity: 0.95;
+  margin-bottom: 0.25rem;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.visual-diagram {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.visual-diagram h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.flow-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.flow-arrow {
+  margin: 0 0.5rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.book-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 3px solid var(--primary);
+}
+
+.book-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
+}
+
+.book-card .author {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.book-card .relation {
+  font-size: 0.88rem;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 1.5rem; }
+  .tabs { font-size: 0.85rem; }
+  .tab-btn { padding: 0.6rem 0.8rem; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 幸福の資本論</h1>
+  <p class="subtitle">人生を投資のポートフォリオとして設計する</p>
+</header>
+
+<div class="container">
+
+<div class="summary-block">
+  <h2>💡 核心メッセージ</h2>
+  <div class="summary-item">
+    <strong>❓ 問い</strong>
+    <p>どうすれば長期的に満足度の高い幸福を実現できるか？</p>
+  </div>
+  <div class="summary-item">
+    <strong>✅ 答え</strong>
+    <p>人的資本・社会資本・金融資産の三資本を、人生の段階に応じてバランス配分する。</p>
+  </div>
+  <div class="summary-item">
+    <strong>🔍 Why（なぜそうなのか）</strong>
+    <p>三資本は相互に補完・変換可能で、偏重は脆弱性を生む。分散と再配分によりショックに強い幸福が維持できる。</p>
+  </div>
+  <div class="summary-item">
+    <strong>🛠️ How（そのためには）</strong>
+    <p>若年期は人的資本へ集中投資、中年期は金融と社会を厚く、高年期は社会資本を中核に再配分。市場と共同体のルールを使い分け、定期的にポートフォリオを再評価する。</p>
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+</div>
+
+<div id="tab1" class="tab-content active" role="tabpanel">
+  <div class="card-grid">
+    <div class="card">
+      <h3>🏛️ 三つの資本</h3>
+      <ul>
+        <li>人的資本・社会資本・金融資産の総体</li>
+        <li>幸福の基盤を構成する枠組み</li>
+        <li>相互補完と変換が可能</li>
+        <li>バランスが重要</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 単一資本への依存はリスクが高く、三資本の組み合わせが持続的幸福を支える。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💼 人的資本</h3>
+      <ul>
+        <li>知識・スキル・健康・評判</li>
+        <li>稼ぐ力と選択肢を増やす能力</li>
+        <li>若年期の集中投資対象</li>
+        <li>複利効果が最大化</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 時間をかけて蓄積でき、後年の金融・社会資本への変換源となる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🤝 社会資本</h3>
+      <ul>
+        <li>家族・友人・コミュニティ</li>
+        <li>信頼と互酬性のネットワーク</li>
+        <li>情緒的支援と健康向上</li>
+        <li>高年期の中核資本</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 孤立は幸福度を大きく下げ、つながりは精神的・身体的健康を支える。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💰 金融資産</h3>
+      <ul>
+        <li>貯蓄・投資など購買力</li>
+        <li>将来の消費と選択の自由</li>
+        <li>中年期に厚く配分</li>
+        <li>他資本への再投資源</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 経済的余裕は時間を生み、人的・社会資本への投資を可能にする。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 ポートフォリオ</h3>
+      <ul>
+        <li>三資本の配分比率</li>
+        <li>ライフステージで最適値が変化</li>
+        <li>リスク許容度で個人差</li>
+        <li>定期的なリバランスが必要</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 環境変化に応じた動的調整が、長期的な幸福の安定性を保つ。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>⚖️ 市場と共同体の論理</h3>
+      <ul>
+        <li>市場: 交換・価格・成果</li>
+        <li>共同体: 贈与・互酬・関係</li>
+        <li>異なるルール集合</li>
+        <li>混同すると摩擦が生じる</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 適切な使い分けが信頼維持と評判保護に不可欠。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>💍 マリッジマーケット</h3>
+      <ul>
+        <li>結婚・パートナー選択の場</li>
+        <li>社会資本形成の要所</li>
+        <li>人的・金融資本とも連動</li>
+        <li>長期的幸福への影響大</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> パートナーシップは三資本すべてに影響し、人生戦略の中核を成す。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔄 ライフステージ最適化</h3>
+      <ul>
+        <li>年齢・環境に応じた調整</li>
+        <li>若年: 人的集中</li>
+        <li>中年: 三資本均衡</li>
+        <li>高年: 社会中核</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 各段階で最大リターンを得られる資本が異なり、動的配分が効率的。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔀 資本の相互変換</h3>
+      <ul>
+        <li>人的→金融（収入化）</li>
+        <li>金融→人的（教育投資）</li>
+        <li>社会→人的（機会提供）</li>
+        <li>時間とコストが発生</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 変換可能性が柔軟な戦略を可能にし、ショックへの対応力を高める。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🎯 リスク許容度</h3>
+      <ul>
+        <li>損失・不確実性への耐性</li>
+        <li>最適配分の個人差を規定</li>
+        <li>年齢・環境で変動</li>
+        <li>自己理解が前提</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由:</strong> 同じ戦略でも個人の耐性次第で成否が分かれ、自分に合う配分が最適解。
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-diagram">
+    <h3>🔗 概念間の関係性</h3>
+    <div class="flow-item">
+      <span>人的資本↑</span><span class="flow-arrow">→</span><span>収入↑</span><span class="flow-arrow">→</span><span>金融資産↑</span><span class="flow-arrow">→</span><span>選択の自由↑</span>
+    </div>
+    <div class="flow-item">
+      <span>社会資本↑</span><span class="flow-arrow">→</span><span>情緒的支援↑・健康↑</span><span class="flow-arrow">→</span><span>幸福度↑</span>
+    </div>
+    <div class="flow-item">
+      <span>金融資産↑</span><span class="flow-arrow">→</span><span>余裕時間↑</span><span class="flow-arrow">→</span><span>人的・社会資本へ再投資</span>
+    </div>
+    <div class="flow-item">
+      <span>⚠️ 過度な偏重</span><span class="flow-arrow">→</span><span>金融偏重=孤立 / 人的偏重=燃え尽き / 社会偏重=経済脆弱</span>
+    </div>
+    <div class="flow-item">
+      <span>若年期: 人的集中</span><span class="flow-arrow">→</span><span>中年期: 三資本均衡</span><span class="flow-arrow">→</span><span>高年期: 社会中核</span>
+    </div>
+    <div class="flow-item">
+      <span>定期リバランス</span><span class="flow-arrow">→</span><span>ポートフォリオの健全性維持</span>
+    </div>
+  </div>
+</div>
+
+<div id="tab2" class="tab-content" role="tabpanel">
+  <div class="chapter-card">
+    <h3>第1章: 問題提起</h3>
+    <ul>
+      <li>幸福は努力だけで得られるのか？</li>
+      <li>何を増やせばよいのかを再定式化</li>
+      <li>従来の幸福論の限界を指摘</li>
+      <li>新しい枠組みの必要性を提示</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 漠然とした「幸福追求」を具体的な資本配分問題に落とし込むため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第2章: 枠組み提示</h3>
+    <ul>
+      <li>幸福を三資本のポートフォリオとして捉える</li>
+      <li>人的・社会・金融の定義と特性</li>
+      <li>相互補完と変換可能性</li>
+      <li>投資の視点を導入</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 本書の中核仮説を提示し、以降の戦略設計の基礎を築く。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第3章: 各資本の性質</h3>
+    <ul>
+      <li>収益性・安定性・流動性を比較</li>
+      <li>変換コストと限界を整理</li>
+      <li>ライフステージ別の期待リターン</li>
+      <li>リスクとリターンのトレードオフ</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 各資本の特性理解が、最適配分の判断材料となる。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第4章: 市場と共同体の二重世界</h3>
+    <ul>
+      <li>市場の論理: 交換・価格・成果</li>
+      <li>共同体の論理: 贈与・互酬・関係</li>
+      <li>ルールの使い分け指針</li>
+      <li>混同による摩擦と信頼低下</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 社会資本と金融資本の運用ルールが異なり、誤用は関係破壊を招く。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第5章: 人生戦略</h3>
+    <ul>
+      <li>若年期: 人的資本に集中投資</li>
+      <li>中年期: 三資本を分散配分</li>
+      <li>高年期: 社会資本を中核に</li>
+      <li>ライフイベントに応じた再配分</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 時間軸での最適化が、複利効果と持続的幸福を最大化する。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第6章: 実用編</h3>
+    <ul>
+      <li>教育・キャリア設計の具体策</li>
+      <li>パートナー選択の視点</li>
+      <li>資産形成の基本</li>
+      <li>ネットワーク構築の方法</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 理論を実践に落とし込み、読者が即座に行動できるようにする。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第7章: リスク管理</h3>
+    <ul>
+      <li>ショックへの耐性を高める分散</li>
+      <li>保険とセーフティネット</li>
+      <li>リバランス手順</li>
+      <li>予期せぬ変化への対応</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 不確実性への備えが、長期戦略の実現可能性を高める。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>第8章: 総括</h3>
+    <ul>
+      <li>個別最適 = 価値観 × 制約 × リスク許容度</li>
+      <li>唯一の正解はない</li>
+      <li>自律的設計を促す</li>
+      <li>定期的な見直しの重要性</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由:</strong> 画一的な処方箋ではなく、読者自身が考え続ける姿勢を育む。
+    </div>
+  </div>
+</div>
+
+<div id="tab3" class="tab-content" role="tabpanel">
+  <div class="example-card">
+    <h3>📘 例1: 若年期の人的資本集中投資</h3>
+    <p><strong>背景:</strong> 20代のAさんは収入の大半を自己投資（資格取得・語学・健康）に充て、貯蓄はほぼゼロ。</p>
+    <p><strong>結果:</strong> 30代で専門性が評価され収入が倍増。金融資産形成の基盤を確立。</p>
+    <p><strong>示唆:</strong> 若年期は時間が最大の資産。複利効果を活かし人的資本に集中すべき。</p>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）:</strong> 初期の人的投資が後年の収入と選択肢を大きく広げ、長期的リターンが最大化される。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h3>🤝 例2: 社会資本の重要性</h3>
+    <p><strong>背景:</strong> 高収入だが孤立していたBさんは、健康を害し仕事も停滞。</p>
+    <p><strong>結果:</strong> コミュニティ活動に参加し友人を得た後、精神的安定と新たなビジネス機会を獲得。</p>
+    <p><strong>示唆:</strong> 金融偏重は脆弱。社会資本が情緒的支援と機会をもたらす。</p>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）:</strong> つながりは幸福度と健康を支え、孤立は高収入でも補えないリスクを生む。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h3>🔄 例3: 資本の相互変換</h3>
+    <p><strong>背景:</strong> Cさんは金融資産を使い大学院へ進学（金融→人的）。修了後、専門知識で起業し収入増（人的→金融）。</p>
+    <p><strong>結果:</strong> ネットワークも拡大し、社会資本も厚くなった（人的→社会）。</p>
+    <p><strong>示唆:</strong> 三資本は変換可能で、戦略的な再配分が全体最適を生む。</p>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）:</strong> 資本間の変換を意識的に行うことで、ライフステージに応じた柔軟な最適化が可能になる。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h3>⚠️ 例4: 市場と共同体の混同</h3>
+    <p><strong>背景:</strong> Dさんは友人に「見返り」を期待して金銭的支援を行い、関係が悪化。</p>
+    <p><strong>結果:</strong> 信頼を失い、社会資本が大きく毀損。</p>
+    <p><strong>示唆:</strong> 共同体では贈与と互酬が基本。市場の論理を持ち込むと関係が壊れる。</p>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）:</strong> ルールの使い分けを誤ると、社会資本の価値が急速に失われる。
+    </div>
+  </div>
+</div>
+
+<div id="tab4" class="tab-content" role="tabpanel">
+  <div class="quote-card">
+    <div class="quote-text">
+      「幸福は三つの資本の組み合わせで決まる。」
+    </div>
+    <div class="quote-importance">
+      <strong>重要性:</strong> 本書の中核仮説で、以降の戦略設計の基礎となる。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「資本は相互に変換できるが、時間とリスクのコストがある。」
+    </div>
+    <div class="quote-importance">
+      <strong>重要性:</strong> 投資順序と期待値を考える必要性を示す。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「若い時は人的資本に集中投資せよ。」
+    </div>
+    <div class="quote-importance">
+      <strong>重要性:</strong> 複利の効果が最大化し、後年の選択肢を広げる。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「市場の論理と共同体の論理を混同するな。」
+    </div>
+    <div class="quote-importance">
+      <strong>重要性:</strong> 関係破壊や評判損失を防ぐ実践的リスク管理。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「唯一の正解はなく、自分の戦略に合う配分こそが最適解である。」
+    </div>
+    <div class="quote-importance">
+      <strong>重要性:</strong> 個別最適の重要性を強調し、自律的思考を促す。
+    </div>
+  </div>
+</div>
+
+<div id="tab5" class="tab-content" role="tabpanel">
+  <div class="action-card">
+    <h3>✅ アクション1: 三資本を10点満点で採点する</h3>
+    <p><strong>目的:</strong> 現在の資本配分を可視化し、偏りを認識する。</p>
+    <p><strong>方法:</strong> 人的・社会・金融それぞれを10点満点で自己評価し、紙に書き出す。</p>
+    <p><strong>期待効果:</strong> 弱い資本が明確になり、次の投資先を決める判断材料になる。</p>
+    <span class="badge">⏱️ 15分</span>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション2: 30分学習を週3回カレンダー化する</h3>
+    <p><strong>目的:</strong> 人的資本への継続投資を習慣化する。</p>
+    <p><strong>方法:</strong> カレンダーに「30分学習」の予定を週3回入れ、通知を設定する。</p>
+    <p><strong>期待効果:</strong> 小さな積み重ねが複利で効き、スキルと選択肢が着実に増える。</p>
+    <span class="badge">⏱️ 10分</span>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション3: 感謝メッセージを1人に送る</h3>
+    <p><strong>目的:</strong> 社会資本の維持・強化を実践する。</p>
+    <p><strong>方法:</strong> 家族・友人・同僚の誰か1人に、感謝の気持ちをメッセージで伝える。</p>
+    <p><strong>期待効果:</strong> 互酬性が高まり、つながりが深まる。小さな行動が信頼を積み上げる。</p>
+    <span class="badge">⏱️ 5分</span>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション4: 月の支出を3カテゴリに分類する</h3>
+    <p><strong>目的:</strong> 金融資産の使途を三資本の視点で見直す。</p>
+    <p><strong>方法:</strong> 先月の支出を「人的投資」「社会投資」「消費」に分類し、比率を確認する。</p>
+    <p><strong>期待効果:</strong> 無駄な消費が見え、資本形成に回せる余地が明確になる。</p>
+    <span class="badge">⏱️ 20分</span>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション5: 3ヶ月後の目標を1つ書く</h3>
+    <p><strong>目的:</strong> 短期的な資本配分の方向性を定める。</p>
+    <p><strong>方法:</strong> 「3ヶ月後、どの資本をどれだけ増やしたいか」を1文で書き、見える場所に貼る。</p>
+    <p><strong>期待効果:</strong> 目標が行動を誘導し、日々の選択が戦略的になる。</p>
+    <span class="badge">⏱️ 10分</span>
+  </div>
+</div>
+
+<div style="margin-top:2rem;">
+  <h2 style="color:var(--primary); margin-bottom:1rem;">📚 関連書籍</h2>
+  <div class="book-card">
+    <h4>LIFE SHIFT(ライフ・シフト)</h4>
+    <div class="author">リンダ・グラットン, アンドリュー・スコット</div>
+    <div class="relation">長寿化時代の資本配分とライフデザインを補強する。</div>
+  </div>
+  <div class="book-card">
+    <h4>孤独なボウリング</h4>
+    <div class="author">ロバート・D・パットナム</div>
+    <div class="relation">社会資本の低下と幸福・民主主義への影響を理論化。</div>
+  </div>
+  <div class="book-card">
+    <h4>21世紀の資本</h4>
+    <div class="author">トマ・ピケティ</div>
+    <div class="relation">金融資産と格差の構造をマクロ視点で理解できる。</div>
+  </div>
+  <div class="book-card">
+    <h4>人的資本</h4>
+    <div class="author">ゲイリー・ベッカー</div>
+    <div class="relation">人的資本への投資とリターンの経済学的基礎。</div>
+  </div>
+  <div class="book-card">
+    <h4>ファスト&スロー</h4>
+    <div class="author">ダニエル・カーネマン</div>
+    <div class="relation">意思決定バイアスが資本配分を歪める仕組みを解く。</div>
+  </div>
+  <div class="book-card">
+    <h4>幸せがお金で買えるのなら</h4>
+    <div class="author">エリザベス・ダン, マイケル・ノートン</div>
+    <div class="relation">お金の使い方が主観的幸福に与える効果を実証。</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetTab = btn.getAttribute('data-tab');
+    
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(targetTab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
