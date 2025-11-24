@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7つの習慣 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-grid {
+  display: grid;
+  gap: 1rem;
+}
+.summary-item {
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 0.5rem;
+}
+.summary-item strong {
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: all 0.3s;
+  flex: 1 1 auto;
+  min-width: 120px;
+  text-align: center;
+}
+.tab-btn:hover {
+  background: var(--bg);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, #fff5f7, #fff);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.reason strong {
+  color: var(--secondary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 6px solid var(--secondary);
+}
+.chapter-card h3 {
+  font-size: 1.2rem;
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+}
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.chapter-card li {
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.chapter-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+.example-card {
+  background: linear-gradient(135deg, #f0f4ff, #ffffff);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent);
+}
+.example-card h4 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.example-card p {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-left: 5px solid var(--primary);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.quote-card blockquote {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+.quote-card .context {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+.action-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.action-card p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  margin-bottom: 0.25rem;
+}
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+.visual-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-item {
+  text-align: center;
+  flex: 1 1 120px;
+  min-width: 100px;
+}
+.flow-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+.flow-arrow {
+  font-size: 2rem;
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    flex-direction: column;
+  }
+  .tab-btn {
+    min-width: 100%;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 7つの習慣</h1>
+  <p>原則中心の人格と効果性の循環</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>🎯 要約 = 問い × 答え × 根拠</h2>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <strong>❓ 問い</strong>
+        持続的な効果性をどう高めるか？
+      </div>
+      <div class="summary-item">
+        <strong>✅ 答え</strong>
+        原則中心の7つの習慣を内面から体得し、私的成功→公的成功→再新再生の循環を回す
+      </div>
+      <div class="summary-item">
+        <strong>🔍 Why（なぜ）</strong>
+        人格と原則に合致した行動は信頼を蓄積し、シナジーと成果を再現可能にするため
+      </div>
+      <div class="summary-item">
+        <strong>🛠️ How（どうやって）</strong>
+        影響の輪に集中→ミッション明確化→第Ⅱ領域優先→Win-Win＋共感的傾聴で関係強化→定期的に刃を研ぐ
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-flow">
+    <div class="flow-item">
+      <div class="flow-circle">私的<br>成功</div>
+      <div>習慣1-3</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">
+      <div class="flow-circle">公的<br>成功</div>
+      <div>習慣4-6</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">
+      <div class="flow-circle">再新<br>再生</div>
+      <div>習慣7</div>
+    </div>
+    <div class="flow-arrow">↻</div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3>🔄 インサイド・アウト</h3>
+        <ul>
+          <li>外的状況を変える前に自分を変える</li>
+          <li>人格・パラダイム・選択を内面から転換</li>
+          <li>持続的変化の出発点</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 外部依存では再現性がなく、内面の変化が全ての基盤となるため</div>
+      </div>
+      <div class="card">
+        <h3>👓 パラダイム</h3>
+        <ul>
+          <li>現実を解釈するレンズ</li>
+          <li>成果の質はレンズの質に依存</li>
+          <li>見方を変えれば行動が変わる</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 同じ事実でも解釈次第で選択肢と結果が劇的に変わるため</div>
+      </div>
+      <div class="card">
+        <h3>⚖️ P/PCバランス</h3>
+        <ul>
+          <li>成果(P)と成果を生む能力(PC)の均衡</li>
+          <li>短期最適と長期持続性を両立</li>
+          <li>ガチョウと金の卵の寓話</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 成果だけ追うと能力が枯渇し、能力だけでは成果が出ないため</div>
+      </div>
+      <div class="card">
+        <h3>🎯 影響の輪／関心の輪</h3>
+        <ul>
+          <li>自分がコントロールできる領域に集中</li>
+          <li>影響の輪に注力すると輪が拡大</li>
+          <li>関心の輪で消耗すると輪が縮小</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 可制御領域への投資が実効性と自信を高め、影響力を拡大するため</div>
+      </div>
+      <div class="card">
+        <h3>💰 信用残高</h3>
+        <ul>
+          <li>約束・誠実・理解に基づく対人信頼の蓄積</li>
+          <li>取引コストを下げる資本</li>
+          <li>預金と引き出しのメタファー</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 信頼が高いほど協力コストが下がり、シナジーが生まれやすくなるため</div>
+      </div>
+      <div class="card">
+        <h3>1️⃣ 習慣1: 主体的である</h3>
+        <ul>
+          <li>刺激と反応の間の自由を自覚</li>
+          <li>選択に責任を持つ</li>
+          <li>被害者意識から脱却</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 自律が全ての習慣の土台であり、選択の自由が人間の尊厳だから</div>
+      </div>
+      <div class="card">
+        <h3>2️⃣ 習慣2: 終わりを思い描く</h3>
+        <ul>
+          <li>望む最終状態を明確化</li>
+          <li>価値観・ミッションを指針に設計</li>
+          <li>葬儀で何を言われたいか</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 目的地が明確でないと努力が空回りし、意思決定の基準が曖昧になるため</div>
+      </div>
+      <div class="card">
+        <h3>3️⃣ 習慣3: 最優先事項を優先</h3>
+        <ul>
+          <li>緊急でなく重要（第Ⅱ領域）に投資</li>
+          <li>役割・目標に基づき実行</li>
+          <li>時間管理の第4世代</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 重要事項への投資が長期成果を生み、緊急事項は短期対症療法に過ぎないため</div>
+      </div>
+      <div class="card">
+        <h3>4️⃣ 習慣4: Win-Winを考える</h3>
+        <ul>
+          <li>相互利益と豊かさマインド</li>
+          <li>合意を設計する</li>
+          <li>Win-Win or No Deal</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 長期的関係では一方的勝利は持続せず、相互利益が最適解だから</div>
+      </div>
+      <div class="card">
+        <h3>5️⃣ 習慣5: まず理解に徹する</h3>
+        <ul>
+          <li>評価を保留し共感的に傾聴</li>
+          <li>相手の枠組みで理解してから主張</li>
+          <li>診断してから処方</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 理解なき主張は抵抗を生み、共感が信頼と協力の最短経路だから</div>
+      </div>
+      <div class="card">
+        <h3>6️⃣ 習慣6: シナジーを創り出す</h3>
+        <ul>
+          <li>違いを尊重し統合</li>
+          <li>個別の和を超える創造的解</li>
+          <li>第3の案を探求</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 多様性の統合が革新を生み、妥協より優れた解を創造できるため</div>
+      </div>
+      <div class="card">
+        <h3>7️⃣ 習慣7: 刃を研ぐ</h3>
+        <ul>
+          <li>肉体・精神・知性・社会情緒の更新</li>
+          <li>自己を再新し続ける</li>
+          <li>継続的改善の習慣</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 能力(PC)の回復と強化が全習慣の質を底上げし、持続的実行力を生むため</div>
+      </div>
+      <div class="card">
+        <h3>🧭 ミッション・ステートメント</h3>
+        <ul>
+          <li>自分の価値・役割・長期目標を明文化</li>
+          <li>意思決定の羅針盤</li>
+          <li>個人憲法</li>
+        </ul>
+        <div class="reason"><strong>理由:</strong> 明文化された指針が迷いを減らし、一貫性と方向性を保証するため</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📖 序章: パラダイムと原則</h3>
+      <ul>
+        <li>テクニック依存から原則中心へのパラダイム転換</li>
+        <li>人格の倫理 vs 個性の倫理</li>
+        <li>効果性は人格と原則への整合から始まる</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 表面的テクニックは短期的で、原則に根ざした人格が持続的成果を生むため</div>
+    </div>
+    <div class="chapter-card">
+      <h3>📖 第1部: インサイド・アウト</h3>
+      <ul>
+        <li>効果性は内面のパラダイム転換から</li>
+        <li>P/PCバランスの重要性</li>
+        <li>自分を変えることで外部に影響</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 外部環境を変える前に自己を変えることが、再現可能な変化の起点だから</div>
+    </div>
+    <div class="chapter-card">
+      <h3>📖 第2部: 私的成功（習慣1-3）</h3>
+      <ul>
+        <li>習慣1: 主体性で選択の自由を自覚</li>
+        <li>習慣2: 目的の明確化で方向を定める</li>
+        <li>習慣3: 重要事項の実行で自律を確立</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 公的成功の前に自己管理と自律を確立しないと、他者との協力が機能しないため</div>
+    </div>
+    <div class="chapter-card">
+      <h3>📖 第3部: 公的成功（習慣4-6）</h3>
+      <ul>
+        <li>習慣4: Win-Winで相互利益を設計</li>
+        <li>習慣5: 共感的傾聴で信頼を構築</li>
+        <li>習慣6: シナジーで創造的解を創出</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 相互依存の関係性が個人の限界を超えた成果を生み、組織の効果性を高めるため</div>
+    </div>
+    <div class="chapter-card">
+      <h3>📖 第4部: 更新（習慣7）</h3>
+      <ul>
+        <li>肉体・精神・知性・社会情緒の4領域を再新</li>
+        <li>継続的な自己投資</li>
+        <li>上向きの螺旋を描く</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 定期的な再新が能力を回復・強化し、全習慣の質と持続性を保証するため</div>
+    </div>
+    <div class="chapter-card">
+      <h3>📖 終章・付録: 実践ツール</h3>
+      <ul>
+        <li>ミッション策定法の具体手順</li>
+        <li>第Ⅱ領域の時間管理マトリクス</li>
+        <li>役割と目標の週次運用</li>
+        <li>信用残高の実践指針</li>
+      </ul>
+      <div class="reason"><strong>理由:</strong> 概念を実行可能な行動に落とし込むツールが、習慣化と成果を加速するため</div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h4>🌳 例1: 影響の輪の拡大</h4>
+      <p><strong>背景:</strong> ある管理職が部下の態度に不満を持ち、愚痴ばかり言っていた。コヴィーは「影響の輪」に集中するよう助言。</p>
+      <p><strong>展開:</strong> 管理職は自分の態度・コミュニケーション・模範を改善。数週間後、部下の態度が変化し始めた。</p>
+      <p><strong>示唆:</strong> 他者を変えようとする前に自分を変えると、影響力が自然に拡大する。</p>
+      <div class="reason"><strong>理由:</strong> 可制御領域への投資が信頼と模範を生み、他者の自発的変化を促すことを示すため</div>
+    </div>
+    <div class="example-card">
+      <h4>🎯 例2: ミッション・ステートメントの力</h4>
+      <p><strong>背景:</strong> ある経営者が短期利益と長期ビジョンの間で迷い、意思決定が一貫しなかった。</p>
+      <p><strong>展開:</strong> 個人と組織のミッション・ステートメントを明文化。価値観に基づく判断基準を確立した。</p>
+      <p><strong>示唆:</strong> 明確な羅針盤があると、複雑な状況でも迷わず優先順位を決められる。</p>
+      <div class="reason"><strong>理由:</strong> 価値観の明文化が意思決定の一貫性と速度を高め、組織の方向性を統一することを示すため</div>
+    </div>
+    <div class="example-card">
+      <h4>🤝 例3: Win-Winと共感的傾聴のシナジー</h4>
+      <p><strong>背景:</strong> 労使交渉が対立し、双方が譲らず膠着状態に陥っていた。</p>
+      <p><strong>展開:</strong> 仲介者が双方の本当のニーズを共感的に傾聴。Win-Winの枠組みで第3の案を探求し、双方が満足する解決策を創出。</p>
+      <p><strong>示唆:</strong> 理解と相互利益の追求が、対立を創造的協力に転換する。</p>
+      <div class="reason"><strong>理由:</strong> 共感が信頼を生み、Win-Win思考が妥協を超えた統合解を可能にすることを示すため</div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <blockquote>"私的成功は公的成功に先立つ"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 順序原則を示し、土台づくりの重要性を端的に示す。自己管理なしに他者との協力は機能しない。</p>
+    </div>
+    <div class="quote-card">
+      <blockquote>"影響の輪に集中せよ"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 可制御領域への投資が実効性を高める中核戦略。関心の輪で消耗すると影響力が縮小する。</p>
+    </div>
+    <div class="quote-card">
+      <blockquote>"終わりを思い描くことから始める"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 意思決定の基準を価値と原則に結び付ける。目的地が明確でないと努力が空回りする。</p>
+    </div>
+    <div class="quote-card">
+      <blockquote>"まず理解に徹し、そして理解される"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 信頼形成と問題解決の最短経路を示す。理解なき主張は抵抗を生む。</p>
+    </div>
+    <div class="quote-card">
+      <blockquote>"刃を研げ"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 成果を生む能力(PC)を回復・強化する継続習慣。定期的再新が全習慣の質を底上げする。</p>
+    </div>
+    <div class="quote-card">
+      <blockquote>"Win-Winを考える"</blockquote>
+      <p class="context"><strong>なぜ重要か:</strong> 長期的関係の最適解を設計する枠組み。一方的勝利は持続せず、相互利益が最適。</p>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h4>✅ アクション1: 影響の輪を書き出して集中先決定</h4>
+      <p><strong>目的:</strong> 自分がコントロールできる領域を明確化し、エネルギーを集中する</p>
+      <p><strong>手順:</strong> 紙に「関心の輪」と「影響の輪」を描き、現在の悩みや課題を分類。影響の輪の項目に優先順位を付ける</p>
+      <p><strong>期待効果:</strong> 無駄な消耗を減らし、実効性のある行動に集中できる。影響の輪が拡大し始める</p>
+      <span class="badge">⏱️ 15分</span>
+    </div>
+    <div class="action-card">
+      <h4>✅ アクション2: 個人ミッション文を100字で草案</h4>
+      <p><strong>目的:</strong> 自分の価値観と長期目標を明文化し、意思決定の羅針盤を作る</p>
+      <p><strong>手順:</strong> 「自分は何を大切にするか」「どんな人間でありたいか」「何を成し遂げたいか」を各1文で書く。100字程度にまとめる</p>
+      <p><strong>期待効果:</strong> 迷いが減り、一貫性のある選択ができるようになる。長期的方向性が明確になる</p>
+      <span class="badge">⏱️ 20分</span>
+    </div>
+    <div class="action-card">
+      <h4>✅ アクション3: 今週の役割別に1つ目標設定</h4>
+      <p><strong>目的:</strong> 第Ⅱ領域（重要だが緊急でない）に時間を投資し、バランスの取れた成長を促す</p>
+      <p><strong>手順:</strong> 自分の役割（例: 親、社員、学習者）を3〜5個リストアップ。各役割で今週達成したい重要な目標を1つ設定</p>
+      <p><strong>期待効果:</strong> 緊急事項に振り回されず、重要事項に計画的に取り組める。長期成果が積み上がる</p>
+      <span class="badge">⏱️ 15分</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-tab');
+      
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      contents.forEach(c => {
+        c.classList.remove('active');
+      });
+      
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
