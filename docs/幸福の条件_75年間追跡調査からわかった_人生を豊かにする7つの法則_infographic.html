@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>幸福と健康の75年研究 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1rem 1rem;
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+.summary-item strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.1rem;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: white;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 0.7rem 1.2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--secondary);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--primary);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--accent);
+}
+.reason-box strong {
+  color: var(--secondary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--secondary);
+}
+.chapter-card h3 {
+  color: var(--secondary);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.chapter-card li {
+  padding: 0.5rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+.chapter-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.example-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 5px solid var(--accent);
+}
+.example-card h4 {
+  color: var(--secondary);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 5px solid var(--primary);
+  position: relative;
+}
+.quote-card:before {
+  content: """;
+  font-size: 4rem;
+  color: var(--accent);
+  opacity: 0.3;
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+}
+.quote-text {
+  font-style: italic;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+}
+.quote-note {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.action-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.action-card p {
+  margin-bottom: 0.5rem;
+  opacity: 0.95;
+}
+.stat-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+}
+.visual-flow {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-item {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+.flow-box {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.flow-arrow {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    flex-wrap: nowrap;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .flow-arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 幸福と健康の75年研究</h1>
+  <p>ハーバード成人発達研究が明かす「良い人生」の科学</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>💡 核心メッセージ</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      人は何によって幸福で健康に老いるのか？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      才能や富より、愛情豊かな関係と成熟した対処、7つの要因（禁煙・節酒・運動・適正体重・教育・良質な結婚・心理的成熟）の相互作用が決定する
+    </div>
+    <div class="summary-item">
+      <strong>🔬 根拠</strong>
+      75年縦断データが、これらの要因と寿命・主観的幸福・精神身体の健康の強固な関連を一貫して示した
+    </div>
+    <div class="summary-item">
+      <strong>🤔 Why（なぜ）</strong>
+      温かな関係はストレス反応を緩衝し行動を好循環へ導き、成熟防衛は逆境を成長へ変換するため
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（どうやって）</strong>
+      関係投資（感謝・援助・対話）を日課化し、ユーモア・利他・先取り・昇華など成熟防衛を鍛え、7要因を長期的に実践する
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab(0)" role="tab" aria-selected="true">主要概念</button>
+    <button class="tab-btn" onclick="switchTab(1)" role="tab" aria-selected="false">各章の要約</button>
+    <button class="tab-btn" onclick="switchTab(2)" role="tab" aria-selected="false">具体例</button>
+    <button class="tab-btn" onclick="switchTab(3)" role="tab" aria-selected="false">重要な引用</button>
+    <button class="tab-btn" onclick="switchTab(4)" role="tab" aria-selected="false">今日のアクション</button>
+  </div>
+
+  <div class="tab-content active" role="tabpanel">
+    <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🔑 主要概念の詳細</h2>
+    
+    <div class="card-grid">
+      <div class="card">
+        <h3>🎓 ハーバード成人発達研究</h3>
+        <ul>
+          <li>世界最長級の幸福の実験</li>
+          <li>若年期から老年期まで追跡</li>
+          <li>医学・心理・社会データを継続収集</li>
+          <li>幸福と健康の決定因を探索</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 短期研究では見えない人生の長期パターンと因果を解明できるため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>7️⃣ 7つの法則</h3>
+        <ul>
+          <li>禁煙</li>
+          <li>節度ある飲酒</li>
+          <li>定期的運動</li>
+          <li>適正体重</li>
+          <li>教育（生涯学習）</li>
+          <li>良質な結婚</li>
+          <li>心理的成熟</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> これら7要因が相互に強化し合い、長期の健康と幸福を複合的に予測するため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎭 成熟した防衛機制</h3>
+        <ul>
+          <li>ユーモア：緊張を笑いに変換</li>
+          <li>利他性：他者への貢献で充足</li>
+          <li>先取り：問題を予測し準備</li>
+          <li>昇華：衝動を創造へ昇華</li>
+          <li>抑制：感情を適切に保留</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 逆境を資源に変える技法として、精神的健康と関係の質を同時に高めるため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💝 愛情資本（関係資本）</h3>
+        <ul>
+          <li>家族・友人・パートナーとの温かな絆</li>
+          <li>信頼の蓄積</li>
+          <li>ストレス緩衝作用</li>
+          <li>健康行動の維持を支援</li>
+          <li>人生の意味づけに作用</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 幸福の貯金通帳として、危機時の回復力と日常の満足を同時に保証するため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🍺 アルコール使用</h3>
+        <ul>
+          <li>節度ある飲酒：リスク低</li>
+          <li>乱用・依存：離婚・失業を予測</li>
+          <li>うつ・病気・早死と強く関連</li>
+          <li>関係と健康を破壊する主要因</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 静かな破壊者として、複数の生活領域に連鎖的悪影響を及ぼすため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚭 喫煙</h3>
+        <ul>
+          <li>冠疾患・癌の強力なリスク因</li>
+          <li>死亡率を大幅に上昇</li>
+          <li>禁煙は健康寿命を実質的に延長</li>
+          <li>最悪の可変要因</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 単一行動で最大の健康被害をもたらし、禁煙で最大の改善が得られるため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏃 運動習慣</h3>
+        <ul>
+          <li>中強度以上の定期運動</li>
+          <li>身体指標と気分を改善</li>
+          <li>依存や抑うつの予防</li>
+          <li>万能の投資</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 身体・精神・社会的健康を同時に促進する費用対効果最高の介入だから
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📖 教育年数（生涯学習）</h3>
+        <ul>
+          <li>収入や地位以上に健康リテラシー向上</li>
+          <li>行動選択を改善</li>
+          <li>良好な老いを促進</li>
+          <li>行動を変える知</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 知識が健康行動の選択肢を広げ、長期的な自己管理能力を高めるため
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💑 結婚の質</h3>
+        <ul>
+          <li>法的状態より関係の温かさが重要</li>
+          <li>安定した親密な絆</li>
+          <li>幸福と健康の強力な予測因</li>
+          <li>量より質の絆</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 日常的な感情調整と支援の質が、長期的な心身の健康を左右するため
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-flow">
+      <h3 style="color: var(--secondary); margin-bottom: 1rem;">🔄 概念間の因果関係</h3>
+      
+      <div class="flow-item">
+        <div class="flow-box">成熟防衛</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">対人摩擦減少</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">関係の質↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">健康寿命↑</div>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-box">愛情資本↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">孤立↓/支援↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">ストレス緩衝</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">回復力↑</div>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-box">アルコール乱用</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">失職・離婚</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">社会的支え↓</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">早死リスク↑</div>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-box">教育・学習↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">健康リテラシー↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">喫煙率↓/運動↑</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">罹患率↓</div>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-box">良質な結婚</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">感情調整の共同化</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">成熟防衛強化</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box">危機時回復↑</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <div class="stat-badge">📊 75年追跡</div>
+      <div class="stat-badge">🎯 7つの予測因子</div>
+      <div class="stat-badge">❤️ 愛が核心</div>
+    </div>
+  </div>
+
+  <div class="tab-content" role="tabpanel">
+    <h2 style="color: var(--secondary); margin-bottom: 1.5rem;">📑 各章の要約</h2>
+
+    <div class="chapter-card">
+      <h3>序章：長期縦断研究の意義</h3>
+      <ul>
+        <li>幸福と良い老いを左右するものは何か？という根本的問いを提示</li>
+        <li>短期研究では見えない人生の軌跡を追跡する価値を説明</li>
+        <li>ハーバード成人発達研究の歴史的背景と独自性を紹介</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 研究の問いと方法論の重要性を読者に理解させ、以降の発見への信頼を確立するため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>方法：対象・測定・追跡手続</h3>
+      <ul>
+        <li>ハーバード男子学生を若年期から老年期まで追跡</li>
+        <li>医学検査・心理面接・社会調査を定期的に実施</li>
+        <li>縦断データの強み（因果推論）と限界（脱落・時代効果）を明示</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 科学的厳密性と透明性を示し、発見の妥当性を担保するため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>発見Ⅰ：7つの予測因子</h3>
+      <ul>
+        <li>禁煙・節酒・運動・適正体重・教育・良質な結婚・心理的成熟を抽出</li>
+        <li>各要因が寿命・主観的幸福・身体健康と強く関連することを実証</li>
+        <li>要因間の相互作用（例：教育→健康行動→寿命）を可視化</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 幸福の「レシピ」を具体的に提示し、実践可能な指針を与えるため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>発見Ⅱ：成熟防衛の媒介効果</h3>
+      <ul>
+        <li>ユーモア・利他・先取り・昇華など成熟防衛を定義</li>
+        <li>成熟防衛が精神健康と関係の質を媒介することを実証</li>
+        <li>未成熟防衛（否認・投影）との対比で効果を明確化</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 内的対処が外的成果（関係・健康）を生む機序を解明し、心理的成長の重要性を示すため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>発見Ⅲ：才能・IQ・富の限界</h3>
+      <ul>
+        <li>IQ・家の裕福さは長期の幸福予測力が弱いことを対比的に提示</li>
+        <li>社会的巧みさ（対人スキル）が能力・身分より重要と判明</li>
+        <li>「何を持っているか」より「どう関わるか」が決定的</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 一般的な成功観（才能・富）を覆し、関係投資の優先性を際立たせるため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>ケース：典型的事例の生涯曲線</h3>
+      <ul>
+        <li>成功事例：成熟防衛と良質な関係が危機を乗り越えさせた軌跡</li>
+        <li>破綻事例：アルコール依存が関係・健康・キャリアを連鎖的に破壊</li>
+        <li>転機（回復/悪化）のタイミングと要因を可視化</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 抽象的な統計を具体的な人生物語に翻訳し、読者の共感と理解を深めるため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>統合：関係資本の因果モデル</h3>
+      <ul>
+        <li>関係資本が生理（ストレス反応）・心理（防衛）・行動（健康習慣）を結ぶ</li>
+        <li>好循環：愛情→成熟防衛→関係質↑→支援↑→健康↑</li>
+        <li>悪循環：孤立→未成熟防衛→関係質↓→依存↑→病気↑</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 個別発見を統合し、幸福の全体像を因果モデルとして提示するため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>示唆：個人・社会への実装</h3>
+      <ul>
+        <li>個人：関係投資（感謝・対話・援助）を日課化</li>
+        <li>家族：依存予防、成熟防衛の育成</li>
+        <li>社会政策：教育・運動・禁煙支援の促進</li>
+      </ul>
+      <div class="reason-box">
+        <strong>章の理由:</strong> 研究知見を実践可能な行動指針へ接続し、読者の変化を促すため
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" role="tabpanel">
+    <h2 style="color: var(--accent); margin-bottom: 1.5rem;">💡 具体例</h2>
+
+    <div class="example-card">
+      <h4>事例1：成熟防衛による危機克服</h4>
+      <p><strong>背景:</strong> ある参加者は中年期に失業と離婚の危機に直面したが、ユーモアと利他性（ボランティア活動）で対処し、新たな関係と職を獲得。80代で高い生活満足度を維持。</p>
+      <p><strong>示唆:</strong> 逆境を否認せず、建設的に再解釈する力が長期的回復を可能にする。</p>
+      <div class="reason-box">
+        <strong>この例が示すこと:</strong> 成熟防衛は単なる心理技法でなく、人生の転機を成長機会に変える実践的スキルである
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>事例2：アルコール依存の連鎖破壊</h4>
+      <p><strong>背景:</strong> 高IQ・裕福な家庭出身の参加者が、アルコール依存により40代で離婚・失職。孤立が深まり、60代で慢性疾患と抑うつを併発し早期死亡。</p>
+      <p><strong>示唆:</strong> 才能や初期条件は、依存症という単一要因で無効化される。</p>
+      <div class="reason-box">
+        <strong>この例が示すこと:</strong> 節酒は他の全ての幸福要因を保護する「守りの要」であり、優先順位が最も高い
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>事例3：良質な結婚の緩衝効果</h4>
+      <p><strong>背景:</strong> 重病を患った参加者が、配偶者の献身的支援と対話により治療を継続。病後も夫婦で運動・学習を共有し、70代で「人生最良の時期」と回答。</p>
+      <p><strong>示唆:</strong> パートナーシップの質は、健康危機時の回復力と日常の満足を同時に高める。</p>
+      <div class="reason-box">
+        <strong>この例が示すこと:</strong> 関係の質は「保険」であり「投資」であり、危機と日常の両面で幸福を支える
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>事例4：教育と生涯学習の複利効果</h4>
+      <p><strong>背景:</strong> 大学院まで進学し、退職後も読書会・講座に参加した参加者は、喫煙率が低く運動習慣が高い。認知機能も高水準を維持し、85歳で自立生活。</p>
+      <p><strong>示唆:</strong> 教育は収入だけでなく、健康リテラシーと行動選択の質を生涯にわたり改善する。</p>
+      <div class="reason-box">
+        <strong>この例が示すこと:</strong> 学習は「知識の蓄積」でなく「行動変容の触媒」として、複数の健康要因を同時に改善する
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" role="tabpanel">
+    <h2 style="color: var(--primary); margin-bottom: 1.5rem;">💬 重要な引用</h2>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        "Happiness is love. Full stop."<br>
+        （幸福の本質は愛にある）
+      </div>
+      <div class="quote-note">
+        <strong>重要性:</strong> 研究全体の結論を一言で要約し、関係投資の最優先性を示す。75年の膨大なデータが収斂する核心メッセージ。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        社会的巧みさはIQや家の裕福さより良い老いを予測する。
+      </div>
+      <div class="quote-note">
+        <strong>重要性:</strong> 能力・身分より対人スキルの重要性をデータで裏づける。一般的な成功観を覆す発見。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        アルコール依存は離婚・失職・病気・早死に広く関連する。
+      </div>
+      <div class="quote-note">
+        <strong>重要性:</strong> 節酒のインパクトが他の行動領域にも波及することを示す。単一要因が複数領域を破壊する連鎖を明示。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        ユーモアや利他など成熟防衛は主観的幸福と適応の鍵である。
+      </div>
+      <div class="quote-note">
+        <strong>重要性:</strong> 内的対処が外的成果（関係・健康）を媒介する機序を明確化する。心理的成長の実践的価値を示す。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        温かな関係は、ストレス反応を緩衝し、健康行動を維持させる。
+      </div>
+      <div class="quote-note">
+        <strong>重要性:</strong> 関係資本が生理・行動の両面で作用する機序を示し、「愛が健康を守る」科学的根拠を提供。
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" role="tabpanel">
+    <h2 style="color: var(--accent); margin-bottom: 1.5rem;">🎯 今日のアクション</h2>
+
+    <div class="action-card">
+      <h4>🚶 アクション1：20分の速歩をする</h4>
+      <p><strong>目的:</strong> 運動習慣の第一歩を踏み出し、身体と気分の即時改善を体感する</p>
+      <p><strong>期待効果:</strong> 心肺機能の活性化、ストレス軽減、運動への心理的ハードル低下。継続すれば7つの法則の1つを実践したことになる</p>
+      <p><strong>実行方法:</strong> 今すぐ靴を履き、近所を20分歩く。音楽やポッドキャストを聴きながらでもOK</p>
+    </div>
+
+    <div class="action-card">
+      <h4>✍️ アクション2：15分感謝日記を書く</h4>
+      <p><strong>目的:</strong> 関係資本を可視化し、愛情への気づきを深める</p>
+      <p><strong>期待効果:</strong> ポジティブ感情の増幅、関係への感謝の言語化、成熟防衛（利他性）の準備。翌日以降、感謝を相手に伝える行動へつながる</p>
+      <p><strong>実行方法:</strong> ノートかスマホに「今日感謝したい人・出来事」を3つ書き、理由を1行ずつ添える</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🚭 アクション3：15分禁煙計画を作る</h4>
+      <p><strong>目的:</strong> 喫煙者は最悪の可変要因に対処する第一歩を踏む</p>
+      <p><strong>期待効果:</strong> 禁煙の具体的道筋が見え、実行可能性が高まる。禁煙成功は健康寿命を数年単位で延ばす</p>
+      <p><strong>実行方法:</strong> 禁煙開始日を決め、代替行動（ガム・深呼吸）をリストアップ。禁煙外来の予約を検討する</p>
+    </div>
+
+    <div class="action-card">
+      <h4>💬 アクション4：大切な人に15分電話する</h4>
+      <p><strong>目的:</strong> 関係投資を即座に実践し、愛情資本を積み増す</p>
+      <p><strong>期待効果:</strong> 相手との絆の再確認、孤立感の軽減、成熟防衛（利他性）の実践。関係の質が幸福の核心であることを体感</p>
+      <p><strong>実行方法:</strong> 家族・友人・パートナーに電話し、近況を聞き、感謝を伝える。ビデオ通話ならさらに良い</p>
+    </div>
+
+    <div class="action-card">
+      <h4>📚 アクション5：関連書籍を1冊予約する</h4>
+      <p><strong>目的:</strong> 生涯学習（7つの法則の1つ）を開始し、知識を深める</p>
+      <p><strong>期待効果:</strong> 健康リテラシーの向上、行動変容の動機づけ強化。教育は他の健康行動を促進する触媒</p>
+      <p><strong>実行方法:</strong> 下記の関連書籍から1冊選び、図書館予約または購入。通勤時間に読む計画を立てる</p>
+    </div>
+
+    <div style="background: white; border-radius: 1rem; padding: 1.5rem; margin-top: 2rem;">
+      <h3 style="color: var(--secondary); margin-bottom: 1rem;">📖 関連書籍</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 0.8rem; border-bottom: 1px solid #e2e8f0;">
+          <strong style="color: var(--primary);">Triumphs of Experience</strong> - George E. Vaillant<br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">75年追跡の総括と「愛こそ幸福」の結論を詳述</span>
+        </li>
+        <li style="padding: 0.8rem; border-bottom: 1px solid #e2e8f0;">
+          <strong style="color: var(--primary);">Aging Well</strong> - George E. Vaillant<br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">良い老いの予測因（7つの鍵）を早期に体系化</span>
+        </li>
+        <li style="padding: 0.8rem; border-bottom: 1px solid #e2e8f0;">
+          <strong style="color: var(--primary);">Adaptation to Life</strong> - George E. Vaillant<br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">防衛機制と適応を縦断データで分析した基礎的著作</span>
+        </li>
+        <li style="padding: 0.8rem; border-bottom: 1px solid #e2e8f0;">
+          <strong style="color: var(--primary);">The Good Life</strong> - Robert Waldinger, Marc Schulz<br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">同研究の最新洞察を一般向けに統合し、関係の力を検証</span>
+        </li>
+        <li style="padding: 0.8rem;">
+          <strong style="color: var(--primary);">Flourish</strong> - Martin E. P. Seligman<br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">幸福の構成要素（PERMA）を提示し、関係・行動の実践と接続</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(index) {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach((tab, i) => {
+    if (i === index) {
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+    } else {
+      tab.classList.remove('active');
+      tab.setAttribute('aria-selected', 'false');
+    }
+  });
+  
+  contents.forEach((content, i) => {
+    if (i === index) {
+      content.classList.add('active');
+    } else {
+      content.classList.remove('active');
+    }
+  });
+}
+</script>
+</body>
+</html>
