@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハイ・コンセプト - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー=#667eea セカンダリー=#764ba2 アクセント=#f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 6px solid var(--accent);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 1rem;
+}
+.summary-item strong {
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--secondary);
+}
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  border-left: 4px solid var(--accent);
+  padding: 0.8rem;
+  margin-top: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.chapter-card h3 {
+  font-size: 1.3rem;
+  color: var(--secondary);
+  margin-bottom: 0.8rem;
+}
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.chapter-card li {
+  padding: 0.5rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+.chapter-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.example-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent);
+}
+.example-card h4 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+.example-card p {
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-left: 6px solid var(--secondary);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  font-style: italic;
+}
+.quote-card p {
+  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+}
+.quote-card small {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 6px solid var(--primary);
+}
+.action-card h4 {
+  font-size: 1.1rem;
+  color: var(--secondary);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.action-card p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.visual-diagram {
+  margin: 2rem 0;
+  text-align: center;
+}
+.flow-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+.flow-box {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.arrow-down {
+  font-size: 2rem;
+  color: var(--accent);
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    flex-direction: column;
+  }
+  .tab-btn {
+    width: 100%;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 ハイ・コンセプト</h1>
+  <p>「新しいこと」を考え出す人の時代</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>📌 要約 = 問い × 答え × 根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      これからの時代に価値を生む能力は何か？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      右脳型の6つの感性（デザイン／物語／シンフォニー／共感／遊び／意味）
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか？）</strong>
+      豊かさ（Abundance）により機能品質が飽和し差別化は情緒／体験へ、アジア（Asia）で定型・分析業務が外部化、オートメーション（Automation）で手順的知識が機械化—この三重圧が左脳優位の価値を低下させるため。
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには？）</strong>
+      6つの感性を実践課題（ポートフォリオ）で鍛える—身の回りのデザイン改善、物語化プレゼン、マインドマップで統合、能動的傾聴で共感、遊び／ユーモアの導入、仕事を使命と結び直す—を継続し、右脳型資本を積み上げる。
+    </div>
+  </div>
+
+  <div class="visual-diagram">
+    <svg width="100%" height="200" viewBox="0 0 600 200" style="max-width:600px;margin:0 auto;display:block;">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect x="50" y="20" width="150" height="60" rx="10" fill="url(#grad1)" />
+      <text x="125" y="55" text-anchor="middle" fill="white" font-size="16" font-weight="bold">左脳型思考</text>
+      <text x="125" y="75" text-anchor="middle" fill="white" font-size="12">論理・分析</text>
+      
+      <rect x="400" y="20" width="150" height="60" rx="10" fill="#f093fb" />
+      <text x="475" y="55" text-anchor="middle" fill="white" font-size="16" font-weight="bold">右脳型思考</text>
+      <text x="475" y="75" text-anchor="middle" fill="white" font-size="12">統合・共感</text>
+      
+      <path d="M 200 50 L 400 50" stroke="#764ba2" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <polygon points="0 0, 10 3, 0 6" fill="#764ba2" />
+        </marker>
+      </defs>
+      
+      <text x="300" y="40" text-anchor="middle" fill="#764ba2" font-size="13" font-weight="bold">価値シフト</text>
+      
+      <text x="125" y="110" text-anchor="middle" fill="#666" font-size="11">豊かさ・アジア・自動化</text>
+      <text x="125" y="125" text-anchor="middle" fill="#666" font-size="11">→ コモディティ化</text>
+      
+      <text x="475" y="110" text-anchor="middle" fill="#666" font-size="11">デザイン・物語・シンフォニー</text>
+      <text x="475" y="125" text-anchor="middle" fill="#666" font-size="11">共感・遊び・意味</text>
+      
+      <circle cx="125" cy="160" r="25" fill="none" stroke="#667eea" stroke-width="2" />
+      <text x="125" y="167" text-anchor="middle" fill="#667eea" font-size="18" font-weight="bold">3A</text>
+      
+      <circle cx="475" cy="160" r="25" fill="none" stroke="#f093fb" stroke-width="2" />
+      <text x="475" y="167" text-anchor="middle" fill="#f093fb" font-size="18" font-weight="bold">6感性</text>
+    </svg>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <h2 style="color:var(--primary);margin-bottom:1rem;">🧠 主要概念の詳細</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>🌟 コンセプチュアル時代</h3>
+        <ul>
+          <li>情報化の先に到来する時代</li>
+          <li>概念創造・統合・意味付与が価値の中心</li>
+          <li>一言要約: 創造と意味の時代</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 機能が満たされた社会では、新しい意味や体験を生む力が競争優位となるため。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>💡 ハイ・コンセプト</h3>
+        <ul>
+          <li>異質な要素を結び新アイデアを生む</li>
+          <li>物語で価値を伝える能力</li>
+          <li>一言要約: 発想の統合力</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 既存の組み合わせを超えた新結合が、飽和市場での差別化を可能にする。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>❤️ ハイ・タッチ</h3>
+        <ul>
+          <li>共感・倫理・美・目的で関わる</li>
+          <li>人間的側面で深く響かせる</li>
+          <li>一言要約: 人に響かせる力</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 機械には模倣困難な人間理解が、顧客ロイヤルティと組織文化を支える。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🔢 左脳型思考（L-directed）</h3>
+        <ul>
+          <li>論理・順序・分析に強い</li>
+          <li>定型化・外部化・自動化されやすい</li>
+          <li>一言要約: 分析の力</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> アルゴリズム化可能な業務は機械やグローバル分業で代替されるため、単独では不十分。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🎨 右脳型思考（R-directed）</h3>
+        <ul>
+          <li>全体把握・パターン認識</li>
+          <li>感情理解・文脈化に長ける</li>
+          <li>一言要約: 統合と共感</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 複雑な文脈と感情を扱う能力は自動化困難で、人間ならではの価値源泉となる。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🌏 アジア（Asia）</h3>
+        <ul>
+          <li>グローバル分業で知的定型業務が移転</li>
+          <li>コスト優位な地域への外部化</li>
+          <li>一言要約: 外部化の圧力</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 標準化された業務は地理的制約を超えて最適地へ移るため、差別化には非定型能力が必須。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🤖 オートメーション（Automation）</h3>
+        <ul>
+          <li>アルゴリズム化可能な業務が機械化</li>
+          <li>ソフトウェアやAIに置換される</li>
+          <li>一言要約: 機械化の圧力</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 手順的知識は学習コストが低く機械に移行するため、人間は創造・判断領域へシフトが必要。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>💰 豊かさ（Abundance）</h3>
+        <ul>
+          <li>機能面が満たされた結果</li>
+          <li>審美・物語・意味が差別化の主戦場</li>
+          <li>一言要約: 飽和が生む選好</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 基本ニーズ充足後は情緒的価値が購買決定を左右し、体験設計が競争力となる。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🎨 デザイン</h3>
+        <ul>
+          <li>機能を超え形・体験・意味を統合</li>
+          <li>魅力を生む総合設計</li>
+          <li>一言要約: 意味ある美</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 同等機能の製品群では、使う喜びと意味が選択基準となり、デザインが売上を左右する。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>📖 物語</h3>
+        <ul>
+          <li>事実を文脈と感情で構成</li>
+          <li>記憶と行動を動かす</li>
+          <li>一言要約: 意味の文脈化</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 人間の脳は物語形式で情報を記憶・共有するため、説得力と伝播力が飛躍的に高まる。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🎼 シンフォニー</h3>
+        <ul>
+          <li>部分を束ね全体像を描く</li>
+          <li>異分野を接続し新価値を創る</li>
+          <li>一言要約: 統合・越境</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 専門分化が進む中、点を線にし面にする統合力が、イノベーションの源泉となる。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🤝 共感</h3>
+        <ul>
+          <li>他者の感情・視点を感じ取る</li>
+          <li>反応を設計に反映する力</li>
+          <li>一言要約: 人間理解</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 顧客・同僚の真のニーズを捉える共感が、製品・サービス・組織の質を決定する。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🎮 遊び</h3>
+        <ul>
+          <li>ユーモア・実験・余白で創造性向上</li>
+          <li>回復力を高める態度</li>
+          <li>一言要約: 創造の潤滑油</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 遊びは心理的安全性を生み、試行錯誤を促進し、ブレークスルーの確率を上げる。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🌟 意味</h3>
+        <ul>
+          <li>仕事や消費を目的・価値観と結ぶ</li>
+          <li>充足と忠誠を生む</li>
+          <li>一言要約: 目的との接続</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 意味ある活動は内発的動機を持続させ、人材定着と顧客ロイヤルティを強化する。
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>📋 ポートフォリオ（実践課題）</h3>
+        <ul>
+          <li>各感性を鍛える具体的ワーク群</li>
+          <li>習慣化で右脳型資本を蓄積</li>
+          <li>一言要約: 行動による習得</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由:</strong> 知識だけでは不十分で、反復実践によってスキルが身体化され、競争優位が蓄積される。
+        </div>
+      </div>
+    </div>
+    
+    <div class="flow-container">
+      <div class="flow-box">豊かさ × アジア × 自動化</div>
+      <div class="arrow-down">↓</div>
+      <div class="flow-box">左脳型業務のコモディティ化</div>
+      <div class="arrow-down">↓</div>
+      <div class="flow-box">右脳型能力の需要増</div>
+      <div class="arrow-down">↓</div>
+      <div class="flow-box">6つの感性（デザイン/物語/シンフォニー/共感/遊び/意味）</div>
+      <div class="arrow-down">↓</div>
+      <div class="flow-box">ポートフォリオ実践 → 競争優位の蓄積</div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <h2 style="color:var(--primary);margin-bottom:1rem;">📚 各章の要約</h2>
+    
+    <div class="chapter-card">
+      <h3>第I部: コンセプチュアル時代の到来</h3>
+      <ul>
+        <li>脳の左右機能の補完関係を整理</li>
+        <li>三つのA（豊かさ/アジア/自動化）が価値基準を転換</li>
+        <li>機能から意味へのシフトを提示</li>
+        <li>左脳型思考は必要条件、右脳型が十分条件</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（なぜこの章が必要か）:</strong> 時代転換の構造的要因を示し、以降の6感性の必然性を基礎づけるため。読者に「なぜ今、右脳型か」の納得を与える。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>デザイン章: 使えるから"欲しい"へ</h3>
+      <ul>
+        <li>審美と体験設計の実例を提示</li>
+        <li>機能同等市場での差別化手法</li>
+        <li>デザイン思考の練習課題</li>
+        <li>日常品の再設計ワーク</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 豊かさにより機能が飽和した市場では、情緒的魅力が購買を決定する。デザインは単なる装飾でなく戦略資産である。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>物語章: データからナラティブへ</h3>
+      <ul>
+        <li>説得・記憶・意味付与の技法</li>
+        <li>物語構造の分析と演習</li>
+        <li>プレゼンを物語化する方法</li>
+        <li>顧客体験をストーリーで設計</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 人間の脳は物語形式で情報を処理・記憶するため、データの羅列より物語が行動変容を促す。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>シンフォニー章: 越境と統合</h3>
+      <ul>
+        <li>全体視・アナロジー・マインドマップ</li>
+        <li>異分野の点を線にし面にする方法</li>
+        <li>専門の壁を超える実践</li>
+        <li>新結合によるイノベーション創出</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 専門分化が進む中、統合力が新価値を生む。部分最適の集合は全体最適にならず、俯瞰と接続が競争力となる。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>共感章: 他者理解</h3>
+      <ul>
+        <li>傾聴・視点採用・感情リテラシー</li>
+        <li>顧客の真のニーズを捉える技術</li>
+        <li>能動的傾聴の実践ワーク</li>
+        <li>共感を戦略資産に変える</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 機械には困難な人間理解が、製品・サービス・組織の質を決定する。共感は"優しさ"でなく競争戦略である。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>遊び章: ユーモアと余白</h3>
+      <ul>
+        <li>創造性と回復力を高めるレクリエーション</li>
+        <li>心理的安全性の構築</li>
+        <li>実験・試行錯誤の促進</li>
+        <li>遊びを仕事に組み込む方法</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 遊びは脳の柔軟性を保ち、ストレス耐性を高め、ブレークスルーの土壌を作る。効率一辺倒は創造性を枯渇させる。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>意味章: 目的・精神性</h3>
+      <ul>
+        <li>仕事・消費・人生の価値連鎖を再設計</li>
+        <li>内発的動機の持続性向上</li>
+        <li>使命と日常業務の接続</li>
+        <li>意味ある活動が生む充足とロイヤルティ</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 物質的豊かさが満たされた後、人は意味を求める。意味ある仕事は人材定着と顧客忠誠を同時に強化する。
+      </div>
+    </div>
+    
+    <div class="chapter-card">
+      <h3>終章: 個人と組織の実装</h3>
+      <ul>
+        <li>6感性をキャリア/事業/教育に組み込む</li>
+        <li>実装ロードマップの提示</li>
+        <li>継続的な習慣化の仕組み</li>
+        <li>右脳型資本の蓄積戦略</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（章のメッセージの根拠）:</strong> 知識だけでは変化しない。具体的な行動計画と習慣化の仕組みが、理論を実践に転換し、持続的競争優位を生む。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <h2 style="color:var(--primary);margin-bottom:1rem;">💡 具体例</h2>
+    
+    <div class="example-card">
+      <h4>🎨 例1: Appleのデザイン戦略</h4>
+      <p><strong>背景:</strong> 2000年代初頭、PC市場は機能競争が飽和し、価格競争に陥っていた。</p>
+      <p><strong>実践:</strong> Appleは機能だけでなく、審美性・使う喜び・ブランド物語を統合したデザインで差別化。iMac、iPod、iPhoneは「欲しい」という情緒的価値を創出した。</p>
+      <p><strong>示唆:</strong> 機能同等市場では、デザインと物語が購買決定を左右し、プレミアム価格を正当化する。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）:</strong> 豊かさによる機能飽和下では、情緒的価値が競争優位の源泉となり、デザインが戦略資産であることを実証している。
+      </div>
+    </div>
+    
+    <div class="example-card">
+      <h4>🤝 例2: 医療現場での共感トレーニング</h4>
+      <p><strong>背景:</strong> 医師の診断精度は高いが、患者満足度が低く、訴訟リスクが高い病院があった。</p>
+      <p><strong>実践:</strong> 医師に能動的傾聴と感情リテラシーのトレーニングを実施。患者の不安や価値観を理解し、説明方法を調整した。</p>
+      <p><strong>示唆:</strong> 共感は患者満足度を向上させ、訴訟リスクを低減し、治療アドヒアランスを高める。技術だけでは不十分で、人間理解が成果を左右する。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）:</strong> 共感は"優しさ"でなく戦略資産であり、顧客体験の質を決定し、リスクとロイヤルティに直結することを示す。
+      </div>
+    </div>
+    
+    <div class="example-card">
+      <h4>🎼 例3: IDEOのシンフォニー型イノベーション</h4>
+      <p><strong>背景:</strong> デザインコンサルティング企業IDEOは、異分野の専門家を集めてプロジェクトチームを編成する。</p>
+      <p><strong>実践:</strong> エンジニア・デザイナー・人類学者・ビジネス戦略家が協働し、技術・美・人間理解・ビジネスモデルを統合。ショッピングカートの再設計など、既存の枠を超えた解決策を生む。</p>
+      <p><strong>示唆:</strong> 専門の壁を超えた統合が、既存の組み合わせを超えた新結合を生み、イノベーションの確率を高める。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）:</strong> シンフォニー（統合・越境）が、部分最適の集合を超えた全体最適と新価値を創出し、競争優位を生むことを実証している。
+      </div>
+    </div>
+    
+    <div class="example-card">
+      <h4>📖 例4: Pixarの物語駆動型組織</h4>
+      <p><strong>背景:</strong> アニメーション制作は技術力だけでなく、観客の感情を動かす物語が成否を分ける。</p>
+      <p><strong>実践:</strong> Pixarは「ストーリーが王様」の文化を徹底。技術者も物語構造を学び、全員が物語の質に責任を持つ。ブレインストラストで率直なフィードバックを繰り返し、物語を磨く。</p>
+      <p><strong>示唆:</strong> 物語は組織文化の核となり、全員が意味を共有することで、一貫性と創造性を両立させる。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）:</strong> 物語は単なる表現技法でなく、組織の意思決定と文化を統合する力を持ち、持続的な創造性を支えることを示す。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <h2 style="color:var(--primary);margin-bottom:1rem;">📜 重要な引用</h2>
+    
+    <div class="quote-card">
+      <p>"豊かさ・アジア・自動化が、分析中心の仕事の独占を終わらせる。"</p>
+      <small><strong>重要性:</strong> 時代転換の因果を一文で示し、議論の基盤となる。三つのAが左脳型業務の価値を構造的に低下させることを明確に宣言している。</small>
+    </div>
+    
+    <div class="quote-card">
+      <p>"機能が同等なら、決め手はデザインと物語になる。"</p>
+      <small><strong>重要性:</strong> 差別化の焦点を情緒/体験へ移す指針を与える。豊かさによる機能飽和下での競争戦略を端的に示す。</small>
+    </div>
+    
+    <div class="quote-card">
+      <p>"シンフォニーは、異分野の点を線にし、面にする力だ。"</p>
+      <small><strong>重要性:</strong> 越境統合が新価値の源泉であることを直観的に伝える。専門分化の限界を超える方法論を示唆している。</small>
+    </div>
+    
+    <div class="quote-card">
+      <p>"共感は、単なる優しさではなく競争戦略である。"</p>
+      <small><strong>重要性:</strong> 人間理解を"甘さ"から"戦略資産"へ位置づけ直す。共感が顧客満足・リスク低減・ロイヤルティに直結することを明示する。</small>
+    </div>
+    
+    <div class="quote-card">
+      <p>"遊びと意味が、創造性と持続的動機を支える。"</p>
+      <small><strong>重要性:</strong> 成果と充足を両立させる土台としての意義を示す。効率一辺倒の限界を指摘し、人間らしさが競争力の源泉であることを示唆する。</small>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <h2 style="color:var(--primary);margin-bottom:1rem;">🚀 今日のアクション</h2>
+    
+    <div class="action-card">
+      <h4>🎨 アクション1: 日用品1つの体験を再設計する</h4>
+      <p><strong>目的:</strong> デザイン感性を実践で鍛え、機能を超えた価値を発見する。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 毎日使う物（マグカップ、ペン、スマホケース等）を1つ選ぶ</li>
+        <li>✓ 「使いやすさ」「見た目」「使う時の気分」を観察し記録</li>
+        <li>✓ 「もっと嬉しい体験」を3つ書き出す</li>
+        <li>✓ 1つを小さく改善（配置変更、装飾追加等）</li>
+      </ul>
+      <p><strong>期待効果:</strong> デザイン思考の基礎が身につき、日常の観察眼が鋭くなる。15分で完了可能。</p>
+    </div>
+    
+    <div class="action-card">
+      <h4>📖 アクション2: 仕事の課題を物語で説明する</h4>
+      <p><strong>目的:</strong> 物語構成力を鍛え、説得力と記憶定着を高める。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 今抱えている課題を1つ選ぶ</li>
+        <li>✓ 「主人公（誰が）」「障害（何に困っている）」「解決（どうなりたい）」の3要素で構成</li>
+        <li>✓ 同僚や友人に3分で話してみる</li>
+        <li>✓ 反応を観察し、伝わった点・伝わらなかった点をメモ</li>
+      </ul>
+      <p><strong>期待効果:</strong> 物語形式で情報を整理する習慣がつき、プレゼン・報告の質が向上する。20分で実践可能。</p>
+    </div>
+    
+    <div class="action-card">
+      <h4>🤝 アクション3: 会議相手の感情を観察記録する</h4>
+      <p><strong>目的:</strong> 共感力を鍛え、他者の視点と感情を理解する精度を高める。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 次の会議で1人を観察対象に選ぶ</li>
+        <li>✓ 発言内容だけでなく、表情・声のトーン・身振りに注目</li>
+        <li>✓ 「この人は今どう感じているか？」を推測しメモ</li>
+        <li>✓ 会議後、可能なら本人に確認（「○○と感じましたか？」）</li>
+      </ul>
+      <p><strong>期待効果:</strong> 感情リテラシーが向上し、相手の真のニーズを捉える力が高まる。会議中の15分で実践可能。</p>
+    </div>
+    
+    <div class="action-card">
+      <h4>🎼 アクション4: マインドマップで課題を統合する</h4>
+      <p><strong>目的:</strong> シンフォニー（統合・越境）の感覚を養い、全体視を鍛える。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 紙の中央に課題を1つ書く</li>
+        <li>✓ 関連する要素（人・技術・制約・機会等）を放射状に書き出す</li>
+        <li>✓ 要素間の関係を線で結び、パターンを探す</li>
+        <li>✓ 「意外な組み合わせ」を1つ見つけ、アイデアを書く</li>
+      </ul>
+      <p><strong>期待効果:</strong> 部分を全体に統合する力がつき、新結合のアイデアが生まれやすくなる。20分で完了。</p>
+    </div>
+    
+    <div class="action-card">
+      <h4>🎮 アクション5: 仕事に5分の遊びを組み込む</h4>
+      <p><strong>目的:</strong> 遊びの効用を体感し、創造性と回復力を高める。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 作業の合間に5分のブレイクを設定</li>
+        <li>✓ 軽いストレッチ、落書き、短い散歩、好きな音楽等を選ぶ</li>
+        <li>✓ 「遊び」の後の集中力・気分を観察</li>
+        <li>✓ 効果を感じたら、毎日のルーチンに組み込む</li>
+      </ul>
+      <p><strong>期待効果:</strong> 心理的余白が生まれ、ストレス耐性と発想の柔軟性が向上する。5分で即実践可能。</p>
+    </div>
+    
+    <div class="action-card">
+      <h4>🌟 アクション6: 今日の仕事を使命と結びつける</h4>
+      <p><strong>目的:</strong> 意味の感性を鍛え、内発的動機を高める。</p>
+      <p><strong>具体的手順:</strong></p>
+      <ul style="list-style:none;padding-left:0;">
+        <li>✓ 今日やるタスクを1つ選ぶ</li>
+        <li>✓ 「このタスクは誰の役に立つか？」を書き出す</li>
+        <li>✓ 「自分の価値観（大切にしたいこと）とどう繋がるか？」を1文で書く</li>
+        <li>✓ その視点でタスクに取り組み、充足感の変化を観察</li>
+      </ul>
+      <p><strong>期待効果:</strong> 日常業務が意味と接続され、動機の持続性と充足感が向上する。10分で実践可能。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetTab = button.getAttribute('data-tab');
+      
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      button.classList.add('active');
+      button.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
