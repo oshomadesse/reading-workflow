@@ -14,7 +14,8 @@ from openai import OpenAI
 
 # === Paths / Client ===========================================================
 # === Paths / Client ===========================================================
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 if os.getenv("GITHUB_ACTIONS"):
     VAULT_ROOT = Path(PROJECT_DIR).resolve()
     INBOX_DIR = VAULT_ROOT / "100_Inbox"
@@ -22,7 +23,7 @@ else:
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
     INBOX_DIR = Path(os.getenv("INBOX_DIR", str(VAULT_ROOT / "100_Inbox"))).resolve()
 
-DATA_DIR    = Path(PROJECT_DIR) / "data"
+DATA_DIR    = PROJECT_DIR / "data"
 for d in (DATA_DIR, INBOX_DIR): d.mkdir(parents=True, exist_ok=True)
 
 load_dotenv(os.path.join(PROJECT_DIR, ".env"))

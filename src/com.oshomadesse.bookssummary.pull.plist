@@ -7,7 +7,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/auto_pull.sh</string>
+        <string>/Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/src/auto_pull.sh</string>
     </array>
     <key>StartCalendarInterval</key>
     <dict>

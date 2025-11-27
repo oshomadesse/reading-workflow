@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r src/requirements.txt
 
       - name: Create .env file
         run: |
@@ -45,7 +45,7 @@ jobs:
           GITHUB_ACTIONS: true
         run: |
           export WORKFLOW_START_TIME=$(date +%s)
-          python integrated_reading_workflow.py
+          python src/integrated_reading_workflow.py
 
       - name: Commit and Push changes
         run: |

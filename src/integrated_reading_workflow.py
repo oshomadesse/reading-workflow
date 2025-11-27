@@ -28,16 +28,22 @@ import claude_infographic
 
 # ============ 環境読み込みとディレクトリ保証 ============
 # ============ 環境読み込みとディレクトリ保証 ============
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_DIR / "data"
+INBOX_DIR = PROJECT_DIR / "100_Inbox"
 # CI環境（GITHUB_ACTIONS）の場合はリポジトリルートをVAULT_ROOTとみなす
 if os.getenv("GITHUB_ACTIONS"):
-    VAULT_ROOT = Path(PROJECT_DIR).resolve()
-    INBOX_DIR = VAULT_ROOT / "artifacts" # リポジトリ内に作成（旧 100_Inbox）
+    VAULT_ROOT = PROJECT_DIR.resolve()
+    # INBOX_DIR は PROJECT_DIR / "100_Inbox" で固定されるため、CI環境での特別な設定は不要
 else:
     # ローカル環境: 環境変数または親ディレクトリからの推測
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
     # ユーザー要望: ローカル実行時は oshomadesse-pc > 100_Inbox (つまり VAULT_ROOT 直下の 100_Inbox)
-    INBOX_DIR = Path(os.getenv("INBOX_DIR", str(VAULT_ROOT / "100_Inbox"))).resolve()
+    # INBOX_DIR は PROJECT_DIR / "100_Inbox" で固定されるため、VAULT_ROOTからの推測は不要
+    # ただし、互換性のため環境変数INBOX_DIRが設定されていればそれを優先
+    INBOX_DIR = Path(os.getenv("INBOX_DIR", str(INBOX_DIR))).resolve()
+
 
 try:
     load_dotenv(os.path.join(PROJECT_DIR, ".env"))

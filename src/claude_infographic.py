@@ -5,13 +5,15 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(PROJECT_DIR, "data")
-INF_DIR  = os.path.join(PROJECT_DIR, "infographics")  # テンプレ配置用に存続
-TPL_PATH = os.path.join(INF_DIR, "infographic_template.html")
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_DIR / "data"
+INF_DIR  = PROJECT_DIR / "infographics"  # テンプレ配置用に存続
+TPL_PATH = INF_DIR / "infographic_template.html"
 
 # ★ Vault ルートと 100_Inbox（HTMLの保存先）
 if os.getenv("GITHUB_ACTIONS"):
-    VAULT_ROOT = Path(PROJECT_DIR).resolve()
+    VAULT_ROOT = PROJECT_DIR
     INBOX_DIR = VAULT_ROOT / "100_Inbox"
 else:
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()

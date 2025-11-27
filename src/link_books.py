@@ -22,8 +22,9 @@ from pathlib import Path
 from difflib import SequenceMatcher
 
 import os
-
-ROOT = Path(__file__).resolve().parent
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+VAULT_ROOT = PROJECT_DIR.parent
 if os.getenv("GITHUB_ACTIONS"):
     INBOX = ROOT / '100_Inbox'
 else:

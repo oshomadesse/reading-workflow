@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import os, json, requests
 from dotenv import load_dotenv
+from pathlib import Path
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_DIR / "data"
 
 # Prefer menu-workflow/.env (directory of key files) over root .env
 # If menu-workflow is not found (e.g. in CI or new location), this will just fail gracefully in _read_env_file_value

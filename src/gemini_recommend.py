@@ -20,9 +20,11 @@ try:
 except Exception:
     genai = None
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(PROJECT_DIR, ".env")
-if os.path.exists(ENV_PATH):
+# プロジェクトルート（srcの親ディレクトリ）
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_DIR / "data"
+ENV_PATH = PROJECT_DIR / ".env" # Updated to use Path object
+if ENV_PATH.exists(): # Updated to use Path object's exists()
     load_dotenv(ENV_PATH)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
