@@ -1,0 +1,24 @@
+[
+  {
+    "title": "両利きの経営",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E4%B8%A1%E5%88%A9%E3%81%8D%E3%81%AE%E7%B5%8C%E5%96%B6_infographic.html",
+    "vault_rel": "infographics/両利きの経営_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E4%B8%A1%E5%88%A9%E3%81%8D%E3%81%AE%E7%B5%8C%E5%96%B6_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E4%B8%A1%E5%88%A9%E3%81%8D%E3%81%AE%E7%B5%8C%E5%96%B6_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/両利きの経営_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4686,
+      "output_tokens": 12463
+    },
+    "generated_at": "2025-11-27T09:38:04",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E4%B8%A1%E5%88%A9%E3%81%8D%E3%81%AE%E7%B5%8C%E5%96%B6_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/infographics/%E4%B8%A1%E5%88%A9%E3%81%8D%E3%81%AE%E7%B5%8C%E5%96%B6_infographic.html",
+      "{{claude_usaget}}": 12463,
+      "{{claude_credit}}": "$18.99"
+    },
+    "cost_usd": 0.201003
+  }
+]
