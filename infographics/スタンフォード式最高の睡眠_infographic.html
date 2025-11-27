@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スタンフォード式 最高の睡眠 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea / セカンダリー #764ba2 / アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+.summary-item strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.15);
+}
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-left: 4px solid var(--primary);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.chapter-card h4 {
+  font-size: 1.1rem;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+.chapter-card .reason {
+  background: #f7fafc;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  border-left: 3px solid var(--accent);
+}
+.example-card {
+  background: linear-gradient(135deg, #ffeef8, #fff5f7);
+  border: 2px solid var(--accent);
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin-bottom: 1.25rem;
+}
+.example-card h4 {
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-left: 5px solid var(--secondary);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  font-style: italic;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.quote-card .quote-text {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.quote-card .quote-note {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+}
+.action-card h4 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.action-card .action-meta {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+.metric-bar {
+  background: #e2e8f0;
+  height: 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 0.75rem 0;
+  position: relative;
+}
+.metric-fill {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: width 1s ease-out;
+}
+.relationship-diagram {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--border);
+}
+.relationship-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+}
+.arrow {
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+@media (max-width: 768px) {
+  header h1 { font-size: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .tabs { font-size: 0.85rem; }
+  .tab-btn { padding: 0.6rem 1rem; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 スタンフォード式 最高の睡眠</h1>
+  <p>入眠直後の「黄金の90分」を科学的に設計し、短時間でも最高の回復を実現する</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>💡 要約 = 問い × 答え × 根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      限られた睡眠時間でも、翌日の脳と体のパフォーマンスを最大化するには？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      入眠直後の「黄金の90分」に最深のノンレム睡眠を得るよう、体温・光・時間・刺激・環境を科学的に整える
+    </div>
+    <div class="summary-item">
+      <strong>🔬 Why（なぜそうなのか）</strong>
+      深いノンレム睡眠時に成長ホルモン分泌、組織修復、免疫調節、記憶固定が集中的に進む。睡眠二過程モデル（概日リズム×睡眠圧）と深部体温・メラトニンの作用で説明可能
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには）</strong>
+      体温戦略=就寝90分前に40℃×10〜15分入浴→放熱で深部体温を下げ入眠促進 ／ 光戦略=朝に強光、夜は減光・ブルーライト抑制→体内時計を前進・メラトニン保護 ／ 時間戦略=起床・就寝の固定、昼寝20分 ／ 刺激管理=カフェインは就寝6〜8時間前まで、アルコールは少量でも避ける ／ 環境=暗・静・涼（18〜20℃）、寝具と通気で放熱を助ける
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">🧠 主要概念</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">📚 各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">💼 具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">📝 重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">🚀 今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <h2 style="margin-bottom:1.5rem;color:var(--secondary);">🧠 主要概念の詳細</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>⭐ 黄金の90分</h3>
+        <ul>
+          <li>入眠直後に訪れる最深のノンレム睡眠の塊</li>
+          <li>成長ホルモン分泌や回復が最大化する核</li>
+          <li>この時間帯の質が全体の睡眠効率を決定</li>
+        </ul>
+        <span class="badge">最初が勝負</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>短時間睡眠でも最初の質を確保すれば回復効果が最大化される
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🌙 ノンレム/レム睡眠</h3>
+        <ul>
+          <li>ノンレム：脳と体の深い休息（徐波睡眠）</li>
+          <li>レム：記憶統合・感情処理が進む段階</li>
+          <li>90分サイクルで交互に出現</li>
+        </ul>
+        <span class="badge">役割分担の睡眠</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>両方のバランスが取れて初めて完全な回復が実現する
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌡️ 深部体温</h3>
+        <ul>
+          <li>体の中心温度で、低下すると眠気が高まる</li>
+          <li>放熱が入眠の生理的引き金になる</li>
+          <li>皮膚温との落差が大きいほど効果的</li>
+        </ul>
+        <span class="badge">下げて眠る</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>体温操作は最も即効性のある入眠コントロール手段
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⏰ 概日リズム（体内時計）</h3>
+        <ul>
+          <li>約24時間周期の生体リズム</li>
+          <li>光で同調し、睡眠時間帯を規定</li>
+          <li>ズレると入眠困難や日中の眠気を招く</li>
+        </ul>
+        <span class="badge">時計合わせが鍵</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>リズムの安定が睡眠の一貫性と質を保証する
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💤 睡眠圧（恒常性）</h3>
+        <ul>
+          <li>起床時間の積算で高まる眠気</li>
+          <li>アデノシン蓄積が関与</li>
+          <li>睡眠で解消され、翌朝リセット</li>
+        </ul>
+        <span class="badge">貯めて解放</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>睡眠圧の適切な管理が自然な入眠を促す
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 入眠儀式（就寝ルーティン）</h3>
+        <ul>
+          <li>毎夜同じ順序・同じ刺激で眠りのスイッチを入れる</li>
+          <li>条件づけにより入眠が自動化される</li>
+          <li>読書・ストレッチ・音楽など個人で設計</li>
+        </ul>
+        <span class="badge">条件づけ</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>脳に「これから寝る」信号を送り入眠潜時を短縮
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 体温落差</h3>
+        <ul>
+          <li>皮膚温↑と深部体温↓の差</li>
+          <li>落差を作るほど入眠がスムーズ</li>
+          <li>深睡眠の深さも増す</li>
+        </ul>
+        <span class="badge">温度の段差</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>入浴・室温・寝具の設計指針となる
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>☀️ 光とメラトニン</h3>
+        <ul>
+          <li>朝の強光：メラトニン抑制・体内時計前進</li>
+          <li>夜の光：分泌を妨げ入眠を遅らせる</li>
+          <li>ブルーライトは特に影響大</li>
+        </ul>
+        <span class="badge">光で眠気を司る</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>光環境の管理が体内時計の最強の調整手段
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚡ パワーナップ（昼寝）</h3>
+        <ul>
+          <li>20分程度の短い昼寝で覚醒度回復</li>
+          <li>学習効率と集中力が向上</li>
+          <li>長すぎると夜の睡眠を阻害</li>
+        </ul>
+        <span class="badge">20分の投資</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>日中のパフォーマンス維持と夜の睡眠の両立が可能
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚫 ショートスリーパー神話</h3>
+        <ul>
+          <li>先天的少数例を除き、多くは睡眠負債の見落とし</li>
+          <li>効率化が先決で、無理な短縮は逆効果</li>
+          <li>質の向上で実質的な時間短縮は可能</li>
+        </ul>
+        <span class="badge">例外に倣わない</span>
+        <div style="margin-top:1rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;font-size:0.9rem;">
+          <strong>💡 なぜ重要か：</strong>誤った目標設定を避け、現実的な最適化に集中できる
+        </div>
+      </div>
+    </div>
+
+    <div class="relationship-diagram">
+      <h3 style="margin-bottom:1rem;color:var(--secondary);">🔗 概念間の関係性</h3>
+      <div class="relationship-item">
+        <span>朝の強光</span><span class="arrow">→</span><span>メラトニン抑制</span><span class="arrow">→</span><span>概日相前進</span><span class="arrow">→</span><span>夜の入眠容易</span>
+      </div>
+      <div class="relationship-item">
+        <span>就寝90分前入浴</span><span class="arrow">→</span><span>皮膚血流↑</span><span class="arrow">→</span><span>深部体温↓</span><span class="arrow">→</span><span>深いノンレム↑</span>
+      </div>
+      <div class="relationship-item">
+        <span>室温18〜20℃</span><span class="arrow">→</span><span>深部体温低下効率↑</span><span class="arrow">→</span><span>黄金の90分の質↑</span>
+      </div>
+      <div class="relationship-item">
+        <span>カフェイン遅時間摂取</span><span class="arrow">→</span><span>アデノシン受容体遮断</span><span class="arrow">→</span><span>睡眠圧↓</span><span class="arrow">→</span><span>入眠遅延</span>
+      </div>
+      <div class="relationship-item">
+        <span>アルコール摂取</span><span class="arrow">→</span><span>中途覚醒↑・REM抑制</span><span class="arrow">→</span><span>回復低下</span><span class="arrow">→</span><span>日中パフォーマンス↓</span>
+      </div>
+      <div class="relationship-item">
+        <span>就起の固定</span><span class="arrow">→</span><span>概日リズム安定</span><span class="arrow">→</span><span>睡眠の一貫性↑</span><span class="arrow">→</span><span>日中の眠気↓</span>
+      </div>
+      <div class="relationship-item">
+        <span>夕方の運動</span><span class="arrow">→</span><span>体温リズムの振幅↑</span><span class="arrow">→</span><span>夜の放熱効率↑</span><span class="arrow">→</span><span>深睡眠↑</span>
+      </div>
+      <div class="relationship-item">
+        <span>昼寝>30分</span><span class="arrow">→</span><span>睡眠慣性↑</span><span class="arrow">→</span><span>夜の睡眠圧↓</span><span class="arrow">→</span><span>入眠困難</span>
+      </div>
+      <div class="relationship-item">
+        <span>夜の強光/ブルーライト</span><span class="arrow">→</span><span>メラトニン抑制</span><span class="arrow">→</span><span>入眠遅延</span><span class="arrow">→</span><span>黄金の90分の質↓</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:1.5rem;color:var(--secondary);">📚 各章の要約</h2>
+    
+    <div class="chapter-card">
+      <h4>📖 導入：睡眠の誤解を正す</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 睡眠は健康・生産性・感情の土台である</li>
+        <li style="padding:0.3rem 0;">▸ 「量より質」ではなく「最初の質」が核心</li>
+        <li style="padding:0.3rem 0;">▸ 科学的根拠に基づく実践で誰でも改善可能</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>睡眠への誤った認識を正し、本書の実践的アプローチの土台を築く
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>🔬 理論編：二過程モデルと生理メカニズム</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 概日リズム（体内時計）×睡眠圧（恒常性）の二過程モデル</li>
+        <li style="padding:0.3rem 0;">▸ 深部体温の低下が入眠の生理的トリガー</li>
+        <li style="padding:0.3rem 0;">▸ メラトニンが光環境で調節され睡眠タイミングを決定</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>実践策の「なぜ効くのか」を理解し、納得して継続できる基盤を提供
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>⭐ 中核命題：「黄金の90分」を設計せよ</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 入眠直後の最深ノンレム睡眠が回復のボトルネック</li>
+        <li style="padding:0.3rem 0;">▸ 成長ホルモン・免疫・記憶固定が集中的に進む</li>
+        <li style="padding:0.3rem 0;">▸ 最初の質を最大化すれば短時間でも高効率</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>施策の優先順位を明確化し、限られた時間で最大効果を得る戦略を示す
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>🌡️ 実践編1：体温戦略で入眠と深睡眠を強化</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 就寝90分前に40℃×10〜15分入浴→放熱促進</li>
+        <li style="padding:0.3rem 0;">▸ 室温18〜20℃、通気性の高い寝具で放熱を助ける</li>
+        <li style="padding:0.3rem 0;">▸ 衣服は締め付けず、手足からの放熱を妨げない</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>最も即効性のある体温操作の具体的手順を提示し、今夜から実行可能にする
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>☀️ 実践編2：光と時間で体内時計を同調</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 起床後すぐに強い光を浴びて体内時計を前進</li>
+        <li style="padding:0.3rem 0;">▸ 夜は照明を落とし、ブルーライトを抑制</li>
+        <li style="padding:0.3rem 0;">▸ 起床・就寝時刻を固定し、リズムを安定化</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>体内時計の調整が夜の入眠を左右することを示し、光環境の設計指針を提供
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>🍽️ 実践編3：刺激と行動の最適タイミング</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ カフェインは就寝6〜8時間前まで、アルコールは避ける</li>
+        <li style="padding:0.3rem 0;">▸ 夕方の運動で体温リズムの振幅を高める</li>
+        <li style="padding:0.3rem 0;">▸ 昼寝は20分以内、午後3時前に実施</li>
+        <li style="padding:0.3rem 0;">▸ 夕食は就寝3時間前までに済ませる</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>日中の行動が夜の睡眠に与える影響を明確化し、生活全体の最適化を促す
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>🌍 応用：個別状況への対応策</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ 平日/休日のズレ対策：起床時刻は固定、就寝時刻で調整</li>
+        <li style="padding:0.3rem 0;">▸ 時差・交代勤務：光と体温で強制的にリセット</li>
+        <li style="padding:0.3rem 0;">▸ 年齢差・個体差：基本原則は同じ、微調整で対応</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>特殊な状況でも基本原則を応用できることを示し、実践の汎用性を高める
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h4>✅ まとめ：習慣化の順序とチェックリスト</h4>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="padding:0.3rem 0;">▸ すぐ効く施策（入浴・光・昼寝）から開始</li>
+        <li style="padding:0.3rem 0;">▸ 時間固定・刺激管理を段階的に追加</li>
+        <li style="padding:0.3rem 0;">▸ チェックリストで定着を確認し、継続を促す</li>
+      </ul>
+      <div class="reason">
+        <strong>💡 なぜこの章が必要か：</strong>実践の優先順位と継続の仕組みを提示し、知識を行動に変換する
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:1.5rem;color:var(--secondary);">💼 具体例</h2>
+    
+    <div class="example-card">
+      <h4>🏢 例1：多忙なビジネスパーソンの睡眠改善</h4>
+      <p style="margin-bottom:0.75rem;"><strong>背景：</strong>帰宅が遅く、睡眠時間は5〜6時間。日中の眠気と集中力低下に悩む。</p>
+      <p style="margin-bottom:0.75rem;"><strong>介入：</strong>帰宅後すぐに40℃の入浴を15分実施し、90分後に就寝。朝は起床後すぐにカーテンを開け、強い光を浴びる。昼寝を20分導入。</p>
+      <p style="margin-bottom:0.75rem;"><strong>結果：</strong>入眠潜時が30分→10分に短縮。日中の眠気が軽減し、午後の会議でも集中力を維持できるようになった。</p>
+      <div class="reason">
+        <strong>💡 この例が示すこと：</strong>睡眠時間を延ばせなくても、最初の質を高めることで実質的な回復効果を最大化できる
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>🎓 例2：受験生の記憶定着と学習効率向上</h4>
+      <p style="margin-bottom:0.75rem;"><strong>背景：</strong>深夜まで勉強するが、翌日の記憶定着が悪く、模試の成績が伸び悩む。</p>
+      <p style="margin-bottom:0.75rem;"><strong>介入：</strong>就寝時刻を23時に固定し、入浴と光管理で黄金の90分を確保。夜のスマホ使用を制限し、ブルーライトを抑制。昼寝20分で午後の集中力を回復。</p>
+      <p style="margin-bottom:0.75rem;"><strong>結果：</strong>記憶の定着率が向上し、模試の成績が15%改善。勉強時間は減ったが、効率が上がり総合的な学習効果が増大。</p>
+      <div class="reason">
+        <strong>💡 この例が示すこと：</strong>深いノンレム睡眠が記憶固定の鍵であり、学習効率は時間ではなく睡眠の質で決まる
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>🏃 例3：アスリートの回復とパフォーマンス最適化</h4>
+      <p style="margin-bottom:0.75rem;"><strong>背景：</strong>ハードなトレーニング後の疲労回復が遅く、翌日のパフォーマンスが不安定。</p>
+      <p style="margin-bottom:0.75rem;"><strong>介入：</strong>トレーニング後の入浴タイミングを調整し、就寝90分前に実施。室温を18℃に設定し、通気性の高い寝具に変更。起床時刻を固定し、朝の光を浴びる習慣を確立。</p>
+      <p style="margin-bottom:0.75rem;"><strong>結果：</strong>筋肉痛の回復が早まり、翌日のトレーニング強度を維持できるようになった。成長ホルモンの分泌が最適化され、筋肥大の効率も向上。</p>
+      <div class="reason">
+        <strong>💡 この例が示すこと：</strong>黄金の90分での成長ホルモン分泌が組織修復の鍵であり、体温管理が回復速度を左右する
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>👨‍💼 例4：交代勤務者の体内時計調整</h4>
+      <p style="margin-bottom:0.75rem;"><strong>背景：</strong>夜勤と日勤が交互にあり、睡眠リズムが乱れて慢性的な疲労と不調。</p>
+      <p style="margin-bottom:0.75rem;"><strong>介入：</strong>夜勤明けは強い光を避け、サングラスで帰宅。暗い部屋で入浴後すぐに就寝。日勤前は朝の強光で体内時計を前進させる。</p>
+      <p style="margin-bottom:0.75rem;"><strong>結果：</strong>シフト切替時の不調が軽減し、各勤務帯での集中力が安定。体内時計の強制リセットにより、睡眠の質が向上。</p>
+      <div class="reason">
+        <strong>💡 この例が示すこと：</strong>光と体温の戦略的操作で、不規則な生活でも体内時計を調整し睡眠の質を保てる
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:1.5rem;color:var(--secondary);">📝 重要な引用</h2>
+    
+    <div class="quote-card">
+      <div class="quote-text">
+        「要旨: 睡眠の勝負は入眠直後の90分で決まる。」
+      </div>
+      <div class="quote-note">
+        💡 <strong>なぜ重要か：</strong>施策を最初の質に集中させる判断基準になる。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        「要旨: 体温を一度上げて下げると、人は自然に眠くなる。」
+      </div>
+      <div class="quote-note">
+        💡 <strong>なぜ重要か：</strong>入浴と放熱という具体策の生理的根拠を示す。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        「要旨: 朝の光は体内時計のゼロ点合わせである。」
+      </div>
+      <div class="quote-note">
+        💡 <strong>なぜ重要か：</strong>起床後の強光が夜の入眠を左右することを示す。
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        「要旨: 昼寝は20分が最適で、長すぎると逆効果。」
+      </div>
+      <div class="quote-note">
+        💡 <strong>なぜ重要か：</strong>日中介入の上限を明確化し夜の睡眠を守る。
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);padding:1.5rem;border-radius:1rem;margin-top:2rem;border:2px solid var(--border);">
+      <h3 style="color:var(--secondary);margin-bottom:1rem;">📚 関連書籍</h3>
+      <div style="display:grid;gap:1rem;">
+        <div style="padding:1rem;background:#f7fafc;border-radius:0.5rem;border-left:4px solid var(--primary);">
+          <strong style="color:var(--primary);">睡眠こそ最強の解決策である</strong><br>
+          <span style="font-size:0.9rem;color:var(--text-light);">著者: マシュー・ウォーカー</span><br>
+          <span style="font-size:0.9rem;">💡 睡眠の全体像と健康影響を科学的に俯瞰し、本書の実践的焦点を補完する。</span>
+        </div>
+        <div style="padding:1rem;background:#f7fafc;border-radius:0.5rem;border-left:4px solid var(--primary);">
+          <strong style="color:var(--primary);">SLEEP 最高の脳と身体をつくる睡眠の技術</strong><br>
+          <span style="font-size:0.9rem;color:var(--text-light);">著者: ショーン・スティーブンソン</span><br>
+          <span style="font-size:0.9rem;">💡 光・体温・食事・運動など生活介入の具体策が重なり実装の幅が広がる。</span>
+        </div>
+        <div style="padding:1rem;background:#f7fafc;border-radius:0.5rem;border-left:4px solid var(--primary);">
+          <strong style="color:var(--primary);">スタンフォード式 疲れない体</strong><br>
+          <span style="font-size:0.9rem;color:var(--text-light);">著者: 山田知生</span><br>
+          <span style="font-size:0.9rem;">💡 スタンフォードの知見に基づく回復戦略で、睡眠と相乗する疲労管理を学べる。</span>
+        </div>
+        <div style="padding:1rem;background:#f7fafc;border-radius:0.5rem;border-left:4px solid var(--primary);">
+          <strong style="color:var(--primary);">賢い睡眠</strong><br>
+          <span style="font-size:0.9rem;color:var(--text-light);">著者: 三島和夫</span><br>
+          <span style="font-size:0.9rem;">💡 日本人の睡眠課題と体内時計医学の観点から実践を精緻化できる。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:1.5rem;color:var(--secondary);">🚀 今日のアクション</h2>
+    
+    <div class="action-card">
+      <h4>🛁 アクション1：40℃で15分入浴（就寝90分前）</h4>
+      <p style="margin-bottom:0.5rem;">今夜の就寝予定時刻から逆算し、90分前に40℃のお湯で15分間入浴する。入浴後は体を冷やさず、自然に放熱させる。</p>
+      <div class="action-meta">
+        <strong>🎯 目的：</strong>深部体温を一時的に上げ、その後の放熱で入眠を促進<br>
+        <strong>✨ 期待効果：</strong>入眠潜時の短縮、深いノンレム睡眠の増加、黄金の90分の質向上
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h4>💤 アクション2：昼寝20分をタイマーで実施</h4>
+      <p style="margin-bottom:0.5rem;">午後1〜3時の間に、タイマーを20分にセットして昼寝を実施。静かで暗い場所を選び、完全に横にならず椅子で仮眠。</p>
+      <div class="action-meta">
+        <strong>🎯 目的：</strong>午後の覚醒度と集中力を回復し、夜の睡眠を妨げない<br>
+        <strong>✨ 期待効果：</strong>午後のパフォーマンス向上、夜の睡眠圧の維持、学習効率の改善
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h4>🌙 アクション3：寝室の遮光と温度を15分で整える</h4>
+      <p style="margin-bottom:0.5rem;">寝室のカーテンを遮光性の高いものに変更（または追加）し、室温を18〜20℃に設定。寝具の通気性を確認し、必要なら薄手に変更。</p>
+      <div class="action-meta">
+        <strong>🎯 目的：</strong>光と温度の環境を最適化し、深部体温の低下と深睡眠を促進<br>
+        <strong>✨ 期待効果：</strong>中途覚醒の減少、深いノンレム睡眠の増加、朝の目覚めの質向上
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h4>☀️ アクション4：起床後すぐに強い光を浴びる</h4>
+      <p style="margin-bottom:0.5rem;">明日の朝、起床後5分以内にカーテンを開け、窓際で5〜10分過ごす。曇りの日でも外の光は室内より強いため効果的。</p>
+      <div class="action-meta">
+        <strong>🎯 目的：</strong>体内時計を前進させ、夜の入眠タイミングを早める<br>
+        <strong>✨ 期待効果：</strong>夜の自然な眠気の発生、メラトニン分泌の最適化、概日リズムの安定
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h4>📱 アクション5：就寝1時間前からブルーライトを抑制</h4>
+      <p style="margin-bottom:0.5rem;">スマホ・PC・タブレットの使用を就寝1時間前に終了。どうしても使う場合はナイトモードに設定し、画面輝度を最低に。</p>
+      <div class="action-meta">
+        <strong>🎯 目的：</strong>メラトニン分泌を保護し、自然な入眠を促進<br>
+        <strong>✨ 期待効果：</strong>入眠潜時の短縮、睡眠の質向上、翌朝の覚醒感の改善
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);padding:1.5rem;border-radius:1rem;margin-top:2rem;border:2px solid var(--accent);">
+      <h3 style="color:var(--secondary);margin-bottom:1rem;">📋 実践チェックリスト</h3>
+      <div style="display:grid;gap:0.75rem;">
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>就寝90分前に40℃×15分入浴を実施</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>起床後5分以内に強い光を浴びる</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>昼寝20分をタイマーで実施（午後1〜3時）</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>寝室を18〜20℃に設定</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>就寝1時間前からブルーライトを抑制</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>カフェインは就寝6時間前まで</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f7fafc;border-radius:0.5rem;cursor:pointer;">
+          <input type="checkbox" style="width:1.25rem;height:1.25rem;">
+          <span>起床・就寝時刻を固定（±30分以内）</span>
+        </label>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#fff5f7,#ffeef8);padding:1.5rem;border-radius:1rem;margin-top:2rem;border:2px solid var(--accent);">
+      <h3 style="color:var(--secondary);margin-bottom:1rem;">📊 睡眠改善の優先順位</h3>
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+          <span style="font-weight:600;">🥇 即効性：入浴タイミング</span>
+          <span style="font-weight:600;">95%</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width:95%;">今夜から</div>
+        </div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+          <span style="font-weight:600;">🥈 重要度：朝の光</span>
+          <span style="font-weight:600;">90%</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width:90%;">明日から</div>
+        </div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+          <span style="font-weight:600;">🥉 持続性：時刻固定</span>
+          <span style="font-weight:600;">85%</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width:85%;">1週間で習慣化</div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+          <span style="font-weight:600;">🏅 補完：環境整備</span>
+          <span style="font-weight:600;">80%</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill" style="width:80%;">段階的に</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+
+  const metricFills = document.querySelectorAll('.metric-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.getAttribute('style').match(/width:\s*(\d+%)/)[1];
+      }
+    });
+  }, { threshold: 0.5 });
+
+  metricFills.forEach(fill => {
+    const targetWidth = fill.style.width;
+    fill.style.width = '0%';
+    observer.observe(fill);
+    setTimeout(() => {
+      fill.style.width = targetWidth;
+    }, 100);
+  });
+});
+</script>
+</body>
+</html>
