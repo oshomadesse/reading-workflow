@@ -500,7 +500,20 @@ def generate_infographic_complete(deep, book_title):
     }
 
     # === JSON 保存（variables / cost_usd / public_url を含めて保存） ===
-    agg_path = Path(DATA_DIR) / "infographics.json"
+    # 変更: data/infographics.json -> data/modules/claude_infographic/infographics.json
+    old_agg_path = Path(DATA_DIR) / "infographics.json"
+    agg_path = Path(DATA_DIR) / "modules" / "claude_infographic" / "infographics.json"
+    
+    # 移行ロジック: 旧ファイルがあり、新ファイルがない場合は移動する
+    if old_agg_path.exists() and not agg_path.exists():
+        try:
+            agg_path.parent.mkdir(parents=True, exist_ok=True)
+            old_agg_path.rename(agg_path)
+            print(f"🚚 infographics.json を移動しました: {old_agg_path} -> {agg_path}")
+        except Exception as e:
+            print(f"⚠️ infographics.json の移動に失敗: {e}")
+
+
     try:
         if agg_path.exists():
             arr = json.loads(agg_path.read_text(encoding="utf-8"))
