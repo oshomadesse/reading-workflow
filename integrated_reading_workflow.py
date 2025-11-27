@@ -36,6 +36,9 @@ if os.getenv("GITHUB_ACTIONS"):
 else:
     # ローカル環境: 環境変数または親ディレクトリからの推測
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
+    # ユーザー要望: ローカル実行時は oshomadesse-pc > 100_Inbox (つまり VAULT_ROOT 直下の 100_Inbox)
+    # PROJECT_DIR は .../11_Engineering/books-summary なので、ここから見ると ../../100_Inbox になるはずだが、
+    # VAULT_ROOT が正しければ VAULT_ROOT / "100_Inbox" で良い。
     INBOX_DIR = Path(os.getenv("INBOX_DIR", str(VAULT_ROOT / "100_Inbox"))).resolve()
 
 try:
@@ -1293,6 +1296,14 @@ if __name__ == "__main__":
     parser.add_argument("--logfile", type=str, default=None)
     parser.add_argument("--until", type=int, default=10, help="指定ステップまで実行（デフォルト10）")
     args = parser.parse_args()
+    # ログファイル設定（デフォルト）
+    if not args.logfile:
+        import datetime
+        today = datetime.date.today().strftime("%Y%m%d")
+        log_dir = os.path.join(PROJECT_DIR, "data", "integrated")
+        os.makedirs(log_dir, exist_ok=True)
+        args.logfile = os.path.join(log_dir, f"integrated_run_{today}.log")
+
     if args.logfile:
         os.environ["IRW_LOGFILE"] = args.logfile
         def _make_printer2(logfile):

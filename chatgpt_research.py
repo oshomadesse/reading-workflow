@@ -340,17 +340,38 @@ class GeminiConnector:
                 response_format={"type":"json_object"},
                 max_output_tokens=PRO_CFG["max_output_tokens"]
             )
-            # デバッグ保存
+           # デバッグログ保存
             try:
+                log_dir = os.path.join(PROJECT_DIR, "data", "modules")
+                os.makedirs(log_dir, exist_ok=True)
                 ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                dbg = DATA_DIR / f"openai_responses_dbg_{ts}.json"
+                
+                # Extract content for openai_chat_dbg_{ts}.txt
+                content_for_chat_dbg = getattr(r, "output_text", None)
+                if not isinstance(content_for_chat_dbg, str):
+                    content_for_chat_dbg = str(r) # Fallback if output_text is not a string
+                
+                with open(os.path.join(log_dir, f"openai_chat_dbg_{ts}.txt"), "w", encoding="utf-8") as f:
+                    f.write(f"--- PROMPT ---\n{prompt}\n\n--- RESPONSE ---\n{content_for_chat_dbg}\n")
+                    
+                # Extract JSON for openai_responses_dbg_{ts}.json
+                response_json_data = None
                 try:
-                    j = r.model_dump_json() if hasattr(r, "model_dump_json") else str(r)
+                    response_json_data = r.model_dump_json() if hasattr(r, "model_dump_json") else str(r)
+                    # If it's a string, try to parse it to ensure it's valid JSON for dumping
+                    if isinstance(response_json_data, str):
+                        response_json_data = json.loads(response_json_data)
                 except Exception:
-                    j = str(r)
-                with open(dbg, "w", encoding="utf-8") as fp: fp.write(j)
-            except Exception:
-                pass
+                    response_json_data = str(r) # Fallback to string if not JSON serializable
+                
+                with open(os.path.join(log_dir, f"openai_responses_dbg_{ts}.json"), "w", encoding="utf-8") as f:
+                    if isinstance(response_json_data, dict) or isinstance(response_json_data, list):
+                        json.dump(response_json_data, f, ensure_ascii=False, indent=2)
+                    else:
+                        f.write(str(response_json_data)) # Write as string if not dict/list
+                    
+            except Exception as e:
+                print(f"Debug log save failed: {e}")
             # JSON直取りを最優先
             parsed = _json_from_responses(r)
             raw_text = getattr(r, "output_text", None)
