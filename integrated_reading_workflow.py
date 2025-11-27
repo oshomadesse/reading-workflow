@@ -1038,11 +1038,20 @@ def step8_append_to_excluded_list(mid_summary):
             gac_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
 
             if json_str:
+                print(f"DEBUG: GOOGLE_SERVICE_ACCOUNT_JSON is set (len={len(json_str)})")
                 creds = _Creds.from_service_account_info(_json.loads(json_str), scopes=_SCOPES)
             elif json_path and os.path.exists(json_path):
+                print(f"DEBUG: GOOGLE_SERVICE_ACCOUNT_JSON_PATH is set: {json_path}")
                 creds = _Creds.from_service_account_file(json_path, scopes=_SCOPES)
             elif gac_path and os.path.exists(gac_path):
                 # GOOGLE_APPLICATION_CREDENTIALS がある場合はそれを明示的に使う
+                try:
+                    size = os.path.getsize(gac_path)
+                    with open(gac_path, 'r') as f:
+                        head = f.read(20)
+                    print(f"DEBUG: GOOGLE_APPLICATION_CREDENTIALS found: {gac_path} (size={size} bytes, head={head!r})")
+                except Exception as e:
+                    print(f"DEBUG: Failed to inspect GAC file: {e}")
                 creds = _Creds.from_service_account_file(gac_path, scopes=_SCOPES)
             else:
                 try:
