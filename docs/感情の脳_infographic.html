@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エモーショナル・ブレイン - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  margin: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid var(--accent);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 1rem;
+}
+.summary-item strong {
+  display: block;
+  color: var(--secondary);
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+.summary-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  background: white;
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+.tab-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+.tab-content {
+  display: none;
+  padding: 1rem;
+  animation: fadeIn 0.4s;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 3px solid var(--primary);
+}
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--accent);
+}
+.reason strong {
+  color: var(--secondary);
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.metric-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 1.25rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(102,126,234,0.3);
+}
+.metric-card .number {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.metric-card .label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.quote-card blockquote {
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.quote-card .reason-text {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+.action-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(240,147,251,0.05));
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.action-card h4 {
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+.action-card .purpose {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+.diagram {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-item {
+  display: flex;
+  align-items: center;
+  margin: 0.75rem 0;
+  font-size: 0.95rem;
+}
+.flow-arrow {
+  color: var(--accent);
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
+.book-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-top: 3px solid var(--primary);
+}
+.book-card h4 {
+  color: var(--secondary);
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+.book-card .author {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.book-card .relation {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  header h1 { font-size: 1.5rem; }
+  .tabs { margin: 0.5rem; }
+  .tab-btn { font-size: 0.85rem; padding: 0.6rem 0.75rem; min-width: 100px; }
+  .card { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 エモーショナル・ブレイン</h1>
+  <p>情動はどこで生まれ、私たちをどう動かすのか</p>
+</header>
+
+<div class="summary-block">
+  <h2>📌 要約=問い×答え×根拠</h2>
+  <div class="summary-item">
+    <strong>❓ 問い</strong>
+    <p>情動はどこでどのように生まれ、私たちの行動と記憶をどう形作るのか?</p>
+  </div>
+  <div class="summary-item">
+    <strong>💡 答え</strong>
+    <p>扁桃体を核とする生存回路が視覚や聴覚からの粗い入力を「低路」で迅速に処理して心拍・凍りつき・逃避などを起動し、並行して「高路」で精緻化された情報が前頭前野に届いて状況を評価・再解釈する。主観的な「感じ」は認知的生成物で、情動反応そのものとは区別される。</p>
+  </div>
+  <div class="summary-item">
+    <strong>🔬 Why（なぜそうなのか）</strong>
+    <p>恐怖条件づけの動物実験とヒト脳画像で、扁桃体の活動が意識報告の有無に先行・独立して生理反応を引き起こすこと、海馬が文脈情報と時間的連合を担い、扁桃体の可塑性が恐怖記憶の獲得と保持に必須であることが示される。</p>
+  </div>
+  <div class="summary-item">
+    <strong>⚙️ How（そのためには）</strong>
+    <p>古典的条件づけ・消去・再固定化を用いた回路操作、病変研究、時系列での神経活動計測により、低路/高路・扁桃体/海馬・意識/非意識の機能分化と相互作用が同定される。臨床では暴露療法や安全シグナル学習が、扁桃体の恐怖表現を上位から調節する実践となる。</p>
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章要約</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要引用</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+</div>
+
+<div id="tab1" class="tab-content active" role="tabpanel">
+  <div class="card">
+    <h3>🧩 扁桃体</h3>
+    <ul>
+      <li>脅威関連刺激を迅速に検出</li>
+      <li>自律神経・内分泌・運動プログラムを起動</li>
+      <li>情動のハブとして機能</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 生存に直結する恐怖反応の中枢であり、意識より先に身体を動かす仕組みの核だから。</div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ 低路/高路</h3>
+    <ul>
+      <li>低路: 視床→扁桃体（高速・粗情報）</li>
+      <li>高路: 視床→皮質→扁桃体（遅延・精密）</li>
+      <li>速さと正確さのトレードオフ</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 誤警報を許容しても素早く反応する低路が生存確率を高め、高路が後から修正する二段構えが適応的だから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔗 恐怖条件づけ</h3>
+    <ul>
+      <li>中性刺激と無条件刺激の連合学習</li>
+      <li>中性刺激が恐怖反応を誘発するようになる</li>
+      <li>扁桃体のシナプス可塑性が基盤</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 危険予測を学習する基本メカニズムであり、PTSD・不安障害の理解と治療の出発点だから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🛡️ 生存回路</h3>
+    <ul>
+      <li>防衛・摂食・繁殖などの適応反応を自動実行</li>
+      <li>脳に備わるサブシステム群</li>
+      <li>意識的制御の外で動作</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 情動を「感情」ではなく「適応装置」として捉え直し、進化的設計原理を明らかにするから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🧠 意識的感情と無意識的情動</h3>
+    <ul>
+      <li>情動: 身体・脳状態のプログラム（非意識）</li>
+      <li>感情: それを自覚し語る主観的体験（意識）</li>
+      <li>反応と体験は分離可能</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 情動反応が意識に先行する事実を認めることで、心理療法や薬物介入の標的を正確に定められるから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🗺️ 海馬と文脈</h3>
+    <ul>
+      <li>出来事の時間・場所などの文脈表象を形成</li>
+      <li>恐怖反応の適用条件を調節</li>
+      <li>扁桃体と協調して記憶を統合</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 同じ刺激でも文脈次第で反応が変わる柔軟性を支え、過度な般化を防ぐから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔧 シナプス可塑性</h3>
+    <ul>
+      <li>経験によりシナプス効率が変化</li>
+      <li>恐怖記憶の獲得・保持の基盤</li>
+      <li>長期増強(LTP)が代表例</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 学習の神経基盤を分子レベルで説明し、記憶操作の可能性を開くから。</div>
+  </div>
+
+  <div class="card">
+    <h3>📚 記憶の二重過程</h3>
+    <ul>
+      <li>宣言的記憶: 海馬依存、意識的想起</li>
+      <li>非宣言的記憶: 扁桃体など、無意識的</li>
+      <li>並列に動作する記憶系</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 恐怖を「覚えていない」のに身体が反応する現象を説明し、トラウマ治療の戦略を導くから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔄 消去と再固定化</h3>
+    <ul>
+      <li>消去: 新たな安全記憶の上書き（忘却ではない）</li>
+      <li>再固定化: 想起後の記憶再保存過程</li>
+      <li>更新の窓を利用した介入が可能</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 恐怖記憶の再発や文脈依存性を説明し、暴露療法の設計と限界を明確にするから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🎛️ 情動調節</h3>
+    <ul>
+      <li>前頭前野・帯状皮質が扁桃体出力を抑制</li>
+      <li>トップダウンの再評価</li>
+      <li>認知的制御の神経基盤</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 意識的な認知戦略が情動反応を調節できる経路を示し、心理療法の作用機序を裏づけるから。</div>
+  </div>
+
+  <div class="diagram">
+    <h3 style="color: var(--secondary); margin-bottom: 1rem;">🔀 概念間の関係性</h3>
+    <div class="flow-item">
+      <span>刺激</span><span class="flow-arrow">→</span><span>視床</span><span class="flow-arrow">→</span><span style="color: var(--primary);">低路</span><span class="flow-arrow">→</span><span>扁桃体</span><span class="flow-arrow">→</span><span>反応</span>
+    </div>
+    <div class="flow-item">
+      <span>刺激</span><span class="flow-arrow">→</span><span>視床</span><span class="flow-arrow">→</span><span>皮質</span><span class="flow-arrow">→</span><span style="color: var(--secondary);">高路</span><span class="flow-arrow">→</span><span>扁桃体</span><span class="flow-arrow">→</span><span>修正</span>
+    </div>
+    <div class="flow-item">
+      <span>扁桃体LTP</span><span class="flow-arrow">⇨</span><span>恐怖条件づけ獲得・保持↑</span>
+    </div>
+    <div class="flow-item">
+      <span>海馬</span><span class="flow-arrow">→</span><span>扁桃体</span><span style="margin-left: 0.5rem; color: var(--text-light);">(文脈調節)</span>
+    </div>
+    <div class="flow-item">
+      <span>前頭前野</span><span class="flow-arrow">→</span><span>扁桃体</span><span style="margin-left: 0.5rem; color: var(--text-light);">(再評価・抑制)</span>
+    </div>
+    <div class="flow-item">
+      <span>消去学習</span><span class="flow-arrow">⇨</span><span>安全記憶が競合（恐怖は残存）</span>
+    </div>
+    <div class="flow-item">
+      <span>再固定化ウィンドウ</span><span class="flow-arrow">⇨</span><span>記憶更新・弱化の機会</span>
+    </div>
+    <div class="flow-item">
+      <span>意識的感情</span><span class="flow-arrow">⇦</span><span>前頭葉系の解釈</span><span class="flow-arrow">⇦</span><span>情動反応</span>
+    </div>
+  </div>
+</div>
+
+<div id="tab2" class="tab-content" role="tabpanel">
+  <div class="card">
+    <h3>📖 序: 情動研究の系譜</h3>
+    <ul>
+      <li>哲学から生理学への移行</li>
+      <li>感情と情動の区別を問題設定</li>
+      <li>主観体験と神経回路の関係を問う</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 歴史的混乱を整理し、本書の立場（回路優先）を明確にするため。</div>
+  </div>
+
+  <div class="card">
+    <h3>📚 理論史</h3>
+    <ul>
+      <li>ジェームズ=ランゲ: 身体反応が先、感情は後</li>
+      <li>キャノン=バード: 中枢が同時に身体と感情を起動</li>
+      <li>認知評価説: 解釈が感情を決定</li>
+      <li>各理論の強みと限界を整理</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 過去の論争を踏まえることで、現代の回路モデルの位置づけと新規性が理解できるから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔬 回路同定</h3>
+    <ul>
+      <li>恐怖条件づけモデルで扁桃体・視床・皮質の役割を実験的に分離</li>
+      <li>病変・刺激・記録の三手法を統合</li>
+      <li>ヒトと動物の対応を確認</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 情動の神経基盤を実証的に同定し、推測から科学へ移行させる章だから。</div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ 低路/高路モデル</h3>
+    <ul>
+      <li>速度と正確さの二経路を提示</li>
+      <li>低路の誤警報が適応的である理由</li>
+      <li>高路による事後修正の役割</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 情動の「速さ優先」設計原理を説明し、不安障害の過剰反応を理解する鍵となるから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🧬 記憶と可塑性</h3>
+    <ul>
+      <li>扁桃体LTPが恐怖記憶の基盤</li>
+      <li>海馬の文脈表象と時間的連合</li>
+      <li>二重記憶システム（宣言的/非宣言的）の統合</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 学習の分子・回路メカニズムを統合し、記憶操作の可能性を示すから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🧠 意識の位置づけ</h3>
+    <ul>
+      <li>感情（主観）と情動（回路）の区別を再定義</li>
+      <li>意識は情動の必要条件ではない</li>
+      <li>前頭葉系による解釈プロセス</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 心理学の中心概念「感情」を神経科学的に再構成し、誤解を正すため。</div>
+  </div>
+
+  <div class="card">
+    <h3>🏥 臨床含意</h3>
+    <ul>
+      <li>不安障害・PTSDへの応用</li>
+      <li>暴露療法の神経基盤（消去学習）</li>
+      <li>再固定化を利用した記憶更新</li>
+      <li>安全シグナル学習の活用</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 基礎研究を臨床実践に橋渡しし、治療の作用機序と限界を明確にするから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔮 展望</h3>
+    <ul>
+      <li>情動科学が意思決定・社会行動に及ぼす影響</li>
+      <li>自己概念の神経基盤</li>
+      <li>今後の研究課題と技術的展望</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 情動研究の射程を示し、読者に次の問いを投げかけるため。</div>
+  </div>
+</div>
+
+<div id="tab3" class="tab-content" role="tabpanel">
+  <div class="card">
+    <h3>🐍 例1: ヘビと棒</h3>
+    <ul>
+      <li><strong>背景:</strong> 森で棒をヘビと誤認して飛びのく</li>
+      <li><strong>低路:</strong> 視床→扁桃体が粗い形状で即座に恐怖反応</li>
+      <li><strong>高路:</strong> 視覚皮質が詳細を処理し「棒だ」と修正</li>
+      <li><strong>示唆:</strong> 誤警報でも生存確率が上がる</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 低路/高路の速度と正確性のトレードオフを日常体験で直感的に示すから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🔔 例2: パブロフの犬と恐怖条件づけ</h3>
+    <ul>
+      <li><strong>背景:</strong> 音（中性刺激）と電気ショック（無条件刺激）を対提示</li>
+      <li><strong>学習:</strong> 音だけで凍りつき・心拍上昇が起こる</li>
+      <li><strong>回路:</strong> 扁桃体のシナプスが強化され連合が固定</li>
+      <li><strong>示唆:</strong> トラウマ記憶の形成メカニズム</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 恐怖学習の基本モデルを具体化し、PTSD理解の出発点を提供するから。</div>
+  </div>
+
+  <div class="card">
+    <h3>🧘 例3: 暴露療法と消去学習</h3>
+    <ul>
+      <li><strong>背景:</strong> 不安障害患者に恐怖刺激を安全な文脈で繰り返し提示</li>
+      <li><strong>メカニズム:</strong> 扁桃体の恐怖記憶は残るが、前頭前野が新しい安全記憶を形成</li>
+      <li><strong>限界:</strong> 文脈が変わると恐怖が再発（自発的回復）</li>
+      <li><strong>示唆:</strong> 消去は忘却ではなく競合学習</li>
+    </ul>
+    <div class="reason"><strong>理由:</strong> 治療の神経基盤と再発リスクを説明し、臨床実践の設計指針を与えるから。</div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric-card">
+      <span class="number">2</span>
+      <span class="label">経路（低路/高路）</span>
+    </div>
+    <div class="metric-card">
+      <span class="number">3</span>
+      <span class="label">主要構造（扁桃体/海馬/前頭前野）</span>
+    </div>
+    <div class="metric-card">
+      <span class="number">10</span>
+      <span class="label">核心概念</span>
+    </div>
+  </div>
+</div>
+
+<div id="tab4" class="tab-content" role="tabpanel">
+  <div class="quote-card">
+    <blockquote>「情動は生存回路の産物であり、感情はその認知的読み取りだ。」</blockquote>
+    <div class="reason-text"><strong>重要性:</strong> 反応（情動）と体験（感情）を峻別し、誤解を正す中核命題だから。</div>
+  </div>
+
+  <div class="quote-card">
+    <blockquote>「低路は誤警報が多いが、その速さが生存に利点をもたらす。」</blockquote>
+    <div class="reason-text"><strong>重要性:</strong> 速度と正確性のトレードオフが設計原理であることを示す。</div>
+  </div>
+
+  <div class="quote-card">
+    <blockquote>「恐怖の消去は忘却ではなく、新しい学習の競合である。」</blockquote>
+    <div class="reason-text"><strong>重要性:</strong> 治療での再発や文脈依存性を説明し、介入設計に直結。</div>
+  </div>
+
+  <div class="quote-card">
+    <blockquote>「扁桃体活動は意識報告なしでも身体反応を起こす。」</blockquote>
+    <div class="reason-text"><strong>重要性:</strong> 情動が意識に先行する神経学的証拠を簡潔に表す。</div>
+  </div>
+
+  <div class="quote-card">
+    <blockquote>「感情を理解するには脳の回路を理解せねばならない。」</blockquote>
+    <div class="reason-text"><strong>重要性:</strong> 心理学と神経科学の統合的アプローチを正当化する。</div>
+  </div>
+</div>
+
+<div id="tab5" class="tab-content" role="tabpanel">
+  <div class="action-card">
+    <h4>📝 アクション1: 最近の恐怖体験をABCで記録</h4>
+    <ul>
+      <li><strong>A (Antecedent):</strong> 何が起きたか（刺激）</li>
+      <li><strong>B (Behavior):</strong> どう反応したか（行動・生理）</li>
+      <li><strong>C (Consequence):</strong> 結果どうなったか</li>
+    </ul>
+    <div class="purpose"><strong>目的:</strong> 自分の情動反応パターンを客観視<br><strong>期待効果:</strong> 低路の自動反応と高路の再評価を区別できるようになる（15分）</div>
+  </div>
+
+  <div class="action-card">
+    <h4>🛡️ アクション2: 安全シグナルを5項目書き出す</h4>
+    <ul>
+      <li>不安時に「安全」を感じる場所・人・物・行動</li>
+      <li>例: 信頼できる友人、お気に入りの音楽、深呼吸</li>
+      <li>リストを携帯し、不安時に参照</li>
+    </ul>
+    <div class="purpose"><strong>目的:</strong> 扁桃体の恐怖反応を抑制する手がかりを準備<br><strong>期待効果:</strong> 消去学習の文脈を自分で設計し、再発リスクを下げる（20分）</div>
+  </div>
+
+  <div class="action-card">
+    <h4>🔄 アクション3: 不安時の再評価文を作成</h4>
+    <ul>
+      <li>「この状況は本当に危険か?」</li>
+      <li>「過去に似た状況で実際に何が起きたか?」</li>
+      <li>「低路が誤警報を出している可能性は?」</li>
+      <li>3つの問いをカードに書き、財布に入れる</li>
+    </ul>
+    <div class="purpose"><strong>目的:</strong> 前頭前野による情動調節を意識的に訓練<br><strong>期待効果:</strong> 高路の精密評価を促し、過剰反応を減らす（15分）</div>
+  </div>
+</div>
+
+<div style="margin: 1rem; padding: 1.5rem; background: var(--card-bg); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+  <h3 style="color: var(--secondary); margin-bottom: 1rem;">📚 関連書籍</h3>
+  
+  <div class="book-card">
+    <h4>シナプスが自分をつくる</h4>
+    <div class="author">著: ジョセフ・ルドゥー</div>
+    <div class="relation">情動回路の可塑性と自己形成を拡張的に論じる続編的視点。</div>
+  </div>
+
+  <div class="book-card">
+    <h4>デカルトの誤り</h4>
+    <div class="author">著: アントニオ・ダマシオ</div>
+    <div class="relation">情動が意思決定を支える神経基盤を提示し、ルドゥーの回路論と補完。</div>
+  </div>
+
+  <div class="book-card">
+    <h4>感情はどこから生まれるのか</h4>
+    <div class="author">著: リサ・フェルドマン・バレット</div>
+    <div class="relation">情動構成主義の対抗理論として比較に最適。</div>
+  </div>
+
+  <div class="book-card">
+    <h4>ファスト&スロー</h4>
+    <div class="author">著: ダニエル・カーネマン</div>
+    <div class="relation">高速・自動過程と遅い熟考の二系統が低路/高路と概念的に響き合う。</div>
+  </div>
+
+  <div class="book-card">
+    <h4>情動と認知の神経科学</h4>
+    <div class="author">著: エドマンド・T・ロリグ ほか</div>
+    <div class="relation">情動回路、記憶、調節の最新レビューで実証的背景を補強。</div>
+  </div>
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    
+    tabs.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    contents.forEach(c => c.classList.remove('active'));
+    
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    document.getElementById(target).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
