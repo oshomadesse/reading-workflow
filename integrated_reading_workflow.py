@@ -1159,19 +1159,8 @@ def step9_send_notification_to_user(mid_summary=None):
     if len(core_message) > 60:
         core_message = core_message[:60] + "..."
     
-    # インフォグラフィックのパスからファイル名を取得し、GitHub PagesのURLを構築
-    # path example: /home/runner/work/.../docs/filename.html
-    inf_path = mid_summary.get("infographic_path", "")
-    infographic_pages_url = ""
-    if inf_path:
-        import os
-        filename = os.path.basename(inf_path)
-        # URLエンコード（日本語ファイル名対応）
-        from urllib.parse import quote
-        filename_enc = quote(filename)
-        # GitHub Pages URL: https://oshomadesse.github.io/books-summary/{filename}?openExternalBrowser=1
-        # docs直下に出力するため、URLパスから /infographics を除去
-        infographic_pages_url = f"https://oshomadesse.github.io/books-summary/{filename_enc}?openExternalBrowser=1"
+    # インフォグラフィックURLは Step5 -> Step6 で生成済み
+    infographic_pages_url = mid_summary.get("infographic_url", "")
 
     # ヒーロー画像: 削除
     # hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
