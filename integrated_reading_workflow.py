@@ -441,6 +441,16 @@ def step5_generate_infographic(deep_research_text, book, usage_records):
             or (res.get("json") or {}).get("public_url")
             or ""
         )
+        
+        # ★ User Request: Obsidianノート内のリンクもGitHub Pagesにする
+        inf_path = res.get("html_path") or res.get("path") or ""
+        if inf_path:
+            import os
+            from urllib.parse import quote
+            fname = os.path.basename(inf_path)
+            # docs直下なので /infographics/ は不要
+            infographic_url = f"https://oshomadesse.github.io/books-summary/{quote(fname)}?openExternalBrowser=1"
+
         claude_usaget = res.get("claude_usaget") or res.get("{{claude_usaget}}") or claude_usaget
         claude_credit = res.get("claude_credit") or res.get("{{claude_credit}}") or ""
 
