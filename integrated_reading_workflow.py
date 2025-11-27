@@ -1172,6 +1172,31 @@ def step9_send_notification_to_user(mid_summary=None):
     # インフォグラフィックURLは Step5 -> Step6 で生成済み
     infographic_pages_url = mid_summary.get("infographic_url", "")
 
+    # ★ User Request: 通知が来たら確実に開けるように、デプロイ完了（200 OK）を待つ
+    if infographic_pages_url and infographic_pages_url.startswith("http"):
+        print(f"⏳ Step10: GitHub Pagesの反映を待機中... ({infographic_pages_url})")
+        import time
+        import urllib.request
+        max_wait = 180  # 最大3分待機
+        start_time = time.time()
+        
+        while True:
+            try:
+                # HEADリクエストで確認
+                req = urllib.request.Request(infographic_pages_url, method='HEAD')
+                with urllib.request.urlopen(req, timeout=5) as response:
+                    if 200 <= response.status < 300:
+                        print(f"✅ GitHub Pages 反映確認完了 ({time.time() - start_time:.1f}s)")
+                        break
+            except Exception:
+                pass
+            
+            if time.time() - start_time > max_wait:
+                print("⚠️ Pages反映待ちタイムアウト（通知を送信します）")
+                break
+            
+            time.sleep(10)  # 10秒間隔で確認
+
     # ヒーロー画像: 削除
     # hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
     
