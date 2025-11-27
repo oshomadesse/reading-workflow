@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>モチベーション3.0 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea / セカンダリー #764ba2 / アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1rem 1rem;
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+.summary-item strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: all 0.3s;
+  color: var(--text);
+}
+.tab-btn:hover {
+  border-color: var(--primary);
+  background: rgba(102, 126, 234, 0.05);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.25rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: rgba(102, 126, 234, 0.08);
+  border-left: 3px solid var(--primary);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+.reason-box strong {
+  color: var(--primary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid var(--secondary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.chapter-card h3 {
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+.example-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(240, 147, 251, 0.05));
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+.example-card h4 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.quote-card blockquote {
+  font-style: italic;
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+.quote-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.action-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.action-card p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.visual-diagram {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+.flow-item {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  min-width: 200px;
+  position: relative;
+}
+.flow-arrow {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.metric-box {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+.metric-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+  display: block;
+}
+.metric-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 0.25rem;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .tabs {
+    flex-wrap: nowrap;
+  }
+  .tab-btn {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 モチベーション3.0</h1>
+  <p>持続的な高業績と満足は、内発的動機づけから生まれる</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>💡 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      なぜ従来のアメとムチ（条件付き報酬）は現代の知識労働で効きにくいのか、そして持続するやる気をどう設計するか？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      反復・手順型には外発的報酬も有効だが、創造・学習・問題解決が中心の時代には内発的動機を駆動する「自律・熟達・目的」（モチベーション3.0）が最適。
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      条件付き報酬は注意を狭め、創造性を損ね、長期的には興味を腐食する実証が多数ある一方、内発的動機は関与・学習・幸福感と成果を同時に高める。
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには）</strong>
+      自律=仕事の4T（Task/Time/Technique/Team）に裁量を与える、熟達=適正難易度と継続練習・成長思考を設計する、目的=営利目標を超える意義と顧客価値に結び直す。さらにIf-Then報酬は単純作業に限定し、創造的課題には公正な固定給+事後の称賛・サプライズ報酬を用いる。成果のみ評価（ROWE）やフェデックス・デー等の仕組みで、関与と創造を日常化する。
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">🧩 主要概念</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">📖 各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">💼 具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">💬 重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">🚀 今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="visual-diagram">
+      <h3 style="text-align:center; color: var(--primary); margin-bottom: 1rem;">🔄 動機づけOSの進化</h3>
+      <div class="flow-chart">
+        <div class="flow-item">1.0 生存駆動<br><small>本能・安全</small></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">2.0 統制駆動<br><small>アメとムチ</small></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">3.0 内発駆動<br><small>自律・熟達・目的</small></div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>🟦 モチベーション1.0</h3>
+        <ul>
+          <li>生存・本能に根差す動機づけ</li>
+          <li>安全や飢えの回避が中心</li>
+          <li>原始的な生理的ニーズ</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>人類の最も基本的な動機層。現代では土台だが主要ドライバーではない。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🟨 モチベーション2.0</h3>
+        <ul>
+          <li>外発的報酬・罰で行動を制御</li>
+          <li>反復・手順型には有効</li>
+          <li>統制と順守を生む</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>工業時代の標準OS。単純作業には機能するが、創造性を阻害する副作用がある。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🟩 モチベーション3.0</h3>
+        <ul>
+          <li>内発的動機を核にした現代向けOS</li>
+          <li>自律・熟達・目的の3要素</li>
+          <li>関与と創造を同時に高める</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>知識労働時代に最適化された動機システム。持続的成果と満足を両立する。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔴 タイプX</h3>
+        <ul>
+          <li>外的報酬や評価に主に動かされる</li>
+          <li>短期的な成果志向</li>
+          <li>環境依存が強い</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>外発偏重の行動パターン。報酬がないと動機が失われやすい。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🟢 タイプI</h3>
+        <ul>
+          <li>内発的興味・成長・意義で駆動</li>
+          <li>長期的な学習志向</li>
+          <li>自己決定性が高い</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>内発偏重の行動パターン。持続的パフォーマンスと幸福感を生む。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 自律性（4T）</h3>
+        <ul>
+          <li>Task（何を）の選択権</li>
+          <li>Time（いつ）の裁量</li>
+          <li>Technique（どう）の方法選択</li>
+          <li>Team（誰と）の編成権</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>統制ではなく自律が関与を生む。4つの次元で裁量を設計することが鍵。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📈 熟達（Mastery）</h3>
+        <ul>
+          <li>到達しきれない非対称な追求</li>
+          <li>適正難易度（ゴールデンロックス）</li>
+          <li>継続練習とフィードバック</li>
+          <li>成長思考（マインドセット）</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>終わりなき改善への態度が学習投資を正当化し、フロー体験を生む。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 目的（Purpose）</h3>
+        <ul>
+          <li>利益を超えた意義・貢献の感覚</li>
+          <li>努力の一貫性を高める</li>
+          <li>顧客価値との結び直し</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>短期利益を超えた意味づけが内発の持続性を担保する。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ If-Then報酬</h3>
+        <ul>
+          <li>「〜したら報酬」の条件付き</li>
+          <li>単純・規定業務では有効</li>
+          <li>創造性を損なう恐れ</li>
+          <li>注意の狭窄を引き起こす</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>条件報酬は創造的課題で逆効果。使用場面の見極めが重要。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎁 結果後の報酬（Now-That）</h3>
+        <ul>
+          <li>成果後に予告なく与える</li>
+          <li>称賛・サプライズ報酬</li>
+          <li>内発的動機を損ねにくい</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>事後称賛は内発的興味を腐食せず、認知と感謝を伝えられる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🪓 ソーヤー効果</h3>
+        <ul>
+          <li>外的報酬で内的興味が減衰</li>
+          <li>過剰正当化現象</li>
+          <li>長期的な興味の腐食</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>報酬が興味を「仕事」に変え、本来の楽しさを奪う心理メカニズム。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔒 ゴールデンロックス課題</h3>
+        <ul>
+          <li>簡単すぎず難しすぎない</li>
+          <li>最適難易度の設定</li>
+          <li>フローと熟達を促進</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>適正難易度が集中と成長の両方を引き出す最重要条件。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 ROWE</h3>
+        <ul>
+          <li>Results-Only Work Environment</li>
+          <li>勤務時間・場所を問わない</li>
+          <li>成果だけで評価</li>
+          <li>自律と責任を両立</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>成果主義2.0。時間管理から成果管理へのシフトで生産性と満足を向上。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📦 フェデックス・デー</h3>
+        <ul>
+          <li>24時間の自由プロジェクト</li>
+          <li>成果を"翌日配送"</li>
+          <li>自律と目的で創造を喚起</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>自由開発の仕組み化。短期集中で自律×目的を体感し、イノベーションの火種を生む。
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-diagram">
+      <h3 style="color: var(--primary); margin-bottom: 1rem;">🔗 概念間の関係性</h3>
+      <div class="card">
+        <ul>
+          <li>時代の要請: 1.0→2.0→3.0（本能→統制→内発）</li>
+          <li>If-Then報酬 → 注意の狭窄 → 創造性・学習の低下</li>
+          <li>自律性↑ → 関与↑ → 継続行動・成果・満足度↑</li>
+          <li>ゴールデンロックス課題 × 継続練習 → フロー体験 → 熟達促進</li>
+          <li>目的整合（ミッション・価値） → 努力の持続性・倫理性↑</li>
+          <li>タイプX環境（統制・罰） → 短期順守↑ / 長期内発↓</li>
+          <li>公正な固定給 + 事後称賛 → 内発維持 → 創造成果↑</li>
+          <li>ROWE → 4T自律性の拡大 → 生産性・満足の同時向上</li>
+          <li>フェデックス・デー → 自律×目的の即時体感 → イノベーションの火種</li>
+          <li>成長思考（マインドセット） → 失敗の学習化 → 熟達の加速</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📘 第I部：動機づけのOSを更新せよ</h3>
+      <ul>
+        <li><strong>モチベーション2.0の限界：</strong>創造性の阻害、倫理リスク、短期志向を実証研究で示す</li>
+        <li><strong>科学的エビデンス：</strong>条件付き報酬が注意を狭め、内発的興味を腐食する現象を多数の実験で確認</li>
+        <li><strong>時代の変化：</strong>反復作業から知識労働へのシフトで、統制型OSが機能不全に</li>
+        <li><strong>3.0の必要性：</strong>内発的動機を駆動する新しいOSへの更新が不可欠</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（なぜこの章が必要か）：</strong>現状の報酬システムの問題点を科学的に証明し、変革の必然性を読者に納得させるため。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>📗 第II部：3要素の解剖</h3>
+      <ul>
+        <li><strong>自律（Autonomy）：</strong>Task/Time/Technique/Teamの4次元で裁量を設計する具体的方法</li>
+        <li><strong>熟達（Mastery）：</strong>適正難易度・継続練習・フィードバック・成長思考の組み合わせ</li>
+        <li><strong>目的（Purpose）：</strong>営利と意義の両立デザイン、顧客価値との結び直し</li>
+        <li><strong>実例の提示：</strong>各要素を実践している企業・個人の成功事例を豊富に紹介</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（なぜこの章が必要か）：</strong>抽象的な原則を具体的な設計要素に分解し、実装可能な形で提示するため。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>📙 第III部：ツールキット</h3>
+      <ul>
+        <li><strong>個人向け：</strong>自己診断、学習計画、目的の再定義ワークシート</li>
+        <li><strong>チーム向け：</strong>ROWE導入ガイド、フェデックス・デーの実施手順</li>
+        <li><strong>組織向け：</strong>内発を損ねない報酬設計、評価制度の再設計チェックリスト</li>
+        <li><strong>実践ガイド：</strong>小さな行動変容から始める段階的アプローチ</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由（なぜこの章が必要か）：</strong>理論を日常実践に落とし込むための具体的ツールと手順を提供し、即実行可能にするため。
+      </div>
+    </div>
+
+    <div class="visual-diagram">
+      <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎯 論理展開の流れ</h3>
+      <div class="flow-chart">
+        <div class="flow-item" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+          科学（行動科学・実験）<br><small>エビデンスベース</small>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item" style="background: linear-gradient(135deg, #764ba2, #f093fb);">
+          原則（自律・熟達・目的）<br><small>理論フレームワーク</small>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item" style="background: linear-gradient(135deg, #f093fb, #667eea);">
+          制度設計（報酬・評価・働き方）<br><small>システム実装</small>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+          日常実践（小さな行動変容）<br><small>個人レベルの実行</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🌉 読者への橋渡し</h3>
+      <ul>
+        <li><strong>反証可能なエビデンス：</strong>科学的実験データで説得力を担保</li>
+        <li><strong>実例の豊富さ：</strong>多様な業界・規模の成功事例で再現性を示す</li>
+        <li><strong>セルフテスト：</strong>読者自身の現状診断ツールで自分事化</li>
+        <li><strong>段階的導入：</strong>個人→チーム→組織の順で無理なく展開</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h4>💡 具体例1：Googleの20%ルール</h4>
+      <p><strong>背景：</strong>Googleは従業員に勤務時間の20%を自分の興味あるプロジェクトに使う自由を与えた。</p>
+      <p><strong>結果：</strong>Gmail、Google News、AdSenseなど主要サービスの多くがこの時間から生まれた。</p>
+      <p><strong>示唆：</strong>自律性（Task/Time）の付与が創造性と事業価値を同時に生む。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>裁量の付与が単なる福利厚生ではなく、イノベーションの源泉になることを実証している。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>🎨 具体例2：アトラシアンのフェデックス・デー</h4>
+      <p><strong>背景：</strong>オーストラリアのソフトウェア企業が24時間の自由開発イベントを定期開催。</p>
+      <p><strong>結果：</strong>多数の新機能・改善案が生まれ、製品ロードマップに組み込まれた。社員の満足度も向上。</p>
+      <p><strong>示唆：</strong>短期集中の自律×目的体験が、日常業務への関与を高める触媒になる。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>制度化された自由時間が、持続的なイノベーション文化を醸成できることを示している。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>📊 具体例3：Best BuyのROWE導入</h4>
+      <p><strong>背景：</strong>米小売大手が本社部門で成果のみ評価制度（ROWE）を導入。勤務時間・場所の制約を撤廃。</p>
+      <p><strong>結果：</strong>生産性が平均35%向上、離職率が大幅低下、従業員満足度が上昇。</p>
+      <p><strong>示唆：</strong>時間管理から成果管理へのシフトが、自律性と責任感を同時に高める。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>大規模組織でも自律性の拡大が生産性と満足の両立を実現できることを証明している。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>🎯 具体例4：ソーヤー効果の実験</h4>
+      <p><strong>背景：</strong>子どもたちに絵を描かせる実験で、報酬を約束したグループと約束しないグループを比較。</p>
+      <p><strong>結果：</strong>報酬を約束されたグループは、報酬がなくなると絵を描く時間が激減。内発的興味が減衰。</p>
+      <p><strong>示唆：</strong>外的報酬が内的動機を「仕事」に変え、本来の楽しさを奪う。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>条件付き報酬の副作用を実験的に証明し、報酬設計の注意点を明確にしている。
+      </div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-box">
+        <span class="metric-value">35%</span>
+        <span class="metric-label">生産性向上<br>(ROWE導入)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-value">20%</span>
+        <span class="metric-label">自由時間<br>(Google)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-value">24h</span>
+        <span class="metric-label">集中開発<br>(FedEx Day)</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <blockquote>「コントロールは順守を生むが、自律は関与を生む。」</blockquote>
+      <p><strong>重要な理由：</strong>統制ではなく自律こそが持続的パフォーマンスの源泉である核心命題だから。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>「アメとムチはもはや前世紀の道具だ。」</blockquote>
+      <p><strong>重要な理由：</strong>外発的報酬の限界と、OS更新の必要性を端的に示す。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>「高いパフォーマンスの秘密は内発的動機だ。」</blockquote>
+      <p><strong>重要な理由：</strong>本全体の結論を一文で要約し、設計の方針を与える。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>「熟達は非対称で、完全には到達しない。」</blockquote>
+      <p><strong>重要な理由：</strong>終わりなき改善への態度が学習投資を正当化する。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>「目的は利益を超える理由である。」</blockquote>
+      <p><strong>重要な理由：</strong>短期利益を超えた意味づけが内発の持続性を担保するため。</p>
+    </div>
+
+    <div class="visual-diagram">
+      <h3 style="color: var(--primary); margin-bottom: 1rem;">📚 関連書籍</h3>
+      <div class="card-grid">
+        <div class="card">
+          <h3>🌊 フロー 体験 喜びの現象学</h3>
+          <p><strong>著者：</strong>ミハイ・チクセントミハイ</p>
+          <p><strong>関連性：</strong>熟達と最適経験（フロー）の条件を理論化し、3.0の実感的裏付けとなる。</p>
+        </div>
+        <div class="card">
+          <h3>🧠 マインドセット</h3>
+          <p><strong>著者：</strong>キャロル・S・ドゥエック</p>
+          <p><strong>関連性：</strong>成長思考が熟達を加速するという第II部の要点を補強する。</p>
+        </div>
+        <div class="card">
+          <h3>🎲 予想どおりに不合理</h3>
+          <p><strong>著者：</strong>ダン・アリエリー</p>
+          <p><strong>関連性：</strong>報酬やインセンティブの逆効果を行動経済学から実証する。</p>
+        </div>
+        <div class="card">
+          <h3>👉 ナッジ</h3>
+          <p><strong>著者：</strong>リチャード・H・セイラー／キャス・サンスティーン</p>
+          <p><strong>関連性：</strong>環境設計で望ましい行動を促すという制度設計の示唆が近い。</p>
+        </div>
+        <div class="card">
+          <h3>🚀 リーン・スタートアップ</h3>
+          <p><strong>著者：</strong>エリック・リース</p>
+          <p><strong>関連性：</strong>自律と学習（熟達）を仕組み化する実践論として補完関係にある。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h4>✅ アクション1：仕事を自律・熟達・目的で分類せよ</h4>
+      <p><strong>目的：</strong>現在の業務がどの要素を満たしているか可視化する</p>
+      <p><strong>方法：</strong>今週のタスクリストを作り、各タスクに「自律」「熟達」「目的」のタグを付ける（15分）</p>
+      <p><strong>期待効果：</strong>不足している要素が明確になり、改善の優先順位が見える</p>
+    </div>
+
+    <div class="action-card">
+      <h4>📅 アクション2：週1の学習ブロックを設定せよ</h4>
+      <p><strong>目的：</strong>熟達への継続的投資を習慣化する</p>
+      <p><strong>方法：</strong>カレンダーに毎週1時間の「学習専用時間」を固定予約し、スキル向上に充てる（5分設定+実行）</p>
+      <p><strong>期待効果：</strong>ゴールデンロックス課題への取り組みが定着し、成長実感が得られる</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🎯 アクション3：目標を成果ではなく進捗で書き換えよ</h4>
+      <p><strong>目的：</strong>熟達志向（プロセス重視）への思考転換</p>
+      <p><strong>方法：</strong>今月の目標を「〇〇を達成」から「〇〇を週3回練習」のような進捗指標に書き直す（10分）</p>
+      <p><strong>期待効果：</strong>結果への執着が減り、学習プロセスへの集中力が高まる</p>
+    </div>
+
+    <div class="action-card">
+      <h4>💬 アクション4：チームに「なぜ」を問いかける</h4>
+      <p><strong>目的：</strong>目的（Purpose）の共有と再確認</p>
+      <p><strong>方法：</strong>次のミーティングで「このプロジェクトは誰のどんな問題を解決するか？」を全員で確認（15分）</p>
+      <p><strong>期待効果：</strong>作業の意義が明確になり、内発的動機が高まる</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🔍 アクション5：自分のタイプI度を測定せよ</h4>
+      <p><strong>目的：</strong>現在の動機づけパターンを自己診断</p>
+      <p><strong>方法：</strong>「外的報酬がなくてもこの仕事をするか？」を5段階で自己評価し、低い項目を特定（10分）</p>
+      <p><strong>期待効果：</strong>内発的動機が弱い領域が明確になり、改善の起点が見つかる</p>
+    </div>
+
+    <div class="visual-diagram">
+      <h3 style="color: var(--primary); text-align: center; margin-bottom: 1rem;">⏱️ 実行時間の目安</h3>
+      <div class="metric-grid">
+        <div class="metric-box">
+          <span class="metric-value">15分</span>
+          <span class="metric-label">仕事の分類</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">5分</span>
+          <span class="metric-label">学習予約</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">10分</span>
+          <span class="metric-label">目標書換</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">15分</span>
+          <span class="metric-label">Why確認</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-value">10分</span>
+          <span class="metric-label">自己診断</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// タブ切替機能
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetTab = btn.getAttribute('data-tab');
+    
+    // すべてのタブとコンテンツから active を削除
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    // クリックされたタブとコンテンツに active を追加
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(targetTab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
