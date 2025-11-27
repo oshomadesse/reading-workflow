@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREATIVITY, INC. インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea / セカンダリー #764ba2 / アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 32px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 6px solid var(--accent);
+  padding: 20px;
+  margin: 24px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 12px;
+}
+.summary-item strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+.summary-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 16px;
+  border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--text-light);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.tab-btn:hover {
+  color: var(--primary);
+}
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+.card li {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+  color: var(--text);
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+.reason strong {
+  color: var(--secondary);
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(118,75,162,0.05), rgba(102,126,234,0.05));
+  border-left: 4px solid var(--secondary);
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  font-style: italic;
+}
+.quote-card p {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.quote-card small {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.action-card h4 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.action-card p {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+.action-card .meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.chart-container {
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.chart-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--secondary);
+}
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar-label {
+  min-width: 120px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.bar {
+  flex: 1;
+  height: 24px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.bar:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+.flow-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 6px;
+  border-left: 3px solid var(--primary);
+  font-size: 0.9rem;
+}
+.flow-arrow {
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.emoji {
+  font-size: 1.2rem;
+  margin-right: 4px;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 CREATIVITY, INC.</h1>
+  <p>創造性を持続させる組織の設計と運営</p>
+</header>
+
+<div class="container">
+  
+  <div class="summary-block">
+    <h2>🎯 エグゼクティブ・サマリー</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      <p>組織で創造性を継続的に高水準で生み出すには何が必要か？</p>
+    </div>
+    <div class="summary-item">
+      <strong>💡 答え</strong>
+      <p>個人の才能頼みではなく、率直な対話・心理的安全・早期検証と学習が自走する「文化×プロセス」を設計・運営すること。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      <p>創造を妨げる不可視の力（恐れ、権威勾配、成功体験の硬直化、政治）は個人努力では克服困難で、組織設計の問題だから。環境が行動を規定し、行動が成果を規定する。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには）</strong>
+      <p>ブレイントラストで上下関係を排した本音フィードバックを制度化する／未熟なアイデア（醜い赤ん坊）を保護し探索を担保する／失敗を学習投資として早期・小規模に回収する／ポストモーテムで知見を共有し再発を防ぐ／Notes Dayなど全社的対話で継続的に仕組みを更新する／リーダーは障害除去と安全の担保に時間を使う。</p>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="emoji">👻</span>目に見えない力</h3>
+        <ul>
+          <li>恐れ、権威勾配、政治、惰性など</li>
+          <li>創造を静かに蝕む組織力学</li>
+          <li>気づかなければ是正不能</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 不可視の阻害要因を認識しなければ、どんな才能も環境に押しつぶされる。問題の可視化が改善の第一歩。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🧠</span>ブレイントラスト</h3>
+        <ul>
+          <li>決定権なき同僚による率直な助言の場</li>
+          <li>心理的安全と問題の早期発見装置</li>
+          <li>上下関係を排除し本音を引き出す</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 決定権を持たないからこそ、政治的配慮なく本質的な問題を指摘でき、創造の質が高まる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">👶</span>醜い赤ん坊（Ugly Baby）</h3>
+        <ul>
+          <li>初期アイデアの未熟で脆い状態</li>
+          <li>評価より保護と育成が必要</li>
+          <li>早期批判は新芽を枯らす</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> すべての偉大な作品も最初は粗削り。初期段階での過度な評価は探索を止め、イノベーションを殺す。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🦁</span>飢えた獣（Hungry Beast）</h3>
+        <ul>
+          <li>制作スケジュールと収益が生む供給圧力</li>
+          <li>新規性を食い潰しがち</li>
+          <li>管理が要る</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 短期的な生産圧力は既存の成功パターンへの依存を強め、長期的な創造性を損なう。バランスが必須。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">💬</span>率直さ（Candor）</h3>
+        <ul>
+          <li>人に配慮しつつ事実と解釈を正直に伝える</li>
+          <li>創造の燃料</li>
+          <li>信頼関係の上に成り立つ</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 率直さがなければ問題は隠蔽され、手遅れになるまで表面化しない。継続的改善の前提条件。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🔬</span>失敗の健全性</h3>
+        <ul>
+          <li>失敗を罰さず、早く小さく起こす</li>
+          <li>検証学習につなげる考え方</li>
+          <li>総リスクを減らす戦略</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 大きな失敗を避けるには小さな失敗を積極的に起こし、学習速度を上げることが最も効率的。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">📋</span>ポストモーテム</h3>
+        <ul>
+          <li>プロジェクト終了後の振り返り</li>
+          <li>因果と再発防止策を構造化</li>
+          <li>組織知として共有する仕組み</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 個人の経験を組織の資産に変換し、同じ失敗を繰り返さない。学習の複利効果を生む。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🛡️</span>心理的安全</h3>
+        <ul>
+          <li>否定や報復への恐れなく発言・挑戦できる</li>
+          <li>率直さの前提条件</li>
+          <li>リーダーが意図的に作る空気</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 恐れがある限り、人は本音を隠し、リスクを避け、創造性は発揮されない。安全が全ての土台。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🏗️</span>リーダーの仕事＝環境設計</h3>
+        <ul>
+          <li>才能の管理より、仕組み・文化を整える</li>
+          <li>情報の流れを設計</li>
+          <li>障害を除くことが主業</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 優秀な人材も悪い環境では力を発揮できない。リーダーの役割は土台を作り、障害を取り除くこと。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">📅</span>Notes Day</h3>
+        <ul>
+          <li>全社で課題を持ち寄り議論・改善する日</li>
+          <li>現場の知恵で仕組みを更新</li>
+          <li>継続的な文化の進化装置</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> トップダウンだけでは見えない問題を現場が解決し、組織を自己更新させる民主的な仕組み。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🎯</span>制約の活用</h3>
+        <ul>
+          <li>適切な制約は集中と創意を促す</li>
+          <li>自由と制限の最適バランス</li>
+          <li>焦点を明確にする道具</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 無制限の自由は散漫を生む。賢い制約は創造的エネルギーを集中させ、質を高める。
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">🔗 概念間の関係性（因果の流れ）</div>
+      <div class="flow-diagram">
+        <div class="flow-item">目に見えない力 <span class="flow-arrow">→</span> 率直さ低下 <span class="flow-arrow">→</span> 問題の潜行化 <span class="flow-arrow">→</span> 品質劣化/コスト超過</div>
+        <div class="flow-item">心理的安全 <span class="flow-arrow">→</span> 率直さの発露 <span class="flow-arrow">→</span> ブレイントラストが機能 <span class="flow-arrow">→</span> 早期学習</div>
+        <div class="flow-item">醜い赤ん坊の保護 <span class="flow-arrow">↔</span> 飢えた獣の管理（バランス） <span class="flow-arrow">→</span> 新規性と実行性の両立</div>
+        <div class="flow-item">失敗の健全性 <span class="flow-arrow">→</span> 小さく早い検証 <span class="flow-arrow">→</span> 学習速度↑ <span class="flow-arrow">→</span> リスク総量↓</div>
+        <div class="flow-item">ポストモーテム <span class="flow-arrow">→</span> 暗黙知の形式知化 <span class="flow-arrow">→</span> 再発防止 <span class="flow-arrow">→</span> 生産性と品質の逓増</div>
+        <div class="flow-item">リーダーの環境設計 <span class="flow-arrow">→</span> 不可視の力を弱める <span class="flow-arrow">→</span> 率直さ/学習が自走</div>
+        <div class="flow-item">制約の活用 <span class="flow-arrow">→</span> 焦点明確化 <span class="flow-arrow">→</span> アイデアの質向上</div>
+        <div class="flow-item">Notes Day <span class="flow-arrow">→</span> 現場起点の改善 <span class="flow-arrow">→</span> 文化の継続的アップデート</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="emoji">🌱</span>誕生と哲学の萌芽</h3>
+        <ul>
+          <li>研究者としての著者の歩み</li>
+          <li>ピクサー創業までの試行錯誤</li>
+          <li>創造を支える価値観の形成</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 創業者の原体験が組織文化の基盤となり、後の仕組みの設計思想を規定する。ルーツを知ることで原則の本質が理解できる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🕵️</span>不可視の力の認識</h3>
+        <ul>
+          <li>失敗、恐れ、権威勾配の実例</li>
+          <li>見えない阻害要因が創造を蝕む</li>
+          <li>環境設計の必要性を示す</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 問題を認識しなければ解決できない。不可視の力を可視化することが、組織改善の出発点となる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🤝</span>ブレイントラストの設計</h3>
+        <ul>
+          <li>決定権を排し率直な助言のみを交換</li>
+          <li>場のルールと効果</li>
+          <li>運用のコツを解説</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 率直さを制度化する具体的な仕組みを示すことで、他組織でも再現可能な形で創造性を高められる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">⚖️</span>醜い赤ん坊と飢えた獣</h3>
+        <ul>
+          <li>初期アイデアの保護</li>
+          <li>生産圧力の管理</li>
+          <li>両立させる具体的アプローチ</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 探索と活用のジレンマは全ての創造組織が直面する課題。バランスの取り方が持続的成功の鍵。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🔄</span>失敗の正常化と学習</h3>
+        <ul>
+          <li>小さく早い失敗を奨励</li>
+          <li>学びを最大化するプロセス</li>
+          <li>検証・レビュー・共有の設計</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 失敗を学習投資として扱うことで、リスクを管理しながらイノベーションを加速できる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">📚</span>ポストモーテムと知の蓄積</h3>
+        <ul>
+          <li>振り返りの設計原則（非難禁止、因果の掘り下げ）</li>
+          <li>行動策の明確化</li>
+          <li>組織知への転換法</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 個人の経験を組織資産に変える仕組みが、学習曲線を急勾配にし、競争優位を生む。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">📈</span>スケールと変化のマネジメント</h3>
+        <ul>
+          <li>拡大に伴うサイロ化や政治化への対処</li>
+          <li>Notes Day等で制度を更新</li>
+          <li>継続的な仕組みの進化</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 成功した組織ほど硬直化しやすい。変化に適応し続ける仕組みが、長期的な創造性を守る。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🌍</span>越境適用と普遍原則</h3>
+        <ul>
+          <li>ディズニーアニメーションへの適用事例</li>
+          <li>原則の汎用性の確認</li>
+          <li>リーダーの役割を再確認</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 異なる組織での成功が原則の普遍性を証明し、読者が自組織に適用する自信を与える。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🔐</span>結語：創造するちからの維持</h3>
+        <ul>
+          <li>創造性は一度の成功で固定されない</li>
+          <li>継続的に守り育てる営み</li>
+          <li>終わりなき旅としての総括</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 創造性は達成ではなくプロセスであることを強調し、読者に継続的な実践を促す。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3><span class="emoji">🎬</span>具体例1: トイ・ストーリー2の危機</h3>
+        <ul>
+          <li><strong>背景:</strong> 制作途中で品質問題が発覚</li>
+          <li><strong>対応:</strong> ブレイントラストで率直な問題共有</li>
+          <li><strong>結果:</strong> 大幅な作り直しで傑作に</li>
+          <li><strong>示唆:</strong> 早期の率直な対話が大失敗を防ぐ</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> この例は、心理的安全と率直さがあれば、深刻な問題も早期に修正でき、最終的に高品質な成果を生むことを示す。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🏢</span>具体例2: Notes Dayの実施</h3>
+        <ul>
+          <li><strong>背景:</strong> 組織拡大で現場の声が届きにくくなった</li>
+          <li><strong>対応:</strong> 全社員が課題を持ち寄り議論する日を設定</li>
+          <li><strong>結果:</strong> 数百の改善案が実行された</li>
+          <li><strong>示唆:</strong> 現場の知恵が組織を進化させる</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> トップダウンだけでは見えない問題を、現場主導で解決する民主的な仕組みが、組織の自己更新力を高めることを実証。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🎨</span>具体例3: ディズニーアニメーション再生</h3>
+        <ul>
+          <li><strong>背景:</strong> 低迷していたディズニーアニメーション部門</li>
+          <li><strong>対応:</strong> ピクサーの文化と仕組みを移植</li>
+          <li><strong>結果:</strong> 「アナと雪の女王」など大ヒット連発</li>
+          <li><strong>示唆:</strong> 原則は組織を超えて機能する</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 異なる組織文化でも同じ原則が成功を生むことを示し、本書の方法論の汎用性と再現性を証明する。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">🔬</span>具体例4: 初期プロトタイプの保護</h3>
+        <ul>
+          <li><strong>背景:</strong> 新作の初期アイデアは常に粗削り</li>
+          <li><strong>対応:</strong> 「醜い赤ん坊」として評価を保留</li>
+          <li><strong>結果:</strong> 探索の余地が生まれ独創性が育つ</li>
+          <li><strong>示唆:</strong> 早期評価は創造を殺す</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> イノベーションには探索期間が必須であり、初期段階での過度な評価が新しいアイデアの芽を摘むことを示す。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="emoji">📊</span>具体例5: ポストモーテムの実践</h3>
+        <ul>
+          <li><strong>背景:</strong> プロジェクト終了後に必ず振り返り</li>
+          <li><strong>対応:</strong> 非難なしで因果を掘り下げる</li>
+          <li><strong>結果:</strong> 同じ失敗が減り生産性向上</li>
+          <li><strong>示唆:</strong> 学習の仕組み化が競争力を生む</li>
+        </ul>
+        <div class="reason">
+          <strong>理由:</strong> 個人の経験を組織知に変換する仕組みが、学習の複利効果を生み、長期的な競争優位につながることを実証。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <p>「早い段階では、私たちの映画はだいたいダメだ。」</p>
+      <small><strong>重要性:</strong> 初期の粗さを前提化し、反復学習を正当化する指針となる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「才能よりも率直さの方が、継続的に価値を生む。」</p>
+      <small><strong>重要性:</strong> 個人依存から、文化・対話への投資優先へ思考を転換させる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「失敗は避ける対象ではなく、管理する対象だ。」</p>
+      <small><strong>重要性:</strong> 小さく早い失敗の設計により、総損失を減らし学習を最大化できる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「アイデアではなく、アイデアを育てるチームを信頼せよ。」</p>
+      <small><strong>重要性:</strong> 人を中心に置く運営により、状況変化への適応力が高まる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「文化はプロセスに勝るが、文化はプロセスからも育つ。」</p>
+      <small><strong>重要性:</strong> 価値観と仕組みを二項対立でなく相互強化として設計する視点を与える。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「経営の第一の仕事は、創造を妨げる障害を取り除くこと。」</p>
+      <small><strong>重要性:</strong> トップの役割を意思決定より環境整備へと再定義する。</small>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h4>🔍 アクション1: 小失敗を1件振り返り学び3つ書く</h4>
+      <p><strong>目的:</strong> 失敗を学習投資として扱う習慣を身につける</p>
+      <p><strong>期待効果:</strong> 失敗への恐れが減り、早期検証の心理的ハードルが下がる。学びの言語化で再発防止と知識共有が可能になる。</p>
+      <p class="meta">⏱️ 所要時間: 15分 | 📝 準備: ノートとペン</p>
+    </div>
+
+    <div class="action-card">
+      <h4>💬 アクション2: 仲間2人に率直なフィードバックを依頼する</h4>
+      <p><strong>目的:</strong> 率直さを受け取る側として心理的安全を体験する</p>
+      <p><strong>期待効果:</strong> 率直な意見を求める姿勢が周囲に伝わり、対話の質が向上。自分の盲点に気づき改善の糸口が見つかる。</p>
+      <p class="meta">⏱️ 所要時間: 20分 | 📝 準備: 信頼できる同僚2名</p>
+    </div>
+
+    <div class="action-card">
+      <h4>✏️ アクション3: 新案の紙プロトを15分で作る</h4>
+      <p><strong>目的:</strong> 「醜い赤ん坊」を保護しながら早期検証する習慣をつける</p>
+      <p><strong>期待効果:</strong> 完璧主義を手放し、早期フィードバックで方向修正が可能に。小さく始める習慣が失敗コストを下げる。</p>
+      <p class="meta">⏱️ 所要時間: 15分 | 📝 準備: 紙とペン、アイデア1つ</p>
+    </div>
+
+    <div class="action-card">
+      <h4>📋 アクション4: 直近のプロジェクトで簡易ポストモーテムを実施</h4>
+      <p><strong>目的:</strong> 振り返りを習慣化し、組織学習のサイクルを回す</p>
+      <p><strong>期待効果:</strong> 同じ失敗の再発を防ぎ、チームの学習速度が上がる。非難なしの振り返りが心理的安全を強化する。</p>
+      <p class="meta">⏱️ 所要時間: 30分 | 📝 準備: チームメンバー、振り返りシート</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🗣️ アクション5: 1on1で「障害は何か？」と聞く</h4>
+      <p><strong>目的:</strong> リーダーとして環境設計の視点を実践する</p>
+      <p><strong>期待効果:</strong> 不可視の力が可視化され、具体的な改善アクションにつながる。メンバーが「聞いてもらえる」安心感を得る。</p>
+      <p class="meta">⏱️ 所要時間: 20分 | 📝 準備: 1on1の時間</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">📚 関連書籍</div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>リーン・スタートアップ</h3>
+        <p><strong>著者:</strong> エリック・リース</p>
+        <p><strong>関連性:</strong> 小さく早い実験と学習のループが創造性の持続に直結する。</p>
+      </div>
+      <div class="card">
+        <h3>Radical Candor〔ラディカル・キャンダー〕</h3>
+        <p><strong>著者:</strong> キム・スコット</p>
+        <p><strong>関連性:</strong> 率直さと配慮の両立というブレイントラストの核心と一致。</p>
+      </div>
+      <div class="card">
+        <h3>ディズニーCEOが実践する10の原則</h3>
+        <p><strong>著者:</strong> ロバート・アイガー</p>
+        <p><strong>関連性:</strong> ピクサーとの提携・統合を通じた創造文化のリーダーシップが学べる。</p>
+      </div>
+      <div class="card">
+        <h3>ブラックボックス思考</h3>
+        <p><strong>著者:</strong> マシュー・サイド</p>
+        <p><strong>関連性:</strong> 失敗から学ぶ仕組み化と心理的安全の必要性を補強する。</p>
+      </div>
+      <div class="card">
+        <h3>No Rules Rules</h3>
+        <p><strong>著者:</strong> リード・ヘイスティングス／エリン・メイヤー</p>
+        <p><strong>関連性:</strong> 自由と責任、率直なフィードバックによる創造文化の別解。</p>
+      </div>
+      <div class="card">
+        <h3>組織文化とリーダーシップ</h3>
+        <p><strong>著者:</strong> エドガー・H・シャイン</p>
+        <p><strong>関連性:</strong> 文化を設計・変革する理論基盤が本書の実践を理論面から支える。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// タブ切り替え機能
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const targetTab = button.getAttribute('data-tab');
+    
+    // すべてのタブとコンテンツから active クラスを削除
+    tabButtons.forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    // クリックされたタブとコンテンツに active クラスを追加
+    button.classList.add('active');
+    button.setAttribute('aria-selected', 'true');
+    document.getElementById(targetTab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
