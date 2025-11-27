@@ -866,7 +866,6 @@ def step7_save_to_obsidian_simple(mid_summary):
     content = f"""---
 tags: [books]
 ---
-
 ## 【 🧠 {title} 】
 
 ### 📚 基本情報 
