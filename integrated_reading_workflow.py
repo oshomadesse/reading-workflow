@@ -1150,15 +1150,23 @@ def step9_send_notification_to_user(mid_summary=None):
     if len(core_message) > 60:
         core_message = core_message[:60] + "..."
     
-    # infographic_url = mid_summary.get("infographic_url", "") # 未使用
-    
+    # インフォグラフィックのパスからファイル名を取得し、GitHub PagesのURLを構築
+    # path example: /home/runner/work/.../infographics/filename.html
+    inf_path = mid_summary.get("infographic_path", "")
+    infographic_pages_url = ""
+    if inf_path:
+        import os
+        filename = os.path.basename(inf_path)
+        # URLエンコード（日本語ファイル名対応）
+        from urllib.parse import quote
+        filename_enc = quote(filename)
+        # GitHub Pages URL: https://oshomadesse.github.io/books-summary/infographics/{filename}
+        infographic_pages_url = f"https://oshomadesse.github.io/books-summary/infographics/{filename_enc}"
+
     # ヒーロー画像: 削除
     # hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
     
-    # インフォグラフィックがWeb公開されている場合はボタンを追加したいが、
-    # 現状はノートリンクを優先。
-    
-    alt_text = f"📚 本日の読書本はこちら！: {title}"
+    alt_text = f"📚 本日の読書サマリー: {title}"
     
     flex_obj = {
       "type": "bubble",
@@ -1168,7 +1176,7 @@ def step9_send_notification_to_user(mid_summary=None):
         "contents": [
           {
             "type": "text",
-            "text": "📚 本日の読書本はこちら！",
+            "text": "📚 本日の読書サマリー",
             "weight": "bold",
             "color": "#000000",
             "size": "sm"
@@ -1216,8 +1224,8 @@ def step9_send_notification_to_user(mid_summary=None):
             "height": "sm",
             "action": {
               "type": "uri",
-              "label": "ノートを開く",
-              "uri": url
+              "label": "図解を見る",
+              "uri": infographic_pages_url if infographic_pages_url else url
             }
           }
         ],
