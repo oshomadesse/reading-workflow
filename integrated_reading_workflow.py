@@ -1035,10 +1035,15 @@ def step8_append_to_excluded_list(mid_summary):
             creds = None
             json_str = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
             json_path = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON_PATH", "").strip()
+            gac_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
+
             if json_str:
                 creds = _Creds.from_service_account_info(_json.loads(json_str), scopes=_SCOPES)
             elif json_path and os.path.exists(json_path):
                 creds = _Creds.from_service_account_file(json_path, scopes=_SCOPES)
+            elif gac_path and os.path.exists(gac_path):
+                # GOOGLE_APPLICATION_CREDENTIALS がある場合はそれを明示的に使う
+                creds = _Creds.from_service_account_file(gac_path, scopes=_SCOPES)
             else:
                 try:
                     import google.auth
@@ -1047,7 +1052,7 @@ def step8_append_to_excluded_list(mid_summary):
                     creds = None
 
             if creds is None:
-                raise RuntimeError("サービスアカウント認証情報が見つかりません（GOOGLE_SERVICE_ACCOUNT_JSON / _PATH を設定してください）")
+                raise RuntimeError("サービスアカウント認証情報が見つかりません（GOOGLE_SERVICE_ACCOUNT_JSON / _PATH / GOOGLE_APPLICATION_CREDENTIALS を設定してください）")
 
             SPREADSHEET_ID = os.getenv("EXCLUDED_SHEET_ID", "1aZ9VkAE3ZMfc6tkwfVPjolMZ4DU6SwodBUc2Yd13R10")
             SHEET_GID = int(os.getenv("EXCLUDED_SHEET_GID", "638408503"))
@@ -1076,17 +1081,17 @@ def _build_obsidian_note_url(note_path: str) -> str:
     """
     Booksノートの絶対パス → obsidian://open?vault=...&file=... を返す
     """
-    if os.getenv("GITHUB_ACTIONS"):
-        # GitHub Actions環境ではGitHubのリポジトリURLを返す（簡易実装）
-        repo = os.getenv("GITHUB_REPOSITORY", "oshomadesse/books-summary")
-        # note_path は絶対パスなので、リポジトリルートからの相対パスを取得
-        try:
-            rel_path = _Path(note_path).relative_to(Path(PROJECT_DIR)).as_posix()
-            # URLエンコード
-            rel_path_enc = _quote(rel_path)
-            return f"https://github.com/{repo}/blob/main/{rel_path_enc}"
-        except Exception:
-            return f"https://github.com/{repo}"
+    # if os.getenv("GITHUB_ACTIONS"):
+    #     # GitHub Actions環境ではGitHubのリポジトリURLを返す（簡易実装）
+    #     repo = os.getenv("GITHUB_REPOSITORY", "oshomadesse/books-summary")
+    #     # note_path は絶対パスなので、リポジトリルートからの相対パスを取得
+    #     try:
+    #         rel_path = _Path(note_path).relative_to(Path(PROJECT_DIR)).as_posix()
+    #         # URLエンコード
+    #         rel_path_enc = _quote(rel_path)
+    #         return f"https://github.com/{repo}/blob/main/{rel_path_enc}"
+    #     except Exception:
+    #         return f"https://github.com/{repo}"
 
     vault_root = _Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
     vault_name = os.getenv("OBSIDIAN_VAULT_NAME", "Oshomadesse-main")
@@ -1153,7 +1158,7 @@ def step9_send_notification_to_user(mid_summary=None):
     # インフォグラフィックがWeb公開されている場合はボタンを追加したいが、
     # 現状はノートリンクを優先。
     
-    alt_text = f"📚 本日の読書サマリー: {title}"
+    alt_text = f"📚 本日の読書本はこちら！: {title}"
     
     flex_obj = {
       "type": "bubble",
@@ -1163,7 +1168,7 @@ def step9_send_notification_to_user(mid_summary=None):
         "contents": [
           {
             "type": "text",
-            "text": "📚 本日の読書サマリー",
+            "text": "📚 本日の読書本はこちら！",
             "weight": "bold",
             "color": "#000000",
             "size": "sm"
