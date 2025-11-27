@@ -47,6 +47,7 @@ GitHub Actions 上で Python スクリプトを定期実行し、複数のAIモ�
 - **モデル**: Claude 3.5 Sonnet
 - **内容**: リサーチ結果を元に、概念図解を含む単一のHTMLファイルを生成する。
 - **出力**: `infographics/[書籍名]_infographic.html`
+- **機能**: 生成されたHTMLは即時Pushされ、GitHub Pagesで公開される。
 
 ### 6. ノート生成 (Step 6-7)
 - **内容**: リサーチ結果とインフォグラフィックへのリンクを含むMarkdownノートを作成する。

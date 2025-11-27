@@ -440,10 +440,10 @@ def generate_infographic_complete(deep, book_title):
     name = f"{_slug(book_title)}_infographic.html"
     name = f"{_slug(book_title)}_infographic.html"
     
-    # ★ HTML は docs 直下に保存（GitHub Pages公開用）
-    DOCS_DIR = os.path.join(PROJECT_DIR, "docs")
-    os.makedirs(DOCS_DIR, exist_ok=True)
-    out_path = Path(DOCS_DIR) / name
+    # ★ HTML は infographics 直下に保存（GitHub Pages公開用）
+    # DOCS_DIR = os.path.join(PROJECT_DIR, "docs")
+    # os.makedirs(DOCS_DIR, exist_ok=True)
+    out_path = Path(INF_DIR) / name
     
     _atomic_write(str(out_path), html)
     print(f"🗂 出力保存: {out_path}")
