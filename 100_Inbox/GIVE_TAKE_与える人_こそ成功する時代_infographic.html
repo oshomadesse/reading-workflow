@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIVE & TAKE インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 32px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 24px;
+  margin: 24px 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+.summary-block h2 {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  padding-bottom: 8px;
+}
+.summary-item {
+  margin-bottom: 12px;
+}
+.summary-item strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+.summary-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0;
+  border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--text-light);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.tab-btn:hover {
+  color: var(--primary);
+}
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s;
+}
+.tab-content.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--primary);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+.card li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+.reason strong {
+  color: var(--secondary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--secondary);
+}
+.chapter-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--secondary);
+}
+.chapter-card ul {
+  list-style: none;
+  padding: 0;
+}
+.chapter-card li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  font-size: 0.9rem;
+}
+.chapter-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+.example-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--accent);
+}
+.example-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+.example-card p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(118,75,162,0.05), rgba(102,126,234,0.05));
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--secondary);
+  font-style: italic;
+}
+.quote-card blockquote {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.quote-card cite {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.action-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.action-card p {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  opacity: 0.95;
+}
+.visual-diagram {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.visual-diagram h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+.flow-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.flow-item {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.flow-arrow {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+.stat-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.book-item {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 3px solid var(--accent);
+}
+.book-item h4 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--primary);
+}
+.book-item p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+.book-item small {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📖 GIVE & TAKE</h1>
+  <p>「与える人」こそ最も成功する時代</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>🎯 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      <p>キャリアと組織で最大の成果を生む働き方は何か？</p>
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      <p>「他者志向のギバー」になること。すなわち、相手の利益を優先しつつ、自分の境界を守り高インパクトな支援に集中する。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか？）</strong>
+      <p>データは、与える人が成功分布の最底辺と最上位の両極に集中することを示す。無差別な与えは疲弊と搾取を招く一方、他者志向の与えは信頼・知識共有・評判・弱/休眠つながりからの新機会を積み上げ、マッチャーの規範によりテイカーは長期的に淘汰される。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには？）</strong>
+      <p>①他者志向で助ける領域と量を設計（強み×高影響×時間チャンク化）②テイカーを見極め境界を敷く（紹介で代替・小さなテスト）③5分間の親切と相互支援の場（リシプロシティ・リング）を習慣化④弱/休眠つながりを再起動⑤パワーレス・コミュニケーション（質問・傾聴・弱さの開示）で協働・説得を促進。</p>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <h2 style="margin-bottom:20px; color:var(--primary);">💡 主要概念の詳細</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>🎁 ギバー（Giver）</h3>
+        <ul>
+          <li>見返りを前提にせず相手に価値を提供する人</li>
+          <li>長期では信頼と機会を蓄積する</li>
+          <li>無防備だと搾取され得るリスクあり</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>与える行動が信頼資本を生み、長期的な成功の土台となるが、境界がないと疲弊する。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🚫 テイカー（Taker）</h3>
+        <ul>
+          <li>自分の利益を最優先する</li>
+          <li>他者から最大限引き出そうとする</li>
+          <li>短期成果は出やすいが長期で評判が毀損</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>短期的な利得は得られるが、評判の連鎖により長期では孤立し機会を失う。
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚖️ マッチャー（Matcher）</h3>
+        <ul>
+          <li>与受のバランスと公正を重視</li>
+          <li>与える人を支援し、テイカーを抑制</li>
+          <li>規範の担い手として市場を調整</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>公平性を求める心理が、ギバーを守りテイカーを淘汰する社会的メカニズムを作る。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🌟 他者志向のギビング（Otherish）</h3>
+        <ul>
+          <li>相手本位で価値提供しつつ自他の境界を守る</li>
+          <li>自己犠牲型と利己型の中庸</li>
+          <li>持続可能性を確保する与え方</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>思いやりと境界の両立が、燃え尽きを防ぎ最大の成果を生む鍵となる。
+        </div>
+      </div>
+      <div class="card">
+        <h3>⏱️ 5分間の親切</h3>
+        <ul>
+          <li>短時間で高価値を生む支援（紹介・フィードバック等）</li>
+          <li>素早く行う習慣</li>
+          <li>ネットワークの雪だるま効果を生む</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>低コストで再現性が高く、好意の蓄積と紹介の連鎖を生む最も効率的な戦術。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔗 弱いつながり</h3>
+        <ul>
+          <li>親密ではない関係</li>
+          <li>自分の内輪にない新情報・新機会を運ぶ</li>
+          <li>確率が高い橋渡し役</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>情報多様性がイノベーションとキャリア転機を生む源泉となる。
+        </div>
+      </div>
+      <div class="card">
+        <h3>💤 休眠つながり</h3>
+        <ul>
+          <li>しばらく連絡していない旧知</li>
+          <li>信頼の土台を保ちつつ新鮮な情報をもたらす</li>
+          <li>眠る資産として再起動可能</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>信頼と新鮮さの両方を持ち、再接触で高い価値を生む隠れた資産。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🤝 パワーレス・コミュニケーション</h3>
+        <ul>
+          <li>一方的主張より質問・傾聴・弱さの開示</li>
+          <li>関係と学習を促す話法</li>
+          <li>信頼と説得力を高める</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>弱さを見せることで心理的安全性が生まれ、協働と説得が促進される。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔄 リシプロシティ・リング</h3>
+        <ul>
+          <li>互いの要請を共有し、全員で支援する仕組み</li>
+          <li>与えを構造化</li>
+          <li>マッチャー心理を活性化</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>仕組み化により善意を持続可能にし、与えの総量を最大化する。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔍 誠実性の見極め</h3>
+        <ul>
+          <li>小さなテストや第三者評判で相手の与奪志向を見抜く</li>
+          <li>搾取リスクを低減する技法</li>
+          <li>テイカー検知の実践</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>早期に相手の志向を見極めることで、搾取を防ぎ効率的に支援できる。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📦 チャンク化（ヘルプの時間塊化）</h3>
+        <ul>
+          <li>助ける時間をまとめて確保し集中提供</li>
+          <li>文脈切替コストを抑える</li>
+          <li>疲弊を防ぐ時間設計</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>集中的な支援により効率と回復力が向上し、持続可能な与えが実現する。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📢 評判の連鎖</h3>
+        <ul>
+          <li>噂と紹介を通じて与奪の評判が市場で増幅</li>
+          <li>長期でテイカー不利・ギバー有利に働く</li>
+          <li>社会的増幅のメカニズム</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>評判が市場で増幅されることで、長期的にギバーが優位に立つ構造が生まれる。
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-diagram">
+      <h3>🔄 概念間の関係性</h3>
+      <div class="flow-chart">
+        <div class="flow-item">ギバー（他者志向）→ 信頼・好意・知識共有 ↑</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">協働効率 ↑ → 長期成果 ↑</div>
+        <div class="flow-arrow">⚠️</div>
+        <div class="flow-item">ギバー（無防備）→ 要求過多/搾取 → 疲弊・業績低下</div>
+        <div class="flow-arrow">✅</div>
+        <div class="flow-item">他者志向ギビング + 境界/見極め → 高影響支援の集中</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">成果と持続性の両立</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:20px; color:var(--secondary);">📚 各章の要約</h2>
+    
+    <div class="chapter-card">
+      <h3>序章：3つの類型</h3>
+      <ul>
+        <li>人はギバー/テイカー/マッチャーの3類型に分かれる</li>
+        <li>この枠組みが成功と失敗を説明する基礎となる</li>
+        <li>どの類型を選ぶかが長期的な結果を左右する</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>人間関係の基本パターンを理解することで、自分の行動を戦略的に設計できる。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>第1部：成功の分布</h3>
+      <ul>
+        <li>成功の最下層と最上位にギバーが集中するエビデンス</li>
+        <li>なぜ両極に出るのかのメカニズムを解明</li>
+        <li>無防備な与えと戦略的な与えの違いを提示</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>与える行動が危険も利得も併せ持つことを示し、設計次第で結果が逆転することを証明する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>第2部：人脈・協働・説得</h3>
+      <ul>
+        <li>弱/休眠つながりが新機会を運ぶメカニズム</li>
+        <li>助言依頼とパワーレス・コミュニケーションの効果</li>
+        <li>ギバーが成果を伸ばす具体的行動様式を検証</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>ネットワークと対人影響力がギバーの成功を支える実践的手法を明らかにする。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>第2部：評価・才能観</h3>
+      <ul>
+        <li>潜在力への着目と育成の文化がギバー行動を強化</li>
+        <li>組織学習を促進する仕組み</li>
+        <li>才能観が与える文化を支える基盤となる</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>人材育成の視点がギバー文化を根付かせ、組織全体の成長を加速する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>第3部：守りと設計</h3>
+      <ul>
+        <li>テイカー見極め、境界設定、時間チャンク化の技法</li>
+        <li>ギバーが搾取と燃え尽きを回避する方法</li>
+        <li>持続可能な与えを実現する実践的戦略</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>防御と設計により、ギバーが長期的に成功し続けるための具体的手段を提供する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>終章：与える文化の構築</h3>
+      <ul>
+        <li>個人→チーム→組織へと『与える文化』を拡大</li>
+        <li>リシプロシティ・リング等の実装提案</li>
+        <li>長期優位の総括と実践への橋渡し</li>
+      </ul>
+      <div class="reason">
+        <strong>理由：</strong>個人の善意を組織の仕組みに昇華させることで、持続的な競争優位を生む。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:20px; color:var(--accent);">💼 具体例</h2>
+    
+    <div class="example-card">
+      <h3>🎯 例1：弱いつながりからの転職成功</h3>
+      <p><strong>背景：</strong>ある研究者が、転職成功者の多くが「親しい友人」ではなく「たまに会う知人」からの情報で職を得ていたことを発見。</p>
+      <p><strong>示唆：</strong>内輪の強いつながりは同質的な情報しか持たないが、弱いつながりは異なる世界の新鮮な機会を運ぶ。</p>
+      <div class="reason">
+        <strong>理由：</strong>この例は、情報多様性がキャリア転機を生む因果を実証し、ネットワーク戦略の重要性を示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🎯 例2：5分間の親切が生んだ雪だるま</h3>
+      <p><strong>背景：</strong>あるビジネスパーソンが、毎日3件の「5分でできる紹介」を習慣化。数年後、そのネットワークから数百の機会が返ってきた。</p>
+      <p><strong>示唆：</strong>小さな親切の積み重ねが、複利的に信頼と機会を増幅する。</p>
+      <div class="reason">
+        <strong>理由：</strong>低コストで再現性の高いギビング戦術の核心を示し、誰でも実践可能な行動を提示する。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🎯 例3：パワーレス・コミュニケーションの説得力</h3>
+      <p><strong>背景：</strong>ある営業担当者が、製品の欠点を正直に開示し「あなたのニーズに合うか一緒に考えたい」と問いかけたところ、成約率が大幅に向上。</p>
+      <p><strong>示唆：</strong>弱さを見せ、問いを立てることが、しばしば最も強い説得となる。</p>
+      <div class="reason">
+        <strong>理由：</strong>パワーレス・コミュニケーションが信頼と協働を増幅するメカニズムを具体的に示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🎯 例4：リシプロシティ・リングの効果</h3>
+      <p><strong>背景：</strong>ある組織が月1回、メンバー全員が「今月助けてほしいこと」を共有する場を設けたところ、支援の総量が3倍に増加。</p>
+      <p><strong>示唆：</strong>与えを構造化することで、マッチャー心理が活性化し、全体最適が実現する。</p>
+      <div class="reason">
+        <strong>理由：</strong>仕組み化が善意を持続可能にし、組織全体の与える文化を根付かせることを実証する。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:20px; color:var(--secondary);">💬 重要な引用</h2>
+    
+    <div class="quote-card">
+      <blockquote>"ギバーは成功の分布の最下層と最上位の両方に多い。"</blockquote>
+      <cite><strong>なぜ重要か：</strong>与える行動は危険も利得も併せ持ち、設計次第で結果が逆転することを示す。</cite>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"弱いつながりと休眠つながりが、新しい機会の主要な運び手になる。"</blockquote>
+      <cite><strong>なぜ重要か：</strong>内輪では得られない情報多様性がキャリア転機を生む因果を説明する。</cite>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"小さな親切（5分間の親切）がネットワークの雪だるまを作る。"</blockquote>
+      <cite><strong>なぜ重要か：</strong>低コストで再現性の高いギビング戦術の核である。</cite>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"弱さを見せ、問いを立てることが、しばしば最も強い説得となる。"</blockquote>
+      <cite><strong>なぜ重要か：</strong>パワーレス・コミュニケーションが信頼と協働を増幅するメカニズムを要約する。</cite>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"与える文化は個人の善意を構造化し、全体最適を引き出す。"</blockquote>
+      <cite><strong>なぜ重要か：</strong>仕組み化なしの善意は持続せず、制度が与えの総量を決めることを示す。</cite>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <h2 style="margin-bottom:20px; color:var(--primary);">🚀 今日のアクション</h2>
+    
+    <div class="action-card">
+      <h3>📧 アクション1：休眠つながり3人へ近況を送れ</h3>
+      <p><strong>目的：</strong>信頼の土台を保ちつつ新鮮な情報を得る休眠つながりを再起動する。</p>
+      <p><strong>期待効果：</strong>新しい機会や視点が得られ、ネットワークの多様性が向上する。</p>
+      <p><strong>実行時間：</strong>15分（1人5分×3人）</p>
+    </div>
+
+    <div class="action-card">
+      <h3>⏱️ アクション2：5分の親切を3件実行せよ</h3>
+      <p><strong>目的：</strong>低コストで高価値を生む支援（紹介・フィードバック等）を素早く行う習慣を作る。</p>
+      <p><strong>期待効果：</strong>好意の蓄積と紹介の連鎖が始まり、ネットワークの雪だるま効果が生まれる。</p>
+      <p><strong>実行時間：</strong>15分（1件5分×3件）</p>
+    </div>
+
+    <div class="action-card">
+      <h3>🤝 アクション3：見返り不要の紹介を2件作れ</h3>
+      <p><strong>目的：</strong>他者志向のギビングを実践し、信頼資本を積み上げる。</p>
+      <p><strong>期待効果：</strong>評判の連鎖が始まり、長期的に機会と支援が返ってくる土台ができる。</p>
+      <p><strong>実行時間：</strong>20分（1件10分×2件）</p>
+    </div>
+
+    <div style="margin-top:24px; padding:20px; background:linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1)); border-radius:12px;">
+      <h3 style="color:var(--primary); margin-bottom:12px;">📊 実行のヒント</h3>
+      <ul style="list-style:none; padding:0;">
+        <li style="padding:8px 0; padding-left:24px; position:relative;">
+          <span style="position:absolute; left:0; color:var(--accent); font-weight:bold;">✓</span>
+          カレンダーに「5分間の親切タイム」を毎日設定する
+        </li>
+        <li style="padding:8px 0; padding-left:24px; position:relative;">
+          <span style="position:absolute; left:0; color:var(--accent); font-weight:bold;">✓</span>
+          休眠つながりリストを作成し、月1回ローテーションで連絡する
+        </li>
+        <li style="padding:8px 0; padding-left:24px; position:relative;">
+          <span style="position:absolute; left:0; color:var(--accent); font-weight:bold;">✓</span>
+          紹介の際は「なぜこの2人をつなぐのか」を明確に伝える
+        </li>
+        <li style="padding:8px 0; padding-left:24px; position:relative;">
+          <span style="position:absolute; left:0; color:var(--accent); font-weight:bold;">✓</span>
+          チャンク化：支援時間を週1回まとめて確保し、集中的に実行する
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:40px; padding:24px; background:var(--card-bg); border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    <h2 style="color:var(--primary); margin-bottom:20px;">📚 関連書籍</h2>
+    <div class="book-list">
+      <div class="book-item">
+        <h4>ORIGINALS 誰もが『人と違うこと』ができる時代</h4>
+        <p><strong>著者：</strong>アダム・グラント</p>
+        <small>ギバー行動が創造性と変革をどう後押しするかの続編的洞察。</small>
+      </div>
+      <div class="book-item">
+        <h4>モチベーション3.0</h4>
+        <p><strong>著者：</strong>ダニエル・ピンク</p>
+        <small>内発的動機づけが与える文化と高業績を支える理論的基盤。</small>
+      </div>
+      <div class="book-item">
+        <h4>影響力の武器</h4>
+        <p><strong>著者：</strong>ロバート・B・チャルディーニ</p>
+        <small>互恵性や社会的証明など、与える行動を機能させる心理原理を補完。</small>
+      </div>
+      <div class="book-item">
+        <h4>Never Eat Alone</h4>
+        <p><strong>著者：</strong>キース・フェラッツィ／タール・ラズ</p>
+        <small>ギブ精神に基づくネットワーキングの実践ガイド。</small>
+      </div>
+      <div class="book-item">
+        <h4>The Go-Giver 与える人ほど成功する</h4>
+        <p><strong>著者：</strong>ボブ・バーグ／ジョン・D・マン</p>
+        <small>寓話形式でギブの哲学を平易に描き、態度変容を促す。</small>
+      </div>
+      <div class="book-item">
+        <h4>弱い絆の強さ（The Strength of Weak Ties）</h4>
+        <p><strong>著者：</strong>マーク・グラノヴェッター</p>
+        <small>弱いつながりが機会創出に効くという中核仮説の原典。</small>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px; padding:24px; background:linear-gradient(135deg, var(--primary), var(--secondary)); color:white; border-radius:12px; text-align:center;">
+    <h2 style="margin-bottom:16px;">🎯 核心的メッセージ</h2>
+    <p style="font-size:1.1rem; line-height:1.8;">短期的には損に見える「与える」行動も、境界と戦略（他者志向・見極め・時間設計）を備えれば、最も持続的で大きな成功を生む。</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>
