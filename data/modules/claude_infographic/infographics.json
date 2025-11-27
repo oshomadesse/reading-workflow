@@ -1,0 +1,24 @@
+[
+  {
+    "title": "WHYから始めよ！ インスパイア型リーダーはここが違う",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/docs/WHY%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%88_%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%82%A2%E5%9E%8B%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AF%E3%81%93%E3%81%93%E3%81%8C%E9%81%95%E3%81%86_infographic.html",
+    "vault_rel": "docs/WHYから始めよ_インスパイア型リーダーはここが違う_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=docs%2FWHY%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%88_%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%82%A2%E5%9E%8B%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AF%E3%81%93%E3%81%93%E3%81%8C%E9%81%95%E3%81%86_infographic.html",
+    "app_local_uri": "app://local/books-summary/docs%2FWHY%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%88_%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%82%A2%E5%9E%8B%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AF%E3%81%93%E3%81%93%E3%81%8C%E9%81%95%E3%81%86_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/docs/WHYから始めよ_インスパイア型リーダーはここが違う_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4386,
+      "output_tokens": 12212
+    },
+    "generated_at": "2025-11-27T13:26:59",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/docs/WHY%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%88_%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%82%A2%E5%9E%8B%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AF%E3%81%93%E3%81%93%E3%81%8C%E9%81%95%E3%81%86_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/docs/WHY%E3%81%8B%E3%82%89%E5%A7%8B%E3%82%81%E3%82%88_%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%82%A2%E5%9E%8B%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%81%AF%E3%81%93%E3%81%93%E3%81%8C%E9%81%95%E3%81%86_infographic.html",
+      "{{claude_usaget}}": 12212,
+      "{{claude_credit}}": "$18.99"
+    },
+    "cost_usd": 0.196338
+  }
+]
