@@ -20,5 +20,27 @@
       "{{claude_credit}}": "$18.99"
     },
     "cost_usd": 0.201003
+  },
+  {
+    "title": "水平思考の世界",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E6%B0%B4%E5%B9%B3%E6%80%9D%E8%80%83%E3%81%AE%E4%B8%96%E7%95%8C_infographic.html",
+    "vault_rel": "infographics/水平思考の世界_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E6%B0%B4%E5%B9%B3%E6%80%9D%E8%80%83%E3%81%AE%E4%B8%96%E7%95%8C_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E6%B0%B4%E5%B9%B3%E6%80%9D%E8%80%83%E3%81%AE%E4%B8%96%E7%95%8C_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/水平思考の世界_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4350,
+      "output_tokens": 12177
+    },
+    "generated_at": "2025-11-27T10:04:24",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E6%B0%B4%E5%B9%B3%E6%80%9D%E8%80%83%E3%81%AE%E4%B8%96%E7%95%8C_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/infographics/%E6%B0%B4%E5%B9%B3%E6%80%9D%E8%80%83%E3%81%AE%E4%B8%96%E7%95%8C_infographic.html",
+      "{{claude_usaget}}": 12177,
+      "{{claude_credit}}": "$18.99"
+    },
+    "cost_usd": 0.19570500000000002
   }
 ]

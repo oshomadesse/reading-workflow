@@ -1,1 +1,733 @@
-<section><h1>水平思考の世界</h1><pre></pre></section>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水平思考インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+header h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid var(--accent);
+}
+.summary-block h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+.summary-block .item {
+  margin-bottom: 0.75rem;
+}
+.summary-block .item strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--secondary);
+  margin-bottom: 0.25rem;
+}
+.summary-block .item span {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  background: var(--card-bg);
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+.tab-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-weight: 600;
+}
+.tab-content {
+  display: none;
+  padding: 1rem;
+}
+.tab-content.active {
+  display: block;
+}
+.card {
+  background: var(--card-bg);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.card h3 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-light);
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.visual-bar {
+  background: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 24px;
+  margin: 0.5rem 0;
+  position: relative;
+}
+.visual-bar-fill {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.quote-card {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--secondary);
+}
+.quote-card p {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+.quote-card small {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.action-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.action-card p {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  header h1 {
+    font-size: 2rem;
+  }
+  .summary-block {
+    margin: 2rem;
+    padding: 1.5rem;
+  }
+  .tabs {
+    margin: 2rem;
+  }
+  .tab-content {
+    padding: 2rem;
+  }
+}
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 600px) {
+  .concept-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .concept-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.chapter-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+.chapter-card h3 {
+  font-size: 1rem;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+.chapter-card .reason {
+  background: #fff3cd;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #856404;
+}
+.example-card {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+  border-top: 3px solid var(--accent);
+}
+.example-card h4 {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.example-card .meta {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.example-card .reason {
+  background: #d1ecf1;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #0c5460;
+}
+svg {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💡 水平思考（ラテラル・シンキング）</h1>
+  <p>枠を外してずらす技法で、創造性を設計する</p>
+</header>
+
+<div class="summary-block">
+  <h2>📌 要約（問い×答え×根拠）</h2>
+  <div class="item">
+    <strong>❓ 問い</strong>
+    <span>なぜ新しい発想が出ないのか？どうすれば出せるのか？</span>
+  </div>
+  <div class="item">
+    <strong>✅ 答え</strong>
+    <span>思考は既存パターンに自動的に回帰するため閉塞しやすい。水平思考の技法でパターンを揺さぶり、別の視点に"移動"すれば新案が生まれる。</span>
+  </div>
+  <div class="item">
+    <strong>🔍 Why（なぜそうなのか）</strong>
+    <span>脳は効率のために固定化を好み、異常値を排除する傾向があるため。</span>
+  </div>
+  <div class="item">
+    <strong>🛠 How（そのためには）</strong>
+    <span>問題を挑戦して再定義し、Po（挑発）やランダム入力で連想を起こし、概念抽出と移動で実用案へ展開、評価は後工程に分離する。</span>
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+</div>
+
+<div id="tab1" class="tab-content active" role="tabpanel">
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--primary);">🧠 主要概念の詳細</h2>
+  <div class="concept-grid">
+    <div class="card">
+      <h3>🔀 水平思考</h3>
+      <span class="badge">枠を外してずらす技法</span>
+      <ul>
+        <li>論理を深掘りせず視点をずらす</li>
+        <li>新しい結び付きを生む思考法</li>
+        <li>前提を疑い、別角度から探索</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 固定化した認知を揺さぶり、新規性を生むため。</p>
+    </div>
+    <div class="card">
+      <h3>📏 垂直思考</h3>
+      <span class="badge">深く掘る検証思考</span>
+      <ul>
+        <li>与えられた前提で筋道を詰める</li>
+        <li>正しさを検証し最適化する</li>
+        <li>分析と論理展開が得意</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 既存解の精度を高めるが、新規性は生みにくい。</p>
+    </div>
+    <div class="card">
+      <h3>🔒 パターン固定化</h3>
+      <span class="badge">慣れの壁</span>
+      <ul>
+        <li>経験で強化された認知の近道</li>
+        <li>異例な可能性の探索を妨げる</li>
+        <li>効率と引き換えに柔軟性を失う</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 脳の省エネ機構が創造性を阻害する主因。</p>
+    </div>
+    <div class="card">
+      <h3>🚪 チャレンジ</h3>
+      <span class="badge">再定義の扉</span>
+      <ul>
+        <li>問題や前提を問い直す手続き</li>
+        <li>「なぜそうなのか」を掘り下げる</li>
+        <li>探索空間を拡張する起点</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 問いを変えれば見える解も変わるため。</p>
+    </div>
+    <div class="card">
+      <h3>💥 Po（挑発）</h3>
+      <span class="badge">非常識の導入剤</span>
+      <ul>
+        <li>一見不合理な仮説を導入</li>
+        <li>連想と移動を促す触媒</li>
+        <li>判断を保留して受容する</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 常識の枠を破り、新結合のきっかけを作る。</p>
+    </div>
+    <div class="card">
+      <h3>🎲 ランダム入力</h3>
+      <span class="badge">偶然の種まき</span>
+      <ul>
+        <li>無関係な刺激を投入</li>
+        <li>連想で新結合を作る</li>
+        <li>言葉・画像など多様な刺激源</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 既存概念×異種刺激で意外な発想が生まれる。</p>
+    </div>
+    <div class="card">
+      <h3>🔬 概念抽出</h3>
+      <span class="badge">抽象化のレバレッジ</span>
+      <ul>
+        <li>具体案の背後の抽象概念を取り出す</li>
+        <li>他領域に適用して広げる</li>
+        <li>一般化で応用範囲を拡大</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 抽象度を上げると横展開が容易になる。</p>
+    </div>
+    <div class="card">
+      <h3>🌉 移動</h3>
+      <span class="badge">実用への橋渡し</span>
+      <ul>
+        <li>挑発で生じた奇抜な案を展開</li>
+        <li>実行可能な方向へ段階的に変換</li>
+        <li>評価より先に移動する</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 非現実的な案も移動で実用案に変わる。</p>
+    </div>
+    <div class="card">
+      <h3>⏸ 判断の延期</h3>
+      <span class="badge">批判は後で</span>
+      <ul>
+        <li>生成段階では批判や評価を保留</li>
+        <li>量と多様性を優先するルール</li>
+        <li>後工程で評価を集中</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 早期批判がアイデアの芽を摘むため。</p>
+    </div>
+    <div class="card">
+      <h3>🎨 デザイン志向</h3>
+      <span class="badge">正解より創造</span>
+      <ul>
+        <li>正解の探索ではなく価値の創出</li>
+        <li>解そのものを設計する姿勢</li>
+        <li>制約を創造の材料にする</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 正解がない領域で価値を生むため。</p>
+    </div>
+    <div class="card">
+      <h3>🖼 フレーミング</h3>
+      <span class="badge">問いを変える力</span>
+      <ul>
+        <li>問題の境界・目的・尺度を変える</li>
+        <li>新しい探索空間を開く技法</li>
+        <li>再定義で視野を刷新</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 問いの枠が解の範囲を決めるため。</p>
+    </div>
+    <div class="card">
+      <h3>🔀 代替案の生成</h3>
+      <span class="badge">選択肢を増やす</span>
+      <ul>
+        <li>意図的に複数の方向性を作る</li>
+        <li>後の選択の質を高める作法</li>
+        <li>量が質を生む原則</li>
+      </ul>
+      <p style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-light);"><strong>理由:</strong> 選択肢が多いほど最適解に近づく。</p>
+    </div>
+  </div>
+  
+  <div class="card" style="margin-top:1.5rem;">
+    <h3>🔗 概念間の関係性</h3>
+    <ul>
+      <li>脳の効率化 → パターン固定化 → 発想の閉塞</li>
+      <li>チャレンジ/再定義 → 問いの枠を拡張 → 新しい探索空間が生まれる</li>
+      <li>Po（挑発） → 仮の受容 → 移動で実用案へ展開</li>
+      <li>ランダム入力 → 連想のきっかけ → 既存概念×異種刺激の結合</li>
+      <li>判断の延期 → アイデア量の増加 → 後工程の評価で質が上がる</li>
+      <li>水平思考（生成） ↔ 垂直思考（検証） → 相補でイノベーション成立</li>
+      <li>概念抽出 → 抽象度を上げる → 異領域への横展開</li>
+    </ul>
+  </div>
+</div>
+
+<div id="tab2" class="tab-content" role="tabpanel">
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--primary);">📚 各章の要約</h2>
+  
+  <div class="chapter-card">
+    <h3>第1章: 問題提起</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 正しさ偏重の垂直思考だけでは新規性が生みにくい</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 既存の枠内で最適化しても、枠そのものは変わらない</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 創造性は偶然ではなく技法で設計できる</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 現状の思考法の限界を示し、水平思考の必要性を動機づける。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第2章: 認知原理</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 脳のパターン化メカニズムと固定化が創造性を阻む</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 効率のために近道を選ぶが、異常値を排除する</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 認知の枠を理解することが技法の前提</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 技法の背景にある脳科学的根拠を提示し、納得感を高める。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第3章: 技法導入</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ チャレンジ、Po、ランダム入力、概念抽出、移動を定義</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 各技法の目的と使い方を具体的に説明</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 判断の延期が全技法の共通ルール</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 実践可能な技法を体系的に提示し、再現性を担保する。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第4章: 運用ルール</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 生成と評価を分離し、量→展開→評価の順で進める</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 早期批判を避け、移動を優先する手順</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ プロセス設計が創造性の質を左右する</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 技法を効果的に運用するための手順とルールを明示する。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第5章: 事例・演習</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 具体的なプロブレムに技法を適用</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 発想の転換過程を可視化し、学習を促進</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 実例で技法の威力を体感させる</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 理論を実践に橋渡しし、技法の有効性を実証する。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第6章: 個人と組織</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 個人の訓練法と会議・文化設計への適用</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 組織レベルで再現性を高める仕組み</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 日常業務への組み込み方を提示</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 個人技法を組織文化に拡張し、持続的な創造性を実現する。</div>
+  </div>
+  
+  <div class="chapter-card">
+    <h3>第7章: 総括</h3>
+    <ul style="list-style:none;padding:0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 水平と垂直の補完関係を再確認</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 日常への実装指針で締める</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ 継続的な訓練が創造性を高める</li>
+    </ul>
+    <div class="reason"><strong>章の理由:</strong> 全体を統合し、読者に実践への一歩を促す。</div>
+  </div>
+</div>
+
+<div id="tab3" class="tab-content" role="tabpanel">
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--primary);">💼 具体例</h2>
+  
+  <div class="example-card">
+    <h4>🚗 例1: 自動車の安全性向上</h4>
+    <div class="meta"><strong>背景:</strong> 従来は衝突時の車体強化に注力していた。</div>
+    <ul style="list-style:none;padding:0;margin:0.5rem 0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>チャレンジ:</strong> 「衝突を前提にする」を問い直す</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>Po:</strong> 「車が衝突しない」という挑発</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>移動:</strong> 自動ブレーキ・衝突回避システムへ展開</li>
+    </ul>
+    <div class="meta"><strong>示唆:</strong> 前提を変えると解決策の次元が変わる。</div>
+    <div class="reason"><strong>この例が示すこと:</strong> 問いの再定義が根本的なイノベーションを生む。</div>
+  </div>
+  
+  <div class="example-card">
+    <h4>📦 例2: 物流の効率化</h4>
+    <div class="meta"><strong>背景:</strong> 配送ルートの最適化に限界を感じていた。</div>
+    <ul style="list-style:none;padding:0;margin:0.5rem 0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>ランダム入力:</strong> 「蜂の巣」という言葉を投入</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>連想:</strong> 蜂は最短距離ではなく情報共有で効率化</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>概念抽出:</strong> リアルタイム情報共有の仕組み</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>移動:</strong> ドライバー間の動的ルート調整システムへ</li>
+    </ul>
+    <div class="meta"><strong>示唆:</strong> 無関係な刺激が新結合を生む。</div>
+    <div class="reason"><strong>この例が示すこと:</strong> ランダム入力が既存概念を超える発想を引き出す。</div>
+  </div>
+  
+  <div class="example-card">
+    <h4>🏥 例3: 病院の待ち時間削減</h4>
+    <div class="meta"><strong>背景:</strong> 診察スピードを上げる施策に限界があった。</div>
+    <ul style="list-style:none;padding:0;margin:0.5rem 0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>チャレンジ:</strong> 「待ち時間を減らす」を問い直す</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>Po:</strong> 「待ち時間をゼロにする」という挑発</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>移動:</strong> 待ち時間を「体験時間」に変える → カフェ・図書・健康相談コーナー設置</li>
+    </ul>
+    <div class="meta"><strong>示唆:</strong> 問題の定義を変えると解決策の質が変わる。</div>
+    <div class="reason"><strong>この例が示すこと:</strong> フレーミングの変更が顧客体験を刷新する。</div>
+  </div>
+  
+  <div class="example-card">
+    <h4>🎓 例4: 教育の個別最適化</h4>
+    <div class="meta"><strong>背景:</strong> 一斉授業では個々の理解度に対応できない。</div>
+    <ul style="list-style:none;padding:0;margin:0.5rem 0;">
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>概念抽出:</strong> 「個別対応」の本質は「進度の自由」</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>移動:</strong> 反転授業・オンライン教材で各自ペース学習</li>
+      <li style="padding-left:0;margin-bottom:0.5rem;">▸ <strong>示唆:</strong> 抽象化で他領域（企業研修など）にも応用可能</li>
+    </ul>
+    <div class="reason"><strong>この例が示すこと:</strong> 概念抽出が横展開の鍵になる。</div>
+  </div>
+</div>
+
+<div id="tab4" class="tab-content" role="tabpanel">
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--primary);">💬 重要な引用</h2>
+  
+  <div class="quote-card">
+    <p>「創造性は偶然ではなく、訓練可能な技法である。」</p>
+    <small><strong>なぜ重要か:</strong> 才能観を覆し、誰でも実践できる再現性の礎を示すため。</small>
+  </div>
+  
+  <div class="quote-card">
+    <p>「評価より先に移動せよ――まず広げ、後で絞れ。」</p>
+    <small><strong>なぜ重要か:</strong> 生成と評価の分離がアイデアの量と質を同時に高めるから。</small>
+  </div>
+  
+  <div class="quote-card">
+    <p>「問いを変えれば、見える解も変わる。」</p>
+    <small><strong>なぜ重要か:</strong> 再定義が探索空間を刷新し、閉塞を破る最短路になるため。</small>
+  </div>
+  
+  <div class="card" style="margin-top:1rem;">
+    <h3>📖 関連書籍</h3>
+    <ul>
+      <li><strong>シックス・シンキング・ハット</strong> (エドワード・デ・ボノ) — 水平思考を会議運営に実装する並行思考の実務書</li>
+      <li><strong>Lateral Thinking: Creativity Step by Step</strong> (Edward de Bono) — 水平思考の技法を体系的に解説する基幹テキスト</li>
+      <li><strong>Serious Creativity</strong> (Edward de Bono) — 企業現場での創造性プロセス設計とツール統合を提示</li>
+      <li><strong>The Mechanism of Mind</strong> (Edward de Bono) — パターン化など水平思考の認知的基盤を理論的に説明</li>
+      <li><strong>アイデアのつくり方</strong> (ジェームス・W・ヤング) — 発想の一般プロセスを簡潔に示し相互補完になる</li>
+      <li><strong>Thinkertoys</strong> (マイケル・マイカルコ) — 多数の創造技法ワークを提供し実践力を強化</li>
+      <li><strong>TRIZ入門</strong> (G. アルトシュラー) — 体系的発明原理で水平思考を補完する問題解決法</li>
+      <li><strong>デザイン思考が世界を変える</strong> (ティム・ブラウン) — 人間中心のデザイン志向が水平思考の実装面を拡張</li>
+    </ul>
+  </div>
+</div>
+
+<div id="tab5" class="tab-content" role="tabpanel">
+  <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--primary);">🚀 今日のアクション（15〜30分で実行可能）</h2>
+  
+  <div class="action-card">
+    <h4>1️⃣ 身近な問題を5つ再定義する</h4>
+    <p><strong>目的:</strong> チャレンジ技法を体得し、問いの枠を広げる訓練をする。</p>
+    <p><strong>期待効果:</strong> 問題の見え方が変わり、新しい解決策の糸口が見つかる。</p>
+    <p><strong>手順:</strong> 日常の小さな不満を5つ書き出し、それぞれ「なぜそうなのか」「別の目的は何か」を問い直す。</p>
+  </div>
+  
+  <div class="action-card">
+    <h4>2️⃣ Poで非常識な仮説を3つ出す</h4>
+    <p><strong>目的:</strong> 挑発技法を使い、常識の枠を破る練習をする。</p>
+    <p><strong>期待効果:</strong> 一見不合理な案から実用的なアイデアへの移動経路が見える。</p>
+    <p><strong>手順:</strong> 取り組んでいる課題に対し「Po: ○○が逆になる」「Po: ○○が消える」など3つの挑発を書き、それぞれ移動案を1つ考える。</p>
+  </div>
+  
+  <div class="action-card">
+    <h4>3️⃣ 新聞の見出しで連想10個書く</h4>
+    <p><strong>目的:</strong> ランダム入力技法を実践し、連想力を鍛える。</p>
+    <p><strong>期待効果:</strong> 無関係な刺激から新結合を生む感覚が身につく。</p>
+    <p><strong>手順:</strong> 新聞やニュースサイトの見出しを1つ選び、自分の課題と結びつけて連想を10個書き出す。</p>
+  </div>
+  
+  <div class="card" style="margin-top:1rem;background:linear-gradient(135deg,#e0f7fa,#b2ebf2);border-left:4px solid var(--primary);">
+    <h3>📊 技法の効果（視覚化）</h3>
+    <p style="font-size:0.85rem;margin-bottom:0.5rem;">水平思考技法を使うことで、アイデアの量と質が向上します。</p>
+    <div style="margin:1rem 0;">
+      <div style="font-size:0.8rem;margin-bottom:0.25rem;color:var(--text-light);">アイデア生成量</div>
+      <div class="visual-bar">
+        <div class="visual-bar-fill" style="width:85%;">+85%</div>
+      </div>
+    </div>
+    <div style="margin:1rem 0;">
+      <div style="font-size:0.8rem;margin-bottom:0.25rem;color:var(--text-light);">新規性スコア</div>
+      <div class="visual-bar">
+        <div class="visual-bar-fill" style="width:70%;">+70%</div>
+      </div>
+    </div>
+    <div style="margin:1rem 0;">
+      <div style="font-size:0.8rem;margin-bottom:0.25rem;color:var(--text-light);">実用化率</div>
+      <div class="visual-bar">
+        <div class="visual-bar-fill" style="width:60%;">+60%</div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text-light);margin-top:0.5rem;">※ 数値は技法適用前後の比較イメージ</p>
+  </div>
+  
+  <div class="card" style="margin-top:1rem;">
+    <h3>🔄 水平思考と垂直思考の補完関係</h3>
+    <svg viewBox="0 0 400 200" style="max-width:400px;margin:1rem auto;display:block;">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect x="20" y="30" width="160" height="60" rx="8" fill="url(#grad1)" />
+      <text x="100" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">水平思考</text>
+      <text x="100" y="75" text-anchor="middle" fill="#fff" font-size="11">新規性を生成</text>
+      <rect x="220" y="30" width="160" height="60" rx="8" fill="url(#grad2)" />
+      <text x="300" y="55" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">垂直思考</text>
+      <text x="300" y="75" text-anchor="middle" fill="#fff" font-size="11">正しさを検証</text>
+      <path d="M 180 60 L 220 60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)" />
+      <path d="M 220 70 L 180 70" stroke="#333" stroke-width="2" marker-end="url(#arrowhead2)" />
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <polygon points="0 0, 10 3, 0 6" fill="#333" />
+        </marker>
+        <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <polygon points="0 0, 10 3, 0 6" fill="#333" />
+        </marker>
+      </defs>
+      <text x="200" y="50" text-anchor="middle" fill="#333" font-size="10">生成</text>
+      <text x="200" y="85" text-anchor="middle" fill="#333" font-size="10">検証</text>
+      <rect x="80" y="120" width="240" height="60" rx="8" fill="#e8eaf6" stroke="#667eea" stroke-width="2" />
+      <text x="200" y="145" text-anchor="middle" fill="#333" font-size="13" font-weight="600">相補でイノベーション成立</text>
+      <text x="200" y="165" text-anchor="middle" fill="#666" font-size="10">量→展開→評価の順で進める</text>
+    </svg>
+  </div>
+</div>
+
+<script>
+(function() {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-tab');
+      
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      contents.forEach(c => {
+        c.classList.remove('active');
+      });
+      
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
