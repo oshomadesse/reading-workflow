@@ -1145,11 +1145,10 @@ def step9_send_notification_to_user(mid_summary=None):
     if len(core_message) > 60:
         core_message = core_message[:60] + "..."
     
-    infographic_url = mid_summary.get("infographic_url", "")
+    # infographic_url = mid_summary.get("infographic_url", "") # 未使用
     
-    # ヒーロー画像: インフォグラフィックURLが画像ならそれを使うが、HTMLなのでプレースホルダを使用
-    # もし将来的に画像URLが取得できればここを差し替える
-    hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
+    # ヒーロー画像: 削除
+    # hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
     
     # インフォグラフィックがWeb公開されている場合はボタンを追加したいが、
     # 現状はノートリンクを優先。
@@ -1171,17 +1170,7 @@ def step9_send_notification_to_user(mid_summary=None):
           }
         ]
       },
-      "hero": {
-        "type": "image",
-        "url": hero_url,
-        "size": "full",
-        "aspectRatio": "20:13",
-        "aspectMode": "cover",
-        "action": {
-          "type": "uri",
-          "uri": url
-        }
-      },
+      # hero ブロック削除
       "body": {
         "type": "box",
         "layout": "vertical",
@@ -1231,18 +1220,7 @@ def step9_send_notification_to_user(mid_summary=None):
       }
     }
     
-    # インフォグラフィックURLがある場合はボタンを追加
-    if infographic_url and infographic_url.startswith("http"):
-        flex_obj["footer"]["contents"].append({
-            "type": "button",
-            "style": "secondary",
-            "height": "sm",
-            "action": {
-              "type": "uri",
-              "label": "図解を見る",
-              "uri": infographic_url
-            }
-        })
+    # インフォグラフィックボタン追加ロジック削除
 
     r = line_push_flex(flex_obj, alt_text=alt_text)
     if not r.get("ok"):

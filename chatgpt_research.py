@@ -430,20 +430,8 @@ class GeminiConnector:
             parsed = extract_json_from_text(raw_text) or {}
 
         # デバッグ保存
-        dbg = DATA_DIR / f"openai_chat_dbg_{ts}.txt"
-        try:
-            with open(dbg,"w",encoding="utf-8") as f:
-                f.write("PROMPT:\n"+prompt+"\n\n")
-                f.write("LAST_ERROR:\n"+repr(last_err)+"\n\n")
-                f.write("USAGE:"+json.dumps(usage)+"\n\n")
-                try:
-                    f.write("RAW_TEXT:\n"+(raw_text or "")+"\n\n")
-                    f.write("PARSED:\n"+json.dumps(parsed, ensure_ascii=False, indent=2))
-                except Exception:
-                    f.write("PARSED(repr):\n"+repr(parsed))
-            if self.verbose: print("debug saved:", str(dbg))
-        except Exception:
-            pass
+        # data/modules/chatgpt_research/ には保存済みなので、data/直下への重複保存は削除
+        # dbg = DATA_DIR / f"openai_chat_dbg_{ts}.txt" ... (removed)
 
         if not (isinstance(parsed, dict) and parsed) and not raw_text:
             raise RuntimeError("no text from OpenAI (check model/endpoint/API key)")
