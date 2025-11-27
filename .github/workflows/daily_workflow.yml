@@ -44,6 +44,7 @@ jobs:
           # Force CI mode just in case, though GITHUB_ACTIONS is set by default
           GITHUB_ACTIONS: true
         run: |
+          export WORKFLOW_START_TIME=$(date +%s)
           python integrated_reading_workflow.py
 
       - name: Commit and Push changes
@@ -52,7 +53,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Add generated files
-          git add 100_Inbox/ data/ infographics/
+          git add artifacts/ data/ infographics/
           
           # Commit if there are changes
           git commit -m "🤖 Daily Reading Workflow Update [skip ci]" || echo "No changes to commit"
