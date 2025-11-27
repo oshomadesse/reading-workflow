@@ -1307,8 +1307,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # ログファイル設定（デフォルト）
     if not args.logfile:
-        import datetime
-        today = datetime.date.today().strftime("%Y%m%d")
+        import datetime as dt
+        today = dt.date.today().strftime("%Y%m%d")
         log_dir = os.path.join(PROJECT_DIR, "data", "integrated")
         os.makedirs(log_dir, exist_ok=True)
         args.logfile = os.path.join(log_dir, f"integrated_run_{today}.log")
