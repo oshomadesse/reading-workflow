@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>失敗の本質 - 組織論的研究</title>
+    <!-- カラーパレット: プライマリー #2c3e50, セカンダリー #e74c3c, アクセント #f39c12 -->
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--light) 0%, #bdc3c7 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            background: var(--light);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #c0392b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--light) 0%, #d5dbdb 100%);
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step-number {
+            background: var(--secondary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent) 0%, #e67e22 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .quote-card:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            padding-left: 30px;
+        }
+        
+        .quote-commentary {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            padding-left: 30px;
+        }
+        
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .venn-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .circle-1 {
+            background: rgba(231, 76, 60, 0.7);
+            left: -50px;
+        }
+        
+        .circle-2 {
+            background: rgba(52, 73, 94, 0.7);
+            right: -50px;
+        }
+        
+        .overlap {
+            background: rgba(243, 156, 18, 0.8);
+            z-index: 10;
+            width: 100px;
+            height: 100px;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .venn-diagram {
+                height: 250px;
+            }
+            
+            .venn-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 失敗の本質</h1>
+            <p>日本軍の組織論的研究から学ぶ現代への教訓</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">📖 構造</button>
+            <button class="tab-button" onclick="showTab('insights')" role="tab" aria-selected="false">🔍 実践示唆</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💬 重要引用</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">分析された作戦失敗事例</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">組織的欠陥の主要要因</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">実践への具体的示唆</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>敗因は物量差ではなく組織構造の欠陥</li>
+                        <li>曖昧な戦略目的と属人的組織運営</li>
+                        <li>過去の成功体験への固執</li>
+                        <li>学習能力の欠如と「空気」の支配</li>
+                        <li>現代組織への普遍的教訓</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 エグゼクティブ・サマリー</h3>
+                    <ul>
+                        <li>6つの主要作戦失敗を組織論で解明</li>
+                        <li>精神論・物量差説を否定</li>
+                        <li>日本軍の構造的欠陥を体系化</li>
+                        <li>米軍を「自己革新組織」として対置</li>
+                        <li>現代経営・行政への応用可能性</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="venn-diagram">
+                <div class="venn-circle circle-1">
+                    日本軍<br>
+                    官僚制組織<br>
+                    硬直化
+                </div>
+                <div class="venn-circle circle-2">
+                    米軍<br>
+                    自己革新組織<br>
+                    適応力
+                </div>
+                <div class="venn-circle overlap">
+                    組織の<br>
+                    明暗を分けた<br>
+                    要因
+                </div>
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔄 自己革新組織 vs 官僚制組織</h3>
+                    <ul>
+                        <li>環境変化を積極的に捉える組織（米軍）</li>
+                        <li>戦略・構造を柔軟に変革し続ける</li>
+                        <li>vs 過去の成功体験に固執（日本軍）</li>
+                        <li>確立された手続きへの依存</li>
+                        <li>環境適応の失敗が敗因の根幹</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 戦略の曖昧さ</h3>
+                    <ul>
+                        <li>「何を達成すれば勝利か」が不明確</li>
+                        <li>作戦目的と手段の混同</li>
+                        <li>戦術的成功の追求に終始</li>
+                        <li>大局的戦略目標を見失う</li>
+                        <li>資源の浪費と機会損失</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>👥 属人的な組織統合</h3>
+                    <ul>
+                        <li>個人的資質・人間関係に依存</li>
+                        <li>ルール・システムの軽視</li>
+                        <li>リーダー交代で機能不全</li>
+                        <li>情実人事の横行</li>
+                        <li>組織の持続性欠如</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 学習の欠如</h3>
+                    <ul>
+                        <li>失敗からの教訓抽出なし</li>
+                        <li>組織知識の共有・蓄積不足</li>
+                        <li>失敗の隠蔽・個人責任化</li>
+                        <li>同じ過ちの繰り返し</li>
+                        <li>組織的学習メカニズムの不在</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🌪️ 空気の支配</h3>
+                    <ul>
+                        <li>合理的データより雰囲気重視</li>
+                        <li>同調圧力による意思決定</li>
+                        <li>異論を唱えることの困難</li>
+                        <li>無謀・非合理的作戦の実行</li>
+                        <li>客観的判断力の麻痺</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flow-diagram">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">🔄 失敗のスパイラル</h3>
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div>官僚制組織 + 属人的統合 → 組織の硬直化</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div>戦略の曖昧さ → 目的と手段の混同</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div>空気の支配 → 非合理的意思決定</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div>作戦失敗 → 個人責任化</div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div>学習の欠如 → 構造的欠陥の放置</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📖 序章</h3>
+                    <ul>
+                        <li>現代に生きる日本軍の失敗</li>
+                        <li>組織論的観点からのアプローチ提示</li>
+                        <li>現代日本組織への普遍的課題</li>
+                        <li>本書の問題提起と意義</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚔️ 第1章〜第6章</h3>
+                    <ul>
+                        <li>ノモンハン・ミッドウェー・ガダルカナル</li>
+                        <li>インパール・レイテ・沖縄</li>
+                        <li>各作戦の経過と失敗要因分析</li>
+                        <li>戦略・組織・リーダーシップの検証</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔍 第7章</h3>
+                    <ul>
+                        <li>失敗の本質―組織的特性の抽出</li>
+                        <li>6事例の統合・体系化</li>
+                        <li>戦略欠如・人間中心組織の問題</li>
+                        <li>学習軽視文化の構造的分析</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💡 終章</h3>
+                    <ul>
+                        <li>失敗の教訓と現代への示唆</li>
+                        <li>官僚制組織の罠の克服</li>
+                        <li>自己革新組織への変革</li>
+                        <li>環境適応の重要性</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 目的と戦略の明確化</h3>
+                    <ul>
+                        <li>プロジェクト開始前のWhy/What明文化</li>
+                        <li>関係者全員での合意形成</li>
+                        <li>手段議論前の目的確認習慣</li>
+                        <li>戦略目的への定期的立ち返り</li>
+                        <li>組織文化としての定着</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 失敗学習の制度化</h3>
+                    <ul>
+                        <li>AAR（アフター・アクション・レビュー）義務化</li>
+                        <li>個人責任追及から組織学習へ</li>
+                        <li>成功・失敗要因の客観的分析</li>
+                        <li>教訓のナレッジベース構築</li>
+                        <li>組織知識の共有・蓄積システム</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 異論歓迎の意思決定</h3>
+                    <ul>
+                        <li>デビルズ・アドボケイト役の設置</li>
+                        <li>無記名意見提出システム</li>
+                        <li>多様な視点の積極的取り入れ</li>
+                        <li>集団浅慮（グループシンク）防止</li>
+                        <li>「空気」に流されない仕組み</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">
+                    「日本軍の失敗は、今日の我々にとっても他人事ではない。日本軍がもっていた組織上の特性は、程度の差こそあれ、今日の日本の組織にも見受けられるからである。」
+                </div>
+                <div class="quote-commentary">
+                    序章で述べられる本書の執筆動機。単なる過去の軍事史研究ではなく、現代を生きる我々自身への警鐘として読むべき書であることを宣言し、時代を超えた普遍性を獲得している。
+                </div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    「日本軍では、組織としての学習、特に失敗からの学習が組織的に軽視されていた。個々の戦闘における戦術的勝利や部分最適の成功に酔いしれ、戦略的目的を見失い、自己を客観視する能力を欠いていた。」
+                </div>
+                <div class="quote-commentary">
+                    日本軍の組織的欠陥の核心を突く指摘。失敗を組織全体の教訓として昇華させるメカニズムがなく、成功体験に固執し環境変化に対応できない現代組織にも共通する重要な課題を示している。
+                </div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    「最も重要なことは、組織が学習棄却（アンラーニング）をできるかどうかである。過去の成功体験を棄て、新しい環境に適応できる組織だけが生き残る。」
+                </div>
+                <div class="quote-commentary">
+                    本書が導き出す最大の教訓。変化の激しい時代において、新しいことを学ぶだけでなく、時代遅れとなった価値観や成功モデルを自ら捨て去る能力が不可欠。自己否定をも厭わない継続的な自己革新こそが失敗を乗り越える唯一の道。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const activeIndex = buttons.findIndex(btn => btn.classList.contains('active'));
+                
+                let newIndex;
+                if (e.key === 'ArrowLeft') {
+                    newIndex = activeIndex > 0 ? activeIndex - 1 : buttons.length - 1;
+                } else {
+                    newIndex = activeIndex < buttons.length - 1 ? activeIndex + 1 : 0;
+                }
+                
+                buttons[newIndex].click();
+                buttons[newIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>

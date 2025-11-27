@@ -1,0 +1,447 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エッセンシャル思考 - 完全理解ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* ヘッダー */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* タブナビゲーション */
+        .tab-nav {
+            background: #f8f9fa;
+            padding: 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-nav li {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .tab-nav button {
+            width: 100%;
+            padding: 16px 12px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-nav button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .tab-nav button:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* タブコンテンツ */
+        .tab-content {
+            display: none;
+            padding: 30px 0;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* カード共通スタイル */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* 核心メッセージ */
+        .core-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .core-message h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* 思考法比較 */
+        .thinking-comparison {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .thinking-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .essential-thinking {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .non-essential-thinking {
+            background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+            color: white;
+        }
+
+        .thinking-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .thinking-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* プロセス図 */
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .process-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step .step-number {
+            background: rgba(255,255,255,0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .process-step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .process-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        /* キーワード */
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .keyword-card {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+        }
+
+        .keyword-card h4 {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        /* 引用 */
+        .quote-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 4px solid #ff8a65;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255,138,101,0.3);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 16px;
+            padding-left: 40px;
+        }
+
+        .quote-commentary {
+            font-size: 0.95rem;
+            color: #666;
+            padding-left: 40px;
+        }
+
+        /* 実践アクション */
+        .action-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 10px;
+        }
+
+        .action-card h4 {
+            color: #2c5aa0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-card h4::before {
+            content: '✓';
+            background: #2c5aa0;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* 関連書籍 */
+        .book-card {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .book-title {
+            font-weight: 600;
+            color: #6a1b9a;
+            font-size: 1.1rem;
+        }
+
+        .book-author {
+            color: #8e24aa;
+            font-size: 0.9rem;
+        }
+
+        .book-relevance {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* 構造セクション */
+        .structure-item {
+            background: linear-gradient(135deg, #e0c3fc 0%, #9bb5ff 100%);
+            margin-bottom: 16px;
+            border-radius: 10px;
+        }
+
+        .structure-item h4 {
+            color: #5e35b1;
+            margin-bottom: 12px;
+        }
+
+        /* レスポンシブ対応 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+                padding: 0 32px;
+            }
+
+            .thinking-comparison {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-flow {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .process-step::after {
+                content: '→';
+                bottom: auto;
+                right: -25px;
+                left: auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .keyword-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .header h1 {
+                font-size: 3rem;
+            }
+
+            .tab-nav button {
+                font-size: 1rem;
+                padding: 20px 16px;
+            }
+        }
+
+        /* スクロールバー */
+        .tab-nav::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tab-nav::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .tab-nav::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>エッセンシャル思考</h1>
+            <p class="subtitle">最少の時間で成果を最大にする</p>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <div class="container">
+            <ul>
+                <li><button class="tab-btn active" data-tab="overview">概要</button></li>
+                <li><button class="tab-btn" data-tab="concepts">核心概念</button></li>
+                <li><button class="tab-btn" data-tab="process">実践プロセス</button></li>
+                <li><button class="tab-btn" data-tab="quotes">重要な言葉</button></li>
+                <li><button class="tab-btn" data-tab="actions">実践方法</button></li>
+                <li><button class="tab-btn" data-tab="structure">本の構成</button></li>
+                <li><button class="tab-btn" data-tab="books">関連書籍</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- 概要タブ -->
+        <section id="overview" class="tab-content active">
+            <div class="card core-message">
+                <h3>📚 核心メッセージ</h3>
+                <p>本書の核心は「より少なく、しかしより良く」という哲学の実践である。現代社会に蔓延する「多ければ多いほど良い」という非エッセンシャル思考から脱却し、本当に重要なことを見極め、そこに自らの時間とエネルギーを集中投下することの重要性を説く。</p>
+            </div>
+
+            <div class="card">
+                <h3>🎯 エグゼクティブ・サマリー</h3>
+                <p>本書『エッセンシャル思考』は、多忙を生産性と勘違いし、数多くのタスクに追われる現代人に対し、成果と満足感を最大化するための思考法を提示する。著者のグレッグ・マキューンは、あらゆることに手を出してエネルギーを分散させる「非エッセンシャル思考」の罠を指摘し、その対極として「より少なく、しかしより良く」を追求する「エッセンシャル思考」を提唱する。</p>
+            </div>
+
+            <div class="thinking-comparison">
+                <div class="thinking-card essential-thinking">
+                    <div class="icon">✨</div>
+                    <h4>エッセンシャル思考</h4>
+                    <p>より少なく、しかしより良く<br>本当に重要なことに集中<br>意識的な選択とトレードオフ</p>
+                </div>
+                <div class="thinking-card non-essential-thinking">
+                    <div class="icon">😵</div>
+                    <h4>非エッセンシャル思考</h4>
+                    <p>すべてやらなくては<br>エネルギーが分散<br>他人の期待に流される</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心概念タブ -->
+        <section id="concepts" class="tab-content">
+            <div class="keyword-grid">
+                <div class="card keyword-card">
+                    <h4>エッセンシャル思考</h4>
+                    <p>「より少なく、しかしより良く」を追求する、規律ある思考法。無数の選択肢の中から本当に重要な「ごく少数」のことを見極

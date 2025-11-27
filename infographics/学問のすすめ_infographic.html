@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学問のすすめ - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #2563eb, セカンダリー #1e40af, アクセント #f59e0b -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .concept-card h4 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-badge {
+            background: linear-gradient(135deg, var(--accent) 0%, #f97316 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 0 30px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: 60%;
+        }
+        
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: 60%;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .flow-step {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+        }
+        
+        .flow-step:not(:last-child)::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .quote-explanation {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 50px;
+                padding-right: 20px;
+                text-align: left;
+            }
+            
+            .timeline-item:nth-child(odd) {
+                padding-right: 20px;
+                text-align: left;
+            }
+            
+            .timeline-marker {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>学問のすすめ</h1>
+            <p>福沢諭吉 - 個人の独立なくして国家の独立なし</p>
+        </header>
+        
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">重要引用</button>
+            <button class="tab-button" onclick="showTab('practice')" role="tab" aria-selected="false">実践</button>
+        </nav>
+        
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>核心的メッセージ</h3>
+                    <ul>
+                        <li>「個人の独立なくして国家の独立なし」</li>
+                        <li>人間の平等と現実格差の原因は学問の有無</li>
+                        <li>実生活に役立つ「実学」の重要性</li>
+                        <li>「独立自尊」の精神確立が国家独立の基盤</li>
+                        <li>個人の啓蒙と国家近代化の直結</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>本書の目的</h3>
+                    <ul>
+                        <li>封建的身分制度からの脱却</li>
+                        <li>国民への「独立自尊」精神の植え付け</li>
+                        <li>近代市民としての権利と義務の自覚</li>
+                        <li>実学による社会貢献の促進</li>
+                        <li>近代的価値観の日本社会への定着</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-badge">
+                    <span class="stat-number">17</span>
+                    <span class="stat-label">編構成</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-number">1872</span>
+                    <span class="stat-label">初編発行年</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-number">340万</span>
+                    <span class="stat-label">部発行部数</span>
+                </div>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <h4>天賦人権</h4>
+                    <p>人間の生まれながらの平等</p>
+                </div>
+                <div class="flow-step">
+                    <h4>実学の習得</h4>
+                    <p>実生活に役立つ学問</p>
+                </div>
+                <div class="flow-step">
+                    <h4>独立自尊</h4>
+                    <p>精神的・経済的自立</p>
+                </div>
+                <div class="flow-step">
+                    <h4>一国独立</h4>
+                    <p>国家の主権確立</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <h4>独立自尊（どくりつじそん）</h4>
+                    <p>他者に依存せず、自らの知力と徳性によって心身の独立を保ち、自己の尊厳を守ること。個人の精神的・経済的自立が国家独立の土台となる根幹思想。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>実学（じつがく）</h4>
+                    <p>日常生活や社会運営に直接役立つ実践的な学問。読み書き算盤から地理学、物理学、経済学、法律学まで。旧来の儒学を「虚学」として批判。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>天賦人権（てんぷじんけん）</h4>
+                    <p>「天は人の上に人を造らず、人の下に人を造らず」に象徴される思想。人は生まれながらに自由、平等で幸福追求権を持つ。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>一身独立して一国独立する</h4>
+                    <p>個人の自立と国家の自立を直結させた中心的テーゼ。国民一人ひとりの自立が国家の対等な主権確立を可能にする。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>分限（ぶんげん）</h4>
+                    <p>人が社会で守るべき本分や権利と義務の範囲。自由や平等を無制限とせず、立場や能力に応じた分限をわきまえることの重要性。</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h4>気品（きひん）</h4>
+                    <p>学問によって得られるべき高潔な人格や徳性。知識だけでなく、道理をわきまえ公正に行動する品格が必要。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="card">
+                <h3>全体構造</h3>
+                <ul>
+                    <li>初編：学問の根本的必要性を提示</li>
+                    <li>序盤（二〜七編）：個人と国家の独立関係、国民と政府の役割</li>
+                    <li>中盤（八〜十五編）：精神的独立、学問の目的、内面的心構え</li>
+                    <li>終盤（十六〜十七編）：社会での振る舞い、実践的徳目と品格</li>
+                </ul>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>初編</h4>
+                        <p>「天は人の上に人を造らず」と人間の平等を宣言し、現実の格差は学問の有無で生じると説く</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>二〜三編</h4>
+                        <p>人の同等性と「分限」、「一身独立して一国独立する」核心思想を提示</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>四〜七編</h4>
+                        <p>国民と政府の役割、明治新政府批判、国法遵守の重要性</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>八〜十五編</h4>
+                        <p>精神的独立、学問の二面性、名分からの脱却、演説の重要性</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>十六〜十七編</h4>
+                        <p>職分の遵守、人望を得る要素（正直さと品行の重要性）</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">「天は人の上に人を造らず、人の下に人を造らずと言えり。」</div>
+                <div class="quote-explanation">本書冒頭の最も有名な一節。アメリカ独立宣言の思想を元に人間の生まれながらの平等を宣言し、現実社会の格差は学問の有無によって生じると続け、国民皆学の必要性を訴える導入部として機能。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「一身独立して一国独立するものなり。」</div>
+                <div class="quote-explanation">個人の自立と国家の自立を不可分のものとして捉えた核心的テーゼ。国民一人ひとりが精神的・経済的に自立することが、国家が主権を保つための唯一の道であると説く。ミクロとマクロの連動性を明確に示した力強いメッセージ。</div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-text">「実学にあらざる学問は、学問の事を勤めずして、かえってその害を流すことあり。」</div>
+                <div class="quote-explanation">福沢が一貫して主張する「実学」の重要性を強調。知識を詰め込むだけの学問や実生活から乖離した空理空論を厳しく批判。学問は社会や人の暮らしを良くするためにあってこそ価値があるという徹底した功利主義的・実践的学問観を示す。</div>
+            </div>
+        </div>
+        
+        <div id="practice" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>批判的思考力の養成</h3>
+                    <ul>
+                        <li>情報を鵜呑みにせず「なぜ？」「根拠は？」と自問</li>
+                        <li>複数の情報源を比較検討する習慣</li>
+                        <li>「信じることと疑うこと」のバランス</li>
+                        <li>自分自身の頭で考え判断する姿勢</li>
+                        <li>SNSやニュースの情報過多に対する対処</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>実学の継続学習</h3>
+                    <ul>
+                        <li>専門分野に加え社会の仕組みを学ぶ</li>
+                        <li>法律、経済、政治、歴史の基本理解</li>
+                        <li>社会の一員としての権利と義務の自覚</li>
+                        <li>社会問題への当事者意識の醸成</li>
+                        <li>建設的な意見発信のための土台構築</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>対等な議論と交際</h3>
+                    <ul>
+                        <li>自分の考えを論理的に整理し表明</li>
+                        <li>他者に分かりやすく伝えるスキル向上</li>
+                        <li>会議やコミュニティでの積極的参加</li>
+                        <li>感情論でなく根拠に基づいた議論</li>
+                        <li>他者の意見への敬意と対等な関係構築</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>関連書籍</h3>
+                <ul>
+                    <li><strong>文明論之概略</strong>（福沢諭吉）- 国家・文明レベルでの思想展開</li>
+                    <li><strong>自由論</strong>（ジョン・スチュアート・ミル）- 個人の自由と社会的限界</li>
+                    <li><strong>自助論</strong>（サミュエル・スマイルズ）- 自己責任による成功論</li>
+                    <li><strong>現代語訳 学問のすすめ</strong>（齋藤孝）- 現代人向け入門書</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

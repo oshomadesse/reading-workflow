@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ティール組織 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: var(--white);
+            color: var(--text-dark);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .evolution-chart {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .evolution-stages {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stage {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stage-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .red { background: #e53e3e; }
+        .amber { background: #d69e2e; }
+        .orange { background: #dd6b20; }
+        .green { background: #38a169; }
+        .teal { background: var(--primary); }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        .breakthrough-diagram {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .circle1 {
+            background: var(--primary);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .circle2 {
+            background: var(--secondary);
+            bottom: 0;
+            left: 20%;
+        }
+
+        .circle3 {
+            background: var(--accent);
+            bottom: 0;
+            right: 20%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            padding-left: 40px;
+        }
+
+        .quote-author {
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .evolution-stages {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .venn-container {
+                height: 250px;
+            }
+
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌱 ティール組織</h1>
+            <p>マネジメントの常識を覆す次世代型組織の出現 - フレデリック・ラルー</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📊 概要</button>
+            <button class="tab-button" onclick="showTab('evolution')" role="tab" aria-selected="false" aria-controls="evolution">🔄 組織進化</button>
+            <button class="tab-button" onclick="showTab('breakthroughs')" role="tab" aria-selected="false" aria-controls="breakthroughs">💡 3つの突破口</button>
+            <button class="tab-button" onclick="showTab('practice')" role="tab" aria-selected="false" aria-controls="practice">🚀 実践</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">組織を、生命体として捉えることができるだろうか。生命力と進化の可能性に満ちた存在として。</div>
+                <div class="quote-author">- フレデリック・ラルー</div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心メッセージ</h3>
+                    <ul>
+                        <li>人類の意識進化に伴い組織も進化する</li>
+                        <li>官僚主義と人間性疎外の課題を解決</li>
+                        <li>生命体のように自己進化する組織</li>
+                        <li>メンバーの可能性を最大限解放</li>
+                        <li>より大きな目的への貢献を目指す</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📚 書籍構造</h3>
+                    <ul>
+                        <li>第1部: 歴史的・発達的視点</li>
+                        <li>第2部: ティール組織の構造・慣行・文化</li>
+                        <li>第3部: ティール組織の出現</li>
+                        <li>世界中の先進事例を豊富に紹介</li>
+                        <li>理論と実践の具体的な統合</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌟 主要な特徴</h3>
+                    <ul>
+                        <li>階層型組織の硬直性を解決</li>
+                        <li>短期利益追求からの脱却</li>
+                        <li>生命体メタファーに基づく運営</li>
+                        <li>厳格な階層・予算管理の撤廃</li>
+                        <li>主体的な意思決定システム</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>つのブレークスルー</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div>段階の組織進化</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">多数</div>
+                    <div>の実践事例</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="evolution" class="tab-content" role="tabpanel">
+            <div class="evolution-chart">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">🔄 組織パラダイムの進化</h2>
+                <div class="evolution-stages">
+                    <div class="stage">
+                        <div class="stage-circle red">RED</div>
+                        <h4>衝動型</h4>
+                        <p>力による支配</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle amber">AMBER</div>
+                        <h4>順応型</h4>
+                        <p>階層と規則</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle orange">ORANGE</div>
+                        <h4>達成型</h4>
+                        <p>競争と成果</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle green">GREEN</div>
+                        <h4>多元型</h4>
+                        <p>平等と共感</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="stage">
+                        <div class="stage-circle teal">TEAL</div>
+                        <h4>進化型</h4>
+                        <p>生命体組織</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔴 レッド（衝動型）</h3>
+                    <ul>
+                        <li>力による支配構造</li>
+                        <li>短期的な反応重視</li>
+                        <li>恐怖によるマネジメント</li>
+                        <li>個人の権力に依存</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🟤 アンバー（順応型）</h3>
+                    <ul>
+                        <li>厳格な階層構造</li>
+                        <li>規則とプロセス重視</li>
+                        <li>安定性と予測可能性</li>
+                        <li>長期的な視点</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🟠 オレンジ（達成型）</h3>
+                    <ul>
+                        <li>成果主義と競争</li>
+                        <li>イノベーションと効率性</li>
+                        <li>目標管理システム</li>
+                        <li>能力主義の採用</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🟢 グリーン（多元型）</h3>
+                    <ul>
+                        <li>平等と多様性重視</li>
+                        <li>ステークホルダー志向</li>
+                        <li>合意形成による意思決定</li>
+                        <li>価値観とカルチャー重視</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔵 ティール（進化型）</h3>
+                    <ul>
+                        <li>自主経営システム</li>
+                        <li>全体性の発揮</li>
+                        <li>存在目的の追求</li>
+                        <li>生命体としての組織</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="breakthroughs" class="tab-content" role="tabpanel">
+            <div class="breakthrough-diagram">
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">💡 ティール組織の3つのブレークスルー</h2>
+                <div class="venn-container">
+                    <div class="venn-circle circle1">自主経営<br>Self-Management</div>
+                    <div class="venn-circle circle2">全体性<br>Wholeness</div>
+                    <div class="venn-circle circle3">存在目的<br>Evolutionary Purpose</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 自主経営（セルフ・マネジメント）</h3>
+                    <ul>
+                        <li>階層や管理職に依存しない意思決定</li>
+                        <li>同僚間の関係性に基づく運営</li>
+                        <li>権限の組織全体への分散</li>
+                        <li>迅速で柔軟な対応が可能</li>
+                        <li>助言プロセスによる意思決定</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌟 全体性（ホールネス）</h3>
+                    <ul>
+                        <li>仕事用の「仮面」を外す文化</li>
+                        <li>感情・直感・弱さも含めた人間性</li>
+                        <li>心理的安全性の確保</li>
+                        <li>本来の自分を表現できる環境</li>
+                        <li>創造性と潜在能力の最大発揮</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎭 存在目的（エボリューショナリー・パーパス）</h3>
+                    <ul>
+                        <li>組織を独自の目的を持つ生命体と捉える</li>
+                        <li>競争や利益最大化を超えた目的</li>
+                        <li>「何になりたがっているか」に耳を傾ける</li>
+                        <li>存在目的の実現に向けた進化</li>
+                        <li>感知と対応による柔軟な適応</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🤝 助言プロセス</h3>
+                    <ul>
+                        <li>意思決定前に関係者への助言を求める</li>
+                        <li>影響を受ける全ての人に相談</li>
+                        <li>関連分野の専門家からの助言</li>
+                        <li>最終決定権は提案者自身にある</li>
+                        <li>責任と権限の一致</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 概念間の関係性</h3>
+                    <ul>
+                        <li>3つのブレークスルーは相互補完的</li>
+                        <li>自主経営には心理的安全性が必要</li>
+                        <li>全体性には共鳴する目的が必要</li>
+                        <li>存在目的は自主経営で進化させる</li>
+                        <li>生命体的システムを形成</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="practice" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🚀 助言プロセスの導入</h3>
+                    <ul>
+                        <li>特定プロジェクトでの試験導入</li>
+                        <li>関係者・専門家への助言要請</li>
+                        <li>担当者による自律的決定</li>
+                        <li>意思決定の質とスピード向上</li>
+                        <li>当事者意識の醸成</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>💝 全体性を育む場の創出</h3>
+                    <ul>
+                        <li>会議冒頭の「チェックイン」時間</li>
+                        <li>心境や体調のありのまま共有</li>
+                        <li>仕事用仮面を外す練習</li>
+                        <li>心理的安全性の向上</li>
+                        <li>率直で建設的なコミュニケーション</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 存在目的の対話</h3>
+                    <ul>
+                        <li>組織を生命体として捉える問い</li>
+                        <li>世界への貢献について考える</li>
+                        <li>役職・部署を超えた対話の場</li>
+                        <li>業務と大きな目的の結びつき</li>
+                        <li>従業員エンゲージメント向上</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>学習する組織（ピーター・センゲ）</li>
+                        <li>なぜ弱さを見せあえる組織が強いのか</li>
+                        <li>HOLACRACY（ホラクラシー）</li>
+                        <li>ジョイ・インク</li>
+                        <li>システム思考と組織開発の統合</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ 変革の注意点</h3>
+                    <ul>
+                        <li>CEOや創業者の意識レベルが重要</li>
+                        <li>段階的なアプローチが必要</li>
+                        <li>文化変革には時間がかかる</li>
+                        <li>全員の理解と合意が前提</li>
+                        <li>継続的な学習と適応</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🌱 成功事例</h3>
+                    <ul>
+                        <li>ビュートゾルフ（オランダ）</li>
+                        <li>パタゴニア</li>
+                        <li>ハーレーダビッドソン</li>
+                        <li>世界中の先進的企業</li>
+                        <li>多様な業界での実践</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">私たちは予測と管理をやめて、感知と対応を学ぶ必要がある。</div>
+                <div class="quote-author">- フレデリック・ラルー</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const activeButton = document.querySelector('.tab-button.active');
+                const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                const currentIndex = buttons.indexOf(activeButton);
+                
+                let nextIndex;
+                if (e.key === 'ArrowLeft') {
+                    nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                } else {
+                    nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                }
+                
+                buttons[nextIndex].click();
+                buttons[nextIndex].focus();
+            }
+        });
+    </script>
+</body>
+</html>

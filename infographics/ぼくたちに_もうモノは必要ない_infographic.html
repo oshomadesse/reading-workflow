@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ぼくたちに、もうモノは必要ない。</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button.active {
+            background: #f093fb;
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #f093fb;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .flow-diagram {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            margin: 10px;
+            position: relative;
+        }
+        
+        .flow-step:after {
+            content: "→";
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+        
+        .flow-step:last-child:after {
+            display: none;
+        }
+        
+        .concept-diagram {
+            margin: 30px 0;
+        }
+        
+        .concept-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #667eea 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px auto;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #f093fb 100%);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 200px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 10px auto;
+                width: fit-content;
+            }
+            
+            .flow-step:after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 ぼくたちに、もうモノは必要ない。</h1>
+            <p>佐々木典士 著 - ミニマリズムで人生を変える</p>
+        </header>
+        
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">💡 主要概念</button>
+            <button class="tab-button" onclick="showTab('benefits')" role="tab" aria-selected="false">✨ 12の変化</button>
+            <button class="tab-button" onclick="showTab('methods')" role="tab" aria-selected="false">🛠️ 実践法</button>
+            <button class="tab-button" onclick="showTab('philosophy')" role="tab" aria-selected="false">🎯 哲学</button>
+        </nav>
+        
+        <main>
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🎯 核心メッセージ</h3>
+                        <ul>
+                            <li>ミニマリズムは単なる片付け術ではない</li>
+                            <li>幸福度を高めるための哲学・生き方</li>
+                            <li>物質的豊かさから精神的豊かさへ</li>
+                            <li>本当に大切な経験・人間関係に集中</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📊 著者の変化</h3>
+                        <ul>
+                            <li>汚部屋の住人からミニマリストへ</li>
+                            <li>実体験に基づく説得力のある内容</li>
+                            <li>心理的・社会的背景を詳細分析</li>
+                            <li>理論と実践の両面をカバー</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flow-diagram">
+                    <h3 style="margin-bottom: 20px;">🔄 ミニマリズムへの道のり</h3>
+                    <div class="flow-step">モノで溢れた生活</div>
+                    <div class="flow-step">問題意識の芽生え</div>
+                    <div class="flow-step">ミニマリズムとの出会い</div>
+                    <div class="flow-step">実践・体験</div>
+                    <div class="flow-step">人生の変化を実感</div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">55</div>
+                        <div>実践メソッド</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div>具体的な変化</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div>章構成</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="concepts" class="tab-content" role="tabpanel">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>👤 ミニマリスト</h3>
+                        <ul>
+                            <li>必要最小限のモノだけで暮らす人</li>
+                            <li>時間・お金・エネルギーを価値あることに使う</li>
+                            <li>単にモノが少ない人ではない</li>
+                            <li>生き方を追求する実践者</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>💬 モノ＝メッセージ</h3>
+                        <ul>
+                            <li>所有物は価値観を伝える「メッセージ」</li>
+                            <li>社会的地位や個性を表現</li>
+                            <li>不要なモノは不要なメッセージ</li>
+                            <li>無意識に心を消耗させる原因</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🔄 慣れと飽き</h3>
+                        <ul>
+                            <li>人間はどんな刺激にも慣れてしまう</li>
+                            <li>高価なモノの喜びもすぐに薄れる</li>
+                            <li>「幸福のランニングマシン」状態</li>
+                            <li>物質主義からの脱却が重要</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>⚖️ 機会費用</h3>
+                        <ul>
+                            <li>モノの所有・管理で失われる機会</li>
+                            <li>時間・スペース・お金・精神的エネルギー</li>
+                            <li>目に見えないコスト</li>
+                            <li>リソースを静かに奪っている</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📈 幸福の相対性</h3>
+                        <ul>
+                            <li>他者との比較で決まる幸福感</li>
+                            <li>モノの多さが豊かさの指標</li>
+                            <li>劣等感や嫉妬を感じやすい</li>
+                            <li>比較の土俵から降りることが重要</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="concept-diagram">
+                    <h3 style="text-align: center; margin-bottom: 30px;">🔗 概念の関係性</h3>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                        <div class="concept-circle">モノ＝<br>メッセージ</div>
+                        <div class="concept-circle">慣れと飽き</div>
+                        <div class="concept-circle">機会費用</div>
+                        <div class="concept-circle">幸福の<br>相対性</div>
+                        <div class="concept-circle">ミニマリスト<br>という解決策</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="benefits" class="tab-content" role="tabpanel">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">✨ モノを捨てて起きた12の変化</h2>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>⏰ 時間を大切にする</h3>
+                        <ul>
+                            <li>掃除・整理の時間が激減</li>
+                            <li>探し物をする時間がなくなる</li>
+                            <li>本当にやりたいことに時間を使える</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🕊️ 自由を感じる</h3>
+                        <ul>
+                            <li>モノに縛られない生活</li>
+                            <li>身軽で動きやすい</li>
+                            <li>選択肢が明確になる</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎯 集中できる</h3>
+                        <ul>
+                            <li>視覚的ノイズの除去</li>
+                            <li>気が散る要素が少ない</li>
+                            <li>作業効率の向上</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🙏 感謝する</h3>
+                        <ul>
+                            <li>持っているモノの価値を実感</li>
+                            <li>当たり前への感謝</li>
+                            <li>満足度の向上</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>💰 お金が貯まる</h3>
+                        <ul>
+                            <li>無駄な買い物が減る</li>
+                            <li>本当に必要なものだけ購入</li>
+                            <li>維持費の削減</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🧘 ストレス軽減</h3>
+                        <ul>
+                            <li>片付けのプレッシャーがない</li>
+                            <li>シンプルな環境で心が落ち着く</li>
+                            <li>決断疲れの軽減</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin: 30px 0;">
+                    <h3 style="margin-bottom: 20px;">📊 変化の実感度</h3>
+                    <div style="margin-bottom: 15px;">
+                        <span>時間の創出</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span>ストレス軽減</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span>集中力向上</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <span>お金の節約</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="methods" class="tab-content" role="tabpanel">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">🛠️ モノを捨てるための55の方法</h2>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🚀 スタート編</h3>
+                        <ul>
+                            <li>まずは見えるところから始める</li>
+                            <li>1日1個捨てるルール</li>
+                            <li>写真を撮って客観視する</li>
+                            <li>友人を部屋に呼ぶ予定を作る</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📋 判断基準編</h3>
+                        <ul>
+                            <li>1年使わなかったら捨てる</li>
+                            <li>同じ用途のモノは1つだけ</li>
+                            <li>「いつか使う」は使わない</li>
+                            <li>迷ったら一旦箱に入れて保留</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>💭 心理的障壁編</h3>
+                        <ul>
+                            <li>「もったいない」の呪縛を解く</li>
+                            <li>過去の自分への執着を手放す</li>
+                            <li>未来への不安を受け入れる</li>
+                            <li>他人の目を気にしすぎない</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🔄 継続編</h3>
+                        <ul>
+                            <li>定期的な見直しの習慣化</li>
+                            <li>新しく買う前に何かを捨てる</li>
+                            <li>デジタル化できるものは変換</li>
+                            <li>レンタル・シェアの活用</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin: 30px 0; text-align: center;">
+                    <h3 style="margin-bottom: 20px;">📈 実践の段階</h3>
+                    <svg width="100%" height="200" viewBox="0 0 600 200">
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#667eea"/>
+                                <stop offset="100%" style="stop-color:#f093fb"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="50" y="150" width="100" height="30" fill="url(#gradient1)" rx="5"/>
+                        <text x="100" y="170" text-anchor="middle" fill="white" font-size="12">初級</text>
+                        <rect x="200" y="120" width="100" height="60" fill="url(#gradient1)" rx="5"/>
+                        <text x="250" y="155" text-anchor="middle" fill="white" font-size="12">中級</text>
+                        <rect x="350" y="90" width="100" height="90" fill="url(#gradient1)" rx="5"/>
+                        <text x="400" y="140" text-anchor="middle" fill="white" font-size="12">上級</text>
+                        <rect x="500" y="60" width="100" height="120" fill="url(#gradient1)" rx="5"/>
+                        <text x="550" y="125" text-anchor="middle" fill="white" font-size="12">マスター</text>
+                    </svg>
+                </div>
+            </section>
+            
+            <section id="philosophy" class="tab-content" role="tabpanel">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">🎯 ミニマリズムの哲学</h2>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🔄 価値観の転換</h3>
+                        <ul>
+                            <li>「所有」から「経験」へ</li>
+                            <li>量より質を重視</li>
+                            <li>外的な豊かさから内的な豊かさへ</li>
+                            <li>他人との比較から自分軸へ</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎭 現代社会への問題提起</h3>
+                        <ul>
+                            <li>消費社会の構造的問題</li>
+                            <li>広告による欲望の操作</li>
+                            <li>SNSでの見栄の競争</li>
+                            <li>物質主義の限界</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🌱 本質的な幸福とは</h3>
+                        <ul>
+                            <li>人間関係の質の向上</li>
+                            <li>自分らしい時間の使い方</li>
+                            <li>内面の充実感</li>
+                            <li>持続可能な満足感</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🚀 実践的な生き方</h3>
+                        <ul>
+                            <li>意識的な選択の重要性</li>
+                            <li>シンプルさの美学</li>
+                            <li>自由度の高い生活スタイル</li>
+                            <li>環境への配慮</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin: 30px 0; text-align: center;">
+                    <h3 style="margin-bottom: 20px;">🔄 幸福の循環</h3>
+                    <svg width="100%" height="300" viewBox="0 0 400 300">
+                        <defs>
+                            <linearGradient id="circleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea"/>
+                                <stop offset="50%" style="stop-color:#764ba2"/>
+                                <stop offset="100%" style="stop-color:#f093fb"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="200" cy="150" r="80" fill="none" stroke="url(#circleGrad)" stroke-width="4"/>
+                        <text x="200" y="80" text-anchor="middle" font-size="14" fill="#667eea">モノを減らす</text>
+                        <text x="320" y="150" text-anchor="middle" font-size="14" fill="#667eea">時間・お金が増える</text>
+                        <text x="200" y="240" text-anchor="middle" font-size="14" fill="#667eea">経験に投資</text>
+                        <text x="80" y="150" text-anchor="middle" font-size="14" fill="#667eea">幸福度向上</text>
+                        <polygon points="200,90 210,100 190,100" fill="#f093fb"/>
+                        <polygon points="310,150 300,140 300,160" fill="#f093fb"/>
+                        <polygon points="200,230 190,220 210,220" fill="#f093fb"/>
+                        <polygon points="90,150 100,160 100,140" fill="#f093fb"/>
+                    </svg>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+                    <h3 style="color: white;">💫 最終的なメッセージ</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        ミニマリズムは、モノを減らすことが目的ではなく、<br>
+                        自分にとって本当に大切なものを見つけ、<br>
+                        それに集中して生きるための手段である。
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+        
+        // ページ読み込み時にプログレスバーをアニメーション
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

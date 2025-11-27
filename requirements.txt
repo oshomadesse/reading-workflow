@@ -1,0 +1,7 @@
+openai
+anthropic
+google-generativeai
+python-dotenv
+gspread
+google-auth
+requests

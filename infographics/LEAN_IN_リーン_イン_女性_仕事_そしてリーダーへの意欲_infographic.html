@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自由からの逃走 - インフォグラフィック</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .author {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 120px;
+            max-width: 150px;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ff6b6b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .concept-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .concept-description {
+            color: #495057;
+            line-height: 1.7;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 300px;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .structure-item {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .structure-chapter {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .quote-explanation {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            font-style: italic;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #81ecec, #00cec9);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .core-message {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tab-button {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+                min-width: 100px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .tab-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>自由からの逃走</h1>
+            <div class="author">エーリッヒ・フロム</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('core')">核心メッセージ</button>
+            <button class="tab-button" onclick="showTab('summary')">要約</button>
+            <button class="tab-button" onclick="showTab('concepts')">主要概念</button>
+            <button class="tab-button" onclick="showTab('relations')">関係性</button>
+            <button class="tab-button" onclick="showTab('structure')">構造</button>
+            <button class="tab-button" onclick="showTab('quotes')">重要引用</button>
+            <button class="tab-button" onclick="showTab('practice')">実践示唆</button>
+            <button class="tab-button" onclick="showTab('books')">関連書籍</button>
+        </div>
+
+        <div id="core" class="tab-content active">
+            <h2 class="section-title">核心的メッセージ</h2>
+            <div class="core-message">
+                近代社会で個人が得た「〜からの自由」（伝統や権威からの解放）は、皮肉にも個人を孤独と無力感に陥れた。この耐え難い孤独から逃れるため、人々は自ら自由を放棄し、ファシズムのような新たな権威に服従することで安心を得ようとする。これが「自由からの逃走」である。真の自由とは、この逃走を克服し、自己の個性を実現しながら愛や創造的労働を通じて他者や世界と自発的に結びつく「〜への自由」でなければならないとフロムは説く。
+            </div>
+        </div>
+
+        <div id="summary" class="tab-content">
+            <h2 class="section-title">エグゼクティブ・サマリー</h2>
+            <div class="summary-box">
+                本書は、ナチズムが台頭した時代背景のもと、「なぜ人間は自由を捨て、独裁を支持するのか」という問いを探求した社会心理学の古典である。フロムは、中世の封建的な束縛から解放された近代人が得た「〜からの自由」が、同時に個人を根無し草のような孤独と不安に陥れたと分析する。この孤独に耐えきれない人々は、自らの自由を放棄し、新たな権威に服従したり（権威主義）、周囲に同化したり（機械的画一性）することで安心を得ようとする「自由からの逃走」に駆られる。フロムは、この逃走的メカニズムを克服し、自己の個性を完全に実現し、愛と創造を通じて世界と自発的に関わる「〜への自由」こそが、人間が目指すべき真の自由のあり方だと結論づけている。
+            </div>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <h2 class="section-title">主要概念・キーワード</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">自由からの逃走 (Escape from Freedom)</div>
+                <div class="concept-description">近代人が得た自由がもたらす孤独感や無力感に耐えきれず、自ら自由を放棄して権威主義的な体制や指導者に服従することで、安心感や一体感を得ようとする心理的メカニズム。ナチズムへの大衆の熱狂を説明する核心概念。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">「〜からの自由」と「〜への自由」 (Freedom from / Freedom to)</div>
+                <div class="concept-description">「〜からの自由」は伝統や権威からの消極的な解放を指し、孤独を生む。一方、「〜への自由」は自己の個性を積極的に実現し、他者と自発的に関わる積極的な自由を指す。フロムは後者の重要性を強調する。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">権威主義的性格 (Authoritarian Character)</div>
+                <div class="concept-description">他者との関係で、支配（サディズム）と服従（マゾヒズム）の衝動を併せ持つ性格構造。強者に従い弱者を支配することで、自己の無力感を埋め合わせ安心を得ようとする。自由からの逃走の主要な形態の一つ。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">機械的画一性 (Automaton Conformity)</div>
+                <div class="concept-description">社会が期待する思考や感情のパターンを無批判に内面化し、他者と同じであることで孤独や不安を解消しようとする防衛機制。個性や自発性を失い、偽りの自己を生きる、現代社会に蔓延する逃走形態。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">自発性 (Spontaneity)</div>
+                <div class="concept-description">自己の全体的な人格に基づき、外部からの強制や内なる強迫観念なしに、自由に思考し、感じ、行動すること。愛や創造的な仕事にその典型が見られる。孤独を克服し「〜への自由」を実現するための鍵となる。</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">個体化の過程 (Process of Individuation)</div>
+                <div class="concept-description">人間が生まれながらの共同体から分離し、独立した個人として自己を確立していく過程。この過程は力を与える一方で、孤独と不安を増大させ、自由からの逃走の引き金にもなる。</div>
+            </div>
+        </div>
+
+        <div id="relations" class="tab-content">
+            <h2 class="section-title">概念間の関係性・因果関係</h2>
+            <div class="flow-diagram">
+                <div class="flow-item">個体化の過程</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">「〜からの自由」獲得</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">孤独と無力感</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">自由からの逃走</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">権威主義的性格 / 機械的画一性</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">自発性による克服</div>
+                <div class="arrow">↓</div>
+                <div class="flow-item">「〜への自由」実現</div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 12px; margin-top: 20px;">
+                歴史的な「個体化の過程」によって、人間は共同体の束縛から解放され「〜からの自由」を獲得する。しかし、この自由は同時に「孤独」と「無力感」をもたらす。この耐え難い心理状態から逃れるため、「自由からの逃走」というメカニズムが作動し、具体的な逃走形態として「権威主義的性格」による支配・服従への依存や、「機械的画一性」による社会への同化が生じる。フロムは、この悪循環を断ち切る解決策として「自発性」を提示する。自発的な活動（愛や創造）を通じて、個人は孤独を克服し、他者や世界と健全に結びつき、真の「〜への自由」を実現できる、という因果関係と解決の道筋が示されている。
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <h2 class="section-title">構造と論理展開</h2>
+            
+            <div class="structure-item">
+                <div class="structure-chapter">序論・第1章</div>
+                <div>自由が持つ「解放」と「孤独」という両義性を問題提起し、この問題を社会心理学的に分析する必要性を説く。</div>
+            </div>
+
+            <div class="structure-item">
+                <div class="structure-chapter">第2章・第3章</div>
+                <div>宗教改革期を分析。中世の共同体からの解放が個人の孤独と不安を生み、ルターやカルヴァンの教えが、新たな精神的権威への服従という形でその不安に応えた過程を描く。</div>
+            </div>
+
+            <div class="structure-item">
+                <div class="structure-chapter">第4章</div>
+                <div>近代資本主義が個人の解放を促進する一方で、人間を経済システムの歯車とし、無力感を増大させたことを指摘。近代人が直面する自由のジレンマを明らかにする。</div>
+            </div>
+
+            <div class="structure-item">
+                <div class="structure-chapter">第5章</div>
+                <div>自由がもたらす孤独と無力感から逃れるための主要な心理的メカニズムとして、「権威主義（サディズムとマゾヒズム）」「破壊性」「機械的画一性」の三つを詳細に分析する。</div>
+            </div>
+
+            <div class="structure-item">
+                <div class="structure-chapter">第6章</div>
+                <div>これまでの分析を応用し、ドイツの中産階級がなぜナチズムに惹きつけられたのかを「権威主義的性格」を中心に解明する。</div>
+            </div>
+
+            <div class="structure-item">
+                <div class="structure-chapter">第7章</div>
+                <div>現代のデモクラシー社会にも「機械的画一性」という形で自由からの逃走が蔓延していると警告。真の自由である「〜への自由」、すなわち自発的な活動による自己実現の重要性を説き、結論とする。</div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <h2 class="section-title">重要な引用</h2>
+            
+            <div class="quote-card">
+                <div class="quote-text">「近代人は、かれを縛っていた伝統的な社会の絆から解放されたが、しかし、かれはまだ、合理的な世界における自己の積極的な実現としての積極的な自由を達成することは学んでいない。」</div>
+                <div class="quote-explanation">近代人が得た自由が「〜からの自由」に留まっていることを端的に示す一文。伝統からの解放という成果と、自己実現という未達成の課題の両面を指摘し、本書の中心的な問題意識を明らかにしている。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">「かれ（権威主義的性格の人間）は、より高い権力に服従することによって、自己自身の孤独と限界から逃れるのである。」</div>
+                <div class="quote-explanation">「自由からの逃走」の核心的メカニズムである権威主義の本質を突いた言葉。自由がもたらす孤独に耐えられず、自己をより大きな存在に一体化させることで安心を得ようとする心理を鋭く描写している。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">「人間が自発的に行為し、人間自身として自己を実現するときにのみ、孤独を克服することができる。（中略）愛は、このような自発的活動のもっとも重要な構成要素である。」</div>
+                <div class="quote-explanation">フロムが提示する解決策、「〜への自由」の具体的なあり方を示している。孤独の克服は、権威への服従や画一化ではなく、自己の個性を肯定し、愛や創造といった自発的な活動を通じて他者と結びつくことによってのみ可能になるという、本書の結論を象徴する引用。</div>
+            </div>
+        </div>
+
+        <div id="practice" class="tab-content">
+            <h2 class="section-title">実践への示唆</h2>
+            
+            <div class="action-card">
+                <div class="action-title">同調圧力への自己点検</div>
+                <div>SNSの「いいね」や世間の流行、周囲の意見に流されていないか、自分の意見や感情が本当に内側から湧き出たものか（自発性）を意識的に問い直す。他者と違うことを恐れず、自分の判断基準を持つ訓練をする。</div>
+            </div>
+
+            <div class="action-card">
+                <div class="action-title">創造的な活動への参加</div>
+                <div>仕事や趣味において、マニュアル通りの作業だけでなく、自分なりの工夫や表現を試みる。絵を描く、文章を書く、料理をするなど、結果や評価を気にしすぎず、自己を表現するプロセスそのものを楽しむことで、自発性を育む。</div>
+            </div>
+
+            <div class="action-card">
+                <div class="action-title">対話を通じた健全な関係構築</div>
+                <div>相手を支配したり依存したりするのではなく、互いの個性を尊重し合う対等な関係を築くことを心がける。自分の意見を率直に伝え、相手の意見に真摯に耳を傾ける対話は、孤独を克服し、健全なつながりを育む第一歩となる。</div>
+            </div>
+        </div>
+
+        <div id="books" class="tab-content">
+            <h2 class="section-title">関連書籍</h2>
+            
+            <div class="book-card">
+                <div class="book-title">愛するということ</div>
+                <div class="book-author">エーリッヒ・フロム</div>
+                <div>本書で示された「自発性」の核心である「愛」について、その技術と理論を深く掘り下げた著作。自由からの逃走の克服の先にある、人間関係のあり方を具体的に示唆する。</div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-title">夜と霧</div>
+                <div class="book-author">ヴィクトール・フランクル</div>
+                <div>極限状況における人間の心理を描き、どんな状況でも失われない「態度の自由」と生きる意味の重要性を説く。フロムとは異なるアプローチで、人間の自由と尊厳の問題に迫る。</div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-title">服従の心理</div>
+                <div class="book-author">スタンレー・ミルグラム</div>
+                <div>権威への服従がどのようにして起こるのかを実証した心理学実験の記録。フロムが理論的に分析した「権威主義的性格」のメカニズムを、実験を通じて具体的に理解する助けとなる。</div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-title">孤独な群衆</div>
+                <div class="book-author">デイヴィッド・リースマン</div>
+                <div>現代人の社会的性格が、他者の期待や評価に方向づけられる「他人指向型」に変化したことを分析。フロムの言う「機械的画一性」と通じる問題意識を持つ。</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンからactiveクラスを削除
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブコンテンツを表示
+            document.getElementById(tabName).classList.add('active');
+
+            // 選択されたタブボタンにactiveクラスを追加
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

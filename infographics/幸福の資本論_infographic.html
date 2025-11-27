@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幸福の資本論 - インフォグラフィック</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .diagram-container {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .diagram-title {
+            text-align: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            position: relative;
+        }
+
+        .venn-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .circle-financial {
+            background: var(--primary);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .circle-human {
+            background: var(--secondary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .circle-social {
+            background: var(--accent);
+            bottom: 0;
+            right: 0;
+        }
+
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            position: relative;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(240, 147, 251, 0.3);
+        }
+
+        .quote-card::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            padding-left: 30px;
+        }
+
+        .quote-explanation {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            padding-left: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .venn-diagram {
+                height: 300px;
+            }
+
+            .venn-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 0.8rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 50px);
+                margin-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+            }
+
+            .tab-button {
+                font-size: 0.8rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 幸福の資本論</h1>
+            <p>橘玲 著 - 3つの資本で築く合理的な幸福戦略</p>
+        </header>
+
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview">📊 概要</button>
+            <button class="tab-button" onclick="showTab('capitals')" role="tab" aria-selected="false" aria-controls="capitals">💰 3つの資本</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false" aria-controls="structure">📖 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false" aria-controls="quotes">💭 重要な引用</button>
+            <button class="tab-button" onclick="showTab('practice')" role="tab" aria-selected="false" aria-controls="practice">🎯 実践</button>
+        </nav>
+
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">つの資本</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">自己決定権</div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>幸福は3つの資本のポートフォリオで構成される</li>
+                        <li>金融資本（資産）・人的資本（稼ぐ力）・社会資本（つながり）</li>
+                        <li>経済成長だけでは幸福になれない時代</li>
+                        <li>ライフステージに応じた最適な組み合わせが重要</li>
+                        <li>孤独が最大のリスクとなる現代社会</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📈 エグゼクティブサマリー</h3>
+                    <ul>
+                        <li>幸福を「資本」フレームワークで合理的に分析</li>
+                        <li>金融資本は自由の基盤、人的資本は自己実現の源泉</li>
+                        <li>社会資本が幸福感に直結する最重要要素</li>
+                        <li>相互補完とトレードオフの関係を理解する</li>
+                        <li>「好きなことだけして生きていく」ための戦略</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="diagram-container">
+                <h2 class="diagram-title">🔄 3つの資本の関係性</h2>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle-financial">金融資本<br>💰<br>自由の基盤</div>
+                    <div class="venn-circle circle-human">人的資本<br>🧠<br>稼ぐ力</div>
+                    <div class="venn-circle circle-social">社会資本<br>👥<br>つながり</div>
+                    <div class="center-text">幸福の<br>ポートフォリオ<br>😊</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="capitals" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>💰 金融資本</h3>
+                    <ul>
+                        <li>預貯金、株式、不動産などの資産</li>
+                        <li>経済的独立を達成し選択肢を増やす</li>
+                        <li>「自由」の基盤となるセーフティネット</li>
+                        <li>一定水準を超えると幸福度への寄与が逓減</li>
+                        <li>貧困という不幸を回避するために不可欠</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 人的資本</h3>
+                    <ul>
+                        <li>知識、スキル、経験、健康、外見の総称</li>
+                        <li>個人の稼ぐ力や魅力の源泉</li>
+                        <li>自己実現や社会貢献を通じて幸福感をもたらす</li>
+                        <li>若年期の投資が高いリターンを生む</li>
+                        <li>将来の金融資本・社会資本を築く基盤</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👥 社会資本</h3>
+                    <ul>
+                        <li>家族の愛情、パートナーとの親密な関係</li>
+                        <li>友人との友情、コミュニティとのつながり</li>
+                        <li>孤独を防ぎ幸福感に最も直接的な影響</li>
+                        <li>お金では買えない特性を持つ</li>
+                        <li>人間関係のネットワークが生む価値</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📊 幸福のポートフォリオ</h3>
+                    <ul>
+                        <li>3つの資本を戦略的に組み合わせる考え方</li>
+                        <li>個人の価値観やライフステージに応じて最適化</li>
+                        <li>単一資本への依存リスクを分散</li>
+                        <li>長期的かつ安定的な幸福を築く</li>
+                        <li>資産運用のメタファーを人生に応用</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>😊 プア充</h3>
+                    <ul>
+                        <li>経済的には貧しいが人間関係に恵まれた若者</li>
+                        <li>金融資本は少ないが社会資本が豊富</li>
+                        <li>高い幸福度を享受している</li>
+                        <li>お金だけが幸福の尺度ではない証拠</li>
+                        <li>新しい生き方の象徴として注目</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🗽 自己決定権</h3>
+                    <ul>
+                        <li>自らの人生を自分の意思で選択・決定する権利</li>
+                        <li>「自由なき幸福はない」が著者の信念</li>
+                        <li>3つの資本を築く究極的な目的</li>
+                        <li>他者や社会からの束縛を離れる</li>
+                        <li>自己決定権の最大化が最終目標</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="diagram-container">
+                <h2 class="diagram-title">📚 書籍構造とライフステージ戦略</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🌱 若年期（20-30代）</h4>
+                            <p><strong>人的資本への集中投資</strong></p>
+                            <p>学習・経験・スキル習得を最優先。将来の金融資本と社会資本の基盤を築く重要な時期。</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🏢 中年期（40-50代）</h4>
+                            <p><strong>人的資本→金融資本への転換</strong></p>
+                            <p>稼ぐ力を資産形成に活用。家庭・職場の社会資本も同時に固めていく戦略的な時期。</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>🌅 老年期（60代以降）</h4>
+                            <p><strong>社会資本の豊かさが幸福を決定</strong></p>
+                            <p>金融資本を取り崩しつつ、趣味や地域コミュニティでの社会資本を最大化する時期。</p>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📖 第1-2章：基礎理論</h3>
+                    <ul>
+                        <li>人生はリスクと幸福のトレードオフ</li>
+                        <li>幸福の3つのインフラを定義</li>
+                        <li>感情論ではなく合理的アプローチ</li>
+                        <li>リスクを避け続けても幸福は得られない</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>👥 第3-5章：社会資本分析</h3>
+                    <ul>
+                        <li>「プア充」と「リア充」の経済学</li>
+                        <li>愛情資本と友情資本の分類</li>
+                        <li>現代家族の機能不全リスク</li>
+                        <li>社会資本の分散投資の重要性</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 第6章-おわりに：実践編</h3>
+                    <ul>
+                        <li>ライフステージ別の最適化戦略</li>
+                        <li>3つの資本の具体的配分方法</li>
+                        <li>「好きなこと」だけして生きる道筋</li>
+                        <li>自己決定権の確立が最終目標</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="quote-card">
+                <div class="quote-text">幸福な人生とは、結局のところ、この3つの資本のバランスが取れていることだ。</div>
+                <div class="quote-explanation">本書の核心的メッセージ。幸福を単一要素ではなく、金融・人的・社会資本のポートフォリオとして総合的に捉える基本思想を示している。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">自由なき幸福はなく、幸福なき人生に意味はない。</div>
+                <div class="quote-explanation">幸福の絶対的前提条件として「自己決定権（自由）」の重要性を強調。本書が単なる楽観的幸福論ではなく、自己責任を伴う厳しい生存戦略の書であることを象徴している。</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">これからの日本社会では、金融資産の多寡よりも、友だちの多寡のほうが幸福な人生の決定的な条件になるだろう。</div>
+                <div class="quote-explanation">経済成長終焉と共同体崩壊の現代日本で、社会資本の価値が急上昇していることを指摘。孤独が最大のリスクとなる未来を予見し、人とのつながり構築の戦略的重要性を訴えている。</div>
+            </div>
+        </div>
+
+        <div id="practice" class="tab-content" role="tabpanel">
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>📊 自己の3資本を棚卸し</h3>
+                    <ul>
+                        <li>金融資本：貯蓄・投資額を具体的に算出</li>
+                        <li>人的資本：専門スキル、年収、健康状態を評価</li>
+                        <li>社会資本：親しい友人数、所属コミュニティを数える</li>
+                        <li>強みと弱みを客観的に把握する</li>
+                        <li>次にどの資本へ注力すべきか戦略を立てる</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ 社会資本への時間投資</h3>
+                    <ul>
+                        <li>友人との会食時間をスケジュールに組み込む</li>
+                        <li>趣味のサークル活動に定期参加</li>
+                        <li>地域イベントへの積極的な参加</li>
+                        <li>利害関係のない「弱いつながり」を重視</li>
+                        <li>人生後半のセーフティネット構築</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🗓️ ライフステージ転換戦略</h3>
+                    <ul>
+                        <li>20-30代：人的資本（学習・経験）の最大化</li>
+                        <li>40-50代：人的→金融資本転換＋社会資本固め</li>
+                        <li>60代以降：金融資本取り崩し＋社会資本豊富化</li>
+                        <li>長期的視点での人生設計</li>
+                        <li>場当たり的選択を避け持続可能な幸福を築く</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📚 関連書籍</h3>
+                    <ul>
+                        <li>「LIFE SHIFT」- 100年時代の人生戦略</li>
+                        <li>「言ってはいけない」- 橘玲の他著作</li>
+                        <li>「FACTFULNESS」- データに基づく分析手法</li>
+                        <li>「嫌われる勇気」- 自己決定権の心理学</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // キーボードナビゲーション対応
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('tab-button')) {
+                    e.preventDefault();
+                    const buttons = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = buttons.indexOf(focusedElement);
+                    let nextIndex;
+                    
+                    if (e.shiftKey) {
+                        nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[nextIndex].focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7つの習慣 - インフォグラフィック</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #f5f5f5; display: flex; justify-content: center; }
+        .container { max-width: 800px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        ```svg
+<svg width="800" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2E86AB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A23B72;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="privateGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F18F01;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#C73E1D;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="publicGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2E86AB;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#A23B72;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="improveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5D737E;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#2E4057;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="1200" fill="#F8F9FA"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="800" height="80" fill="url(#headerGrad)"/>
+  <text x="400" y="30" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">7つの習慣</text>
+  <text x="400" y="55" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">スティーブン・コヴィー</text>
+  
+  <!-- Core Message -->
+  <rect x="40" y="100" width="720" height="80" rx="10" fill="#E8F4FD" stroke="#2E86AB" stroke-width="2"/>
+  <text x="60" y="125" fill="#2E4057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">📌 核心的なメッセージ</text>
+  <text x="60" y="145" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">効果的な人生を送るための7つの基本原則を身につけることで、</text>
+  <text x="60" y="165" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">個人・対人関係の両方で成功できる</text>
+  
+  <!-- Private Success (Habits 1-3) -->
+  <rect x="40" y="200" width="340" height="280" rx="10" fill="url(#privateGrad)" opacity="0.1" stroke="#F18F01" stroke-width="2"/>
+  <text x="210" y="225" text-anchor="middle" fill="#C73E1D" font-family="Arial, sans-serif" font-size="16" font-weight="bold">私的成功 (習慣1-3)</text>
+  
+  <!-- Habit 1 -->
+  <circle cx="80" cy="260" r="25" fill="#F18F01"/>
+  <text x="80" y="268" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">1</text>
+  <text x="120" y="255" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">主体性を発揮する</text>
+  <text x="120" y="270" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">刺激と反応の間には選択の自由がある</text>
+  
+  <!-- Habit 2 -->
+  <circle cx="80" cy="320" r="25" fill="#F18F01"/>
+  <text x="80" y="328" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">2</text>
+  <text x="120" y="315" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">終わりを思い描いてから始める</text>
+  <text x="120" y="330" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">人生のミッションを明確にする</text>
+  
+  <!-- Habit 3 -->
+  <circle cx="80" cy="380" r="25" fill="#F18F01"/>
+  <text x="80" y="388" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">3</text>
+  <text x="120" y="375" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">最優先事項を優先する</text>
+  <text x="120" y="390" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">重要だが緊急でない事柄に集中</text>
+  
+  <!-- Public Success (Habits 4-6) -->
+  <rect x="420" y="200" width="340" height="280" rx="10" fill="url(#publicGrad)" opacity="0.1" stroke="#2E86AB" stroke-width="2"/>
+  <text x="590" y="225" text-anchor="middle" fill="#2E86AB" font-family="Arial, sans-serif" font-size="16" font-weight="bold">公的成功 (習慣4-6)</text>
+  
+  <!-- Habit 4 -->
+  <circle cx="460" cy="260" r="25" fill="#2E86AB"/>
+  <text x="460" y="268" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">4</text>
+  <text x="500" y="255" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Win-Winを考える</text>
+  <text x="500" y="270" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">相互利益を追求する</text>
+  
+  <!-- Habit 5 -->
+  <circle cx="460" cy="320" r="25" fill="#2E86AB"/>
+  <text x="460" y="328" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">5</text>
+  <text x="500" y="315" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">まず理解に徹し、そして理解される</text>
+  <text x="500" y="330" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">相手の立場で聞く</text>
+  
+  <!-- Habit 6 -->
+  <circle cx="460" cy="380" r="25" fill="#2E86AB"/>
+  <text x="460" y="388" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">6</text>
+  <text x="500" y="375" fill="#2E4057" font-family="Arial, sans-serif" font-size="12" font-weight="bold">シナジーを創り出す</text>
+  <text x="500" y="390" fill="#2E4057" font-family="Arial, sans-serif" font-size="10">全体は部分の和より大きい</text>
+  
+  <!-- Arrow from Private to Public -->
+  <path d="M 380 340 L 420 340" stroke="#5D737E" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5D737E"/>
+    </marker>
+  </defs>
+  
+  <!-- Habit 7 - Continuous Improvement -->
+  <rect x="140" y="520" width="520" height="120" rx="10" fill="url(#improveGrad)" opacity="0.1" stroke="#5D737E" stroke-width="2"/>
+  <circle cx="200" cy="580" r="30" fill="#5D737E"/>
+  <text x="200" y="588" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">7</text>
+  <text x="250" y="570" fill="#2E4057" font-family="Arial, sans-serif" font-size="16" font-weight="bold">刃を研ぐ - 継続的改善</text>
+  <text x="250" y="590" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">身体・精神・知性・社会情緒の4つの側面を</text>
+  <text x="250" y="605" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">バランスよく向上させる</text>
+  
+  <!-- Arrows to Habit 7 -->
+  <path d="M 210 480 L 180 520" stroke="#5D737E" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+  <path d="M 590 480 L 620 520" stroke="#5D737E" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+  <defs>
+    <marker id="arrowhead2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5D737E"/>
+    </marker>
+  </defs>
+  
+  <!-- Relationship Structure -->
+  <rect x="40" y="680" width="720" height="120" rx="10" fill="#FFF3E0" stroke="#F18F01" stroke-width="2"/>
+  <text x="60" y="705" fill="#2E4057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">🔄 概念間の関係性</text>
+  
+  <!-- Flow diagram -->
+  <rect x="80" y="720" width="120" height="40" rx="5" fill="#F18F01" opacity="0.8"/>
+  <text x="140" y="745" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">私的成功</text>
+  
+  <path d="M 200 740 L 240 740" stroke="#2E4057" stroke-width="2" fill="none" marker-end="url(#arrowhead3)"/>
+  
+  <rect x="250" y="720" width="120" height="40" rx="5" fill="#2E86AB" opacity="0.8"/>
+  <text x="310" y="745" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">公的成功</text>
+  
+  <path d="M 370 740 L 410 740" stroke="#2E4057" stroke-width="2" fill="none" marker-end="url(#arrowhead3)"/>
+  
+  <rect x="420" y="720" width="120" height="40" rx="5" fill="#5D737E" opacity="0.8"/>
+  <text x="480" y="745" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">継続的改善</text>
+  
+  <!-- Spiral arrow back -->
+  <path d="M 540 730 Q 600 680 580 720 Q 560 760 520 750" stroke="#5D737E" stroke-width="2" fill="none" stroke-dasharray="5,5" marker-end="url(#arrowhead3)"/>
+  <text x="580" y="700" fill="#5D737E" font-family="Arial, sans-serif" font-size="10">スパイラル構造</text>
+  
+  <defs>
+    <marker id="arrowhead3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2E4057"/>
+    </marker>
+  </defs>
+  
+  <!-- Key Points Summary -->
+  <rect x="40" y="830" width="720" height="100" rx="10" fill="#E8F5E8" stroke="#4CAF50" stroke-width="2"/>
+  <text x="60" y="855" fill="#2E4057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">📋 章別要点まとめ</text>
+  <text x="60" y="875" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">• 私的成功（習慣1-3）が公的成功（習慣4-6）の基礎となる</text>
+  <text x="60" y="895" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">• 刃を研ぐ（習慣7）で継続的改善を図り、すべての習慣を支える</text>
+  <text x="60" y="915" fill="#2E4057" font-family="Arial, sans-serif" font-size="12">• 相互依存のパラダイムで真の効果性を実現</text>
+  
+  <!-- Conclusion -->
+  <rect x="40" y="960" width="720" height="120" rx="10" fill="#FFF8E1" stroke="#FF9800" stroke-width="2"/>
+  <text x="60" y="985" fill="#2E4057" font-family="Arial, sans-serif" font-size="14" font-weight="bold">💡 本書の結論</text>
+  <rect x="80" y="1000" width="640" height="60" rx="5" fill="#FF9800" opacity="0.1"/>
+  <text x="400" y="1020
+    </div>
+</body>
+</html>

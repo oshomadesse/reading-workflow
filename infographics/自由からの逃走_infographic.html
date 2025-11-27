@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自由からの逃走 - エーリッヒ・フロム</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .author {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .tab-button.active {
+            background: #f093fb;
+            color: #333;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #f093fb;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe8d0 100%);
+            border-left-color: #764ba2;
+        }
+        
+        .concept-card h3 {
+            color: #764ba2;
+        }
+        
+        .quote-card {
+            background: linear-gradient(135deg, #f0fff8 0%, #d0ffe8 100%);
+            border-left-color: #f093fb;
+            font-style: italic;
+        }
+        
+        .quote-card h3 {
+            color: #f093fb;
+        }
+        
+        .structure-diagram {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            position: relative;
+            max-width: 300px;
+            text-align: center;
+        }
+        
+        .flow-step:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f093fb;
+        }
+        
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            position: relative;
+        }
+        
+        .venn-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .circle1 {
+            background: #667eea;
+            left: -30px;
+        }
+        
+        .circle2 {
+            background: #764ba2;
+            right: -30px;
+        }
+        
+        .circle3 {
+            background: #f093fb;
+            top: 80px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 200px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-chart {
+                gap: 30px;
+            }
+            
+            .venn-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 自由からの逃走</h1>
+            <div class="author">エーリッヒ・フロム</div>
+        </header>
+        
+        <nav class="tabs" role="tablist">
+            <button class="tab-button active" onclick="showTab('overview')" role="tab" aria-selected="true">📖 概要</button>
+            <button class="tab-button" onclick="showTab('concepts')" role="tab" aria-selected="false">🔑 主要概念</button>
+            <button class="tab-button" onclick="showTab('structure')" role="tab" aria-selected="false">📊 構造分析</button>
+            <button class="tab-button" onclick="showTab('quotes')" role="tab" aria-selected="false">💭 重要な引用</button>
+            <button class="tab-button" onclick="showTab('practice')" role="tab" aria-selected="false">🎯 実践への示唆</button>
+        </nav>
+        
+        <div id="overview" class="tab-content active" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 核心的メッセージ</h3>
+                    <ul>
+                        <li>近代人は中世的束縛から「〜からの自由」を獲得</li>
+                        <li>しかし個人を孤独と無力感に陥れる結果に</li>
+                        <li>耐えがたい不安から自発的に自由を放棄</li>
+                        <li>新たな権威や全体主義への服従を選択</li>
+                        <li>真の自由は「〜への自由」の実現にある</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⚡ なぜナチズムが台頭したのか</h3>
+                    <ul>
+                        <li>経済的・政治的要因だけでは説明不可能</li>
+                        <li>大衆の心理的要因が重要な鍵</li>
+                        <li>自由の重圧から逃れたい欲求</li>
+                        <li>指導者への盲目的服従で安心感を獲得</li>
+                        <li>社会心理学的分析の必要性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔄 自由の両義性</h3>
+                    <ul>
+                        <li>束縛からの解放は個人の独立を可能に</li>
+                        <li>同時に精神的拠り所を失わせる</li>
+                        <li>深刻な孤独と不安を生み出す</li>
+                        <li>自由は重荷となり得る</li>
+                        <li>新たな形の自由が必要</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="structure-diagram">
+                <h3>🔄 自由からの逃走メカニズム</h3>
+                <div class="flow-chart">
+                    <div class="flow-step">中世的束縛からの解放<br>「〜からの自由」獲得</div>
+                    <div class="flow-step">孤独感・無力感・不安<br>の増大</div>
+                    <div class="flow-step">耐えがたい心理的状態</div>
+                    <div class="flow-step">自由からの逃走<br>権威への服従</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="concepts" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="concept-card">
+                    <h3>🏃 自由からの逃走</h3>
+                    <ul>
+                        <li>孤独と無力感に耐えられない心理状態</li>
+                        <li>自ら自由を手放す選択</li>
+                        <li>新たな権威や全体主義への服従</li>
+                        <li>安心感を得るための心理的メカニズム</li>
+                        <li>ナチズムへの大衆熱狂を説明する核心概念</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>⛓️ 〜からの自由（消極的自由）</h3>
+                    <ul>
+                        <li>封建的身分制度からの解放</li>
+                        <li>教会権威からの独立</li>
+                        <li>外部束縛からの自由</li>
+                        <li>個人の独立を可能にする</li>
+                        <li>精神的拠り所の喪失も招く</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🌟 〜への自由（積極的自由）</h3>
+                    <ul>
+                        <li>自己の個性を完全に実現</li>
+                        <li>自発的な愛と創造的な仕事</li>
+                        <li>他者や世界との一体感</li>
+                        <li>独立性を維持しながらのつながり</li>
+                        <li>フロムが目指すべき理想とした自由</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>👑 権威主義的性格</h3>
+                    <ul>
+                        <li>サディズム的傾向：他者支配で力を確認</li>
+                        <li>マゾヒズム的傾向：権威への服従</li>
+                        <li>孤独感からの逃避が根源</li>
+                        <li>支配と服従の表裏一体関係</li>
+                        <li>自由の重圧から逃れる形態</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🤖 機械的画一性</h3>
+                    <ul>
+                        <li>周囲の期待や社会標準への同調</li>
+                        <li>没個性化による孤独感回避</li>
+                        <li>「偽りの自己」の形成</li>
+                        <li>自発的思考・感情の喪失</li>
+                        <li>現代社会で最も一般的な逃走形態</li>
+                    </ul>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>✨ 自発性</h3>
+                    <ul>
+                        <li>愛や仕事における創造的活動</li>
+                        <li>個人の全体性から生まれる自由な活動</li>
+                        <li>外部強制や内なる不安に駆られない</li>
+                        <li>自己の内発的力に基づく行動</li>
+                        <li>積極的自由を実現するための鍵</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="structure-diagram">
+                <h3>🔗 概念間の関係性</h3>
+                <div class="venn-diagram">
+                    <div class="venn-circle circle1">消極的自由<br>（束縛からの解放）</div>
+                    <div class="venn-circle circle2">逃走メカニズム<br>（権威主義・画一性）</div>
+                    <div class="venn-circle circle3">積極的自由<br>（自発性の実現）</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="structure" class="tab-content" role="tabpanel">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div>章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>主要逃走メカニズム</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div>自由の種類</div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📖 第1章：自由―心理学的な問題か？</h3>
+                    <ul>
+                        <li>なぜ自由は重荷になるのか？</li>
+                        <li>ファシズム台頭の心理的要因</li>
+                        <li>経済・政治的要因だけでは不十分</li>
+                        <li>人間の心理的要因の重要性</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🏰 第2章：個人の解放と自由の両義性</h3>
+                    <ul>
+                        <li>中世社会の安定と束縛</li>
+                        <li>宗教改革と資本主義の勃興</li>
+                        <li>個人解放と孤独・不安の増大</li>
+                        <li>歴史的過程の分析</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>⛪ 第3章：宗教改革時代の自由</h3>
+                    <ul>
+                        <li>ルターとカルヴァンの教義</li>
+                        <li>個人の無力感の強調</li>
+                        <li>神への絶対的服従</li>
+                        <li>権威主義的性格の起源</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🏭 第4章：近代人における自由の二つの側面</h3>
+                    <ul>
+                        <li>近代資本主義の外的自由拡大</li>
+                        <li>人間を経済システムの歯車化</li>
+                        <li>内面的無力感の増大</li>
+                        <li>自由の矛盾の指摘</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🏃 第5章：逃走のメカニズム</h3>
+                    <ul>
+                        <li>権威主義的性格</li>
+                        <li>破壊性</li>
+                        <li>機械的画一性</li>
+                        <li>3つの主要な心理的メカニズム</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🇩🇪 第6章：ナチズムの心理</h3>
+                    <ul>
+                        <li>ドイツ中産階級の心理分析</li>
+                        <li>ナチズムへの惹きつけられる理由</li>
+                        <li>権威主義的性格を軸とした分析</li>
+                        <li>ヒトラーへの服従過程</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🗳️ 第7章：自由とデモクラシー</h3>
+                    <ul>
+                        <li>現代民主主義社会への警告</li>
+                        <li>機械的画一性の蔓延</li>
+                        <li>真の自由（積極的自由）の実現</li>
+                        <li>解決策の提示</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quotes" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="quote-card">
+                    <h3>💭 自由の両義性について</h3>
+                    <ul>
+                        <li>「近代人は、かれを縛っていた伝統的な社会の絆から解放された」</li>
+                        <li>「しかし、かれはまだ、合理的な世界における自己の積極的な実現としての積極的な自由を達成することを学んでいなかった」</li>
+                        <li>「かれは多くの自由を得たが、しかし、かれは途方にくれている」</li>
+                        <li>束縛からの解放は達成したが次の段階に進めない</li>
+                        <li>大海原に一人で放り出されたような孤独と不安</li>
+                    </ul>
+                </div>
+                
+                <div class="quote-card">
+                    <h3>👑 権威主義的性格の本質</h3>
+                    <ul>
+                        <li>「権威主義的性格の本質は、サディズム的傾向とマゾヒズム的傾向との同時的な存在にある」</li>
+                        <li>「サディストはマゾヒストと同じように、孤独感に苦しんでおり」</li>
+                        <li>「かれの衝動は、この孤独感から逃れようとする欲求にその根源をもっている」</li>
+                        <li>支配と服従は同じ根を持つ心理の表裏一体</li>
+                        <li>権威主義の本質を鋭く突いた指摘</li>
+                    </ul>
+                </div>
+                
+                <div class="quote-card">
+                    <h3>🤖 機械的画一性の危険性</h3>
+                    <ul>
+                        <li>「現代人は、かれが欲求していると思っていることの多くが」</li>
+                        <li>「実は社会的に暗示され、かれに期待されているにすぎない」</li>
+                        <li>「ということを、はっきりとさとらないかぎり、個性の問題は解決されないだろう」</li>
+                        <li>自分の意思と思っているものが外部の力による操作</li>
+                        <li>「偽りの自己」で生きることの空虚さ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="practice" class="tab-content" role="tabpanel">
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🪞 自分の「本当の感情」と向き合う</h3>
+                    <ul>
+                        <li>周囲の意見や社会の期待に流されていないか内省</li>
+                        <li>自分が本当に何を感じ、何を望んでいるか確認</li>
+                        <li>日記をつけたり一人で静かに考える時間を作る</li>
+                        <li>「機械的画一性」から脱却する第一歩</li>
+                        <li>真の自己との対話を重視</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🎨 創造的な活動に没頭する</h3>
+                    <ul>
+                        <li>マニュアル通りでなく自分なりの工夫を試みる</li>
+                        <li>絵を描く、文章を書く、料理をするなど</li>
+                        <li>結果が保証されていなくても自発的に創造</li>
+                        <li>「〜への自由」を実感し自己肯定感を高める</li>
+                        <li>創造性を通じた自己実現</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤝 対等な人間関係を築く</h3>
+                    <ul>
+                        <li>他者を支配したり誰かに依存しない関係</li>
+                        <li>互いの個性を尊重し合える対等な関係性</li>
+                        <li>相手の意見に真摯に耳を傾ける</li>
+                        <li>自分の考えも率直に伝える対話</li>
+                        <li>孤独ではない「つながり」を育む</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 関連書籍で理解を深める</h3>
+                    <ul>
+                        <li>「全体主義の起原」（ハンナ・アーレント）</li>
+                        <li>「孤独な群衆」（デイヴィッド・リースマン）</li>
+                        <li>「夜と霧」（ヴィクトール・フランクル）</li>
+                        <li>「自由論」（ジョン・スチュアート・ミル）</li>
+                        <li>多角的な視点で自由の概念を理解</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イシューからはじめよ - 完全ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -20px -20px 30px -20px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header .author {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: calc(50% - 2.5px);
+            padding: 12px 8px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .chapter {
+            background: linear-gradient(135deg, #fff8f0 0%, #fff0e6 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff9500;
+        }
+
+        .chapter h4 {
+            color: #ff9500;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .framework {
+            background: linear-gradient(135deg, #f0fff8 0%, #e6fff0 100%);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #00c851;
+        }
+
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 10px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #00c851 0%, #00a041 100%);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .action-item {
+            background: linear-gradient(135deg, #fff0f8 0%, #ffe6f0 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .action-item h4 {
+            color: #e91e63;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .book-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .book-item {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f0ff 100%);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #2196f3;
+            font-size: 0.9rem;
+        }
+
+        .overview-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .value-formula {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .dog-path {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .dog-path h4 {
+            color: #f44336;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tab-button {
+                font-size: 0.8rem;
+                padding: 10px 6px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 イシューからはじめよ</h1>
+            <div class="author">知的生産の「プロ」になる - 安宅和人</div>
+            <div style="font-size: 0.9rem; opacity: 0.8;">生産性を飛躍的に高める思考法の完全ガイド</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')">📖 概要</button>
+            <button class="tab-button" onclick="showTab('keypoints')">💡 要点</button>
+            <button class="tab-button" onclick="showTab('outline')">📋 章構成</button>
+            <button class="tab-button" onclick="showTab('framework')">🔧 手法</button>
+            <button class="tab-button" onclick="showTab('actions')">✅ 実践</button>
+            <button class="tab-button" onclick="showTab('related')">📚 関連書籍</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h3><span class="icon">📖</span>本書の概要</h3>
+                <div class="overview-text">
+                    本書は、生産性の高い知的生産を行うための思考法と実践術を説く一冊である。多くの人が陥りがちな、課題の質（イシュー度）を問わずにがむしゃらに作業量をこなす「犬の道」を批判し、まず「何を解くべきか」という本質的な課題（イシュー）を見極めることの重要性を強調する。
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><span class="icon">💰</span>仕事の価値の公式</h3>
+                <div class="value-formula">
+                    仕事の価値 = イシュー度 × 解の質
+                </div>
+                <p style="text-align: center; color: #666; margin-top: 10px;">
+                    まず「イシュー度」を高めることが最重要！
+                </p>
+            </div>
+
+            <div class="card">
+                <h3><span class="icon">⚠️</span>避けるべき「犬の道」</h3>
+                <div class="dog-path">
+                    <h4>🐕 犬の道とは？</h4>
+                    <p>イシュー度を問わず、労働量でアウトプットの質をカバーしようとする働き方</p>
+                    <p style="margin-top: 10px; font-weight: bold;">→ これを徹底的に避けるべき！</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><span class="icon">🎯</span>本書が提供する価値</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px;">✅ イシューの特定方法</li>
+                    <li style="margin-bottom: 10px;">✅ 仮説構築のプロセス</li>
+                    <li style="margin-bottom: 10px;">✅ 分析設計（ストーリーライン・絵コンテ）</li>
+                    <li style="margin-bottom: 10px;">✅ 効果的なアウトプット作成</li>
+                    <li style="margin-bottom: 10px;">✅ メッセージの伝達技術</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="keypoints" class="tab-content">
+            <div class="card">
+                <h3><span class="icon">💡</span>7つの核心ポイント</h3>
+                
+                <div class="key-point">
+                    <strong>1. 価値の公式</strong><br>
+                    仕事の価値は「イシュー度（課題の質）」と「解の質（答えの質）」の掛け算で決まる。まず、取り組むべき本質的な課題を見極めることが最も重要である。
+                </div>
+
+                <div class="key-point">
+                    <strong>2. 犬の道を避ける</strong><br>
+                    イシュー度を問わず、労働量でアウトプットの質をカバーしようとする働き方を「犬の道」と呼び、これを徹底的に避けるべきだと説く。
+                </div>
+
+                <div class="key-point">
+                    <strong>3. 仮説ファースト</strong><br>
+                    イシューを特定したら、いきなり分析を始めるのではなく、まず「スタンスをとった仮説」を立てる。これにより無駄な作業を大幅に削減できる。
+                </div>
+
+                <div class="key-point">
+                    <strong>4. 逆算思考</strong><br>
+                    いきなり作業に着手せず、最終的なアウトプットから逆算して考える。仮説を検証するための分析イメージを具体的な図表のラフ（絵コンテ）まで落とし込む。
+                </div>
+
+                <div class="key-point">
+                    <strong>5. 悩む vs 考える</strong><br>
+                    「悩む」とは答えが出ないことを前提に堂々巡りすること、「考える」とは答えが出ることを前提に建設的に思考を進めること。この2つを明確に区別する。
+                </div>
+
+                <div class="key-point">
+                    <strong>6. 一次情報の重要性</strong><br

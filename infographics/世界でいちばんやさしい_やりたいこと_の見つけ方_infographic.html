@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界でいちばんやさしい「やりたいこと」の見つけ方</title>
+    <!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text: #333;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .header .author {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card li:before {
+            content: "▶";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .formula-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .formula {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .three-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pillar {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--accent);
+        }
+
+        .pillar-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .pillar h4 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .quote-card:before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .venn-diagram {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        .circle {
+            fill: rgba(102, 126, 234, 0.3);
+            stroke: var(--primary);
+            stroke-width: 2;
+        }
+
+        .circle.secondary {
+            fill: rgba(118, 75, 162, 0.3);
+            stroke: var(--secondary);
+        }
+
+        .circle.accent {
+            fill: rgba(240, 147, 251, 0.3);
+            stroke: var(--accent);
+        }
+
+        .action-list {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+        }
+
+        .action-number {
+            background: var(--accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .formula {
+                font-size: 1.2rem;
+            }
+
+            .three-pillars {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 世界でいちばんやさしい「やりたいこと」の見つけ方</h1>
+            <div class="author">著者: 八木仁平</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')" aria-label="概要タブ">🎯 概要</button>
+            <button class="tab-button" onclick="showTab('method')" aria-label="メソッドタブ">⚙️ メソッド</button>
+            <button class="tab-button" onclick="showTab('structure')" aria-label="構造タブ">📖 構造</button>
+            <button class="tab-button" onclick="showTab('quotes')" aria-label="名言タブ">💭 名言</button>
+            <button class="tab-button" onclick="showTab('action')" aria-label="実践タブ">🚀 実践</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="formula-card">
+                <h2>🎯 核心メッセージ</h2>
+                <div class="formula">
+                    大事なこと × 得意なこと × 好きなこと<br>
+                    = 本当にやりたいこと
+                </div>
+                <p>「やりたいこと」は外の世界を探すのではなく、自分の内面を深く掘り下げて発見するもの</p>
+            </div>
+
+            <div class="three-pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">🎯</div>
+                    <h4>大事なこと（Why）</h4>
+                    <ul>
+                        <li>行動の動機となる価値観</li>
+                        <li>実現したい状態や世界</li>
+                        <li>人生の方向性を決める羅針盤</li>
+                        <li>仕事における「目的」</li>
+                    </ul>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">⚡</div>
+                    <h4>得意なこと（How）</h4>
+                    <ul>
+                        <li>自然と人より上手くできること</li>
+                        <li>無意識に使える思考・行動パターン</li>
+                        <li>生産性と満足度を高める強み</li>
+                        <li>仕事における「手段」</li>
+                    </ul>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">❤️</div>
+                    <h4>好きなこと（What）</h4>
+                    <ul>
+                        <li>知的好奇心が向かう分野</li>
+                        <li>時間を忘れて没頭できるテーマ</li>
+                        <li>エネルギーの源泉</li>
+                        <li>仕事における「対象分野」</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔍 自己理解の重要性</h3>
+                <ul>
+                    <li>多くの人が陥る「やりたいこと探し」の迷宮から脱出</li>
+                    <li>外部環境の変化に惑わされない自分軸の確立</li>
+                    <li>心からの充実感と納得感を持って取り組める活動の発見</li>
+                    <li>キャリア選択や日々の意思決定における「人生のコンパス」の獲得</li>
+                </ul>
+            </div>
+
+            <svg class="venn-diagram" viewBox="0 0 400 300">
+                <circle class="circle" cx="150" cy="120" r="80"/>
+                <circle class="circle secondary" cx="250" cy="120" r="80"/>
+                <circle class="circle accent" cx="200" cy="200" r="80"/>
+                <text x="120" y="80" fill="var(--primary)" font-weight="bold" font-size="12">大事なこと</text>
+                <text x="260" y="80" fill="var(--secondary)" font-weight="bold" font-size="12">得意なこと</text>
+                <text x="170" y="250" fill="var(--accent)" font-weight="bold" font-size="12">好きなこと</text>
+                <text x="185" y="140" fill="var(--text)" font-weight="bold" font-size="14">やりたい</text>
+                <text x="190" y="155" fill="var(--text)" font-weight="bold" font-size="14">こと</text>
+            </svg>
+        </div>
+
+        <div id="method" class="tab-content">
+            <div class="card">
+                <h3>🎯 自己理解メソッドの全体像</h3>
+                <ul>
+                    <li>「探す」のではなく「見つける」という発想転換</li>
+                    <li>3つの要素を特定し統合するフレームワーク</li>
+                    <li>数多くの具体的質問による自己分析</li>
+                    <li>言語化を通じた自己理解の深化</li>
+                </ul>
+            </div>
+
+            <div class="process-flow">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>🎯 大事なこと（価値観）の発見</h4>
+                        <p>幼少期の経験や嫉妬を感じる対象から根源的欲求を特定</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>⚡ 得意なこと（才能）の発見</h4>
+                        <p>友人への質問や成功体験から再現性のある強みを明確化</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>❤️ 好きなこと（情熱）の発見</h4>
+                        <p>興味や情報収集の傾向から好奇心の方向性を探求</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>🎯 統合と定義</h4>
+                        <p>3要素を組み合わせて「本当にやりたいこと」を文章化</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 よくある間違いと解決策</h3>
+                <ul>
+                    <li>❌ 運命的なものがあるはず → ✅ 自分で作り上げるもの</li>
+                    <li>❌ 一生続けられることを探す → ✅ 今の自分に合うものから始める</li>
+                    <li>❌ 人に言えるものでないと → ✅ 自分が納得できればOK</li>
+                    <li>❌ 見つからないのは努力不足 → ✅ 正しい方法で取り組む</li>
+                    <li>❌ やりたいことを仕事にしてはいけない → ✅ 適切に統合すれば可能</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="card">
+                <h3>📖 プロローグ＆第1章</h3>
+                <ul>
+                    <li>「やりたいこと」を見つけられない5つの間違いを指摘</li>
+                    <li>自己理解を通じて「人生のコンパス」を手に入れる目的を宣言</li>
+                    <li>外の世界ではなく内面に答えがあることを提示</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🎯 第2章: STEP1「大事なこと」を見つける</h3>
+                <ul>
+                    <li>自分の根源的な欲求である「価値観」を特定</li>
+                    <li>幼少期の経験や嫉妬を感じる対象からの分析</li>
+                    <li>人生で最も大切にしているもの（Why）を言語化</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>⚡ 第3章: STEP2「得意なこと」を見つける</h3>
+                <ul>
+                    <li>短所克服ではなく長所に焦点を当てる</li>
+                    <li>友人への質問や過去の成功体験の分析</li>
+                    <li>再現性のある思考・行動パターン（How）を明確化</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>❤️ 第4章: STEP3「好きなこと」を見つける</h3>
+                <ul>
+                    <li>情熱の源泉となる「好きなこと」の分野を特定</li>
+                    <li>現在の興味や情報収集の傾向をリストアップ</li>
+                    <li>好奇心がどの分野（What）に向いているかを探求</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🚀 第5章＆エピローグ</h3>
+                <ul>
+                    <li>3要素を公式に当てはめて「本当にやりたいこと」を文章化</li>
+                    <li>完璧な正解ではなく「仮決め」として設定</li>
+                    <li>行動しながら検証・修正していく「育てていく」姿勢の重要性</li>
+                </ul>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>核心要素</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div>章構成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div>可能性</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <div class="quote-card">
+                <div class="quote-text">やりたいことは、探すものではなく、見つけるもの。あなたの中にすでにあるものだから。</div>
+                <div>💡 外の世界ではなく自分自身の内面に答えがあるというパラダイムシフト</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">「大事なこと」×「得意なこと」×「好きなこと」＝「本当にやりたいこと」</div>
+                <div>🎯 複雑な「やりたいこと」を3つのシンプルな構成要素に分解した公式</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">まず決める。そして正解にしていく。</div>
+                <div>🚀 完璧主義から脱し、行動を通じて検証・修正していく重要性</div>
+            </div>
+
+            <div class="card">
+                <h3>📚 関連書籍</h3>
+                <ul>
+                    <li>📝 メモの魔力（前田裕二）- 日常から自己分析を深める</li>
+                    <li>💪 ストレングス・ファインダー2.0（トム・ラス）- 才能の客観的診断</li>
+                    <li>🔬 科学的な適職（鈴木祐）- エビデンスに基づく仕事選び</li>
+                    <li>🔄 LIFE SHIFT（リンダ・グラットン）- 人生100年時代のキャリア戦略</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="action" class="tab-content">
+            <div class="action-list">
+                <h3>🚀 実践ステップ</h3>
+                
+                <div class="action-item">
+                    <div class="action-number">1</div>
+                    <div>
+                        <h4>📝 3要素のキーワード抽出</h4>
+                        <p>「大事なこと」「得意なこと」「好きなこと」のキーワードをそれぞれ5つ以上書き出す。時間をかけて丁寧に自己分析を行う。</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-number">2</div>
+                    <div>
+                        <h4>🎯 やりたいことの文章化</h4>
+                        <p>「私は、[大事なこと]を、[好きなこと]の分野で、[得意なこと]を活かして実現する」のフォーマットで3パターン作成し、最もしっくりくるものを選ぶ。</p>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-number">3</div>
+                    <div>
+                        <h4>⚡ 小さな行動の実行</h4>
+                        <p>1時間以内で完了できる関連行動（書籍を読む、イベント参加、人に話を聞く）をリストアップし、すぐに1つ実行する。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 継続的な改善プロセス</h3>
+                <ul>
+                    <li>仮説として設定した「やりたいこと」を絶対視しない</li>
+                    <li>行動を通じて得た気づきを元に定期的に見直す</li>
+                    <li>完璧を求めず、「育てていく」姿勢を持つ</li>
+                    <li>外部環境の変化に応じて柔軟に調整する</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>💡 成功のポイント</h3>
+                <ul>
+                    <li>自己分析に十分な時間をかける（急がない）</li>
+                    <li>他人の意見に惑わされず自分の感覚を大切にする</li>
+                    <li>小さな行動から始めて徐々に拡大していく</li>
+                    <li>定期的に振り返りと修正を行う習慣をつける</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // すべてのタブコンテンツを非表示
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // すべてのタブボタンを非アクティブ
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 選択されたタブを表示
+            document.getElementById(tabName).classList.add('active');
+            
+            // 対応するボタンをアクティブ
+            event.target.classList.add('active');
+
+            // アクセシビリティ属性の更新
+            buttons.forEach(button => {
+                button.setAttribute('aria-selected', 'false');
+            });
+            event.target.setAttribute('aria-selected', 'true');
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstButton = document.querySelector('.tab-button');
+            if (firstButton) {
+                firstButton.setAttribute('aria-selected', 'true');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書籍インフォグラフィック</title>
+    <style>
+        :root {
+            --primary: #1A2A80;
+            --secondary: #7A85C1;
+            --accent: #B2B0E8;
+            --background-primary: #FFFFFF;
+            --background-secondary: #FAFBFF;
+            --background-tertiary: #F4F6FF;
+            --text-primary: #1A2A80;
+            --text-secondary: #5A6B9C;
+            --text-tertiary: #8B9BB8;
+            --border-light: #E8EBFF;
+            --shadow-light: 0 1px 3px rgba(26, 42, 128, 0.08);
+            --shadow-medium: 0 4px 12px rgba(26, 42, 128, 0.12);
+            --shadow-heavy: 0 8px 24px rgba(26, 42, 128, 0.16);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --radius-large: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: var(--background-secondary);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(178, 176, 232, 0.1) 0%, transparent 50%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .header .author {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .header .category {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--background-primary);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-tabs {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 0.25rem;
+            min-width: max-content;
+            padding: 0.75rem 0;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-large);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--background-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 1rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeInUp 0.4s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--background-primary);
+            border-radius: var(--radius-large);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .card-highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .card-highlight .card-title {
+            color: white;
+        }
+
+        .card-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+
+        .card-highlight .card-content {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Concept Items */
+        .concept-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .concept-item {
+            background: var(--background-primary);
+            border-radius: var(--radius-medium);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .concept-item:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .concept-term {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-english {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .concept-definition {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* Relationship Diagram */
+        .relationship-center {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: var(--primary);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-medium);
+            border: 2px solid var(--border-light);
+        }
+
+        .relationship-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .relationship-item {
+            background: var(--background-primary);
+            border-radius: var(--radius-medium);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .relationship-item::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+
+        .relationship-type {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: var(--background-primary);
+            padding: 1.5rem;
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--background-primary);
+            box-shadow: 0 0 0 2px var(--border-light);
+        }
+
+        .timeline-chapter {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Quote Cards */
+        .quote-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .quote-card {
+            background: var(--background-tertiary);
+            border-radius: var(--radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.4;
+            font-family: Georgia, serif;
+        }
+
+        .quote-text {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            margin-left: 2rem;
+        }
+
+        .quote-commentary {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Action Items */
+        .action-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-item {
+            background: var(--background-primary);
+            border-radius: var(--radius-medium);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            position: relative;
+        }
+
+        .action-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+        }
+
+        .action-item:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .action-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Book Items */
+        .book-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .book-item {
+            background: var(--background-primary);
+            border-radius: var(--radius-medium);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .book-item:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .book-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-author {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .book-reason {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* Floating Elements */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        .floating-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-heavy);
+            font-weight: 700;
+            font-size: 0.875rem;
+            z-index: 200;
+            border: 2px solid var(--background-primary);
+        }
+
+        /* Safe Areas */
+        .safe-area {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .nav-item {
+                padding: 0.625rem 1rem;
+                font-size: 0.8125rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            .timeline {
+                padding-left: 1.5rem;
+            }
+            
+            .timeline-item::before {
+                left: -27px;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #7A85C1;
+                --secondary: #B2B0E8;
+                --accent: #E0DFFF;
+                --background-primary: #1A1B2E;
+                --background-secondary: #16213E;
+                --background-tertiary: #0F3460;
+                --text-primary: #E0DFFF;
+                --text-secondary: #B2B0E8;
+                --text-tertiary: #7A85C1;
+                --border-light: #2A3B7D;
+                --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.3);
+                --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.4);
+                --shadow-heavy: 0 8px 24px rgba(0, 0, 0, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>【書籍タイトル】</h1>
+                <div class="author">【著者名】</div>
+                <div class="category">【カテゴリー】</div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <nav class="nav-tabs">
+                <div class="nav-list">
+                    <button class="nav-item active" data-section="core">📍 核心</button>
+                    <button class="nav-item" data-section="concepts">🔑 概念</button>
+                    <button class="nav-item" data-section="relationships">🔗 関係性</button>
+                    <button class="nav-item" data-section="structure">📚 構造</button>
+                    <button class="nav-item" data-section="quotes">💬 引用</button>
+                    <button class="nav-item" data-section="practice">⚡ 実践</button>
+                    <button class="nav-item" data-section="related">📖 関連書籍</button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Core Message Section -->
+            <section id="core" class="section active">
+                <div class="section-header">
+                    <h2 class="section-title">核心的メッセージ</h2>
+                    <p class="section-subtitle">著者の主張と中心テーマ</p>
+                </div>
+                
+                <div class="card card-highlight">
+                    <h3 class="card-title">中心テーマ</h3>
+                    <div class="card-content">【核心的メッセージをここに記載】</div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">エグゼクティブ・サマリー</h3>
+                    <div class="card-content">【エグゼクティブサマリーをここに記載】</div>
+                </div>
+            </section>
+
+            <!-- Concepts Section -->
+            <section id="concepts" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">主要概念</h2>
+                    <p class="section-subtitle">キーワードと定義</p>
+                </div>
+                
+                <div class="concept-list">
+                    <div class="concept-item">
+                        <div class="concept-term">【概念名】</div>
+                        <div class="concept-english">【英語表記】</div>
+                        <div class="concept-definition">【概念の定義・説明】</div>
+                    </div>
+                    <!-- 追加の概念アイテム -->
+                </div>
+            </section>
+
+            <!-- Relationships Section -->
+            <section id="relationships" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">概念間の関係性</h2>
+                    <p class="section-subtitle">つながりと因果関係</p>
+                </div>
+                
+                <div class="relationship-center">【中心概念】</div>
+                
+                <div class="relationship-grid">
+                    <div class="relationship-item">
+                        <div class="relationship-type">【関係性のタイプ】</div>
+                        <div>【関係性の説明】</div>
+                    </div>
+                    <!-- 追加の関係性アイテム -->
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 class="card-title">因果関係の全体像</h3>
+                    <div class="card-content">【概念間の因果関係や全体的な関係性の説明】</div>
+                </div>
+            </section>
+
+            <!-- Structure Section -->
+            <section id="structure" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">構造と論理展開</h2>
+                    <p class="section-subtitle">章立てと流れ</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-chapter">【章・セクション名】</div>
+                        <div>【章の要約・重要ポイント】</div>
+                    </div>
+                    <!-- 追加のタイムラインアイテム -->
+                </div>
+            </section>
+
+            <!-- Quotes Section -->
+            <section id="quotes" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">重要な引用</h2>
+                    <p class="section-subtitle">印象的な言葉と解説</p>
+                </div>
+                
+                <div class="quote-container">
+                    <div class="quote-card">
+                        <div class="quote-text">【重要な引用文】</div>
+                        <div class="quote-commentary">【引用の解説・意義】</div>
+                    </div>
+                    <!-- 追加の引用カード -->
+                </div>
+            </section>
+
+            <!-- Practice Section -->
+            <section id="practice" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">実践への示唆</h2>
+                    <p class="section-subtitle">具体的なアクション</p>
+                </div>
+                
+                <div class="action-grid">
+                    <div class="action-item">
+                        <div class="action-title">【実践アクション名】</div>
+                        <div>【具体的な実践方法・応用の説明】</div>
+                    </div>
+                    <!-- 追加のアクションアイテム -->
+                </div>
+            </section>
+
+            <!-- Related Books Section -->
+            <section id="related" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">関連書籍</h2>
+                    <p class="section-subtitle">さらなる探求のために</p>
+                </div>
+                
+                <div class="book-grid">
+                    <div class="book-item">
+                        <div class="book-title">【書籍タイトル】</div>
+                        <div class="book-author">【著者名】</div>
+                        <div class="book-reason">【推薦理由・関連性の説明】</div>
+                    </div>
+                    <!-- 追加の書籍アイテム -->
+                </div>
+            </section>
+            
+        </main>
+        
+        <div class="safe-area"></div>
+    </div>
+
+    <!-- Floating Indicator -->
+    <div class="floating-indicator" id="floatingIndicator">1</div>
+
+    <script>
+        // Navigation and Section Management
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+        const floatingIndicator = document.getElementById('floatingIndicator');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        function showSection(targetId) {
+            // Hide all sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Activate corresponding nav item
+            const activeNavItem = document.querySelector(`[data-section="${targetId}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+
+            // Update floating indicator
+            const sectionIndex = Array.from(sections).findIndex(section => section.id === targetId) + 1;
+            floatingIndicator.textContent = sectionIndex;
+
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Navigation click events
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetSection = item.getAttribute('data-section');
+                showSection(targetSection);
+            });
+        });
+
+        // Scroll indicator
+        function updateScrollIndicator() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollIndicator.style.width = `${Math.min(scrollPercent, 100)}%`;
+        }
+
+        // Optimized scroll event
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateScrollIndicator();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll);
+
+        // Touch swipe navigation
+        let startX = 0;
+        let startY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (!startX || !startY) return;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            // Only handle horizontal swipes
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                const currentActive = document.querySelector('.nav-item.active');
+                const currentIndex = Array.from(navItems).indexOf(currentActive);
+                
+                if (diffX > 0 && currentIndex < navItems.length - 1) {
+                    // Swipe left (next section)
+                    navItems[currentIndex + 1].click();
+                } else if (diffX < 0 && currentIndex > 0) {
+                    // Swipe right (previous section)
+                    navItems[currentIndex - 1].click();
+                }
+            }
+
+            startX = 0;
+            startY = 0;
+        }, { passive: true });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateScrollIndicator();
+        });
+    </script>
+</body>
+</html>

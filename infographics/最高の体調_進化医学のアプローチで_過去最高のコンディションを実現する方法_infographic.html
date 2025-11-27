@@ -1,0 +1,156 @@
+以下に、要件に沿ったインフォグラフィックのHTML、CSS、JavaScriptコードを提供します。このコードは、「沈黙の春」の主要な概念を視覚的に表現し、タブ切り替え機能を実装しています。
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沈黙の春 - インフォグラフィック</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            padding: 20px;
+            margin: 0;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        .tabs {
+            display: flex;
+            background-color: #ecf0f1;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background-color: #ecf0f1;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab-button:hover, .tab-button.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .concept {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .concept h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .quote {
+            font-style: italic;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>沈黙の春</h1>
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'summary')">概要</button>
+            <button class="tab-button" onclick="openTab(event, 'concepts')">主要概念</button>
+            <button class="tab-button" onclick="openTab(event, 'quotes')">重要な引用</button>
+            <button class="tab-button" onclick="openTab(event, 'actions')">実践への示唆</button>
+        </div>
+
+        <div id="summary" class="tab-content active">
+            <h2>エグゼクティブ・サマリー</h2>
+            <p>1962年に発表された「沈黙の春」は、合成殺虫剤が環境に与える壊滅的な影響を科学的データと詩的な筆致で明らかにした画期的なノンフィクションです。著者のレイチェル・カーソンは、農薬が土壌や水を汚染し、食物連鎖を通じて生物の体内に濃縮され、最終的には人間の健康をも蝕む過程を詳細に論証しています。</p>
+        </div>
+
+        <div id="concepts" class="tab-content">
+            <h2>主要概念</h2>
+            <div class="concept">
+                <h3>沈黙の春 (Silent Spring)</h3>
+                <p>化学農薬の乱用により、鳥や昆虫をはじめとする多くの生物が死に絶え、生命のざわめきが失われた春の情景を指します。</p>
+            </div>
+            <div class="concept">
+                <h3>生物濃縮 (Biomagnification)</h3>
+                <p>DDTのように分解されにくく脂肪に溶けやすい化学物質が、食物連鎖を通じて高次の捕食者の体内へ高濃度に蓄積されていく現象です。</p>
+            </div>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <h2>重要な引用</h2>
+            <div class="quote">
+                <p>"はじめて、歴史始まって以来、あらゆる人間が、生まれたときから死ぬまで、危険な化学物質と接触しつづける。"</p>
+            </div>
+            <div class="quote">
+                <p>"『自然をコントロールする』という言葉は、生物学や哲学のネアンデルタール時代に生まれたもので、傲慢な言い方である。"</p>
+            </div>
+        </div>
+
+        <div id="actions" class="tab-content">
+            <h2>実践への示唆</h2>
+            <ul>
+                <li>家庭での化学物質使用の見直し</li>
+                <li>食の選択を通じた意思表示</li>
+                <li>環境問題への関心と学習</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabContent, tabButtons;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>
+```
+
+このコードは以下の特徴を持っています：
+
+1. レスポンシブデザイン：スマートフォンでの表示に最適化されています。
+2. タブ切り替え機能：JavaScriptを使用して、タブボタンをクリックすると対応するコンテンツが表示されます。
+3. グラデーションの利用：ヘッダー部分にグラデーションを適用しています。
+4. 清潔感のある白背景：全体的に白を基調とし、清潔感のあるデザインになっています。
+5. ボックスシャドウとホバーエフェクト：要素に立体感を持たせ、インタラクティブな要素を追加しています。
+6. 30代男性向けのカラーリング：青を基調としたカラースキームを採用しています。
+
+このインフォグラフィックは、「沈黙の春」の主要な概念や引用、実践への示唆などを簡潔にまとめ、視覚的に理解しやすい形で提示しています。ユーザーは各タブをクリックすることで、書籍の異なる側面を探索することができます。

@@ -1,0 +1,169 @@
+以下に、要件に沿ったHTML、CSS、JavaScriptのコードを提供します。
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イシューからはじめよ - インフォグラフィック</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            padding: 20px;
+            margin: 0;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+        }
+        .tabs {
+            display: flex;
+            background-color: #f1f1f1;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #ddd;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content > div {
+            display: none;
+        }
+        .content > div.active {
+            display: block;
+        }
+        .key-concept {
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .key-concept h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .quote {
+            font-style: italic;
+            border-left: 3px solid #3498db;
+            padding-left: 10px;
+            margin: 10px 0;
+        }
+        @media (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>イシューからはじめよ</h1>
+        <div class="tabs">
+            <div class="tab active" data-tab="summary">概要</div>
+            <div class="tab" data-tab="concepts">主要概念</div>
+            <div class="tab" data-tab="structure">構造</div>
+            <div class="tab" data-tab="quotes">重要な引用</div>
+            <div class="tab" data-tab="practice">実践への示唆</div>
+        </div>
+        <div class="content">
+            <div id="summary" class="active">
+                <h2>書籍概要</h2>
+                <p>著者: 安宅和人</p>
+                <p>核心的メッセージ: 知的生産の生産性を飛躍的に高めるには、「本当に解くべき問題（イシュー）」を見極めることから始めるべきである。</p>
+            </div>
+            <div id="concepts">
+                <h2>主要概念</h2>
+                <div class="key-concept">
+                    <h3>イシュー (Issue)</h3>
+                    <p>「答えを出すべき本当に重要な問題」のこと。単なるテーマや疑問ではなく、「白黒をはっきりさせられる設問」であることが重要。</p>
+                </div>
+                <div class="key-concept">
+                    <h3>バリューのある仕事</h3>
+                    <p>縦軸に「イシュー度（その問題の重要性）」、横軸に「解像度（その答えの質）」を取り、両方が高い領域の仕事を指す。</p>
+                </div>
+                <div class="key-concept">
+                    <h3>犬の道 (The Dog's Way)</h3>
+                    <p>イシュー度を問わず、とにかく作業量をこなして価値を出そうとする、生産性の低い働き方の比喩。</p>
+                </div>
+            </div>
+            <div id="structure">
+                <h2>書籍の構造</h2>
+                <ol>
+                    <li>序章: 脱「犬の道」</li>
+                    <li>第1章: イシュードリブン―「解く」前に「見極める」</li>
+                    <li>第2章: 仮説ドリブン(1)―イシューを分解し、ストーリーラインを組み立てる</li>
+                    <li>第3章: 仮説ドリブン(2)―ストーリーを絵コンテにする</li>
+                    <li>第4章: アウトプットドリブン―実際の分析を進める</li>
+                    <li>第5章: メッセージドリブン―「伝える」ものをまとめる</li>
+                </ol>
+            </div>
+            <div id="quotes">
+                <h2>重要な引用</h2>
+                <div class="quote">
+                    <p>「悩む」と「考える」は違う。</p>
+                    <small>「悩む」とは答えが出ない問いについて堂々巡りすること、「考える」とは答えの出る問いについて建設的に思考を組み立てること。</small>
+                </div>
+                <div class="quote">
+                    <p>「イシュー度」の低い仕事は、どんなに「解像度」を高めても、受益者（顧客・クライアント・評価者）から見たときの価値はゼロに等しい。</p>
+                </div>
+            </div>
+            <div id="practice">
+                <h2>実践への示唆</h2>
+                <ul>
+                    <li>仕事に着手する前に「イシュー特定」の時間を設ける。</li>
+                    <li>いきなりパワポやExcelを開かず、手書きで「絵コンテ」を作る。</li>
+                    <li>情報収集は「一次情報」を重視する。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.content > div').forEach(content => content.classList.remove('active'));
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+このコードは、要件に沿って以下の特徴を持っています：
+
+1. レスポンシブデザイン（スマホ特化）
+2. タブ切り替え機能の実装
+3. グラデーションの利用（ヘッダー部分）
+4. 白背景で清潔感のあるデザイン
+5. ボックスシャドウとホバーエフェクトの実装
+6. 30代男性向けのカラーリング（青系統を中心に使用）
+
+このHTMLファイルをブラウザで開くと、インフォグラフィックが表示されます。タブをクリックすることで、異なる情報セクションを切り替えて表示できます。
