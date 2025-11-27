@@ -1291,7 +1291,7 @@ if __name__ == "__main__":
     parser.add_argument("--diag", action="store_true")
     parser.add_argument("--probe", action="store_true")
     parser.add_argument("--logfile", type=str, default=None)
-    parser.add_argument("--until", type=int, default=7, help="指定ステップまで実行（デフォルト7）")
+    parser.add_argument("--until", type=int, default=10, help="指定ステップまで実行（デフォルト10）")
     args = parser.parse_args()
     if args.logfile:
         os.environ["IRW_LOGFILE"] = args.logfile
