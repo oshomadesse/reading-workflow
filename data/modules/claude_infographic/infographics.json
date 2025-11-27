@@ -64,5 +64,27 @@
       "{{claude_credit}}": "$18.95"
     },
     "cost_usd": 0.241326
+  },
+  {
+    "title": "TEDトーク 世界最高のプレゼン術",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/docs/TED%E3%83%88%E3%83%BC%E3%82%AF_%E4%B8%96%E7%95%8C%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E8%A1%93_infographic.html",
+    "vault_rel": "docs/TEDトーク_世界最高のプレゼン術_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=docs%2FTED%E3%83%88%E3%83%BC%E3%82%AF_%E4%B8%96%E7%95%8C%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E8%A1%93_infographic.html",
+    "app_local_uri": "app://local/books-summary/docs%2FTED%E3%83%88%E3%83%BC%E3%82%AF_%E4%B8%96%E7%95%8C%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E8%A1%93_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/docs/TEDトーク_世界最高のプレゼン術_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4457,
+      "output_tokens": 13564
+    },
+    "generated_at": "2025-11-27T12:16:37",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/docs/TED%E3%83%88%E3%83%BC%E3%82%AF_%E4%B8%96%E7%95%8C%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E8%A1%93_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/docs/TED%E3%83%88%E3%83%BC%E3%82%AF_%E4%B8%96%E7%95%8C%E6%9C%80%E9%AB%98%E3%81%AE%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E8%A1%93_infographic.html",
+      "{{claude_usaget}}": 13564,
+      "{{claude_credit}}": "$18.97"
+    },
+    "cost_usd": 0.216831
   }
 ]
