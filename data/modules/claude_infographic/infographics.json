@@ -108,5 +108,27 @@
       "{{claude_credit}}": "$19.01"
     },
     "cost_usd": 0.176853
+  },
+  {
+    "title": "感情の脳",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/docs/%E6%84%9F%E6%83%85%E3%81%AE%E8%84%B3_infographic.html",
+    "vault_rel": "docs/感情の脳_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=docs%2F%E6%84%9F%E6%83%85%E3%81%AE%E8%84%B3_infographic.html",
+    "app_local_uri": "app://local/books-summary/docs%2F%E6%84%9F%E6%83%85%E3%81%AE%E8%84%B3_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/docs/感情の脳_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4465,
+      "output_tokens": 10240
+    },
+    "generated_at": "2025-11-27T12:50:25",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/docs/%E6%84%9F%E6%83%85%E3%81%AE%E8%84%B3_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/docs/%E6%84%9F%E6%83%85%E3%81%AE%E8%84%B3_infographic.html",
+      "{{claude_usaget}}": 10240,
+      "{{claude_credit}}": "$19.02"
+    },
+    "cost_usd": 0.166995
   }
 ]
