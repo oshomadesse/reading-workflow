@@ -342,7 +342,7 @@ class GeminiConnector:
             )
            # デバッグログ保存
             try:
-                log_dir = os.path.join(PROJECT_DIR, "data", "modules")
+                log_dir = os.path.join(PROJECT_DIR, "data", "modules", "chatgpt_research")
                 os.makedirs(log_dir, exist_ok=True)
                 ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 

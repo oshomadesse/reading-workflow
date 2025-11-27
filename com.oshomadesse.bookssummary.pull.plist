@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.oshomadesse.bookssummary.pull</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/auto_pull.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>7</integer>
+        <key>Minute</key>
+        <integer>15</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/data/integrated/launchd.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/data/integrated/launchd.stderr.log</string>
+</dict>
+</plist>

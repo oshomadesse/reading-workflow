@@ -190,7 +190,7 @@ def _build_user_text(deep_text, book_title):
 
 def _save_raw_resp(resp, ts):
     try:
-        dbg = Path(DATA_DIR) / "modules" / f"claude_resp_raw_{ts}.txt"
+        dbg = Path(DATA_DIR) / "modules" / "claude_infographic" / f"claude_resp_raw_{ts}.txt"
         dbg.parent.mkdir(parents=True, exist_ok=True)
         try:
             s = json.dumps(resp, ensure_ascii=False, default=lambda o: getattr(o, '__dict__', str(o)))
@@ -203,7 +203,7 @@ def _save_raw_resp(resp, ts):
 
 def _call_claude(user_text):
     ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    dbg_path = Path(DATA_DIR) / "modules" / f"claude_prompt_{ts}.txt"
+    dbg_path = Path(DATA_DIR) / "modules" / "claude_infographic" / f"claude_prompt_{ts}.txt"
     dbg_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         dbg_path.write_text(user_text, encoding="utf-8")

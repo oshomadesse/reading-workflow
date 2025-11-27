@@ -53,7 +53,7 @@ def _ensure_dirs():
         os.makedirs(d, exist_ok=True)
 _ensure_dirs()
 
-LOG_DIR = os.path.join(PROJECT_DIR, "data")
+LOG_DIR = os.path.join(PROJECT_DIR, "data", "integrated")
 os.makedirs(LOG_DIR, exist_ok=True)
 _DEFAULT_RUN_LOG = os.path.join(LOG_DIR, "integrated_run_" + datetime.now().strftime("%Y%m%d") + ".log")
 def _make_printer(logfile):
@@ -1287,6 +1287,17 @@ def run_until(step):
     step8_append_to_excluded_list(mid)
 
     step9_send_notification_to_user(mid)
+
+    # 計測終了: GitHub Actions開始からの経過時間を表示
+    start_ts = os.getenv("WORKFLOW_START_TIME")
+    if start_ts and start_ts.isdigit():
+        try:
+            import time
+            now_ts = int(time.time())
+            diff = now_ts - int(start_ts)
+            print(f"⏱️ Total duration from workflow start to final notification: {diff} seconds")
+        except Exception as e:
+            print(f"⚠️ Time measurement failed: {e}")
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--diag", action="store_true")
