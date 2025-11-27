@@ -1160,8 +1160,8 @@ def step9_send_notification_to_user(mid_summary=None):
         # URLエンコード（日本語ファイル名対応）
         from urllib.parse import quote
         filename_enc = quote(filename)
-        # GitHub Pages URL: https://oshomadesse.github.io/books-summary/infographics/{filename}
-        infographic_pages_url = f"https://oshomadesse.github.io/books-summary/infographics/{filename_enc}"
+        # GitHub Pages URL: https://oshomadesse.github.io/books-summary/infographics/{filename}?openExternalBrowser=1
+        infographic_pages_url = f"https://oshomadesse.github.io/books-summary/infographics/{filename_enc}?openExternalBrowser=1"
 
     # ヒーロー画像: 削除
     # hero_url = "https://via.placeholder.com/1024x500?text=Books+Summary"
