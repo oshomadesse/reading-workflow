@@ -929,7 +929,7 @@ def step8_run_list_py(mid_summary=None):
         env["VAULT_ROOT"] = str(VAULT_ROOT)
 
         # 非AIロジックのみ（正規表現リンク）
-        script1 = str(Path(PROJECT_DIR).parent / ".999_Others" / "link_books.py")
+        script1 = str(Path(PROJECT_DIR) / "link_books.py")
         r1 = subprocess.run([sys.executable, script1], env=env, capture_output=True, text=True)
         if (r1.stdout or "").strip():
             print((r1.stdout or "").strip())
@@ -1102,7 +1102,8 @@ def _find_latest_books_note() -> str|None:
     """
     100_Inbox 内の Books-*.md のうち最終更新が最新の1件を返す
     """
-    inbox = os.getenv("INBOX_DIR", "/Users/seihoushouba/Documents/Oshomadesse-pc/100_Inbox")
+    # グローバル変数の INBOX_DIR を使用する（CI環境では artifacts を指している）
+    inbox = INBOX_DIR
     files = glob.glob(str(_Path(inbox) / "Books-*.md"))
     if not files:
         return None
