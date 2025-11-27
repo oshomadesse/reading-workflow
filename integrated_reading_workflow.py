@@ -32,13 +32,11 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 # CI環境（GITHUB_ACTIONS）の場合はリポジトリルートをVAULT_ROOTとみなす
 if os.getenv("GITHUB_ACTIONS"):
     VAULT_ROOT = Path(PROJECT_DIR).resolve()
-    INBOX_DIR = VAULT_ROOT / "100_Inbox" # リポジトリ内に作成
+    INBOX_DIR = VAULT_ROOT / "artifacts" # リポジトリ内に作成（旧 100_Inbox）
 else:
     # ローカル環境: 環境変数または親ディレクトリからの推測
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
     # ユーザー要望: ローカル実行時は oshomadesse-pc > 100_Inbox (つまり VAULT_ROOT 直下の 100_Inbox)
-    # PROJECT_DIR は .../11_Engineering/books-summary なので、ここから見ると ../../100_Inbox になるはずだが、
-    # VAULT_ROOT が正しければ VAULT_ROOT / "100_Inbox" で良い。
     INBOX_DIR = Path(os.getenv("INBOX_DIR", str(VAULT_ROOT / "100_Inbox"))).resolve()
 
 try:
