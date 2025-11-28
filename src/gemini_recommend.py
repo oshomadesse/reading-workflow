@@ -12,6 +12,7 @@ import unicodedata
 import shutil
 import difflib
 from typing import List, Dict, Optional
+from pathlib import Path
 
 from dotenv import load_dotenv
 
