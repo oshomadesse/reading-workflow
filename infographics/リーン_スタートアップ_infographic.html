@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リーン・スタートアップ - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1rem 1rem;
+}
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+.summary-item strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  border-color: var(--primary);
+  background: rgba(102, 126, 234, 0.05);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: rgba(102, 126, 234, 0.08);
+  border-left: 3px solid var(--primary);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+.reason-box strong {
+  color: var(--primary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--secondary);
+}
+.chapter-card h3 {
+  font-size: 1.2rem;
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+}
+.example-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(240, 147, 251, 0.05));
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+.example-card h4 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.quote-card {
+  background: var(--card-bg);
+  border-left: 4px solid var(--accent);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.quote-card blockquote {
+  font-style: italic;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+.quote-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.action-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.action-card p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.metric-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  margin: 0.25rem;
+  font-size: 0.9rem;
+}
+.flow-diagram {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flow-step {
+  display: flex;
+  align-items: center;
+  margin: 0.75rem 0;
+  font-size: 0.95rem;
+}
+.flow-step .arrow {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+}
+.book-list {
+  display: grid;
+  gap: 1rem;
+}
+.book-item {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border-left: 3px solid var(--accent);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.book-item h4 {
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+.book-item .author {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.book-item .relation {
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  header p {
+    font-size: 1rem;
+  }
+  .tabs {
+    flex-wrap: nowrap;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 リーン・スタートアップ</h1>
+  <p>学習最速化で不確実性を突破する</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>📌 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      極度の不確実性下で新規事業をどう成功に導くか？
+    </div>
+    <div class="summary-item">
+      <strong>💡 答え</strong>
+      MVPで実験し、Build-Measure-Learnのループを高速で回して学習速度を最大化し、イノベーション会計でピボットか継続かを決める。
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      将来は予測不能で事前計画は外れやすいから、正しさより学習速度が競争優位を生む。
+    </div>
+    <div class="summary-item">
+      <strong>⚙️ How（そのためには）</strong>
+      顧客課題仮説を明確化し、最小限の製品で仮説検証、アクショナブル指標とコホート分析で因果を測定、しきい値に達しなければピボットする。
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3>🚀 リーン・スタートアップ</h3>
+        <ul>
+          <li>無駄を削ぎ、学習を最速化する方法論</li>
+          <li>不確実性を突破する起業・新規事業の枠組み</li>
+          <li>一言要約：学習最速化経営</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>予測不能な環境では計画より学習速度が成否を分けるため、リソースを学習に集中させる必要がある。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>✅ 検証済み学習</h3>
+        <ul>
+          <li>実験で得た実測データに基づく仮説実証</li>
+          <li>主観や希望的観測を排除</li>
+          <li>一言要約：証拠ある学習</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>思い込みによる失敗を防ぎ、客観的事実に基づく意思決定で成功確率を高めるため。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 Build-Measure-Learn</h3>
+        <ul>
+          <li>作る→測る→学ぶの反復ループ</li>
+          <li>学習速度を上げるため最短経路を設計</li>
+          <li>一言要約：学習ループ</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>このループを高速で回すことが競争優位の源泉となり、市場適合を早期に達成できる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 MVP（最小実行可能製品）</h3>
+        <ul>
+          <li>仮説検証に必要最小限の機能のみ</li>
+          <li>プロトタイプや実験製品</li>
+          <li>一言要約：最小実験製品</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>開発コストと時間を最小化し、早期に顧客反応を得て学習を加速するため。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔀 ピボット</h3>
+        <ul>
+          <li>ビジョンを保ったまま戦略・戦術を変更</li>
+          <li>学習に基づく体系的な方向転換</li>
+          <li>一言要約：方向転換</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>失敗ではなく学習の成果として捉え、柔軟に戦略を修正することで成功への道を見つける。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 イノベーション会計</h3>
+        <ul>
+          <li>不確実性下の進捗を数値で管理</li>
+          <li>ベースライン→調整→しきい値の3段階評価</li>
+          <li>一言要約：学習の会計</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>主観的判断を排除し、客観的基準でピボット判断を下すことで資源浪費を防ぐ。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📈 アクショナブル指標と虚栄指標</h3>
+        <ul>
+          <li>因果に結びつく行動可能な指標がアクショナブル</li>
+          <li>見栄えのみの指標が虚栄指標</li>
+          <li>一言要約：効く指標と映える指標</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>虚栄指標は誤った自信を生み、アクショナブル指標のみが改善行動につながるため。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚡ 成長エンジン</h3>
+        <ul>
+          <li>粘着型、ウイルス型、有料型の3つ</li>
+          <li>選択により最重要指標が変わる</li>
+          <li>一言要約：成長の駆動源</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>成長メカニズムを明確化することで、リソースを最も効果的な施策に集中できる。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚢 継続的デプロイメント</h3>
+        <ul>
+          <li>小刻みリリースで顧客反応を素早く取得</li>
+          <li>学習と品質を同時に高める開発運用</li>
+          <li>一言要約：小さく早く出す</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>リリース頻度を上げることでフィードバックループが加速し、学習速度が向上する。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>❓ ファイブワイズ（5 Whys）</h3>
+        <ul>
+          <li>障害の根本原因を5回のなぜで掘り下げ</li>
+          <li>プロセス改善につなげる手法</li>
+          <li>一言要約：原因深掘り</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>表面的対処でなく根本原因を解決することで、同じ問題の再発を防ぎ組織学習を促進する。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👥 コホート分析</h3>
+        <ul>
+          <li>同時期・同条件のユーザー群で指標追跡</li>
+          <li>施策の因果効果を測る分析法</li>
+          <li>一言要約：群で因果を見る</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>時系列の歪みを排除し、施策の真の効果を可視化してピボット判断の精度を高める。
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🧪 スプリットテスト（A/Bテスト）</h3>
+        <ul>
+          <li>複数バージョンを同時比較</li>
+          <li>統計的に優劣を判定する実験設計</li>
+          <li>一言要約：並行比較実験</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>主観を排除し、データに基づく最適解を発見することで意思決定の質を向上させる。
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-diagram">
+      <h3 style="color: var(--primary); margin-bottom: 1rem;">🔗 概念間の関係性</h3>
+      <div class="flow-step">
+        <span>顧客課題仮説</span>
+        <span class="arrow">→</span>
+        <span>MVP</span>
+        <span class="arrow">→</span>
+        <span>計測</span>
+        <span class="arrow">→</span>
+        <span>学習</span>
+        <span class="arrow">→</span>
+        <span>ピボット/継続</span>
+      </div>
+      <div class="flow-step">
+        <span>イノベーション会計</span>
+        <span class="arrow">→</span>
+        <span>ベースライン確立</span>
+        <span class="arrow">→</span>
+        <span>改善施策</span>
+        <span class="arrow">→</span>
+        <span>しきい値判定</span>
+      </div>
+      <div class="flow-step">
+        <span>成長エンジン選択</span>
+        <span class="arrow">→</span>
+        <span>最重要指標特定</span>
+        <span class="arrow">→</span>
+        <span>実験設計</span>
+        <span class="arrow">→</span>
+        <span>成長率向上</span>
+      </div>
+      <div class="flow-step">
+        <span>継続的デプロイメント</span>
+        <span class="arrow">→</span>
+        <span>リリース頻度増</span>
+        <span class="arrow">→</span>
+        <span>迅速フィードバック</span>
+        <span class="arrow">→</span>
+        <span>学習速度向上</span>
+      </div>
+      <div class="flow-step">
+        <span>5 Whys</span>
+        <span class="arrow">→</span>
+        <span>根本原因特定</span>
+        <span class="arrow">→</span>
+        <span>プロセス改善</span>
+        <span class="arrow">→</span>
+        <span>品質と速度の両立</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📖 第1部：Vision（ビジョン）</h3>
+      <ul>
+        <li>スタートアップを「極度の不確実性下の人間制度」と定義</li>
+        <li>検証済み学習の重要性を提示</li>
+        <li>顧客課題仮説の立て方を解説</li>
+        <li>計画遵守より学習速度を重視する前提を確立</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>スタートアップの本質を再定義し、技術や規模ではなく学習と制度設計が成否を分けることを示すため。不確実性への対処法の基礎を築く。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🎯 第2部：Steer（舵取り）</h3>
+      <ul>
+        <li>Leap（信念の飛躍）：仮説を明確化</li>
+        <li>Test：MVPで最小実験を実施</li>
+        <li>Measure：イノベーション会計で進捗を数値化</li>
+        <li>Pivot：戦略判断とピボットの実行</li>
+        <li>アクショナブル指標とコホート分析の活用</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>仮説検証の具体的プロセスを示し、客観的データに基づくピボット判断で資源浪費を防ぎ、市場適合への道筋を明確にするため。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>⚡第3部：Accelerate（加速）</h3>
+      <ul>
+        <li>小ロット化で学習サイクルを短縮</li>
+        <li>継続的デプロイメントで品質と速度を両立</li>
+        <li>成長エンジン（粘着型・ウイルス型・有料型）の選択</li>
+        <li>5 Whysで根本原因を特定しプロセス改善</li>
+        <li>学習を組織に定着させる制度設計</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>学習速度をさらに加速し、持続的成長を実現する仕組みを構築するため。組織全体に学習文化を根付かせ、競争優位を確立する。
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🔄 論理の流れ</h3>
+      <p style="margin-bottom: 0.5rem;">計画遵守より学習速度を重視する前提を置き、最小実験で事実を集め、会計で進捗を数値化し、ピボットを通じて適合度を高め、制度化で持続的成長へ収束させる。</p>
+      <div class="metric-badge">Vision</div>
+      <div class="metric-badge">Steer</div>
+      <div class="metric-badge">Accelerate</div>
+      <div class="reason-box" style="margin-top: 1rem;">
+        <strong>理由：</strong>三部構成により、概念理解→実践手法→組織実装の段階的な学習を可能にし、読者が即座に行動に移せる構造を提供する。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h4>🎬 事例1：Dropbox の動画MVP</h4>
+      <p><strong>背景：</strong>ファイル同期技術の実装前に需要を検証する必要があった。</p>
+      <p><strong>実施：</strong>製品デモ動画を作成し、ランディングページで公開。事前登録数を計測。</p>
+      <p><strong>結果：</strong>一晩で登録者が5,000人から75,000人に急増し、需要を実証。</p>
+      <p><strong>示唆：</strong>完成品を作る前に動画で価値提案を検証し、開発リスクを最小化。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>MVPは必ずしも動作する製品である必要はなく、仮説検証に必要な最小限の形態で十分であり、早期検証が資源節約につながることを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>👟 事例2：Zappos のコンシェルジュMVP</h4>
+      <p><strong>背景：</strong>オンライン靴販売の需要が不明だった。</p>
+      <p><strong>実施：</strong>在庫を持たず、注文が入ったら近所の靴店で購入して発送する手動オペレーション。</p>
+      <p><strong>結果：</strong>顧客が実際に購入することを確認し、後に自動化・拡大。</p>
+      <p><strong>示唆：</strong>スケールしない手動プロセスでも仮説検証には有効。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>初期段階では効率より学習を優先し、手動でも顧客行動の実測データを得ることが、後の投資判断を正確にすることを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>📊 事例3：IMVU のアバターチャット</h4>
+      <p><strong>背景：</strong>3Dアバターチャットの需要仮説を検証したかった。</p>
+      <p><strong>実施：</strong>既存IMクライアントへのアドオンとして最小機能版をリリース。</p>
+      <p><strong>結果：</strong>当初の仮説は外れたが、スタンドアロン需要を発見しピボット。</p>
+      <p><strong>示唆：</strong>早期リリースで予想外の学習を得て、柔軟に方向転換。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>仮説が外れても早期に発見できれば軌道修正が可能であり、学習速度が高いほど失敗コストを抑えて成功に近づけることを示す。
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h4>🔄 メタファー：科学的手法としてのスタートアップ</h4>
+      <p>スタートアップを「実験室」、製品を「実験装置」、顧客を「被験者」、ピボットを「仮説の棄却と新仮説の採用」と捉える。</p>
+      <div class="reason-box">
+        <strong>理由（この例が示すこと）：</strong>起業を芸術や直感ではなく科学的プロセスとして扱うことで、再現性と学習可能性を高め、成功確率を向上させる思考枠組みを提供する。
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <blockquote>"The only way to win is to learn faster than anyone else."</blockquote>
+      <p><strong>なぜ重要か：</strong>学習速度が競争優位の源泉であることを端的に示す。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>スタートアップは極度の不確実性下の人間制度である。</blockquote>
+      <p><strong>なぜ重要か：</strong>技術や規模ではなく制度設計と学習が本質だと定義する。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>"Build-Measure-Learn feedback loop."</blockquote>
+      <p><strong>なぜ重要か：</strong>方法論の中心となる循環モデルを凝縮して表す。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>虚栄指標は意思決定を誤らせる。</blockquote>
+      <p><strong>なぜ重要か：</strong>見栄えより因果に効く指標を選ぶ必要性を強調する。</p>
+    </div>
+
+    <div class="quote-card">
+      <blockquote>ピボットはビジョンの放棄ではなく戦略の刷新である。</blockquote>
+      <p><strong>なぜ重要か：</strong>方向転換への心理的抵抗を下げ、継続的学習を促す。</p>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h4>✍️ アクション1：顧客課題仮説を1つ書く</h4>
+      <p><strong>目的：</strong>検証すべき前提を明確化する</p>
+      <p><strong>期待効果：</strong>曖昧な思い込みを具体的な検証可能な仮説に変換し、実験設計の起点を作る。15分で「誰が・何に困っていて・なぜ既存解決策では不十分か」を1文にまとめる。</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🎯 アクション2：MVPの成功基準を定義する</h4>
+      <p><strong>目的：</strong>実験の合格ラインを事前に設定する</p>
+      <p><strong>期待効果：</strong>主観的判断を排除し、客観的データでピボット判断ができる。20分で「どの指標が・どの水準に達したら仮説が正しいと言えるか」を数値で書く。</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🧭 アクション3：主要指標の北極星を1つ選ぶ</h4>
+      <p><strong>目的：</strong>チーム全体が追うべき最重要指標を特定する</p>
+      <p><strong>期待効果：</strong>リソースを分散させず、成長エンジンに直結する指標に集中できる。15分で「今最も改善すべき1つの数字」を選び、現在値と目標値を記録する。</p>
+    </div>
+
+    <div class="action-card">
+      <h4>📊 アクション4：虚栄指標を1つ特定して排除する</h4>
+      <p><strong>目的：</strong>見栄えだけの指標を意思決定から外す</p>
+      <p><strong>期待効果：</strong>誤った自信を防ぎ、因果に基づく改善行動を促進する。10分で「現在追っている指標のうち行動につながらないもの」を1つ挙げ、代替指標を考える。</p>
+    </div>
+
+    <div class="action-card">
+      <h4>🔬 アクション5：最小の実験を1つ設計する</h4>
+      <p><strong>目的：</strong>今週中に実行できる小さな検証を計画する</p>
+      <p><strong>期待効果：</strong>学習ループを実際に回し始め、仮説検証の習慣を作る。30分で「仮説・実験内容・計測指標・判定基準」を1枚のメモにまとめる。</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem; padding: 2rem; background: var(--card-bg); border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+    <h2 style="color: var(--primary); margin-bottom: 1rem;">📚 関連書籍</h2>
+    <div class="book-list">
+      <div class="book-item">
+        <h4>リーン・アナリティクス</h4>
+        <div class="author">アリステア・クロール／ベンジャミン・ヨスコビッツ</div>
+        <div class="relation">アクショナブル指標の選定と仮説検証の実務を深掘りする。</div>
+      </div>
+      <div class="book-item">
+        <h4>ランニング・リーン</h4>
+        <div class="author">アッシュ・マウリャ</div>
+        <div class="relation">MVP設計とピボット判断を段階的に実装する手引き。</div>
+      </div>
+      <div class="book-item">
+        <h4>アントレプレナーの教科書 顧客開発モデル</h4>
+        <div class="author">スティーブ・ブランク</div>
+        <div class="relation">顧客開発の枠組みで仮説検証プロセスを補完する。</div>
+      </div>
+      <div class="book-item">
+        <h4>The Startup Owner's Manual</h4>
+        <div class="author">スティーブ・ブランク／ボブ・ドーフ</div>
+        <div class="relation">顧客開発とリーンの現場手順を詳細にガイドする。</div>
+      </div>
+      <div class="book-item">
+        <h4>INSPIRED 熱狂させる製品を生み出す</h4>
+        <div class="author">マーティ・ケーガン</div>
+        <div class="relation">製品発見と実験文化の組織実装に焦点を当てる。</div>
+      </div>
+      <div class="book-item">
+        <h4>キャズム</h4>
+        <div class="author">ジェフリー・ムーア</div>
+        <div class="relation">成長エンジンと市場拡大の戦略課題を補完する。</div>
+      </div>
+      <div class="book-item">
+        <h4>アジャイルサムライ</h4>
+        <div class="author">ジョナサン・ラスマセン</div>
+        <div class="relation">小ロット開発や継続的デリバリーをチーム実務に落とし込む。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>
