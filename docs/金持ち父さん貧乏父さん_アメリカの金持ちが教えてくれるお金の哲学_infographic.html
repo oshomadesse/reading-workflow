@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金持ち父さん貧乏父さん - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー=#667eea セカンダリー=#764ba2 アクセント=#f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 1.5rem;
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  border-left: 5px solid var(--accent);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 1rem;
+}
+.summary-item strong {
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+.tab-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+  font-weight: bold;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  margin-bottom: 0.6rem;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--accent);
+}
+.reason strong {
+  color: var(--secondary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 5px solid var(--primary);
+}
+.chapter-card h3 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.6rem;
+}
+.chapter-card p {
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-left: 5px solid var(--secondary);
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  font-style: italic;
+}
+.quote-card .quote-text {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.quote-card .quote-why {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.action-card h3 {
+  font-size: 1.1rem;
+  color: var(--secondary);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.action-card .action-desc {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.action-card .action-benefit {
+  background: rgba(240,147,251,0.1);
+  padding: 0.6rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.visual-section {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.visual-section h3 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+.flow-item {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary);
+  font-size: 0.95rem;
+  position: relative;
+}
+.flow-item:after {
+  content: "↓";
+  display: block;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
+.flow-item:last-child:after {
+  content: "";
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.example-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent);
+}
+.example-card h4 {
+  font-size: 1.05rem;
+  color: var(--secondary);
+  margin-bottom: 0.6rem;
+}
+.example-card .example-content {
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+.related-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.book-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--secondary);
+}
+.book-card h4 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+}
+.book-card .author {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.6rem;
+}
+.book-card .relation {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .tabs {
+    flex-direction: column;
+  }
+  .tab-btn {
+    min-width: 100%;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 金持ち父さん貧乏父さん</h1>
+  <p>給与依存から資産形成へ - お金に働かせる仕組みを学ぶ</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>💡 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      なぜ同じ収入でも豊かさが分かれるのか？
+    </div>
+    <div class="summary-item">
+      <strong>✅ 答え</strong>
+      金持ちは資産を買い、貧乏/中流は負債を買うから。
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      キャッシュフローを生む資産は複利で増え、税と法人の仕組みがそれを後押しするため。
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには）</strong>
+      財務知識を学び、キャッシュフローを可視化し、まず自分に支払い、少額でも資産を買い続け、学ぶために働き、恐れ・怠惰・傲慢などの内的障害を克服する。
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="concepts" role="tab" aria-selected="true">主要概念</button>
+    <button class="tab-btn" data-tab="chapters" role="tab" aria-selected="false">各章要約</button>
+    <button class="tab-btn" data-tab="examples" role="tab" aria-selected="false">具体例</button>
+    <button class="tab-btn" data-tab="quotes" role="tab" aria-selected="false">重要引用</button>
+    <button class="tab-btn" data-tab="actions" role="tab" aria-selected="false">今日のアクション</button>
+  </div>
+
+  <div id="concepts" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3>💰 資産</h3>
+        <ul>
+          <li>保有者のポケットにお金を入れ続けるもの</li>
+          <li>配当・家賃・利息・事業収入など</li>
+          <li>一言要約：お金を生むもの</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>資産と負債を区別できることが富の第一歩。キャッシュフローの源泉を理解し、購入判断の基準となるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📉 負債</h3>
+        <ul>
+          <li>保有者のポケットからお金を取り出し続けるもの</li>
+          <li>自宅ローン、維持費の重い品など</li>
+          <li>一言要約：お金を吸うもの</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>多くの人が資産と誤認する負債を見抜くことで、無駄な支出を削減し資産購入に回せるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>💸 キャッシュフロー</h3>
+        <ul>
+          <li>一定期間の実際の入金と出金の差</li>
+          <li>黒字が自由度を生む</li>
+          <li>一言要約：お金の動線</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>帳簿上の利益より実際の現金の動きが重要。黒字化が再投資と複利の原動力になるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📊 財務リテラシー</h3>
+        <ul>
+          <li>会計（財務三表）・投資・市場・法務/税務の基礎理解</li>
+          <li>判断力を養う土台</li>
+          <li>一言要約：お金の読み書き</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>数字を読めなければ良い投資判断はできない。財務諸表が資産の健全性を映す鏡だから。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🏢 自分のビジネスを持て</h3>
+        <ul>
+          <li>本業の肩書きではなく資産欄に載る仕組みを育てる</li>
+          <li>事業・投資を優先</li>
+          <li>一言要約：資産づくり優先</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>給与所得だけでは税負担が重く、資産欄を太らせることが経済的自由への最短ルートだから。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🏛️ 法人の力と税</h3>
+        <ul>
+          <li>個人：稼ぐ→課税→残りを使う</li>
+          <li>法人：稼ぐ→使う→残りに課税</li>
+          <li>一言要約：ルールの差</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>税制の仕組みを理解し活用することで、合法的に手元資金を最大化し再投資できるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>💵 まず自分に支払え</h3>
+        <ul>
+          <li>請求支払より先に貯蓄・投資枠を確保</li>
+          <li>資産購入を優先する習慣</li>
+          <li>一言要約：未来への先取り</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>後回しにすると資産形成は進まない。強制的に投資枠を確保することで複利を早期に始動させるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>📚 学ぶために働く</h3>
+        <ul>
+          <li>短期給与ではなくスキル獲得を目的に働く</li>
+          <li>販売・会計・投資・法務など横断スキル</li>
+          <li>一言要約：収入より習得</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>スキルは生涯の資産。多様な収入源を構築する基盤となり、市場価値を高めるため。
+        </div>
+      </div>
+      <div class="card">
+        <h3>😰 心理的障害</h3>
+        <ul>
+          <li>恐れ・疑念・怠惰・悪習・傲慢</li>
+          <li>投資や学習の着手を阻む</li>
+          <li>一言要約：心の敵</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>知識があっても行動しなければ結果は出ない。内的障害を克服することが成功の鍵だから。
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔄 お金に働かせる</h3>
+        <ul>
+          <li>労働時間に依存しない収入源を構築</li>
+          <li>複利で増やす</li>
+          <li>一言要約：労働の逆転</li>
+        </ul>
+        <div class="reason">
+          <strong>理由：</strong>時間は有限。資産が自動的に収入を生む仕組みを作ることで、時間と自由を手に入れるため。
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-section">
+      <h3>🔗 概念間の関係性（因果の流れ）</h3>
+      <div class="flow-diagram">
+        <div class="flow-item">📖 財務リテラシー↑ → 資産の識別精度↑ → 良質資産の購入↑</div>
+        <div class="flow-item">💎 資産購入↑ → キャッシュフロー黒字化 → 再投資余力↑ → 資産ストック↑</div>
+        <div class="flow-item">🏢 法人活用 → 経費控除・課税繰延 → 可処分キャッシュフロー↑</div>
+        <div class="flow-item">💵 まず自分に支払う → 強制貯蓄/投資習慣 → 資産形成が加速</div>
+        <div class="flow-item">📚 学ぶために働く → 販売/会計/投資/法務スキル↑ → 収入源の多様化</div>
+        <div class="flow-item">⚠️ 負債（消費的ローン）↑ → 固定費↑ → 労働依存度↑ → 自由度↓</div>
+        <div class="flow-item">😰 心理的障害（恐れ等）↑ → 行動遅延・回避 → 機会損失・複利の破壊</div>
+        <div class="flow-item">💸 キャッシュフロー管理 → 破綻回避 → 長期の複利効果を最大化</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chapters" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📖 序章：二人の父</h3>
+      <p>高学歴の実父と起業家の義父の対照から、金銭観とルールの違いが人生に与える影響を提示。</p>
+      <div class="reason">
+        <strong>理由：</strong>同じ環境でも思考の枠組みが結果を分ける。読者に固定観念を疑わせ、新しい視点を開くため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>💼 教訓1：金持ちはお金のために働かない</h3>
+      <p>恐れと欲望が給料依存を強める。市場と学習を通じ好機を見極める重要性を説く。</p>
+      <div class="reason">
+        <strong>理由：</strong>労働所得依存から脱却する発想転換が全ての出発点。感情に支配されず機会を見る目を養うため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>📊 教訓2：財務リテラシーを教えよ</h3>
+      <p>資産と負債の区別、キャッシュフロー思考、財務諸表の読み方を基礎に据える。</p>
+      <div class="reason">
+        <strong>理由：</strong>数字を読めなければ投資判断はできない。財務知識が富の土台となるため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>🏢 教訓3：自分のビジネスを持て</h3>
+      <p>肩書きに固執せず、本業外で資産欄を太らせる仕組みづくりに集中する。</p>
+      <div class="reason">
+        <strong>理由：</strong>給与所得だけでは税負担が重く自由度が低い。資産欄を育てることが経済的自由への道だから。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>🏛️ 教訓4：税の歴史と法人の力</h3>
+      <p>税制と法の設計が富の保持に影響。ルール理解が競争優位になると説明。</p>
+      <div class="reason">
+        <strong>理由：</strong>税制を知らずに富を築くのは困難。合法的に税負担を最適化し再投資を加速させるため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>💡 教訓5：金持ちはお金を発明する</h3>
+      <p>創造的に取引を設計し、リスクを学習と小規模実験で管理する姿勢を推奨。</p>
+      <div class="reason">
+        <strong>理由：</strong>既存の枠にとらわれず機会を創造する力が富を生む。リスク管理と実験が成長を促すため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>📚 教訓6：学ぶために働け</h3>
+      <p>販売・管理・投資の横断スキルを得るため職務や業界を跨ぐ学習志向を採用。</p>
+      <div class="reason">
+        <strong>理由：</strong>スキルは生涯の資産。多様な収入源を構築し市場価値を高めるため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>🚧 障害の克服</h3>
+      <p>恐れ・疑念・怠惰・悪習・傲慢を特定し、規律と小さな勝利で乗り越える方法を提示。</p>
+      <div class="reason">
+        <strong>理由：</strong>知識があっても行動しなければ無意味。内的障害を克服することが成功の鍵だから。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>🚀 始め方</h3>
+      <p>目標の明確化、自己への支払い、資産リスト作成、少額からの投資など行動原則を示す。</p>
+      <div class="reason">
+        <strong>理由：</strong>具体的な第一歩を示すことで、読者が即座に行動を起こせるようにするため。
+      </div>
+    </div>
+    <div class="chapter-card">
+      <h3>✅ 実践ToDo</h3>
+      <p>日常での機会の探し方、勉強法、仲間づくり、マーケット観察の具体例を列挙。</p>
+      <div class="reason">
+        <strong>理由：</strong>日常に組み込める実践例を示すことで、継続的な学習と行動を促すため。
+      </div>
+    </div>
+  </div>
+
+  <div id="examples" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h4>🏠 例1：自宅は資産ではない</h4>
+      <div class="example-content">
+        <strong>背景：</strong>多くの人が自宅を最大の資産と考えるが、ローン返済・固定資産税・維持費が毎月ポケットからお金を取り出す。売却しない限りキャッシュフローは生まれない。
+      </div>
+      <div class="example-content">
+        <strong>示唆：</strong>自宅購入を優先するより、まず収益不動産や株式など真の資産を買い、そこから得た収入で自宅を買うべき。
+      </div>
+      <div class="reason">
+        <strong>理由（この例が示すこと）：</strong>常識を疑い、キャッシュフロー基準で資産を判別する重要性を体感させるため。
+      </div>
+    </div>
+    <div class="example-card">
+      <h4>💼 例2：学ぶために働く - 営業スキルの獲得</h4>
+      <div class="example-content">
+        <strong>背景：</strong>著者は海兵隊で学んだリーダーシップを活かし、ゼロックスで営業を学んだ。給与は低かったが、販売スキルは生涯の資産となり、後の事業成功の基盤となった。
+      </div>
+      <div class="example-content">
+        <strong>示唆：</strong>短期的な給与より、長期的に収入源を増やすスキル獲得を優先すべき。
+      </div>
+      <div class="reason">
+        <strong>理由（この例が示すこと）：</strong>スキルは複利で効く資産。目先の収入より学習機会を選ぶ姿勢が富を生むことを示すため。
+      </div>
+    </div>
+    <div class="example-card">
+      <h4>🏢 例3：法人の力 - 税の仕組みの活用</h4>
+      <div class="example-content">
+        <strong>背景：</strong>個人は給与から税を引かれた後に生活費を払うが、法人は収入から経費を引いた残りに課税される。同じ収入でも手元に残る額が大きく異なる。
+      </div>
+      <div class="example-content">
+        <strong>示唆：</strong>法人設立や税制の理解により、合法的に税負担を最適化し再投資を加速できる。
+      </div>
+      <div class="reason">
+        <strong>理由（この例が示すこと）：</strong>ルールを知る者が有利。税制の仕組みを理解し活用することが富の保持に直結することを示すため。
+      </div>
+    </div>
+    <div class="example-card">
+      <h4>💡 例4：まず自分に支払う - 強制貯蓄の習慣</h4>
+      <div class="example-content">
+        <strong>背景：</strong>著者は給与が入ったらまず投資口座に一定額を移し、残りで生活費をやりくりした。請求書を後回しにするプレッシャーが副収入を生む工夫を促した。
+      </div>
+      <div class="example-content">
+        <strong>示唆：</strong>投資を後回しにせず、強制的に資産購入枠を確保することで複利を早期に始動させる。
+      </div>
+      <div class="reason">
+        <strong>理由（この例が示すこと）：</strong>行動設計が結果を左右する。先取り投資が資産形成を加速させることを実証するため。
+      </div>
+    </div>
+  </div>
+
+  <div id="quotes" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <div class="quote-text">"金持ちはお金のために働かない。"</div>
+      <div class="quote-why"><strong>重要性：</strong>労働所得依存から資産所得への発想転換を促す中核命題だから。</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"資産はポケットにお金を入れる。"</div>
+      <div class="quote-why"><strong>重要性：</strong>資産/負債の実務的な判別基準を一言で示すから。</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"まず自分に支払え。"</div>
+      <div class="quote-why"><strong>重要性：</strong>投資を後回しにしない行動設計が資産形成を加速させるから。</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"多くの人にとって自宅は資産ではない。"</div>
+      <div class="quote-why"><strong>重要性：</strong>常識を覆しキャッシュフロー基準の判断を学ばせるから。</div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-text">"学ぶために働け、金のためだけに働くな。"</div>
+      <div class="quote-why"><strong>重要性：</strong>長期の収入基盤を作るスキル獲得を最優先にさせるから。</div>
+    </div>
+  </div>
+
+  <div id="actions" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h3>✅ アクション1：資産と負債を各10個リスト化</h3>
+      <div class="action-desc">
+        <strong>目的：</strong>自分の保有物をキャッシュフロー基準で分類し、資産/負債の区別を体感する。
+      </div>
+      <div class="action-benefit">
+        <strong>期待効果：</strong>現状の財務構造を可視化し、負債削減と資産購入の優先順位が明確になる。15分で実行可能。
+      </div>
+    </div>
+    <div class="action-card">
+      <h3>📊 アクション2：月次キャッシュフロー表を作成</h3>
+      <div class="action-desc">
+        <strong>目的：</strong>収入・支出・貯蓄/投資額を1ヶ月分記録し、実際のお金の動きを把握する。
+      </div>
+      <div class="action-benefit">
+        <strong>期待効果：</strong>無駄な支出を発見し、投資枠を確保する余地が見える。20分で初回作成可能。
+      </div>
+    </div>
+    <div class="action-card">
+      <h3>💰 アクション3：給与明細の税・控除を確認</h3>
+      <div class="action-desc">
+        <strong>目的：</strong>自分の給与から何がどれだけ引かれているかを確認し、税制の仕組みを実感する。
+      </div>
+      <div class="action-benefit">
+        <strong>期待効果：</strong>税負担の大きさを認識し、控除や法人活用の学習意欲が高まる。10分で実行可能。
+      </div>
+    </div>
+    <div class="action-card">
+      <h3>📚 アクション4：財務三表（BS/PL/CF）の基礎を15分で学ぶ</h3>
+      <div class="action-desc">
+        <strong>目的：</strong>貸借対照表・損益計算書・キャッシュフロー計算書の役割を簡単に理解する。
+      </div>
+      <div class="action-benefit">
+        <strong>期待効果：</strong>財務リテラシーの土台ができ、投資判断の精度が上がる。オンライン記事や動画で15分で概要把握可能。
+      </div>
+    </div>
+    <div class="action-card">
+      <h3>🎯 アクション5：今月の「まず自分に支払う」額を決める</h3>
+      <div class="action-desc">
+        <strong>目的：</strong>給与が入ったら最初に投資口座に移す金額を決め、自動振替を設定する。
+      </div>
+      <div class="action-benefit">
+        <strong>期待効果：</strong>強制貯蓄の仕組みができ、資産形成が自動化される。設定は10分で完了。
+      </div>
+    </div>
+  </div>
+
+  <div class="visual-section" style="margin-top:2rem;">
+    <h3>📚 関連書籍</h3>
+    <div class="related-books">
+      <div class="book-card">
+        <h4>金持ち父さんのキャッシュフロー・クワドラント</h4>
+        <div class="author">著者：ロバート・キヨサキ</div>
+        <div class="relation">収入の四象限モデルで働き方と資産形成を体系化。</div>
+      </div>
+      <div class="book-card">
+        <h4>バビロンの大富豪</h4>
+        <div class="author">著者：ジョージ・S・クレイソン</div>
+        <div class="relation">まず自分に支払う等の原則を寓話で学べる。</div>
+      </div>
+      <div class="book-card">
+        <h4>となりの億万長者</h4>
+        <div class="author">著者：トマス・J・スタンリー／ウィリアム・D・ダンコ</div>
+        <div class="relation">倹約と資産形成の実証データが本書の主張を補強。</div>
+      </div>
+      <div class="book-card">
+        <h4>お金の大学</h4>
+        <div class="author">著者：両学長</div>
+        <div class="relation">日本の税制・制度で本書の原則を実装する実務ガイド。</div>
+      </div>
+      <div class="book-card">
+        <h4>ウォール街のランダム・ウォーカー</h4>
+        <div class="author">著者：バートン・マルキール</div>
+        <div class="relation">長期分散と複利の観点から資産購入の実践知を提供。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
