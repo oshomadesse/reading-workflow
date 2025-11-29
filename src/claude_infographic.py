@@ -455,19 +455,19 @@ def generate_infographic_complete(deep, book_title):
     print(f"🗂 出力保存: {out_path}")
 
     # ★ User Request: Step5の段階で即時PushしてPages反映を早める
-    try:
-        if os.getenv("GITHUB_ACTIONS"):
-            print("🚀 GitHub Actions環境検出: 生成されたHTMLを即時Pushします...")
-            subprocess.run(["git", "config", "--global", "user.name", "github-actions[bot]"], check=False)
-            subprocess.run(["git", "config", "--global", "user.email", "github-actions[bot]@users.noreply.github.com"], check=False)
-            
-            # docs/filename.html を追加
-            subprocess.run(["git", "add", "-f", str(out_path)], check=True)
-            subprocess.run(["git", "commit", "-m", f"feat: add infographic {name} (immediate push)"], check=False)
-            subprocess.run(["git", "push"], check=True)
-            print("✅ 即時Push完了")
-    except Exception as e:
-        print(f"⚠️ 即時Push失敗 (処理は継続します): {e}")
+    # try:
+    #     if os.getenv("GITHUB_ACTIONS"):
+    #         print("🚀 GitHub Actions環境検出: 生成されたHTMLを即時Pushします...")
+    #         subprocess.run(["git", "config", "--global", "user.name", "github-actions[bot]"], check=False)
+    #         subprocess.run(["git", "config", "--global", "user.email", "github-actions[bot]@users.noreply.github.com"], check=False)
+    #         
+    #         # docs/filename.html を追加
+    #         subprocess.run(["git", "add", "-f", str(out_path)], check=True)
+    #         subprocess.run(["git", "commit", "-m", f"feat: add infographic {name} (immediate push)"], check=False)
+    #         subprocess.run(["git", "push"], check=True)
+    #         print("✅ 即時Push完了")
+    # except Exception as e:
+    #     print(f"⚠️ 即時Push失敗 (処理は継続します): {e}")
 
     # 互換: 絶対 file:// URL
     file_url = "file://" + quote(str(out_path.resolve()))

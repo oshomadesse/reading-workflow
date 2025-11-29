@@ -43,6 +43,9 @@ jobs:
         env:
           # Force CI mode just in case, though GITHUB_ACTIONS is set by default
           GITHUB_ACTIONS: true
+          PUBLIC_EXPORT_DIR: docs
+          PUBLIC_BASE_URL: https://oshomadesse.github.io/books-summary/
+          PUBLIC_GIT_AUTO_PUSH: 1
         run: |
           export WORKFLOW_START_TIME=$(date +%s)
           python src/integrated_reading_workflow.py
@@ -53,7 +56,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Add generated files
-          git add data/ infographics/
+          git add data/ infographics/ docs/
           if [ -d "artifacts" ]; then git add artifacts/; fi
           
           # Commit if there are changes
