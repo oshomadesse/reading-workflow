@@ -35,7 +35,8 @@ INBOX_DIR = PROJECT_DIR / "100_Inbox"
 # CI環境（GITHUB_ACTIONS）の場合はリポジトリルートをVAULT_ROOTとみなす
 if os.getenv("GITHUB_ACTIONS"):
     VAULT_ROOT = PROJECT_DIR.resolve()
-    # INBOX_DIR は PROJECT_DIR / "100_Inbox" で固定されるため、CI環境での特別な設定は不要
+    # INBOX_DIR は PROJECT_DIR / "artifacts" に変更（CIでコミット対象にするため）
+    INBOX_DIR = PROJECT_DIR / "artifacts"
 else:
     # ローカル環境: 環境変数または親ディレクトリからの推測
     VAULT_ROOT = Path(os.getenv("VAULT_ROOT", "/Users/seihoushouba/Documents/Oshomadesse-pc")).resolve()
