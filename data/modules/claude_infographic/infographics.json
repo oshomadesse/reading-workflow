@@ -20,5 +20,27 @@
       "{{claude_credit}}": "$18.99"
     },
     "cost_usd": 0.196338
+  },
+  {
+    "title": "NUDGE 実践行動経済学",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/NUDGE_%E5%AE%9F%E8%B7%B5%E8%A1%8C%E5%8B%95%E7%B5%8C%E6%B8%88%E5%AD%A6_infographic.html",
+    "vault_rel": "infographics/NUDGE_実践行動経済学_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2FNUDGE_%E5%AE%9F%E8%B7%B5%E8%A1%8C%E5%8B%95%E7%B5%8C%E6%B8%88%E5%AD%A6_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2FNUDGE_%E5%AE%9F%E8%B7%B5%E8%A1%8C%E5%8B%95%E7%B5%8C%E6%B8%88%E5%AD%A6_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/NUDGE_実践行動経済学_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4479,
+      "output_tokens": 11305
+    },
+    "generated_at": "2025-11-29T13:07:27",
+    "public_url": "file:///home/runner/work/books-summary/books-summary/infographics/NUDGE_%E5%AE%9F%E8%B7%B5%E8%A1%8C%E5%8B%95%E7%B5%8C%E6%B8%88%E5%AD%A6_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "file:///home/runner/work/books-summary/books-summary/infographics/NUDGE_%E5%AE%9F%E8%B7%B5%E8%A1%8C%E5%8B%95%E7%B5%8C%E6%B8%88%E5%AD%A6_infographic.html",
+      "{{claude_usaget}}": 11305,
+      "{{claude_credit}}": "$19.01"
+    },
+    "cost_usd": 0.183012
   }
 ]
