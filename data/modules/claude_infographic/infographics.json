@@ -64,5 +64,27 @@
       "{{claude_credit}}": "$19.02"
     },
     "cost_usd": 0.172455
+  },
+  {
+    "title": "リーン・スタートアップ",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E3%83%AA%E3%83%BC%E3%83%B3_%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%A2%E3%83%83%E3%83%97_infographic.html",
+    "vault_rel": "infographics/リーン_スタートアップ_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E3%83%AA%E3%83%BC%E3%83%B3_%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%A2%E3%83%83%E3%83%97_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E3%83%AA%E3%83%BC%E3%83%B3_%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%A2%E3%83%83%E3%83%97_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/リーン_スタートアップ_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4686,
+      "output_tokens": 12628
+    },
+    "generated_at": "2025-11-29T13:48:00",
+    "public_url": "https://oshomadesse.github.io/books-summary/%E3%83%AA%E3%83%BC%E3%83%B3_%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%A2%E3%83%83%E3%83%97_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "https://oshomadesse.github.io/books-summary/%E3%83%AA%E3%83%BC%E3%83%B3_%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E3%82%A2%E3%83%83%E3%83%97_infographic.html",
+      "{{claude_usaget}}": 12628,
+      "{{claude_credit}}": "$18.99"
+    },
+    "cost_usd": 0.203478
   }
 ]
