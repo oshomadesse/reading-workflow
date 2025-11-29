@@ -53,7 +53,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Add generated files
-          git add artifacts/ data/ infographics/
+          git add data/ infographics/
+          if [ -d "artifacts" ]; then git add artifacts/; fi
           
           # Commit if there are changes
           git commit -m "🤖 Daily Reading Workflow Update [skip ci]" || echo "No changes to commit"

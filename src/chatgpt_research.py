@@ -27,7 +27,13 @@ DATA_DIR    = PROJECT_DIR / "data"
 for d in (DATA_DIR, INBOX_DIR): d.mkdir(parents=True, exist_ok=True)
 
 load_dotenv(os.path.join(PROJECT_DIR, ".env"))
-client = OpenAI()
+client = None
+
+def _get_client():
+    global client
+    if client is None:
+        client = OpenAI()
+    return client
 
 # --- モデル/料金設定 ---
 PRO_MODEL = os.getenv("GPT5_MODEL", "gpt-5")
@@ -284,15 +290,15 @@ def _actions_from_parsed(parsed: Dict[str, Any], raw_text: str) -> List[str]:
 # === Responses API helpers =====================================================
 def _responses_create_safe(**kwargs):
     try:
-        return client.responses.create(**kwargs)
+        return _get_client().responses.create(**kwargs)
     except TypeError as e:
         msg = str(e)
         if "response_format" in msg:
             kwargs.pop("response_format", None)
-            return client.responses.create(**kwargs)
+            return _get_client().responses.create(**kwargs)
         if "max_output_tokens" in msg:
             kwargs.pop("max_output_tokens", None)
-            return client.responses.create(**kwargs)
+            return _get_client().responses.create(**kwargs)
         raise
 
 def _should_use_responses(model: str) -> bool:
@@ -380,7 +386,7 @@ class GeminiConnector:
             return r, parsed, raw_text
 
         # Fallback: Chat Completions
-        r = client.chat.completions.create(
+        r = _get_client().chat.completions.create(
             model=self.model,
             messages=[
                 {"role":"system","content":"出力は有効なJSONのみ。余計な文字や説明は禁止。必ず単一のJSONオブジェクト。"},

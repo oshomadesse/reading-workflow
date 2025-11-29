@@ -28,14 +28,20 @@ try:
 except Exception as e:
     raise RuntimeError("anthropic パッケージが必要です: pip install anthropic") from e
 
-API_KEY = os.getenv("ANTHROPIC_API_KEY")
-if not API_KEY:
-    raise ValueError("ANTHROPIC_API_KEY が未設定です")
-
 MODEL       = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
 MAX_TOKENS  = int(os.getenv("ANTHROPIC_MAX_TOKENS", "16384"))
-TEMPERATURE = float(os.getenv("ANTHROPIC_TEMPERATURE", "0"))  # 決定論寄せ
-client = Anthropic(api_key=API_KEY)
+TEMPERATURE = float(os.getenv("ANTHROPIC_TEMPERATURE", "0"))
+
+client = None
+
+def _get_client():
+    global client
+    if client is None:
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise ValueError("ANTHROPIC_API_KEY が未設定です")
+        client = Anthropic(api_key=api_key)
+    return client
 
 def _slug(s, n=80):
     if not s:
@@ -220,10 +226,10 @@ def _call_claude(user_text):
         "与えられた本文に明確にない情報を勝手に追加せず、曖昧な箇所は「不明」と記載してください。"
     )
 
-    resp = client.messages.create(
-        model=MODEL,
-        max_tokens=MAX_TOKENS,
-        temperature=TEMPERATURE,
+    resp = _get_client().messages.create(
+        model=os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929"),
+        max_tokens=int(os.getenv("ANTHROPIC_MAX_TOKENS", "16384")),
+        temperature=float(os.getenv("ANTHROPIC_TEMPERATURE", "0")),
         system=system_text,
         messages=[{"role":"user","content":user_text}],
     )
