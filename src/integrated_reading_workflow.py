@@ -1182,7 +1182,13 @@ def step9_send_notification_to_user(mid_summary=None):
         print(f"⏳ Step10: GitHub Pagesの反映を待機中... ({infographic_pages_url})")
         import time
         import urllib.request
-        max_wait = 180  # 最大3分待機
+        # max_wait = 180  # 最大3分待機
+        try:
+            max_wait = int(os.getenv("PUBLIC_PAGES_WAIT_TIMEOUT", "180"))
+        except Exception:
+            max_wait = 180
+        print(f"⏳ Step10: GitHub Pagesの反映を待機中... (timeout={max_wait}s)")
+        
         start_time = time.time()
         
         while True:

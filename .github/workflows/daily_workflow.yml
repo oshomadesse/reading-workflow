@@ -46,6 +46,7 @@ jobs:
           PUBLIC_EXPORT_DIR: docs
           PUBLIC_BASE_URL: https://oshomadesse.github.io/books-summary/
           PUBLIC_GIT_AUTO_PUSH: 1
+          PUBLIC_PAGES_WAIT_TIMEOUT: 300
         run: |
           export WORKFLOW_START_TIME=$(date +%s)
           python src/integrated_reading_workflow.py
