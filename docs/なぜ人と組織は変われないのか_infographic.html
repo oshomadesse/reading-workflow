@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>なぜ人と組織は変われないのか - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1rem 1rem;
+}
+header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+.summary-item strong {
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+.summary-item p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.tab-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+.reason-box strong {
+  color: var(--secondary);
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--secondary);
+}
+.chapter-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--secondary);
+}
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.75rem;
+}
+.chapter-card li {
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+.chapter-card li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--secondary);
+  font-weight: bold;
+}
+.example-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--accent);
+}
+.example-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.example-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(118,75,162,0.05), rgba(102,126,234,0.05));
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--secondary);
+  position: relative;
+}
+.quote-card:before {
+  content: """;
+  font-size: 3rem;
+  color: var(--secondary);
+  opacity: 0.2;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+.quote-card p {
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+.quote-card small {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  padding-left: 1rem;
+}
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.action-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.action-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.action-card .meta {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.diagram {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.diagram h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-align: center;
+}
+.flow-item {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 2px solid var(--border);
+}
+.flow-arrow {
+  text-align: center;
+  color: var(--secondary);
+  font-size: 1.5rem;
+  margin: 0.25rem 0;
+}
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.book-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--primary);
+}
+.book-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
+}
+.book-card .author {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+.book-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .tabs {
+    font-size: 0.85rem;
+  }
+  .tab-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 なぜ人と組織は変われないのか</h1>
+  <p>変化への免疫を解き、持続的成長を実現する</p>
+</header>
+
+<div class="container">
+  <div class="summary-block">
+    <h2>📌 要約：問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      <p>なぜ善意と努力があっても人と組織は変われないのか？どうすれば変われるのか？</p>
+    </div>
+    <div class="summary-item">
+      <strong>💡 答え</strong>
+      <p>人と組織には無意識の「変化への免疫」があり、表の改善目標と裏の競合コミットメント・大前提が衝突している。免疫地図で可視化し、大前提を安全な小実験で検証・書き換えることで、変化が実現する。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      <p>自己保護の心理的メカニズムは短期的には合理的に機能し、失敗回避や所属維持などの価値を守る。そのため新しい行動は脅威と解釈され、意図に反して現状維持が強化される。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🛠️ How（そのためには）</strong>
+      <p>1) 改善目標を定義する 2) それに反する自分の行動を列挙する 3) その行動を支える競合コミットメントを掘り出す 4) 競合コミットメントを正当化する大前提を特定する 5) 低リスクの小実験で大前提を検証し、学習に基づいて前提と行動を改訂する 6) チームや組織に学習文化と心理的安全性を設計する</p>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="card-grid">
+      <div class="card">
+        <h3>🛡️ 変化への免疫</h3>
+        <ul>
+          <li>改善目標に反する行動を無自覚に生み出す心理的・組織的メカニズム</li>
+          <li>現状を守るための精巧な自己保護システム</li>
+          <li>意志の弱さではなく、合理的な防衛反応</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>変化の失敗を個人の責任から構造的問題へと再定義し、介入可能にする核心概念
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚖️ 競合するコミットメント</h3>
+        <ul>
+          <li>表の目標と衝突する、裏の強力な約束や価値</li>
+          <li>例：失敗を避けたい、評価を守りたい</li>
+          <li>しばしば本人は自覚していない</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>逆効果行動の真の動機を明らかにし、変化の障壁を特定する鍵
+        </div>
+      </div>
+      <div class="card">
+        <h3>🧠 大前提</h3>
+        <ul>
+          <li>競合コミットメントを正当化する信念の核</li>
+          <li>「〜すると〜になってしまう」といった恐れに基づく仮説</li>
+          <li>事実ではなく検証可能な仮説</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>行動を縛る根本原因であり、更新すれば変化が持続する最重要ターゲット
+        </div>
+      </div>
+      <div class="card">
+        <h3>🗺️ 免疫地図</h3>
+        <ul>
+          <li>改善目標→逆効果行動→競合コミットメント→大前提を可視化</li>
+          <li>介入設計の土台となるワークシート</li>
+          <li>個人・チーム双方で活用可能</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>無意識のメカニズムを見える化し、対話と実験の共通言語を提供
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔬 安全な小実験</h3>
+        <ul>
+          <li>大前提を低リスクで検証する計画</li>
+          <li>観察可能な証拠を集め、前提の強度を測る</li>
+          <li>失敗しても学習につながる設計</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>恐れを科学的検証に転換し、安全に前提を更新する実践手法
+        </div>
+      </div>
+      <div class="card">
+        <h3>📈 発達段階</h3>
+        <ul>
+          <li>社会的：外部規範に同化</li>
+          <li>自己創出：自らの価値で意思決定</li>
+          <li>自己変容：複数の枠組みを越境・統合</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>前提を前提として見抜くメタ認知能力の発達が、変化の持続性を左右
+        </div>
+      </div>
+      <div class="card">
+        <h3>🏢 意図的発達組織（DDO）</h3>
+        <ul>
+          <li>日常業務を通じて個人の学習と前提更新を仕組み化</li>
+          <li>弱さの開示と実験が常態</li>
+          <li>成長が仕事の一部として設計される</li>
+        </ul>
+        <div class="reason-box">
+          <strong>理由：</strong>個人の変化を組織文化に埋め込み、持続的な学習を実現する設計思想
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <h3>🔄 概念間の関係性</h3>
+      <div class="flow-item">改善目標（例：もっと委任したい）</div>
+      <div class="flow-arrow">↓ 実行しようとする</div>
+      <div class="flow-item">逆効果行動（例：細かく管理してしまう）</div>
+      <div class="flow-arrow">↓ を支える</div>
+      <div class="flow-item">競合するコミットメント（例：失敗を避けたい）</div>
+      <div class="flow-arrow">↓ を正当化する</div>
+      <div class="flow-item">大前提（例：委任すると失敗し信用を失う）</div>
+      <div class="flow-arrow">↓ 結果</div>
+      <div class="flow-item" style="background: linear-gradient(135deg, rgba(118,75,162,0.2), rgba(240,147,251,0.2)); border-color: var(--secondary);">変化への免疫（現状維持が合理化される）</div>
+      <div class="flow-arrow" style="color: var(--accent);">⚡ 介入</div>
+      <div class="flow-item" style="background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(240,147,251,0.2)); border-color: var(--primary);">小実験で大前提を検証 → 証拠に基づき前提更新 → 新行動が持続</div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📖 導入：意思や目標設定では変化が続かない</h3>
+      <ul>
+        <li>個人と組織の双方で、善意と努力があっても変化が定着しない事例を提示</li>
+        <li>従来の「意志の弱さ」「スキル不足」では説明できない現象</li>
+        <li>変化への免疫という新しい視点の必要性</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>問題の再定義により、読者の前提を揺さぶり、新しい枠組みへの関心を喚起
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🧩 理論編：変化への免疫のメカニズム</h3>
+      <ul>
+        <li>競合するコミットメントと大前提の構造を解説</li>
+        <li>成人発達理論（社会的→自己創出→自己変容）との関連</li>
+        <li>免疫が合理的に機能する心理的・社会的背景</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>現象の背後にある理論を提供し、介入の根拠と方向性を明確化
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🛠️ ツール編：免疫地図の作り方</h3>
+      <ul>
+        <li>ステップ1：改善目標を具体化</li>
+        <li>ステップ2：逆効果行動を列挙</li>
+        <li>ステップ3：競合コミットメントを掘り出す</li>
+        <li>ステップ4：大前提を特定</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>理論を実践可能な手順に落とし込み、読者が自分の免疫を可視化できるようにする
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>💼 実践編：多様なケースでの適用</h3>
+      <ul>
+        <li>職場・学校・医療など多様な現場での事例</li>
+        <li>個人とチームの両レベルでの学習プロセス</li>
+        <li>文化や役割による免疫の違い</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>具体例により汎用性を示し、読者が自分の文脈に応用するイメージを持てるようにする
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🔬 介入編：安全な小実験の設計と評価</h3>
+      <ul>
+        <li>大前提を検証する実験の設計原則</li>
+        <li>証拠収集と反事例の探索</li>
+        <li>前提の書き換えと行動の改訂サイクル</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>恐れを科学的検証に転換し、安全に前提を更新する具体的手法を提供
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🏛️ 組織編：学習を常態化する仕組み</h3>
+      <ul>
+        <li>フィードバック文化と心理的安全性の設計</li>
+        <li>意図的発達組織（DDO）の具体像</li>
+        <li>個人の成長を組織の日常業務に統合する方法</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>個人の変化を組織文化に埋め込み、持続的な学習を実現する設計思想を示す
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🌟 結語：個人の発達と組織変革の統合</h3>
+      <ul>
+        <li>前提更新を継続することで持続的な変化が可能になる</li>
+        <li>個人と組織の相互作用による成長スパイラル</li>
+        <li>変化への免疫を味方につける生き方・働き方</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>全体を統合し、読者に長期的な実践への動機と希望を与える
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h3>💼 例1：マネージャーの委任問題</h3>
+      <p><strong>背景：</strong>あるマネージャーは「もっと部下に委任したい」と目標を立てたが、実際には細かく管理し続けた。免疫地図を作成すると、「委任すると失敗し、自分の評価が下がる」という大前提が浮上。</p>
+      <p><strong>示唆：</strong>小実験として、低リスクのタスクを委任し観察。部下は予想以上に対応でき、評価も下がらなかった。大前提が更新され、委任行動が持続。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>日常的な管理行動の背後に隠れた恐れを可視化し、小実験で前提を更新できることを示す典型例
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🏫 例2：教師の授業改革</h3>
+      <p><strong>背景：</strong>ある教師は「生徒中心の授業をしたい」と考えたが、講義形式を続けた。競合コミットメントは「統制を失いたくない」、大前提は「生徒に自由を与えると混乱し、学習が進まない」。</p>
+      <p><strong>示唆：</strong>5分間のグループワークを試験的に導入。生徒は自律的に議論し、理解が深まった。大前提が弱まり、段階的に生徒中心の授業へ移行。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>教育現場での免疫メカニズムを示し、小さな実験が文化変革の起点になることを例証
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🏥 例3：医療チームのフィードバック文化</h3>
+      <p><strong>背景：</strong>医療チームは「率直なフィードバックで医療ミスを減らしたい」と目標を掲げたが、誰も指摘しなかった。大前提は「指摘すると人間関係が壊れ、チームから排除される」。</p>
+      <p><strong>示唆：</strong>匿名フィードバックと心理的安全性のワークショップを導入。小さな成功体験を積み重ね、対面での建設的フィードバックが常態化。医療ミスが減少。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>組織レベルの免疫と心理的安全性の関係を示し、文化変革の具体的プロセスを例証
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🔄 例4：発達段階とメタ認知</h3>
+      <p><strong>背景：</strong>自己創出段階の個人は自分の価値観を持つが、それを絶対視しがち。自己変容段階に移行すると、自分の前提を「前提」として見抜き、柔軟に更新できる。</p>
+      <p><strong>示唆：</strong>免疫地図の作成自体が、前提をメタ認知する訓練となり、発達を促進する。組織が学習文化を持つと、個人の発達段階も上がりやすい。</p>
+      <div class="reason-box">
+        <strong>理由：</strong>個人の発達段階が変化の持続性を左右することを示し、組織設計の重要性を強調
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <p>変わらないのは怠慢ではなく、よく機能する自己保護のシステムがあるからだ。</p>
+      <small><strong>なぜ重要か：</strong>原因を意志の弱さから構造的メカニズムへと再定義し、介入点を明確にする。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>私たちは目標に向けて働く一方で、同時にそれを打ち消す"もう一つの仕事"もしている。</p>
+      <small><strong>なぜ重要か：</strong>逆効果行動の自覚を促し、免疫地図づくりの必要性を示す。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>仮説（大前提）は事実ではない。小さく安全に試し、証拠で更新できる。</p>
+      <small><strong>なぜ重要か：</strong>行動変容を恐れから科学的検証へと転換し、実践可能性を高める。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>免疫地図は、無意識のメカニズムを見える化し、対話と実験の共通言語を提供する。</p>
+      <small><strong>なぜ重要か：</strong>個人とチームが変化の障壁を共有し、協働で解決する土台となる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>意図的発達組織（DDO）では、成長が仕事の一部として設計される。</p>
+      <small><strong>なぜ重要か：</strong>個人の変化を組織文化に埋め込み、持続的な学習を実現する設計思想を示す。</small>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h3>✅ アクション1：改善目標を1つ具体化して書く</h3>
+      <p>「もっと〜したい」という漠然とした願望を、「週に3回、30分の〜をする」といった具体的な行動目標に変換する。紙またはデジタルメモに記録。</p>
+      <div class="meta">
+        <strong>目的：</strong>変化の起点を明確にする<br>
+        <strong>期待効果：</strong>免疫地図の第一歩が踏み出せ、自己観察の焦点が定まる
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>✅ アクション2：逆効果の行動を3つ列挙する</h3>
+      <p>改善目標に反して、実際に自分がしている行動を3つ書き出す。「〜してしまう」「〜を避けている」など、具体的な行動レベルで記述。</p>
+      <div class="meta">
+        <strong>目的：</strong>無自覚の現状維持行動を可視化する<br>
+        <strong>期待効果：</strong>競合コミットメントの存在に気づき、免疫地図の核心に近づく
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>✅ アクション3：大前提を試す小実験を設計する</h3>
+      <p>「もし〜したら〜になる」という大前提を1つ選び、低リスクで検証できる小実験を計画。実行日時・観察項目・成功基準を明記。</p>
+      <div class="meta">
+        <strong>目的：</strong>恐れを科学的検証に転換する<br>
+        <strong>期待効果：</strong>証拠に基づいて前提を更新し、新しい行動への第一歩を踏み出せる
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>✅ アクション4：免疫地図を1枚作成する</h3>
+      <p>改善目標→逆効果行動→競合コミットメント→大前提の4列を紙に書き、15分で埋める。完璧でなくてOK。</p>
+      <div class="meta">
+        <strong>目的：</strong>変化の障壁を全体像として把握する<br>
+        <strong>期待効果：</strong>介入の優先順位が明確になり、対話の共通言語が手に入る
+      </div>
+    </div>
+
+    <div class="action-card">
+      <h3>✅ アクション5：信頼できる人と免疫地図を共有する</h3>
+      <p>作成した免疫地図を同僚や友人に見せ、フィードバックをもらう。「この大前提、本当？」と問いかけてもらう。</p>
+      <div class="meta">
+        <strong>目的：</strong>他者の視点で前提の妥当性を検証する<br>
+        <strong>期待効果：</strong>盲点に気づき、心理的安全性の中で前提を更新しやすくなる
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 3rem;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">📚 関連書籍</h2>
+    <div class="book-card">
+      <h4>スイッチ！『変われない』を変える方法</h4>
+      <div class="author">チップ・ハース, ダン・ハース</div>
+      <p>個人と組織の行動変容の実践フレームを提示し、免疫の突破策と補完し合う。</p>
+    </div>
+    <div class="book-card">
+      <h4>学習する組織</h4>
+      <div class="author">ピーター・センゲ</div>
+      <p>組織学習の土台を示し、DDO的な学習文化の設計に通じる。</p>
+    </div>
+    <div class="book-card">
+      <h4>恐れのない組織</h4>
+      <div class="author">エイミー・C・エドモンドソン</div>
+      <p>心理的安全性の理論と実践が、前提の開示と小実験を可能にする基盤となる。</p>
+    </div>
+    <div class="book-card">
+      <h4>An Everyone Culture: Becoming a Deliberately Developmental Organization</h4>
+      <div class="author">Robert Kegan, Lisa L. Lahey</div>
+      <p>DDOの具体像と運用事例を詳述し、組織への定着化を学べる。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>
