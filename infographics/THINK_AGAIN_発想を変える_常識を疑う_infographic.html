@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Think Again インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.summary-block {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.summary-item {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255,255,255,0.5);
+}
+
+.summary-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+}
+
+.summary-item ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.summary-item li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.25rem;
+}
+
+.summary-item li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s;
+  color: var(--text);
+}
+
+.tab-btn:hover {
+  border-color: var(--primary);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: transparent;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--primary);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.card li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.reason-box {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+
+.reason-box strong {
+  color: var(--secondary);
+}
+
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--secondary);
+}
+
+.chapter-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+}
+
+.chapter-card .points {
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+}
+
+.quote-card {
+  background: linear-gradient(135deg, rgba(118,75,162,0.05), rgba(102,126,234,0.05));
+  border-left: 4px solid var(--secondary);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.quote-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.quote-why {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.action-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-card .meta {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+.viz-container {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.viz-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.bar-chart {
+  margin-bottom: 1rem;
+}
+
+.bar-item {
+  margin-bottom: 0.75rem;
+}
+
+.bar-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bar-bg {
+  background: var(--border);
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: width 1s ease-out;
+}
+
+.relationship-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rel-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  background: rgba(102,126,234,0.05);
+  border-radius: 0.5rem;
+}
+
+.rel-arrow {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.book-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.book-item {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.book-title {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.book-author {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.book-relation {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .tabs { font-size: 0.85rem; }
+  .tab-btn { padding: 0.6rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📖 Think Again 考え直す力</h1>
+  <p class="subtitle">科学者の姿勢で信念を更新し、確信的な謙虚さを武器に学び続ける</p>
+</header>
+
+<div class="container">
+
+<div class="summary-block">
+  <h2>🎯 要約：問い×答え×根拠</h2>
+  <div class="summary-item">
+    <strong>❓ 問い</strong>
+    <p>なぜ私たちは誤った確信に固執し、どうすれば柔軟に考え直せるのか？</p>
+  </div>
+  <div class="summary-item">
+    <strong>💡 答え</strong>
+    <p>説教師・検事・政治家モードを脱し、科学者モードで"確信的な謙虚さ"を保ちながら、証拠に基づき信念を更新する。</p>
+  </div>
+  <div class="summary-item">
+    <strong>🔍 Why（なぜそうなのか）</strong>
+    <p>確認バイアスやアイデンティティ防衛が誤りの修正を阻む一方、仮説検証・心理的安全性・建設的対立は学習と創造性を高めることが実証されている。</p>
+  </div>
+  <div class="summary-item">
+    <strong>🛠️ How（そのためには）</strong>
+    <ul>
+      <li>信念を仮説化し、予測→検証→更新のサイクルを回す</li>
+      <li>問い中心の対話（動機づけ面接、開放式質問）を用いる</li>
+      <li>二項対立を"複雑化"し、グラデーションで考える</li>
+      <li>タスク葛藤を歓迎し、個人攻撃を抑制する規範をつくる</li>
+      <li>確信度を数値化し、事後に校正して精度を上げる</li>
+    </ul>
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab6" data-tab="tab6">関連書籍</button>
+</div>
+
+<div id="tab1" class="tab-content active" role="tabpanel">
+  <div class="card-grid">
+    <div class="card">
+      <h3>🔬 科学者モード</h3>
+      <ul>
+        <li>信念を仮説として扱う</li>
+        <li>データで検証し更新する</li>
+        <li>誤りから学ぶ姿勢が中心</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>仮説→検証→更新のサイクルが継続的学習と精度向上を可能にするため。
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚖️ 説教師・検事・政治家モード</h3>
+      <ul>
+        <li>説教師：自説を布教する</li>
+        <li>検事：相手を論破する</li>
+        <li>政治家：支持を稼ぐ</li>
+        <li>学習を妨げる思考様式</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>勝つことが目的化し、証拠に基づく修正が阻害されるから。
+      </div>
+    </div>
+    <div class="card">
+      <h3>🎯 確信的な謙虚さ</h3>
+      <ul>
+        <li>原理や価値に自信を持つ</li>
+        <li>事実や解釈には謙虚</li>
+        <li>修正可能な姿勢を保つ</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>自信と可逆性の両立が実行力と学習力を最大化するため。
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚫⚪ バイナリーバイアス</h3>
+      <ul>
+        <li>連続的現象を二項対立で単純化</li>
+        <li>極化を助長する認知傾向</li>
+        <li>白黒思考に陥る</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>複雑な現実を見落とし、対立を深めるから。
+      </div>
+    </div>
+    <div class="card">
+      <h3>🌈 複雑化（Complexifying）</h3>
+      <ul>
+        <li>多面的要素を可視化</li>
+        <li>第三の選択肢を探す</li>
+        <li>対立を緩和し思考を柔軟に</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>グラデーション化が協働と創造的解決を促進するため。
+      </div>
+    </div>
+    <div class="card">
+      <h3>💬 動機づけ面接</h3>
+      <ul>
+        <li>相手の自律性を尊重</li>
+        <li>質問で内発的動機に働きかける</li>
+        <li>変化を促す対話法</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>問うて引き出すことで反発を抑え、自発的再考を促すから。
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚔️ タスク葛藤と関係葛藤</h3>
+      <ul>
+        <li>タスク：課題内容を巡る健全な意見差</li>
+        <li>関係：個人攻撃的衝突</li>
+        <li>前者は成果に資する</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>議論を課題に集中させることで学習と創造性が高まるため。
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔗 アイデンティティ接着</h3>
+      <ul>
+        <li>信念や立場を自己同一性と結合</li>
+        <li>修正を困難にする状態</li>
+        <li>信念=自分になる</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>信念の変更が自己否定と感じられ、防衛反応が起きるから。
+      </div>
+    </div>
+    <div class="card">
+      <h3>📊 確率的思考と校正</h3>
+      <ul>
+        <li>確信を0〜100%で表現</li>
+        <li>事後に現実と照合して調整</li>
+        <li>判断精度を高める</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>確信度を校正することで過信を防ぎ、謙虚さを維持できるため。
+      </div>
+    </div>
+    <div class="card">
+      <h3>🛡️ 心理的安全性</h3>
+      <ul>
+        <li>異論や失敗を表明しても罰されない</li>
+        <li>集団規範として機能</li>
+        <li>再考と学習の基盤</li>
+      </ul>
+      <div class="reason-box">
+        <strong>理由：</strong>異論歓迎の文化が多様な視点と継続的改善を生むから。
+      </div>
+    </div>
+  </div>
+
+  <div class="viz-container">
+    <div class="viz-title">🔗 概念間の関係性</div>
+    <div class="relationship-diagram">
+      <div class="rel-item">
+        <span>アイデンティティ接着</span>
+        <span class="rel-arrow">→強化→</span>
+        <span>バイナリーバイアス／確証バイアス</span>
+      </div>
+      <div class="rel-item">
+        <span>科学者モード</span>
+        <span class="rel-arrow">→促進→</span>
+        <span>確信的な謙虚さ</span>
+        <span class="rel-arrow">→促進→</span>
+        <span>再考サイクル</span>
+      </div>
+      <div class="rel-item">
+        <span>心理的安全性</span>
+        <span class="rel-arrow">→促進→</span>
+        <span>タスク葛藤</span>
+        <span class="rel-arrow">→向上→</span>
+        <span>学習・創造・意思決定</span>
+      </div>
+      <div class="rel-item">
+        <span>動機づけ面接</span>
+        <span class="rel-arrow">→促進→</span>
+        <span>相手の内発的再考</span>
+        <span class="rel-arrow">→抑制→</span>
+        <span>反発</span>
+      </div>
+      <div class="rel-item">
+        <span>確率的思考と校正</span>
+        <span class="rel-arrow">→改善→</span>
+        <span>予測精度</span>
+        <span class="rel-arrow">→強化→</span>
+        <span>謙虚さの維持</span>
+      </div>
+      <div class="rel-item">
+        <span>複雑化</span>
+        <span class="rel-arrow">→緩和→</span>
+        <span>極化／関係葛藤</span>
+        <span class="rel-arrow">→回復→</span>
+        <span>協働</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab2" class="tab-content" role="tabpanel">
+  <div class="chapter-card">
+    <h3>📘 パート1：個人の再考</h3>
+    <p class="points"><strong>要点：</strong></p>
+    <ul>
+      <li>自らの思考モードを点検する</li>
+      <li>科学者モードと確信的な謙虚さを獲得</li>
+      <li>誤りの喜びを受け入れる</li>
+      <li>健全な葛藤を学ぶ</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（なぜこの章が必要か）：</strong>個人レベルでの再考習慣が全ての基盤となり、自己認識と学習能力を高めるため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>💬 パート2：対人の再考</h3>
+    <p class="points"><strong>要点：</strong></p>
+    <ul>
+      <li>議論で勝つより相手を動かす技法へ転換</li>
+      <li>動機づけ面接を活用</li>
+      <li>質問とリスニングで心を開く</li>
+      <li>ステレオタイプの不安定化</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（なぜこの章が必要か）：</strong>他者との対話が再考の触媒となり、相互理解と協働を促進するため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🏢 パート3：集団の再考</h3>
+    <p class="points"><strong>要点：</strong></p>
+    <ul>
+      <li>極化を和らげる会話設計</li>
+      <li>学習する学校・職場文化の構築</li>
+      <li>慣習の再設計</li>
+      <li>再考が常態化する仕組みを築く</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（なぜこの章が必要か）：</strong>組織文化と制度が個人の再考を支え、集団知を最大化するため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🎯 結語</h3>
+    <p class="points"><strong>要点：</strong></p>
+    <ul>
+      <li>トンネルビジョンから離脱</li>
+      <li>計画と信念を継続的に見直す</li>
+      <li>"再考の習慣"を個人・組織に埋め込む</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（なぜこの章が必要か）：</strong>再考を一時的な技法でなく、生涯の習慣として定着させる重要性を強調するため。
+    </div>
+  </div>
+
+  <div class="viz-container">
+    <div class="viz-title">📊 各パートの重要度（相対評価）</div>
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>個人の再考</span>
+          <span>95%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 95%;">基盤</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>対人の再考</span>
+          <span>90%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 90%;">実践</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>集団の再考</span>
+          <span>85%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 85%;">制度化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab3" class="tab-content" role="tabpanel">
+  <div class="card">
+    <h3>🔬 例1：スタートアップの方向転換（ピボット）</h3>
+    <ul>
+      <li><strong>背景：</strong>初期仮説が市場で機能しないと判明</li>
+      <li><strong>行動：</strong>科学者モードで顧客データを再検証し、製品を大幅変更</li>
+      <li><strong>結果：</strong>成功企業の多くがピボットを経験</li>
+      <li><strong>示唆：</strong>信念を仮説化することで柔軟な軌道修正が可能に</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）：</strong>アイデンティティ接着を避け、証拠に基づく再考が生存と成長を左右することを実証。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💬 例2：動機づけ面接による禁煙支援</h3>
+    <ul>
+      <li><strong>背景：</strong>説得や脅しでは行動変容が起きにくい</li>
+      <li><strong>行動：</strong>開放式質問で本人の価値観と矛盾を自覚させる</li>
+      <li><strong>結果：</strong>内発的動機が高まり、禁煙成功率が向上</li>
+      <li><strong>示唆：</strong>相手の自律性を尊重する対話が再考を促す</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）：</strong>問うて引き出すアプローチが反発を抑え、持続的変化を生むことを示す。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🏢 例3：Pixarのブレイントラスト</h3>
+    <ul>
+      <li><strong>背景：</strong>映画制作で創造性と品質を両立させる必要</li>
+      <li><strong>行動：</strong>心理的安全性の高い場で率直なフィードバックを交換</li>
+      <li><strong>結果：</strong>タスク葛藤を歓迎し、関係葛藤を抑制する文化が定着</li>
+      <li><strong>示唆：</strong>異論を歓迎する規範が集団の学習と創造を加速</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）：</strong>心理的安全性と建設的対立が組織の再考能力を高めることを実証。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌍 例4：気候変動議論の複雑化</h3>
+    <ul>
+      <li><strong>背景：</strong>「信じる／信じない」の二項対立で極化</li>
+      <li><strong>行動：</strong>リスク管理・経済・技術など多軸で議論を再構成</li>
+      <li><strong>結果：</strong>共通の関心事が見つかり、対話が可能に</li>
+      <li><strong>示唆：</strong>複雑化が極化を緩和し、協働の余地を生む</li>
+    </ul>
+    <div class="reason-box">
+      <strong>理由（この例が示すこと）：</strong>バイナリーバイアスを超えることで建設的対話が復活することを示す。
+    </div>
+  </div>
+</div>
+
+<div id="tab4" class="tab-content" role="tabpanel">
+  <div class="quote-card">
+    <div class="quote-text">
+      "The hallmark of an open mind is not letting your ideas become your identity."
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か：</strong>信念を自己と切り離すことが再考の前提だから。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      "Confident humility is a sweet spot between arrogance and self-doubt."
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か：</strong>学習と実行を両立させる最適心構えを言い表す。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      "Argue like you're right but listen like you're wrong."
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か：</strong>主張と傾聴の両輪が知的更新を加速するため。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      "If knowledge is power, knowing what we don't know is wisdom."
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か：</strong>未知の自覚が誤り修正と探索を導くから。
+    </div>
+  </div>
+
+  <div class="viz-container">
+    <div class="viz-title">💡 引用の核心テーマ</div>
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>アイデンティティの分離</span>
+          <span>100%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 100%;">最重要</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>確信的な謙虚さ</span>
+          <span>95%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 95%;">中核</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>主張と傾聴の両立</span>
+          <span>90%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 90%;">実践</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>未知の自覚</span>
+          <span>85%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 85%;">基盤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab5" class="tab-content" role="tabpanel">
+  <div class="action-card">
+    <h3>✅ アクション1：最近の確信1件の反証を集める</h3>
+    <p>自分が強く信じている意見や判断を1つ選び、それに反する証拠や視点を15分間リサーチする。</p>
+    <div class="meta">
+      <strong>目的：</strong>確証バイアスを自覚し、科学者モードを体験する<br>
+      <strong>期待効果：</strong>信念の仮説化が進み、柔軟性が高まる
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション2：反対意見の良質記事を1本読む</h3>
+    <p>自分と異なる立場の専門家や論者が書いた記事を1本選び、理解に努めながら読む。</p>
+    <div class="meta">
+      <strong>目的：</strong>ステレオタイプを不安定化し、複雑化を促す<br>
+      <strong>期待効果：</strong>バイナリーバイアスが緩和され、対話の余地が生まれる
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション3：確信度を0〜100で再評価する</h3>
+    <p>最近下した判断や予測について、確信度を数値（0〜100%）で記録し、根拠を箇条書きする。</p>
+    <div class="meta">
+      <strong>目的：</strong>確率的思考を習慣化し、過信を防ぐ<br>
+      <strong>期待効果：</strong>校正サイクルが始まり、判断精度が向上する
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション4：1つの信念を仮説として書き直す</h3>
+    <p>「〜である」という断定を「〜かもしれない」という仮説形式に書き換え、検証方法を考える。</p>
+    <div class="meta">
+      <strong>目的：</strong>アイデンティティ接着を緩め、科学者モードを強化<br>
+      <strong>期待効果：</strong>信念の更新が心理的に容易になる
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h3>✅ アクション5：開放式質問を3つ用意する</h3>
+    <p>次の議論や会議で使える「どのように？」「何が？」で始まる質問を3つ事前に準備する。</p>
+    <div class="meta">
+      <strong>目的：</strong>動機づけ面接の技法を実践し、対話の質を高める<br>
+      <strong>期待効果：</strong>相手の内発的再考が促され、反発が減る
+    </div>
+  </div>
+</div>
+
+<div id="tab6" class="tab-content" role="tabpanel">
+  <div class="book-list">
+    <div class="book-item">
+      <div class="book-title">📚 超予測力</div>
+      <div class="book-author">フィリップ・E・テトロック、ダン・ガードナー</div>
+      <div class="book-relation">
+        <strong>関連性：</strong>確率的思考と予測の校正法が実践的に学べる。
+      </div>
+    </div>
+
+    <div class="book-item">
+      <div class="book-title">📚 ファクトフルネス</div>
+      <div class="book-author">ハンス・ロスリング</div>
+      <div class="book-relation">
+        <strong>関連性：</strong>データで思い込みを再考する姿勢を養う。
+      </div>
+    </div>
+
+    <div class="book-item">
+      <div class="book-title">📚 ノイズ</div>
+      <div class="book-author">ダニエル・カーネマン他</div>
+      <div class="book-relation">
+        <strong>関連性：</strong>判断のばらつきを理解し、再考プロセスを設計できる。
+      </div>
+    </div>
+
+    <div class="book-item">
+      <div class="book-title">📚 Nudge</div>
+      <div class="book-author">リチャード・セイラー、キャス・サンスティーン</div>
+      <div class="book-relation">
+        <strong>関連性：</strong>選択設計で再考と行動変容を後押しする視点。
+      </div>
+    </div>
+
+    <div class="book-item">
+      <div class="book-title">📚 失敗の科学</div>
+      <div class="book-author">マシュー・サイド</div>
+      <div class="book-relation">
+        <strong>関連性：</strong>エラーカルチャーと学習する組織の実例が豊富。
+      </div>
+    </div>
+  </div>
+
+  <div class="viz-container" style="margin-top: 1.5rem;">
+    <div class="viz-title">🔗 関連書籍のテーマ分布</div>
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>予測と校正</span>
+          <span>20%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 20%;">超予測力</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>データ思考</span>
+          <span>20%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 20%;">ファクトフルネス</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>判断設計</span>
+          <span>20%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 20%;">ノイズ</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>選択アーキテクチャ</span>
+          <span>20%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 20%;">Nudge</div>
+        </div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">
+          <span>学習文化</span>
+          <span>20%</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width: 20%;">失敗の科学</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+
+  const barFills = document.querySelectorAll('.bar-fill');
+  barFills.forEach(bar => {
+    const width = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => {
+      bar.style.width = width;
+    }, 100);
+  });
+});
+</script>
+
+</body>
+</html>

@@ -108,5 +108,27 @@
       "{{claude_credit}}": "$19.02"
     },
     "cost_usd": 0.174951
+  },
+  {
+    "title": "THINK AGAIN 発想を変える、常識を疑う",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/THINK_AGAIN_%E7%99%BA%E6%83%B3%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B_%E5%B8%B8%E8%AD%98%E3%82%92%E7%96%91%E3%81%86_infographic.html",
+    "vault_rel": "infographics/THINK_AGAIN_発想を変える_常識を疑う_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2FTHINK_AGAIN_%E7%99%BA%E6%83%B3%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B_%E5%B8%B8%E8%AD%98%E3%82%92%E7%96%91%E3%81%86_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2FTHINK_AGAIN_%E7%99%BA%E6%83%B3%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B_%E5%B8%B8%E8%AD%98%E3%82%92%E7%96%91%E3%81%86_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/THINK_AGAIN_発想を変える_常識を疑う_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4342,
+      "output_tokens": 11568
+    },
+    "generated_at": "2025-11-30T07:27:30",
+    "public_url": "https://oshomadesse.github.io/books-summary/THINK_AGAIN_%E7%99%BA%E6%83%B3%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B_%E5%B8%B8%E8%AD%98%E3%82%92%E7%96%91%E3%81%86_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "https://oshomadesse.github.io/books-summary/THINK_AGAIN_%E7%99%BA%E6%83%B3%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B_%E5%B8%B8%E8%AD%98%E3%82%92%E7%96%91%E3%81%86_infographic.html",
+      "{{claude_usaget}}": 11568,
+      "{{claude_credit}}": "$19.00"
+    },
+    "cost_usd": 0.18654600000000002
   }
 ]
