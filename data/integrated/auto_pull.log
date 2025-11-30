@@ -1,0 +1,37 @@
+[2025-11-29 12:09:03] Starting auto-pull...
+From github.com:oshomadesse/books-summary
+ * branch            main       -> FETCH_HEAD
+Current branch main is up to date.
+[2025-11-29 12:09:03] ✅ Pull successful.
+[2025-11-30 16:33:36] Starting auto-pull...
+From github.com:oshomadesse/books-summary
+ * branch            main       -> FETCH_HEAD
+   57d4170..e966e1c  main       -> origin/main
+Updating 57d4170..e966e1c
+Fast-forward
+ artifacts/Books-2025-11-30.md                      |  36 +
+ data/integrated/integrated_run_20251130.log        |  54 ++
+ .../openai_chat_dbg_20251130_072459.txt            | 170 ++++
+ .../openai_responses_dbg_20251130_072459.json      |  79 ++
+ .../claude_prompt_20251130_072459.txt              | 180 ++++
+ .../claude_resp_raw_20251130_072459.txt            |   1 +
+ data/modules/claude_infographic/infographics.json  |  22 +
+ ...2\222\347\226\221\343\201\206_infographic.html" | 996 +++++++++++++++++++++
+ ...2\222\347\226\221\343\201\206_infographic.html" | 996 +++++++++++++++++++++
+ 9 files changed, 2534 insertions(+)
+ create mode 100644 artifacts/Books-2025-11-30.md
+ create mode 100644 data/integrated/integrated_run_20251130.log
+ create mode 100644 data/modules/chatgpt_research/openai_chat_dbg_20251130_072459.txt
+ create mode 100644 data/modules/chatgpt_research/openai_responses_dbg_20251130_072459.json
+ create mode 100644 data/modules/claude_infographic/claude_prompt_20251130_072459.txt
+ create mode 100644 data/modules/claude_infographic/claude_resp_raw_20251130_072459.txt
+ create mode 100644 "docs/THINK_AGAIN_\347\231\272\346\203\263\343\202\222\345\244\211\343\201\210\343\202\213_\345\270\270\350\255\230\343\202\222\347\226\221\343\201\206_infographic.html"
+ create mode 100644 "infographics/THINK_AGAIN_\347\231\272\346\203\263\343\202\222\345\244\211\343\201\210\343\202\213_\345\270\270\350\255\230\343\202\222\347\226\221\343\201\206_infographic.html"
+🔄 [Post-Merge Hook] Checking for new artifacts...
+📦 Found        2 Markdown files in artifacts. Moving to ../../100_Inbox...
+✅ Move complete.
+ℹ️  Note: Files have been moved out of the repo. You may see them as 'deleted' in git status.
+[2025-11-30 16:33:36] ✅ Pull successful.
+[2025-11-30 16:33:36] Moving artifacts to /Users/seihoushouba/Documents/Oshomadesse-pc/100_Inbox...
+cp: /Users/seihoushouba/Documents/Oshomadesse-pc/11_Engineering/📖 books-summary/artifacts/Books-*.md: No such file or directory
+[2025-11-30 16:33:36] ❌ Move failed with exit code 1.
