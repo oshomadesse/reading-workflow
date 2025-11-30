@@ -14,7 +14,7 @@ import json
 import pathlib
 import re
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # 既存仕様を尊重：Step1-3は変更しない（このファイルではそのまま保持）
 import chatgpt_research as gemini_research
@@ -809,7 +809,8 @@ def step7_save_to_obsidian_simple(mid_summary):
     Step7: Step6で集めた変数を、指定の「ノート構成」テンプレに流し込んで 100_Inbox に保存。
     ファイル名: Books-YYYY-MM-DD.md
     """
-    date_str = datetime.now().strftime("%Y-%m-%d")
+    # JST対応: GitHub Actions (UTC) でも日本時間の日付にする
+    date_str = (datetime.now() + timedelta(hours=9)).strftime("%Y-%m-%d")
     note_path = INBOX_DIR / f"Books-{date_str}.md"
 
     g = lambda k: (mid_summary.get(k) if isinstance(mid_summary, dict) else "")
@@ -981,8 +982,8 @@ def step8_append_to_excluded_list(mid_summary):
     try:
         import json as _json
 
-        # 今日（Asia/Tokyo想定、他ステップと合わせて naive now）
-        date_str = datetime.now().strftime("%Y-%m-%d")
+        # 今日（Asia/Tokyo想定: UTC+9）
+        date_str = (datetime.now() + timedelta(hours=9)).strftime("%Y-%m-%d")
 
         # Step6のサマリをそのまま利用
         g = (lambda k: (mid_summary.get(k) if isinstance(mid_summary, dict) else ""))  # 既存の書き方に合わせる
