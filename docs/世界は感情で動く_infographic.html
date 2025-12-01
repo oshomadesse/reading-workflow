@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>感情と意思決定の進化心理学 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 32px 16px;
+  text-align: center;
+  margin-bottom: 24px;
+  border-radius: 12px;
+}
+
+header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 1rem;
+  opacity: 0.95;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.summary-block {
+  background: linear-gradient(135deg, #fff5f7, #fff);
+  border-left: 4px solid var(--accent);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.summary-block h2 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: var(--secondary);
+}
+
+.summary-item {
+  margin-bottom: 12px;
+}
+
+.summary-item strong {
+  display: block;
+  color: var(--primary);
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.summary-item p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tab-btn:hover {
+  background: var(--bg);
+  border-color: var(--primary);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 20px rgba(102,126,234,0.2);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.card li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.reason-box {
+  background: linear-gradient(135deg, #f0f4ff, #fef5ff);
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+
+.reason-box strong {
+  color: var(--secondary);
+}
+
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-left: 6px solid var(--primary);
+}
+
+.chapter-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.chapter-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.chapter-card li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.chapter-card li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.example-card {
+  background: linear-gradient(135deg, #fff, #f0f9ff);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--accent);
+}
+
+.example-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--secondary);
+}
+
+.example-card p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.quote-card {
+  background: linear-gradient(135deg, #fef5ff, #fff);
+  border-left: 5px solid var(--secondary);
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  font-style: italic;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.quote-card p {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.quote-card small {
+  display: block;
+  font-style: normal;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.action-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(102,126,234,0.3);
+}
+
+.action-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-card p {
+  font-size: 0.9rem;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.visual-diagram {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.flow-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.flow-item {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.flow-arrow {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.metric-box {
+  background: linear-gradient(135deg, #f0f4ff, #fff);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  border: 2px solid var(--border);
+}
+
+.metric-box .number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: block;
+}
+
+.metric-box .label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.book-item {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--accent);
+}
+
+.book-item h4 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--secondary);
+}
+
+.book-item .author {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.book-item .relation {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tabs {
+    flex-wrap: nowrap;
+  }
+  
+  .flow-chart {
+    flex-direction: column;
+  }
+  
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🧠 感情と意思決定の進化心理学</h1>
+    <p>人間の意思決定は「非合理」ではなく、進化で形成された基本動機が生む感情に導かれる環境適合的合理性である</p>
+  </header>
+
+  <div class="summary-block">
+    <h2>📋 要約=問い×答え×根拠</h2>
+    <div class="summary-item">
+      <strong>❓ 問い</strong>
+      <p>なぜ人はしばしば「非合理」な選択をするのか？</p>
+    </div>
+    <div class="summary-item">
+      <strong>💡 答え</strong>
+      <p>感情が暴走しているのではなく、自己防衛・地位・配偶獲得などの基本動機が状況に応じて作動し、意思決定規則（ヒューリスティクス）を切り替えるから。</p>
+    </div>
+    <div class="summary-item">
+      <strong>🔍 Why（なぜそうなのか）</strong>
+      <p>基本動機は祖先環境での生存・繁殖に適応して進化し、感情はその動機の作動状況を知らせる迅速な信号だから。従来の行動経済学が示す「バイアス」は、多くが特定の動機における合理性の反映。</p>
+    </div>
+    <div class="summary-item">
+      <strong>⚙️ How（そのためには）</strong>
+      <p>①自分や他者の基本動機（自己防衛/病気回避/所属/地位/配偶獲得/配偶維持/血縁ケア）を診断する、②動機に応じてフレーミング・インセンティブ・デザインを切り替える、③感情ログでトリガーと選好変化を可視化して意思決定を再設計する。</p>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念の詳細</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章の要約</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要な引用</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab6" data-tab="tab6">関連書籍</button>
+  </div>
+
+  <div id="tab1" class="tab-content active" role="tabpanel">
+    <div class="visual-diagram">
+      <h3>🎯 7つの基本動機フレームワーク</h3>
+      <div class="metric-grid">
+        <div class="metric-box">
+          <span class="number">🛡️</span>
+          <span class="label">自己防衛</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">🦠</span>
+          <span class="label">病気回避</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">👥</span>
+          <span class="label">所属</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">👑</span>
+          <span class="label">地位</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">💕</span>
+          <span class="label">配偶獲得</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">💑</span>
+          <span class="label">配偶維持</span>
+        </div>
+        <div class="metric-box">
+          <span class="number">👶</span>
+          <span class="label">血縁ケア</span>
+        </div>
+      </div>
+      <div class="flow-chart">
+        <div class="flow-item">環境手掛かり</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">動機活性化</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">感情信号</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">ヒューリスティクス</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">行動</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>🎯 基本動機フレームワーク</h3>
+        <ul>
+          <li>自己防衛・病気回避・所属・地位・配偶獲得・配偶維持・血縁ケアの7つ</li>
+          <li>状況でどれが作動するかにより選好と判断が切り替わる</li>
+          <li>普遍的な目標集合として機能</li>
+          <li>一言要約: 人を動かす7つのエンジン</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 人間行動の多様性を統一的に説明し、予測可能にする枠組みを提供する
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚡ 感情ヒューリスティクス</h3>
+        <ul>
+          <li>感情は意思決定の雑音ではなく評価装置</li>
+          <li>動機に適合した素早い評価を実現</li>
+          <li>近道規則として機能</li>
+          <li>一言要約: 感情＝高速評価器</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 感情を排除するのではなく活用する設計思想への転換を促す
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌍 エコロジカル・ラショナリティ</h3>
+        <ul>
+          <li>特定の環境・目標では単純な規則が最適</li>
+          <li>一見のバイアスが実は合理的</li>
+          <li>環境適合的合理性の視点</li>
+          <li>一言要約: 環境適合的合理性</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 「非合理」のレッテルから文脈依存の最適化へと視点を移す
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔔 プライミング（動機活性化）</h3>
+        <ul>
+          <li>脅威画像・異性・病原体手掛かりが動機を活性化</li>
+          <li>無意識に注意・記憶・選好を偏らせる</li>
+          <li>環境手掛かりが自動的にスイッチを入れる</li>
+          <li>一言要約: 手掛かりで動機スイッチ</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> マーケティングや政策設計で環境デザインの重要性を示す
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👑 地位シグナリング</h3>
+        <ul>
+          <li>目立つ消費や時間浪費でコストをかける</li>
+          <li>能力・資源・協力価値を示す戦略</li>
+          <li>誇示行動は合理的信号</li>
+          <li>一言要約: 誇示は戦略</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 「浪費」を目的整合的に理解し、消費行動の設計に活かせる
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎲 リスク選好の領域依存性</h3>
+        <ul>
+          <li>同じ人でも動機により態度が変わる</li>
+          <li>リスク志向/回避が入れ替わる</li>
+          <li>状況依存の選好変化</li>
+          <li>一言要約: 状況で変わるリスク観</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 一貫性を前提とした設計の限界を示し、文脈設計の必要性を明確化
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎨 フレーミング×動機整合</h3>
+        <ul>
+          <li>同一提案でも語り口で受容性が変わる</li>
+          <li>安全/魅力/希少/清潔など動機に合わせる</li>
+          <li>動機と整合した表現が効果的</li>
+          <li>一言要約: 言い方は目的次第</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 説得・広告・政策メッセージの最適化に直結する実践知
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🦠 病気回避と嫌悪</h3>
+        <ul>
+          <li>病原体手掛かりが衛生行動を強化</li>
+          <li>内集団志向・新奇回避が高まる</li>
+          <li>清潔ドライブが作動</li>
+          <li>一言要約: 清潔ドライブ</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 公衆衛生メッセージや製品デザインに応用できる心理メカニズム
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💕 配偶獲得/維持戦略</h3>
+        <ul>
+          <li>魅力強調・選別厳格化・嫉妬・監視</li>
+          <li>相手獲得と関係維持に特化</li>
+          <li>時間選好・支出配分に影響</li>
+          <li>一言要約: 恋愛の設計図</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 消費・リスク・時間配分の性差と状況差を理解する鍵
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👶 血縁ケアと利他</h3>
+        <ul>
+          <li>子ども・親族への投資を優先</li>
+          <li>時間・資源配分が親族近接で変化</li>
+          <li>安全・保険需要が高まる</li>
+          <li>一言要約: 身内優先回路</li>
+        </ul>
+        <div class="reason-box">
+          <strong>💡 なぜ重要か:</strong> 家族向け製品・保険・教育サービスの設計に不可欠な視点
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content" role="tabpanel">
+    <div class="chapter-card">
+      <h3>📖 序章: 行動経済学の再解釈</h3>
+      <ul>
+        <li>従来の「非合理」概念に進化心理学のレンズを導入</li>
+        <li>感情とバイアスを適応的メカニズムとして捉え直す</li>
+        <li>基本動機フレームワークの全体像を提示</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 読者の前提を覆し、感情を「排除すべきノイズ」から「活用すべき信号」へと認識転換させるため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🧬 基礎理論: 動機とエコロジカル・ラショナリティ</h3>
+      <ul>
+        <li>7つの基本動機の進化的背景を解説</li>
+        <li>エコロジカル・ラショナリティの概念を導入</li>
+        <li>状況依存の合理性がなぜ生まれるかを説明</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 後続章の実証研究を理解するための理論的基盤を構築するため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🛡️ 自己防衛/病気回避: 脅威と清潔の心理</h3>
+      <ul>
+        <li>脅威手掛かりが危険認知と同調を強化</li>
+        <li>病原体手掛かりが清潔行動と接触回避を促進</li>
+        <li>新奇選好の低下とリスク許容度の変化</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 安全・衛生関連の行動変容メカニズムを実証し、公衆衛生や危機管理への応用可能性を示すため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>👥 所属/地位: 社会的承認と比較の力学</h3>
+      <ul>
+        <li>社会的承認が規範順守と協力を駆動</li>
+        <li>地位比較が誇示的消費と競争を促進</li>
+        <li>所属と地位の二面性（協力と競争）</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 消費行動・組織行動の根底にある社会的動機を明らかにし、マーケティングと組織設計に示唆を与えるため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>💕 配偶獲得/配偶維持: 恋愛と意思決定</h3>
+      <ul>
+        <li>魅力手掛かりが即時報酬志向と目立つ消費を促進</li>
+        <li>嫉妬と監視が関係維持行動を駆動</li>
+        <li>時間選好・リスク選好・支出配分への影響</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 性差と状況差を統合的に説明し、恋愛・結婚市場における行動予測を可能にするため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>👶 血縁ケア: 親子と親族の経済学</h3>
+      <ul>
+        <li>子ども・親族への投資優先メカニズム</li>
+        <li>安全・保険・安定への需要増加</li>
+        <li>リスク選好の低下と長期志向</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 家族関連の意思決定を理解し、教育・保険・住宅などの市場設計に活かすため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>💰 お金・リスク・時間: 動機による選好シフト</h3>
+      <ul>
+        <li>動機ごとの現在志向・損失回避の強弱を実験で統合</li>
+        <li>同一人物でも状況で選好が変化する証拠</li>
+        <li>時間割引率とリスク態度の領域依存性</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 金融・投資・貯蓄行動の文脈依存性を実証し、パーソナライズ設計の必要性を示すため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🎯 応用編: マーケティング/組織/政策設計</h3>
+      <ul>
+        <li>フレーミングとインセンティブの動機整合最適化</li>
+        <li>広告・製品・サービスの文脈設計事例</li>
+        <li>組織文化と政策メッセージの実装ガイド</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 理論を実務に橋渡しし、読者が即座に応用できる具体的手法を提供するため
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <h3>🎓 結論: 感情は設計原理</h3>
+      <ul>
+        <li>感情は誤作動ではなく進化が鍛えた信号</li>
+        <li>動機整合のデザインでより良い意思決定へ</li>
+        <li>今後の研究と実践への展望</li>
+      </ul>
+      <div class="reason-box">
+        <strong>💡 なぜこの章が必要か:</strong> 全体のメッセージを統合し、読者に「感情活用」という新しいパラダイムを定着させるため
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content" role="tabpanel">
+    <div class="example-card">
+      <h3>🛒 例1: 地位動機と誇示的消費</h3>
+      <p><strong>背景:</strong> 高級ブランド店で買い物をする際、人は価格が高いほど満足度が上がることがある。</p>
+      <p><strong>メカニズム:</strong> 社会比較や評価状況が地位動機を活性化し、「他者に見せる」ための消費が合理的になる。高価格自体が能力の信号となる。</p>
+      <p><strong>示唆:</strong> ラグジュアリー市場では希少性・限定性・可視性を強調するフレーミングが効果的。</p>
+      <div class="reason-box">
+        <strong>💡 この例が示すこと:</strong> 「浪費」は非合理ではなく、地位シグナリングという進化的に合理的な戦略である
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🦠 例2: 病気回避と清潔製品の需要</h3>
+      <p><strong>背景:</strong> パンデミック時に除菌製品や空気清浄機の売上が急増した。</p>
+      <p><strong>メカニズム:</strong> 病原体手掛かり（ニュース・症状情報）が病気回避動機を活性化し、清潔志向と接触回避が強まる。リスク許容度が低下し、安全投資が優先される。</p>
+      <p><strong>示唆:</strong> 衛生製品のマーケティングでは「清潔」「安全」「保護」のフレーミングが動機と整合し、受容性が高まる。</p>
+      <div class="reason-box">
+        <strong>💡 この例が示すこと:</strong> 環境手掛かりが動機を自動的に活性化し、選好と行動を大きく変える
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>💕 例3: 配偶獲得と即時報酬志向</h3>
+      <p><strong>背景:</strong> デート前に高価なプレゼントを買ったり、見栄を張る消費をする行動。</p>
+      <p><strong>メカニズム:</strong> 異性の魅力手掛かりが配偶獲得動機を活性化し、即時報酬志向と目立つ消費が促進される。将来の貯蓄よりも「今」の魅力アピールが優先される。</p>
+      <p><strong>示唆:</strong> 恋愛・結婚市場では「魅力」「特別感」「今だけ」のフレーミングが効果的。貯蓄促進には配偶維持（安定・安心）のフレームが有効。</p>
+      <div class="reason-box">
+        <strong>💡 この例が示すこと:</strong> 同じ人でも動機が変われば時間選好とリスク態度が劇的に変化する
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>👶 例4: 血縁ケアと保険需要</h3>
+      <p><strong>背景:</strong> 子どもが生まれると生命保険や学資保険に加入する人が増える。</p>
+      <p><strong>メカニズム:</strong> 養育手掛かりが血縁ケア動機を活性化し、安全・安定・保険への需要が高まる。リスク選好が低下し、長期的な保護投資が合理的になる。</p>
+      <p><strong>示唆:</strong> 家族向け金融商品では「子どもの未来」「家族の安心」のフレーミングが動機と整合し、成約率が上がる。</p>
+      <div class="reason-box">
+        <strong>💡 この例が示すこと:</strong> 血縁ケア動機は資源配分を根本的に変え、利他的行動を合理化する
+      </div>
+    </div>
+
+    <div class="example-card">
+      <h3>🛡️ 例5: 自己防衛と同調行動</h3>
+      <p><strong>背景:</strong> 災害時に「みんなが買っているから」とトイレットペーパーを買い占める行動。</p>
+      <p><strong>メカニズム:</strong> 脅威手掛かりが自己防衛動機を活性化し、危険回避と同調（社会的証明）が強まる。不確実性下では集団行動が安全信号となる。</p>
+      <p><strong>示唆:</strong> 危機管理では「多くの人が実践」「専門家推奨」のフレーミングが効果的。逆に買い占め防止には「十分な供給」の安心情報が必要。</p>
+      <div class="reason-box">
+        <strong>💡 この例が示すこと:</strong> 脅威下では個人の独立判断よりも集団同調が適応的になる
+      </div>
+    </div>
+  </div>
+
+  <div id="tab4" class="tab-content" role="tabpanel">
+    <div class="quote-card">
+      <p>「感情は非合理のノイズではなく、進化が鍛えた意思決定の信号である。」</p>
+      <small><strong>重要性:</strong> 感情を排除するのでなく活用するという発想転換を与える。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「人に単一の合理性はなく、状況で切り替わる複数の合理性がある。」</p>
+      <small><strong>重要性:</strong> バイアスの普遍主義から、文脈依存の設計へと焦点を移す。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「動機が違えば同じ価格や情報でも価値が変わる。」</p>
+      <small><strong>重要性:</strong> 価格設定・説得・政策のフレーミング最適化に直結する。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「地位がかかると誇示行動が増え、選好は短期志向に傾きうる。」</p>
+      <small><strong>重要性:</strong> 消費行動の「浪費」を目的整合的に理解できる。</small>
+    </div>
+
+    <div class="quote-card">
+      <p>「病気回避が活性化すると清潔志向と規範順守が強まる。」</p>
+      <small><strong>重要性:</strong> 衛生・公衆健康メッセージの設計に応用できる。</small>
+    </div>
+
+    <div class="visual-diagram">
+      <h3>🔄 概念間の因果関係</h3>
+      <div class="flow-chart">
+        <div class="flow-item">環境手掛かり</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">基本動機プライミング</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">感情活性化</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">注意/記憶/評価の偏り</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">ヒューリスティクス適用</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">選好/行動</div>
+      </div>
+      <p style="margin-top:20px; font-size:0.9rem; color:var(--text-light);">
+        脅威↑→自己防衛↑→危険回避/同調↑→新奇選好↓<br>
+        病原体↑→病気回避↑→清潔志向/接触回避↑→リスク許容度↓<br>
+        異性↑→配偶獲得↑→即時報酬志向/目立つ消費↑→貯蓄志向↓<br>
+        社会比較↑→地位↑→誇示的消費/競争志向↑<br>
+        家族↑→血縁ケア↑→安全/安定/保険需要↑→リスク選好↓
+      </p>
+    </div>
+  </div>
+
+  <div id="tab5" class="tab-content" role="tabpanel">
+    <div class="action-card">
+      <h3>📝 アクション1: 直近の選択を基本動機で分類</h3>
+      <p><strong>手順:</strong> 今日または昨日の主要な意思決定（購入・時間配分・対人選択）を3つ書き出し、それぞれに「どの基本動機が作動していたか」をラベル付けする。</p>
+      <p><strong>目的:</strong> 自分の行動パターンと動機の関係を可視化する。</p>
+      <p><strong>期待効果:</strong> 無意識の動機を意識化し、今後の意思決定で動機と目標の整合性をチェックできるようになる。</p>
+    </div>
+
+    <div class="action-card">
+      <h3>🔍 アクション2: 広告3枚を動機視点で分析</h3>
+      <p><strong>手順:</strong> SNSや雑誌から広告を3つ選び、「どの基本動機に訴えているか」「使われているフレーミング（安全/魅力/希少/清潔など）」を分析する。</p>
+      <p><strong>目的:</strong> 動機整合フレーミングの実例を学ぶ。</p>
+      <p><strong>期待効果:</strong> マーケティングメッセージの設計原理を理解し、自分の仕事や説得場面で応用できるようになる。</p>
+    </div>
+
+    <div class="action-card">
+      <h3>📊 アクション3: 今日の強い感情をトリガー記録</h3>
+      <p><strong>手順:</strong> 今日感じた強い感情（怒り・不安・喜び・嫉妬など）を1つ選び、「何がトリガーだったか」「どの動機が活性化したか」「その後の行動」を記録する。</p>
+      <p><strong>目的:</strong> 感情＝動機の信号という理解を体験的に深める。</p>
+      <p><strong>期待効果:</strong> 感情ログを続けることで、自分の動機パターンとトリガーが明確になり、意思決定の再設計が可能になる。</p>
+    </div>
+
+    <div class="action-card">
+      <h3>🎯 アクション4: 1つの目標を動機別にフレーミング</h3>
+      <p><strong>手順:</strong> 自分の目標（貯蓄・健康・学習など）を1つ選び、7つの基本動機それぞれの視点で「なぜそれが重要か」を書き出す。</p>
+      <p><strong>目的:</strong> 同じ目標でも動機によって訴求ポイントが変わることを体感する。</p>
+      <p><strong>期待効果:</strong> 自分や他者を動機づける際に、最も効果的なフレーミングを選べるようになる。</p>
+    </div>
+
+    <div class="action-card">
+      <h3>🧪 アクション5: 1週間の感情×選好ログをつける</h3>
+      <p><strong>手順:</strong> 毎日、主要な意思決定の前後で「感情状態」「選んだ選択肢」「その理由」を記録する。1週間後にパターンを振り返る。</p>
+      <p><strong>目的:</strong> 感情と選好の関係を定量的に把握する。</p>
+      <p><strong>期待効果:</strong> 自分の意思決定の癖と動機トリガーが明確になり、より賢い選択設計ができるようになる。</p>
+    </div>
+  </div>
+
+  <div id="tab6" class="tab-content" role="tabpanel">
+    <div class="book-list">
+      <div class="book-item">
+        <h4>📘 予想どおりに不合理</h4>
+        <div class="author">著: ダン・アリエリー</div>
+        <div class="relation">行動経済学の主要バイアスを提示し、本書の進化的再解釈の土台となる。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 ファスト&スロー</h4>
+        <div class="author">著: ダニエル・カーネマン</div>
+        <div class="relation">システム1/2の二重過程が、感情ヒューリスティクス理解の枠組みを与える。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 影響力の武器</h4>
+        <div class="author">著: ロバート・B・チャルディーニ</div>
+        <div class="relation">社会的証明や希少性が、地位/所属動機と結びつく説得原理を解説。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 ナッジ</h4>
+        <div class="author">著: リチャード・セイラー、キャス・サンスティーン</div>
+        <div class="relation">文脈設計の実務が、動機整合フレーミングの実装に役立つ。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 赤の女王</h4>
+        <div class="author">著: マット・リドレー</div>
+        <div class="relation">性的淘汰と競争の進化論が配偶獲得/地位戦略の背景を提供。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 徳の起源</h4>
+        <div class="author">著: マット・リドレー</div>
+        <div class="relation">協力と規範の進化が所属/血縁ケア動機の社会的側面を補完。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 The Elephant in the Brain</h4>
+        <div class="author">著: ケヴィン・シムラー、ロビン・ハンソン</div>
+        <div class="relation">自己欺瞞と見せびらかしの動機を解剖し、地位シグナリングを深化。</div>
+      </div>
+
+      <div class="book-item">
+        <h4>📘 欲望の進化</h4>
+        <div class="author">著: デイヴィッド・バス</div>
+        <div class="relation">配偶戦略と性差の進化心理学が、本書の恋愛・リスク章を強化。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// タブ切り替え機能
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetTab = btn.getAttribute('data-tab');
+    
+    // すべてのタブとコンテンツから active を削除
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    // クリックされたタブとコンテンツに active を追加
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(targetTab).classList.add('active');
+  });
+});
+
+// アクセシビリティ: キーボードナビゲーション
+tabBtns.forEach((btn, index) => {
+  btn.addEventListener('keydown', (e) => {
+    let newIndex;
+    if (e.key === 'ArrowRight') {
+      newIndex = (index + 1) % tabBtns.length;
+      tabBtns[newIndex].focus();
+      tabBtns[newIndex].click();
+    } else if (e.key === 'ArrowLeft') {
+      newIndex = (index - 1 + tabBtns.length) % tabBtns.length;
+      tabBtns[newIndex].focus();
+      tabBtns[newIndex].click();
+    }
+  });
+});
+</script>
+
+</body>
+</html>
