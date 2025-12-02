@@ -174,5 +174,27 @@
       "{{claude_credit}}": "$18.97"
     },
     "cost_usd": 0.22044900000000003
+  },
+  {
+    "title": "ティッピング・ポイント いかに小さな変化が大きな変化を生み出すか",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E3%83%86%E3%82%A3%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0_%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88_%E3%81%84%E3%81%8B%E3%81%AB%E5%B0%8F%E3%81%95%E3%81%AA%E5%A4%89%E5%8C%96%E3%81%8C%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%81%8B_infographic.html",
+    "vault_rel": "infographics/ティッピング_ポイント_いかに小さな変化が大きな変化を生み出すか_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E3%83%86%E3%82%A3%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0_%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88_%E3%81%84%E3%81%8B%E3%81%AB%E5%B0%8F%E3%81%95%E3%81%AA%E5%A4%89%E5%8C%96%E3%81%8C%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%81%8B_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E3%83%86%E3%82%A3%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0_%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88_%E3%81%84%E3%81%8B%E3%81%AB%E5%B0%8F%E3%81%95%E3%81%AA%E5%A4%89%E5%8C%96%E3%81%8C%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%81%8B_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/ティッピング_ポイント_いかに小さな変化が大きな変化を生み出すか_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4450,
+      "output_tokens": 11573
+    },
+    "generated_at": "2025-12-02T22:28:36",
+    "public_url": "https://oshomadesse.github.io/books-summary/%E3%83%86%E3%82%A3%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0_%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88_%E3%81%84%E3%81%8B%E3%81%AB%E5%B0%8F%E3%81%95%E3%81%AA%E5%A4%89%E5%8C%96%E3%81%8C%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%81%8B_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "https://oshomadesse.github.io/books-summary/%E3%83%86%E3%82%A3%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0_%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88_%E3%81%84%E3%81%8B%E3%81%AB%E5%B0%8F%E3%81%95%E3%81%AA%E5%A4%89%E5%8C%96%E3%81%8C%E5%A4%A7%E3%81%8D%E3%81%AA%E5%A4%89%E5%8C%96%E3%82%92%E7%94%9F%E3%81%BF%E5%87%BA%E3%81%99%E3%81%8B_infographic.html",
+      "{{claude_usaget}}": 11573,
+      "{{claude_credit}}": "$19.00"
+    },
+    "cost_usd": 0.186945
   }
 ]
