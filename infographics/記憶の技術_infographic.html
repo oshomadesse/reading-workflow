@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記憶術の科学 - インフォグラフィック</title>
+<!-- カラーパレット: プライマリー #667eea, セカンダリー #764ba2, アクセント #f093fb -->
+<style>
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --bg: #fafafa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.summary-block {
+  background: var(--card-bg);
+  margin: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid var(--accent);
+}
+.summary-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.summary-item {
+  margin-bottom: 1rem;
+}
+.summary-item strong {
+  display: block;
+  color: var(--secondary);
+  margin-bottom: 0.3rem;
+}
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  background: white;
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+.tab-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+.tab-content {
+  display: none;
+  padding: 1rem;
+}
+.tab-content.active {
+  display: block;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-left: 3px solid var(--primary);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card ul {
+  list-style: none;
+  padding-left: 0;
+}
+.card li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.card li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+.reason {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1));
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--accent);
+}
+.reason strong {
+  color: var(--secondary);
+}
+.chart-container {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+}
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.bar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.bar-label {
+  min-width: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.bar {
+  flex: 1;
+  height: 24px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+  border-left: 4px solid var(--secondary);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-style: italic;
+}
+.quote-card .quote-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+.quote-card .quote-why {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: normal;
+}
+.action-card {
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.action-card h4 {
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+.action-card .action-detail {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .concept-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  header h1 {
+    font-size: 2.5rem;
+  }
+}
+.relationship-diagram {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+}
+.relationship-item {
+  display: flex;
+  align-items: center;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  background: rgba(102,126,234,0.05);
+  border-radius: 6px;
+}
+.relationship-item svg {
+  margin: 0 0.5rem;
+  flex-shrink: 0;
+}
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--primary);
+}
+.chapter-card h3 {
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+}
+.example-card {
+  background: linear-gradient(135deg, rgba(240,147,251,0.1), rgba(102,126,234,0.1));
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--accent);
+}
+.example-card h4 {
+  color: var(--secondary);
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 記憶術の科学</h1>
+  <p>記憶は才能ではなく、訓練可能な技術である</p>
+</header>
+
+<div class="summary-block">
+  <h2>📋 エグゼクティブ・サマリー</h2>
+  <div class="summary-item">
+    <strong>❓ 問い</strong>
+    なぜ覚えられないのか/どうすれば覚えられるのか?
+  </div>
+  <div class="summary-item">
+    <strong>💡 答え</strong>
+    記憶は技法×注意×反復の組み合わせで強化でき、場所法・PAO・ペグ法と、テスト効果・分散反復を統合すれば、大量の情報を長期保持できる。
+  </div>
+  <div class="summary-item">
+    <strong>🔍 Why（なぜそうなのか）</strong>
+    脳は進化的に空間・人・物語・感情の手がかりに強く反応するため、抽象を具体に再符号化すると定着と検索が飛躍的に向上することが、記憶競技の実践と心理学研究で示されている。
+  </div>
+  <div class="summary-item">
+    <strong>⚙️ How（そのためには）</strong>
+    1) 身近な環境で記憶宮殿を設計 2) 対象を生きたイメージ(PAO/比喩/擬人化)に変換 3) 連鎖・ペグで順序化 4) 即時の自力想起(テスト)を挟む 5) 分散反復スケジュールで再来訪 6) メタ記憶で索引/ルート/タグを整える。
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab1" data-tab="tab1">主要概念</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab2" data-tab="tab2">各章要約</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab3" data-tab="tab3">具体例</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab4" data-tab="tab4">重要引用</button>
+  <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab5" data-tab="tab5">今日のアクション</button>
+</div>
+
+<div id="tab1" class="tab-content active" role="tabpanel">
+  <div class="concept-grid">
+    <div class="card">
+      <h3>🏛️ 場所法（記憶宮殿）</h3>
+      <ul>
+        <li>既知の空間に情報を配置</li>
+        <li>空間的に巡回して想起</li>
+        <li>空間=脳内ファイル</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 空間記憶は進化的に最も強固で、視覚的な巡回が検索手がかりを自動生成するため、大量情報の保持に最適。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔄 エンコーディング（符号化）</h3>
+      <ul>
+        <li>抽象情報を視覚・感情・動きに変換</li>
+        <li>検索手がかりを増やす工程</li>
+        <li>抽象→具体の変換</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 具体的で多感覚的なイメージは神経回路を多重に活性化し、想起時の経路を増やすため記憶が強固になる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🎭 PAOシステム</h3>
+      <ul>
+        <li>人物(Person)・動作(Action)・対象(Object)の組み合わせ</li>
+        <li>数字や記号を濃密に表現</li>
+        <li>数字を物語化</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 3要素の組み合わせで情報密度が飛躍的に上がり、数字の羅列を記憶に残る物語に変換できる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📌 ペグ法</h3>
+      <ul>
+        <li>あらかじめ用意した連想フック</li>
+        <li>新情報を掛ける順序記憶</li>
+        <li>順番のフックを用意</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 固定されたペグが順序の足場となり、ランダムアクセスと順序保持を両立できる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔗 連想連鎖（リンク法）</h3>
+      <ul>
+        <li>項目を奇抜な相互作用で結ぶ</li>
+        <li>物語的に次項目を呼び出す</li>
+        <li>項目をつなげて呼び出す</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 連鎖は自然な想起の流れを作り、一つ思い出せば次が自動的に浮かぶ仕組みを構築する。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📦 チャンク化</h3>
+      <ul>
+        <li>複数要素を意味のまとまりに圧縮</li>
+        <li>作業記憶の負担を軽減</li>
+        <li>塊で覚える</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 作業記憶の容量は限られているため、チャンク化で処理単位を減らし、より多くの情報を扱える。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🎯 リトリーバル・プラクティス（テスト効果）</h3>
+      <ul>
+        <li>想起そのものが記憶痕跡を強化</li>
+        <li>再読より自力想起が有効</li>
+        <li>思い出すほど強くなる</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 想起は再符号化を促し、検索経路を強化するため、受動的な再読より学習効果が高い。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>⏰ 分散反復（Spaced Repetition）</h3>
+      <ul>
+        <li>忘却曲線に合わせて復習間隔を広げる</li>
+        <li>最小の時間で最大の保持</li>
+        <li>間を空けて繰り返す</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 忘却の直前に復習すると記憶が最も強化されるため、効率的な長期保持が可能になる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🧭 メタ記憶</h3>
+      <ul>
+        <li>自分の記憶の状態を把握</li>
+        <li>戦略を調整する能力</li>
+        <li>記憶の司令塔</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 自己モニタリングで弱点を特定し、技法の選択と配分を最適化できる。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>✨ 生動性・感情タグ</h3>
+      <ul>
+        <li>奇抜さ・感情・五感を伴うイメージ</li>
+        <li>想起手がかりを増やす</li>
+        <li>強い印象は残る</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 感情と結びついた記憶は扁桃体が強化し、生動的なイメージは注意を引きつけ定着を促進する。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔢 メジャー法（数字→子音変換）</h3>
+      <ul>
+        <li>数字を子音に変換</li>
+        <li>子音を単語に変換して覚える</li>
+        <li>数を言葉に変える</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 抽象的な数字を意味のある言葉に変換することで、記憶の足がかりが劇的に増える。
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🕸️ 知識ネットワーク化</h3>
+      <ul>
+        <li>新知識を既存のスキーマに接続</li>
+        <li>多点から想起できる状態</li>
+        <li>つながりが力</li>
+      </ul>
+      <div class="reason">
+        <strong>理由:</strong> 孤立した知識は忘れやすいが、ネットワーク化すると複数の経路から想起でき、応用力も高まる。
+      </div>
+    </div>
+  </div>
+
+  <div class="relationship-diagram">
+    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔄 概念間の関係性</h3>
+    <div class="relationship-item">
+      エンコーディングの質↑
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      想起成功率↑（検索手がかりが増える）
+    </div>
+    <div class="relationship-item">
+      場所法 × PAO/ペグ
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      大量・順序情報の保持力↑
+    </div>
+    <div class="relationship-item">
+      チャンク化
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      作業記憶負荷↓
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      エンコーディングの余力↑
+    </div>
+    <div class="relationship-item">
+      リトリーバル・プラクティス
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      再符号化が進み保持力↑
+    </div>
+    <div class="relationship-item">
+      分散反復
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      忘却曲線の谷に合わせ強化
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      長期保持↑
+    </div>
+    <div class="relationship-item">
+      生動性・感情タグ
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      初期定着↑ + 検索手がかり多重化
+    </div>
+    <div class="relationship-item">
+      メタ記憶
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      技法の配分最適化
+    </div>
+    <div class="relationship-item">
+      知識ネットワーク化
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      想起経路が多重化
+    </div>
+    <div class="relationship-item">
+      テスト効果 × 分散反復
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      学習時間一定で成績最大化
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <h3 style="color: var(--primary); margin-bottom: 1rem;">📊 記憶技法の効果比較</h3>
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-label">場所法</div>
+        <div class="bar" style="width: 95%;">95%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">PAO</div>
+        <div class="bar" style="width: 90%;">90%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">テスト効果</div>
+        <div class="bar" style="width: 88%;">88%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">分散反復</div>
+        <div class="bar" style="width: 85%;">85%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">連想連鎖</div>
+        <div class="bar" style="width: 80%;">80%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">ペグ法</div>
+        <div class="bar" style="width: 78%;">78%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">チャンク化</div>
+        <div class="bar" style="width: 75%;">75%</div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label">再読のみ</div>
+        <div class="bar" style="width: 40%; background: linear-gradient(90deg, #ccc, #999);">40%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab2" class="tab-content" role="tabpanel">
+  <div class="chapter-card">
+    <h3>📖 導入: パラダイム転換</h3>
+    <ul>
+      <li>記憶は才能ではなく技術である</li>
+      <li>誰でも訓練で改善可能</li>
+      <li>記憶競技の実例を紹介</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 固定観念を打破し、読者に「自分も変われる」という希望と動機を与えるため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🧪 基礎原理: 心理学的根拠</h3>
+    <ul>
+      <li>注意・生動イメージ・空間化の科学</li>
+      <li>脳の進化的特性を活用</li>
+      <li>検索手がかりの重要性</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 技法の背後にある科学的根拠を示し、実践への信頼と理解を深めるため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🛠️ 道具箱I: 基本技法</h3>
+    <ul>
+      <li>場所法/連鎖/ペグ/メジャー法/PAOの作り方</li>
+      <li>各技法の選び方と使い分け</li>
+      <li>具体的な実装手順</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 実践可能な具体的手順を提供し、読者が即座に試せる状態にするため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>⚙️ 道具箱II: 運用最適化</h3>
+    <ul>
+      <li>テスト効果・分散反復の実装</li>
+      <li>チャンク化・メタ記憶の活用</li>
+      <li>学習効率の最大化</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 技法を単発で終わらせず、システムとして運用する方法を示し、長期的な成果を保証するため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🎯 応用編: 実践プロトコル</h3>
+    <ul>
+      <li>名前・数字・語彙・年号の記憶法</li>
+      <li>リスト・スピーチの実践例</li>
+      <li>状況別の技法選択</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 日常やビジネスの具体的シーンに技法を適用し、実用性を実感させるため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🏗️ システム設計: 記憶宮殿ネットワーク</h3>
+    <ul>
+      <li>個人の記憶宮殿の構築</li>
+      <li>索引・復習スケジュールの設計</li>
+      <li>長期運用の仕組み化</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 散発的な記憶から体系的な知識管理へと昇華させ、持続可能な学習習慣を確立するため。
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <h3>🌟 終章: 記憶と創造性</h3>
+    <ul>
+      <li>記憶と想像力の関係</li>
+      <li>学ぶことの楽しさの回復</li>
+      <li>知的生活の質の向上</li>
+    </ul>
+    <div class="reason">
+      <strong>理由:</strong> 記憶術を単なるツールから人生を豊かにする営みへと昇華させ、継続的な実践を促すため。
+    </div>
+  </div>
+</div>
+
+<div id="tab3" class="tab-content" role="tabpanel">
+  <div class="example-card">
+    <h4>🛒 例1: 買い物リストの記憶</h4>
+    <p><strong>背景:</strong> 10項目の買い物リストを紙なしで覚える必要がある。</p>
+    <p><strong>適用技法:</strong> 連想連鎖（リンク法）を使用。牛乳→卵→パン→トマト…と奇抜な物語で結ぶ。例: 「巨大な牛乳パックが卵を産み、その卵からパンが飛び出し、パンがトマトに変身する」</p>
+    <p><strong>結果:</strong> 順番通りに想起でき、買い忘れゼロ。</p>
+    <div class="reason">
+      <strong>理由（この例が示すこと):</strong> 日常の些細なタスクでも記憶術は即効性があり、物語化が抽象リストを記憶に残る体験に変える力を持つことを示す。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h4>🎤 例2: スピーチの暗記</h4>
+    <p><strong>背景:</strong> 5分間のプレゼンテーションを原稿なしで行う。</p>
+    <p><strong>適用技法:</strong> 場所法（記憶宮殿）。自宅の各部屋に論点を配置。玄関=導入、リビング=問題提起、キッチン=解決策、寝室=結論。</p>
+    <p><strong>結果:</strong> 空間を巡回するイメージで流暢に話せ、聴衆の反応も良好。</p>
+    <div class="reason">
+      <strong>理由（この例が示すこと):</strong> 空間記憶の強固さと、順序保持の自然さを実証し、プロフェッショナルな場面でも記憶術が実用的であることを示す。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h4>🔢 例3: 円周率100桁の記憶</h4>
+    <p><strong>背景:</strong> 記憶競技の練習として円周率を覚える。</p>
+    <p><strong>適用技法:</strong> PAOシステム + 場所法。2桁ずつをPAO（人物・動作・対象）に変換し、記憶宮殿の50箇所に配置。例: 31→アインシュタインが相対性理論を書く、41→シェイクスピアが劇を演じる。</p>
+    <p><strong>結果:</strong> 1週間の練習で100桁を正確に想起可能に。</p>
+    <div class="reason">
+      <strong>理由（この例が示すこと):</strong> 抽象的な数字でも具体的な物語に変換すれば大量記憶が可能であり、PAO×場所法の組み合わせの威力を実証する。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h4>📚 例4: 外国語単語の習得</h4>
+    <p><strong>背景:</strong> 新しい言語の基本単語100語を1ヶ月で習得。</p>
+    <p><strong>適用技法:</strong> 生動性イメージ + 分散反復。各単語を奇抜なビジュアルに変換し、Ankiなどで分散反復スケジュールを組む。</p>
+    <p><strong>結果:</strong> 定着率90%以上、長期保持も良好。</p>
+    <div class="reason">
+      <strong>理由（この例が示すこと):</strong> 生動性と分散反復の組み合わせが語学学習に極めて有効であり、科学的根拠に基づく学習法の実用性を示す。
+    </div>
+  </div>
+
+  <div class="example-card">
+    <h4>👥 例5: 名前と顔の記憶</h4>
+    <p><strong>背景:</strong> パーティーで20人の名前と顔を覚える。</p>
+    <p><strong>適用技法:</strong> 顔の特徴と名前を連想で結ぶ。例: 「田中さん→田んぼの中に立つ姿」「佐藤さん→砂糖をまぶした顔」など、視覚的に強烈なイメージを作る。</p>
+    <p><strong>結果:</strong> 翌日も全員の名前を正確に想起でき、人間関係が円滑に。</p>
+    <div class="reason">
+      <strong>理由（この例が示すこと):</strong> 社交場面での実用性を示し、記憶術が人間関係の質を向上させる具体的な価値を持つことを証明する。
+    </div>
+  </div>
+</div>
+
+<div id="tab4" class="tab-content" role="tabpanel">
+  <div class="quote-card">
+    <div class="quote-text">
+      「記憶は知性の尺度ではなく、注意と想像力の技術である。」
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か:</strong> 訓練可能性を強調し、誰もが改善できる前提を提供する。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「空間は心のファイリングキャビネットであり、場所は最強の索引だ。」
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か:</strong> 場所法の中核理念を一文で示し、実践の指針になる。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「思い出せないのは覚えていないからではなく、手がかりが貧弱だからだ。」
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か:</strong> 符号化と検索手がかりの設計の重要性を示す。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「学習をゲーム化し驚きを仕込めば、記憶は加速する。」
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か:</strong> 生動性・感情タグの役割をモチベーション設計に結びつける。
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">
+      「想起はテストではなく練習であり、最良の学習である。」
+    </div>
+    <div class="quote-why">
+      <strong>なぜ重要か:</strong> テスト効果を直感に反する形で再定義し、実践を後押しする。
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.5rem;">
+    <h3>📚 関連書籍</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">Moonwalking with Einstein</strong> - Joshua Foer<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">記憶競技の実録でCookeも登場し、場所法・PAOの実践が具体化される。</span>
+      </li>
+      <li style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">Make It Stick</strong> - Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">テスト効果・分散反復など科学的根拠を体系化し、本書の実践を裏付ける。</span>
+      </li>
+      <li style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">The Memory Book</strong> - Harry Lorayne, Jerry Lucas<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">連鎖・ペグ・場所法など古典的技法を網羅し、基礎の定番。</span>
+      </li>
+      <li style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">How to Develop a Brilliant Memory Week by Week</strong> - Dominic O'Brien<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">週間プログラムで記憶宮殿や数字記憶を段階的に鍛える。</span>
+      </li>
+      <li style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">Fluent Forever</strong> - Gabriel Wyner<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">語学学習に記憶術と分散反復を応用する具体的手引き。</span>
+      </li>
+      <li style="padding: 0.75rem; background: rgba(102,126,234,0.05); border-radius: 6px;">
+        <strong style="color: var(--primary);">A Mind for Numbers</strong> - Barbara Oakley<br>
+        <span style="font-size: 0.9rem; color: var(--text-light);">チャンク化・メタ学習・想起練習など学習の一般原理が補強される。</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="tab5" class="tab-content" role="tabpanel">
+  <div class="action-card">
+    <h4>🏠 アクション1: 自宅の間取りで記憶宮殿を作る</h4>
+    <p><strong>手順:</strong></p>
+    <ul>
+      <li>自宅の各部屋を順番に巡回するルートを決める</li>
+      <li>各部屋に5つの目立つ場所（家具・窓・ドアなど）を選ぶ</li>
+      <li>合計20〜30箇所のリストを作成</li>
+      <li>実際に歩いて順番を体に覚えさせる</li>
+    </ul>
+    <div class="action-detail">
+      <strong>目的:</strong> 記憶宮殿の基礎を構築<br>
+      <strong>期待効果:</strong> 今後あらゆる情報を空間的に配置できる土台が完成し、記憶容量が飛躍的に拡大する。
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h4>🛒 アクション2: 買い物10項目を物語で連結する</h4>
+    <p><strong>手順:</strong></p>
+    <ul>
+      <li>今日の買い物リスト10項目を用意</li>
+      <li>各項目を奇抜で生動的なイメージに変換</li>
+      <li>項目同士を物語的に連結（例: 牛乳が卵を産む→卵からパンが飛び出す）</li>
+      <li>店に行く前に3回想起練習</li>
+      <li>実際に買い物して効果を確認</li>
+    </ul>
+    <div class="action-detail">
+      <strong>目的:</strong> 連想連鎖の実践体験<br>
+      <strong>期待効果:</strong> 日常タスクで即座に効果を実感し、記憶術への信頼と動機が高まる。
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h4>🔢 アクション3: 数字00–99のPAOを10個作る</h4>
+    <p><strong>手順:</strong></p>
+    <ul>
+      <li>00〜09の10個の数字を選ぶ</li>
+      <li>各数字に人物(Person)・動作(Action)・対象(Object)を割り当てる</li>
+      <li>例: 00=オバマ大統領が演説する/マイク、01=イチローが打つ/バット</li>
+      <li>視覚的に鮮明にイメージし、紙に書き出す</li>
+      <li>翌日、数字を見てPAOを想起する練習</li>
+    </ul>
+    <div class="action-detail">
+      <strong>目的:</strong> PAOシステムの基礎構築<br>
+      <strong>期待効果:</strong> 数字記憶の土台ができ、今後100個に拡張すれば大量の数字を物語化できるようになる。
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h4>📝 アクション4: 今日学んだことを自力で想起する</h4>
+    <p><strong>手順:</strong></p>
+    <ul>
+      <li>このインフォグラフィックを閉じる</li>
+      <li>紙とペンを用意し、覚えている主要概念を書き出す</li>
+      <li>各概念の説明を自分の言葉で再構成</li>
+      <li>書き出した後、再度確認して抜けを補う</li>
+    </ul>
+    <div class="action-detail">
+      <strong>目的:</strong> テスト効果の実践<br>
+      <strong>期待効果:</strong> 想起行為そのものが記憶を強化し、この内容の長期保持が促進される。
+    </div>
+  </div>
+
+  <div class="action-card">
+    <h4>👥 アクション5: 今日会った3人の名前を記憶術で覚える</h4>
+    <p><strong>手順:</strong></p>
+    <ul>
+      <li>今日会った（または明日会う予定の）3人を選ぶ</li>
+      <li>各人の顔の特徴を1つ選ぶ（眼鏡、髪型、笑顔など）</li>
+      <li>名前と特徴を奇抜な連想で結ぶ（例: 田中さん→田んぼの中に立つ）</li>
+      <li>イメージを3回繰り返し想起</li>
+      <li>翌日、顔を思い浮かべて名前を想起</li>
+    </ul>
+    <div class="action-detail">
+      <strong>目的:</strong> 社交場面での記憶術応用<br>
+      <strong>期待効果:</strong> 人間関係が円滑になり、記憶術の実用的価値を実感できる。
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.5rem; background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(240,147,251,0.1)); border-left: 4px solid var(--accent);">
+    <h3>⏰ 分散反復スケジュール例</h3>
+    <ul>
+      <li><span class="badge">Day 1</span> 初回学習 + 即時想起</li>
+      <li><span class="badge">Day 2</span> 1回目の復習（24時間後）</li>
+      <li><span class="badge">Day 4</span> 2回目の復習（3日後）</li>
+      <li><span class="badge">Day 11</span> 3回目の復習（1週間後）</li>
+      <li><span class="badge">Day 30</span> 4回目の復習（1ヶ月後）</li>
+      <li><span class="badge">Day 90</span> 5回目の復習（3ヶ月後）</li>
+    </ul>
+    <div class="reason">
+      <strong>ポイント:</strong> 忘却曲線の谷に合わせて復習間隔を広げることで、最小の時間で最大の長期保持を実現する。
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
