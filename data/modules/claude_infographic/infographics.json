@@ -218,5 +218,27 @@
       "{{claude_credit}}": "$18.97"
     },
     "cost_usd": 0.21516
+  },
+  {
+    "title": "パーミッション・マーケティング",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E3%83%91%E3%83%BC%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3_%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0_infographic.html",
+    "vault_rel": "infographics/パーミッション_マーケティング_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E3%83%91%E3%83%BC%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3_%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E3%83%91%E3%83%BC%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3_%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/パーミッション_マーケティング_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4340,
+      "output_tokens": 11072
+    },
+    "generated_at": "2025-12-04T22:30:26",
+    "public_url": "https://oshomadesse.github.io/books-summary/%E3%83%91%E3%83%BC%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3_%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "https://oshomadesse.github.io/books-summary/%E3%83%91%E3%83%BC%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3_%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0_infographic.html",
+      "{{claude_usaget}}": 11072,
+      "{{claude_credit}}": "$19.01"
+    },
+    "cost_usd": 0.1791
   }
 ]
