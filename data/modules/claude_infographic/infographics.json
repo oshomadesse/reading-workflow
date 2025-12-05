@@ -240,5 +240,27 @@
       "{{claude_credit}}": "$19.01"
     },
     "cost_usd": 0.1791
+  },
+  {
+    "title": "世界はもっとシンプルでうまくいく",
+    "file_url": "file:///home/runner/work/books-summary/books-summary/infographics/%E4%B8%96%E7%95%8C%E3%81%AF%E3%82%82%E3%81%A3%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E3%81%86%E3%81%BE%E3%81%8F%E3%81%84%E3%81%8F_infographic.html",
+    "vault_rel": "infographics/世界はもっとシンプルでうまくいく_infographic.html",
+    "obsidian_uri": "obsidian://open?vault=books-summary&file=infographics%2F%E4%B8%96%E7%95%8C%E3%81%AF%E3%82%82%E3%81%A3%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E3%81%86%E3%81%BE%E3%81%8F%E3%81%84%E3%81%8F_infographic.html",
+    "app_local_uri": "app://local/books-summary/infographics%2F%E4%B8%96%E7%95%8C%E3%81%AF%E3%82%82%E3%81%A3%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E3%81%86%E3%81%BE%E3%81%8F%E3%81%84%E3%81%8F_infographic.html",
+    "html_path": "/home/runner/work/books-summary/books-summary/infographics/世界はもっとシンプルでうまくいく_infographic.html",
+    "model": "claude-sonnet-4-5-20250929",
+    "usage": {
+      "model": "claude-sonnet-4-5-20250929",
+      "input_tokens": 4495,
+      "output_tokens": 10736
+    },
+    "generated_at": "2025-12-05T22:30:28",
+    "public_url": "https://oshomadesse.github.io/books-summary/%E4%B8%96%E7%95%8C%E3%81%AF%E3%82%82%E3%81%A3%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E3%81%86%E3%81%BE%E3%81%8F%E3%81%84%E3%81%8F_infographic.html",
+    "variables": {
+      "{{infographic_url}}": "https://oshomadesse.github.io/books-summary/%E4%B8%96%E7%95%8C%E3%81%AF%E3%82%82%E3%81%A3%E3%81%A8%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E3%81%86%E3%81%BE%E3%81%8F%E3%81%84%E3%81%8F_infographic.html",
+      "{{claude_usaget}}": 10736,
+      "{{claude_credit}}": "$19.02"
+    },
+    "cost_usd": 0.174525
   }
 ]
